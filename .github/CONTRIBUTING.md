@@ -19,6 +19,11 @@ Examples should:
 ## Code style
 
 If you're editing an existing file, code style should be consistent with the rest of the code in the file. 
+Using the Air BnB JS style guide, [Style Guide](https://github.com/airbnb/javascript). Run eslint to check the code style.
+
+##  Workflow
+
+We use the squash rebase workflow, [Workflow](https://blog.carbonfive.com/2017/08/28/always-squash-and-rebase-your-git-commits/)
 
 ## Licensing
 
