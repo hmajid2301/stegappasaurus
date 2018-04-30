@@ -1,14 +1,14 @@
 {
   "expo": {
     "name": "Stegappasaurus",
-    "description": "This project is really great.",
+    "description": "This app allows user to encode and decode messages within images using Steganography.",
     "slug": "Stegappasaurus",
     "privacy": "public",
     "sdkVersion": "27.0.0",
     "platforms": ["ios", "android"],
-    "version": "1.0.0",
+    "version": "0.1.1",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/logo.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",

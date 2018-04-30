@@ -47,3 +47,9 @@ To connect to Genymotion (using adb);
     ![](docs/genymotion_ip.png)
 
 
+## Other
+
+### License
+
+Bought logo from here:
+https://www.iconfinder.com/icons/380124/animal_big_experience_dino_paleontology_reptile_stegosaurus_zababa_icon#size=512

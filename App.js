@@ -1,21 +1,30 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { Component } from 'react';
+import { View } from 'react-native';
+import Expo from 'expo';
+import CustomHeader from './src/components/CustomHeader';
 
-export default class App extends React.Component {
+const robotoThinPath = require('./assets/fonts/Roboto-Thin.ttf');
+
+export default class App extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { loading: true };
+  }
+
+  async componentWillMount() {
+    await Expo.Font.loadAsync({
+      'roboto-thin': robotoThinPath,
+    });
+    this.setState({ loading: false });
+  }
   render() {
+    if (this.state.loading) {
+      return <Expo.AppLoading />;
+    }
     return (
-      <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
+      <View>
+        <CustomHeader />
       </View>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
