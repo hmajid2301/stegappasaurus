@@ -71,4 +71,4 @@ RUN yarn install --production
 COPY app.json ./
 ENTRYPOINT exp login --non-interactive -u $EXPO_USERNAME -p $EXPO_PASSWORD && \
            adb connect $ADB_IP && \
-           npm run android
+           yarn run start-android

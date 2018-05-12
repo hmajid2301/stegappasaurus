@@ -8,6 +8,4 @@ services:
       dockerfile: Dockerfile
     env_file: .env
     volumes:
-      - ${PWD}/App.js:/opt/Stegappasaurus/App.js
-      - ${PWD}/assets/:/opt/Stegappasaurus/assets/
-      - ${PWD}/src/:/opt/Stegappasaurus/src/
+      - ${PWD}/:/opt/Stegappasaurus/

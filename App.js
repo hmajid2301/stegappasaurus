@@ -1,7 +1,6 @@
-import React, { Component } from 'react';
-import { View } from 'react-native';
 import Expo from 'expo';
-import CustomHeader from './src/components/CustomHeader';
+import React, { Component } from 'react';
+import MyApp from './src/Routes';
 
 const robotoThinPath = require('./assets/fonts/Roboto-Thin.ttf');
 
@@ -22,9 +21,7 @@ export default class App extends Component {
       return <Expo.AppLoading />;
     }
     return (
-      <View>
-        <CustomHeader />
-      </View>
+      <MyApp />
     );
   }
 }

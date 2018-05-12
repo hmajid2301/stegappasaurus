@@ -4,11 +4,13 @@ Steganography. This is a rewrite of my dissertation project, written in my third
 
 # Getting Started
 
+## a) With Docker (:whale:)
+
 Assuming the following are installed;
 
     * Android Simulator (Genymotion)
     * Docker/Docker Compose
-   
+
 ```bash
 git clone https://github.com/hmajid2301/Stegappasaurus.git
 cd Stegappasaurus
@@ -16,7 +18,24 @@ touch .env
 docker-compose up --build -d
 ```
 
-.env file should have the following variables defined
+## b) Without Docker (:no_entry: :whale:)
+
+Assuming the following are installed;
+
+    * Android Simulator (Genymotion)
+    * Yarn
+
+```bash
+git clone https://github.com/hmajid2301/Stegappasaurus.git
+cd Stegappasaurus
+touch .env
+yarn
+npm android
+```
+
+## Example `.env` file
+
+`.env` file should have the following variables defined
  
 ```bash
 EXPO_USERNAME="username"
@@ -34,9 +53,9 @@ To connect to Genymotion (using adb);
    
     ![](docs/genymotion_network_adapter_two.png)
     
-    ### (Optional) Virtualbox
+    ### (Optional) VirtualBox
 
-    If your running ``exp start`` in virtualbox, try setting the following network adapters
+    If your running ``exp start`` in VirtualBox, try setting the following network adapters
      
     ![](docs/virtualbox_network_adapter_one.png)
        
@@ -47,9 +66,9 @@ To connect to Genymotion (using adb);
     ![](docs/genymotion_ip.png)
 
 
-## Other
+# Other
 
-### License
+## License
 
 Bought logo from here:
 https://www.iconfinder.com/icons/380124/animal_big_experience_dino_paleontology_reptile_stegosaurus_zababa_icon#size=512
