@@ -1,7 +1,8 @@
+import PropTypes from 'prop-types';
 import React from 'react';
 import { Header, Icon } from 'react-native-elements';
 
-import TextLogo from '../TextLogo'
+import TextLogo from '../TextLogo';
 import styles from './styles';
 
 const leftComponent = ({ navigation }) => (
@@ -16,5 +17,17 @@ const CustomHeader = ({ navigation }) => (
     innerContainerStyles={styles.innerHeaderContainer}
   />
 );
+
+leftComponent.propTypes = {
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func.isRequired,
+  }).isRequired,
+};
+
+CustomHeader.propTypes = {
+  navigation: PropTypes.shape({
+    navigate: PropTypes.func.isRequired,
+  }).isRequired,
+};
 
 export default CustomHeader;

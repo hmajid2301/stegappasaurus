@@ -1,12 +1,14 @@
 import Expo from 'expo';
 import React, { Component } from 'react';
+
 import MyApp from './src/Routes';
 
 const robotoThinPath = require('./assets/fonts/Roboto-Thin.ttf');
 
+
 export default class App extends Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = { loading: true };
   }
 

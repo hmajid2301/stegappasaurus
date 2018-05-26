@@ -1,3 +1,3 @@
-import TextLogo from './TextLogo'
+import TextLogo from './TextLogo';
 
 export default TextLogo;

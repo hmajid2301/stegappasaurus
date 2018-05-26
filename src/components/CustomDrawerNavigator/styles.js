@@ -1,5 +1,5 @@
-import myColors from "../Common/styles";
-import { StyleSheet } from "react-native";
+import { StyleSheet } from 'react-native';
+import myColors from '../Common/styles';
 
 const styles = StyleSheet.create({
   header: {

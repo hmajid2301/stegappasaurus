@@ -10,12 +10,16 @@
   },
   "dependencies": {
     "@expo/vector-icons": "6.3.1",
-    "exp": "54.0.0",
-    "expo": "27.0.0",
+    "buffer": "5.1.0",
+    "exp": "56.0.0",
+    "expo": "29.0.0",
+    "path": "0.12.7",
+    "prop-types": "15.6.1",
     "react": "16.3.1",
-    "react-native": "https://github.com/expo/react-native/archive/sdk-27.0.0.tar.gz",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-29.0.0.tar.gz",
     "react-native-elements": "0.19.1",
-    "react-navigation": "2.0.1"
+    "react-navigation": "2.9.3",
+    "url": "0.11.0"
   },
   "devDependencies": {
     "babel-eslint": "8.2.3",
