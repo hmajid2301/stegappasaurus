@@ -1,18 +1,28 @@
-import { Component } from 'react';
 import PropTypes from 'prop-types';
 
-export default class Steganography extends Component {
+export default class Steganography {
   static propTypes = {
     webview: PropTypes.shape({
       webview: PropTypes.func.isRequired,
     }).isRequired,
   };
 
-  convertMessageToUnicode(message) {
+  static getSeparator() {
+    return '10100011';
+  }
+
+  convertMessageToBinary(message) {
     const unicodeMessage = [];
+    const messageSize = message.length;
+    const messageSizeBinary = messageSize.toString(2);
+
+    unicodeMessage.push(messageSizeBinary);
+    unicodeMessage.push(this.getSeparator());
+
     message.forEach((character) => {
       const unicode = character.codePointAt(0);
-      unicodeMessage.push(unicode);
+      const binaryValue = unicode.toString(2);
+      unicodeMessage.push(binaryValue);
     });
 
     return unicodeMessage;
