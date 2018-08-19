@@ -8,20 +8,25 @@ export default class Steganography {
   };
 
   static getSeparator() {
-    return '10100011';
+    return '1101100010100111';
   }
 
   convertMessageToBinary(message) {
     const unicodeMessage = [];
-    const messageSize = message.length;
-    const messageSizeBinary = messageSize.toString(2);
+    const messageLength = message.length;
+    const messageSizeBinary = messageLength.toString(2);
 
     unicodeMessage.push(messageSizeBinary);
     unicodeMessage.push(this.getSeparator());
 
     message.forEach((character) => {
       const unicode = character.codePointAt(0);
-      const binaryValue = unicode.toString(2);
+      let binaryValue = unicode.toString(2);
+      if (binaryValue.length < 8) {
+        const padLength = 8 - (binaryValue.length - 1);
+        binaryValue = binaryValue.padStart(padLength, '0');
+      }
+
       unicodeMessage.push(binaryValue);
     });
 
