@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import Steganography from '../Steganography';
 
 
-export default class EncodeLSB {
+export default class EncodeLDCT {
   static propTypes = {
     message: PropTypes.shape({
       message: PropTypes.func.isRequired,
@@ -33,7 +33,6 @@ export default class EncodeLSB {
 
         pixelIndex += 1;
         if (pixelIndex % 4 === 0) {
-          newPixelData[pixelIndex] = 255;
           pixelIndex += 1;
         }
       });
