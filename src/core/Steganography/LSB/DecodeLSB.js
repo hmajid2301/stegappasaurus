@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-import Steganography from '../Steganography';
+import CommonSteganography from '../Common';
 
 
 export default class DecodeLSB {
@@ -11,7 +11,7 @@ export default class DecodeLSB {
   };
 
   decode() {
-    const steg = Steganography('');
+    const steg = CommonSteganography('');
     const sep = steg.getSeparator();
     const pixelData = steg.getPixelData();
     const binaryMessage = this.decodeData(pixelData, sep);
