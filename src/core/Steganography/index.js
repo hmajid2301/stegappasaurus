@@ -1,3 +1,8 @@
 import Steganography from './Steganography';
+import DCT from './DCT';
 
-export default Steganography;
+
+export {
+  Steganography,
+  DCT,
+};

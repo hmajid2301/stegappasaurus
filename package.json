@@ -11,7 +11,7 @@
   "dependencies": {
     "@expo/vector-icons": "6.3.1",
     "buffer": "5.1.0",
-    "exp": "56.0.0",
+    "exp": "57.0.1",
     "expo": "29.0.0",
     "path": "0.12.7",
     "prop-types": "15.6.1",

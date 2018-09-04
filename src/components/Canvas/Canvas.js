@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 
 import renderHTML from './CanvasHTML';
 
+
 export default class Canvas extends Component {
   static propTypes = {
     blob: PropTypes.shape({

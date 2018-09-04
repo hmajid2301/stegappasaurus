@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 
+
 export default class Steganography {
   static propTypes = {
     webview: PropTypes.shape({

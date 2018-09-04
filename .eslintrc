@@ -17,6 +17,7 @@
   ],
   "rules": {
     "arrow-body-style": "warn",
-    "class-methods-use-this": "off"
+    "class-methods-use-this": "off",
+    "import/newline-after-import": ["error", { "count": 2 }]
   }
 }

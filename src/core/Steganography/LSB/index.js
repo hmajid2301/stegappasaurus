@@ -1,3 +1,8 @@
-import LSB from './LSB';
+import EncodeLSB from './EncodeLSB';
+import DecodeLSB from './DecodeLSB';
 
-export default LSB;
+
+export {
+  EncodeLSB,
+  DecodeLSB,
+};

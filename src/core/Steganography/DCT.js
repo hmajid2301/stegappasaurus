@@ -1,13 +1,6 @@
-import PropTypes from 'prop-types';
-
+// http://refactorman.com/2015/04/28/exploring-the-dct-part-i/
 
 export default class DCT {
-  static propTypes = {
-    imageData: PropTypes.shape({
-      imageData: PropTypes.func.isRequired,
-    }).isRequired,
-  };
-
   DCT1D(imageData) {
     const N = imageData.length;
     const output = [];
