@@ -44,29 +44,6 @@ EXPO_PASSWORD="password"
 ADB_IP="device_ip"
 ```
 
-## Connecting to Genymotion
- 
-To connect to Genymotion (using adb);
-
-1) set the following network adapters
-
-    ![](docs/genymotion_network_adapter_one.png)
-   
-    ![](docs/genymotion_network_adapter_two.png)
-    
-    ### (Optional) VirtualBox
-
-    If your running ``exp start`` in VirtualBox, try setting the following network adapters
-     
-    ![](docs/virtualbox_network_adapter_one.png)
-       
-    ![](docs/virtualbox_network_adapter_two.png)
-   
-2) Start the Genymotion emulator, the <device_Ip> in the example below is ``192.168.112.101``
-
-    ![](docs/genymotion_ip.png)
-    
-    
 # Debugging (:no_entry: :bug:)
 
 ## WebStorm

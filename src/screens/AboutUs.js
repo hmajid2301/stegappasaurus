@@ -3,8 +3,8 @@ import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import { Icon } from 'react-native-elements';
 
-
 import CustomHeader from '../components/CustomHeader';
+
 
 export default class AboutUs extends Component {
   static navigationOptions = {

@@ -1,25 +1,5 @@
-import PropTypes from 'prop-types';
-
-import CommonSteganography from '../Common';
-
-
 export default class DecodeLSB {
-  static propTypes = {
-    imageData: PropTypes.shape({
-      imageData: PropTypes.func.isRequired,
-    }).isRequired,
-  };
-
-  decode() {
-    const steg = CommonSteganography('');
-    const sep = steg.getSeparator();
-    const pixelData = steg.getPixelData();
-    const binaryMessage = this.decodeData(pixelData, sep);
-    const message = steg.convertUnicodeToMessage(binaryMessage);
-    return message;
-  }
-
-  decodeData(pixelData, sep) {
+  decode(pixelData, sep) {
     const messageLength = this.getMessageLength(pixelData, sep);
     let pixelIndex = messageLength.toString(2).length + sep.length;
     let binaryCharacterList = [];
@@ -39,7 +19,7 @@ export default class DecodeLSB {
     return binaryCharacterList;
   }
 
-  getMessageLength(pixelData, sep) {
+  getMessageLength(pixelData, separator) {
     let completed = false;
     let binaryMessageLength = '';
     let pixelIndex = 0;
@@ -48,8 +28,8 @@ export default class DecodeLSB {
       const lsb = this.getCurrentPixelLSB(pixelData, pixelIndex);
       binaryMessageLength += lsb;
 
-      if (binaryMessageLength.includes(sep)) {
-        binaryMessageLength = binaryMessageLength.replace(sep, '');
+      if (binaryMessageLength.includes(separator)) {
+        binaryMessageLength = binaryMessageLength.replace(separator, '');
         completed = true;
       }
 

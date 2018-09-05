@@ -6,6 +6,7 @@ import AboutUs from './screens/AboutUs';
 import CustomDrawerNavigator from './components/CustomDrawerNavigator';
 import styles from './components/Common/styles';
 
+
 const MyApp = createDrawerNavigator({
   Encoding: {
     screen: Encoding,

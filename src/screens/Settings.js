@@ -5,6 +5,7 @@ import { Icon } from 'react-native-elements';
 
 import CustomHeader from '../components/CustomHeader';
 
+
 export default class Settings extends Component {
   static navigationOptions = {
     drawerLabel: 'Settings',

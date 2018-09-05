@@ -1,28 +1,5 @@
-import PropTypes from 'prop-types';
-
-import CommonSteganography from '../Common';
-
-
 export default class EncodeLSB {
-  static propTypes = {
-    message: PropTypes.shape({
-      message: PropTypes.func.isRequired,
-    }).isRequired,
-
-    imageData: PropTypes.shape({
-      imageData: PropTypes.func.isRequired,
-    }).isRequired,
-  };
-
-  encode() {
-    const steg = CommonSteganography('');
-    const binaryMessage = steg.convertMessageToBinary(this.message);
-    const pixelData = steg.getPixelData();
-    const newPixelData = this.encodeData(pixelData, binaryMessage);
-    return newPixelData;
-  }
-
-  encodeData(pixelData, binaryMessage) {
+  encode(pixelData, binaryMessage) {
     const newPixelData = [];
     let pixelIndex = 0;
 

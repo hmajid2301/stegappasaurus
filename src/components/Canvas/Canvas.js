@@ -17,8 +17,12 @@ export default class Canvas extends Component {
     }).isRequired,
   };
 
-  onMessage(data) {
+  static onMessage(data) {
     return data.nativeEvent.data;
+  }
+
+  getWebView() {
+    return this.webview;
   }
 
   render() {
