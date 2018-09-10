@@ -1,13 +1,13 @@
 export default class DecodeLSB {
-  decode(pixelData, sep) {
-    const messageLength = this.getMessageLength(pixelData, sep);
-    let pixelIndex = messageLength.toString(2).length + sep.length;
+  decode(imageData, separator) {
+    const messageLength = this.getMessageLength(imageData, separator);
+    let pixelIndex = messageLength.toString(2).length + separator.length;
     let binaryCharacterList = [];
 
     for (let i = 0; i < messageLength; i += 1) {
       let binaryCharacter = '';
       for (let j = 0; j < 8; j += 1) {
-        binaryCharacter += this.getCurrentPixelLSB(pixelData, pixelIndex);
+        binaryCharacter += this.getCurrentPixelLSB(imageData, pixelIndex);
 
         pixelIndex += 1;
         if (pixelIndex % 4 === 0) {

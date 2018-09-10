@@ -1,11 +1,11 @@
 export default class EncodeLSB {
-  encode(pixelData, binaryMessage) {
+  encode(imageData, binaryMessage) {
     const newPixelData = [];
     let pixelIndex = 0;
 
     binaryMessage.forEach((character) => {
       character.forEach((binaryValue) => {
-        const pixelValue = pixelData[pixelIndex];
+        const pixelValue = imageData[pixelIndex];
         const newPixelValue = this.getNewPixelValue(pixelValue, binaryValue);
         newPixelData[pixelIndex] = newPixelValue;
 
