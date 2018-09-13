@@ -5,4 +5,11 @@ const myColors = {
   headerBlack: '#222222',
 };
 
-export default myColors;
+const showCanvas = {
+  flex: 1,
+};
+
+export default {
+  myColors,
+  showCanvas,
+};

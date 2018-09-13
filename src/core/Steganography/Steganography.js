@@ -15,14 +15,6 @@ export default class Steganography {
     }).isRequired,
   };
 
-  getPixelData() {
-    this.webview.postMessage(JSON.stringify({ name: 'getPixelData', args: '' }));
-  }
-
-  setPixelData(pixelData) {
-    this.webview.postMessage(JSON.stringify({ name: 'setPixelData', args: pixelData }));
-  }
-
   static getSeparator() {
     return '1101100010100111';
   }

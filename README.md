@@ -5,7 +5,7 @@ Steganography. This is a rewrite of my dissertation project, written in my third
 
 # Getting Started
 
-## a) With Docker (:whale:)
+## With Docker (:whale:)
 
 Assuming the following are installed;
 
@@ -19,7 +19,7 @@ touch .env
 docker-compose up --build -d
 ```
 
-## b) Without Docker (:no_entry: :whale:)
+## Without Docker (:no_entry: :whale:)
 
 Assuming the following are installed;
 
@@ -34,7 +34,7 @@ yarn
 npm android
 ```
 
-## Example `.env` file
+### Example `.env` file
 
 `.env` file should have the following variables defined
  
@@ -43,36 +43,6 @@ EXPO_USERNAME="username"
 EXPO_PASSWORD="password"
 ADB_IP="device_ip"
 ```
-
-# Debugging (:no_entry: :bug:)
-
-## WebStorm
-
-![](docs/debugger.png)
-
-Where package.json contains `"start": "exp start"`.
-
-Also make sure "Remote Debugging" is switched on. In the Expo app in 
-`CTRL + M` to open the following menu.
-
-![](docs/remote-debugging.png)
-
-1) Run above configuration in debug mode
-2) Then run `exp android` (as normal)
-
-Now you can add breakpoints and use the WebStorm debugger as you normally would.
-    
-# Other
-
-## Open Genymotion Emulator from CLI
-
-To open the android emulator from cli, you can use the following command.
-
-`` ~/genymotion/player --vm-name "Google Pixel - 8.0 - API 26 - 1080x1920"``. 
-
-To get the name of your devices run the following command; ``VBoxManage list vms``.
-
-
 
 ### Licenses :copyright:
 

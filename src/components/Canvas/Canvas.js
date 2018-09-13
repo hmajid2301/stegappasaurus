@@ -3,12 +3,22 @@ import { View, WebView } from 'react-native';
 import PropTypes from 'prop-types';
 
 import renderHTML from './CanvasHTML';
+import styles from '../Common/styles';
 
 
 export default class Canvas extends Component {
+  constructor() {
+    super();
+
+    this.state = {
+      last_function_called: null,
+      function_result: null,
+    };
+  }
+
   static propTypes = {
     blob: PropTypes.shape({
-      blob: PropTypes.func.isRequired,
+      blob: PropTypes.string,
     }).isRequired,
 
     options: PropTypes.shape({
@@ -17,19 +27,31 @@ export default class Canvas extends Component {
     }).isRequired,
   };
 
-  static onMessage(data) {
-    return data.nativeEvent.data;
+  onMessage = (data) => {
+    const jsonResponse = JSON.parse(data.nativeEvent.data);
+    this.setState({ function_result: jsonResponse.data });
+    this.setState({
+      function_result: jsonResponse.data,
+    }, () => {
+      console.log(this.state.function_result);
+    });
   }
 
-  getWebView() {
-    return this.webview;
+  getPixelData = () => {
+    this.setState({ last_function_called: 'getPixelData', function_result: null });
+    this.webview.postMessage(JSON.stringify({ name: 'getPixelData', args: '' }));
+  }
+
+  setPixelData = (pixelData) => {
+    this.setState({ last_function_called: 'setPixelData', function_result: null });
+    this.webview.postMessage(JSON.stringify({ name: 'setPixelData', args: pixelData }));
   }
 
   render() {
     const { blob, options, ...props } = this.props;
     const html = renderHTML(blob, options);
     return (
-      <View {...props}>
+      <View {...props} style={styles.showCanvas}>
         <WebView
           ref={(view) => { this.webview = view; }}
           source={{ html }}
