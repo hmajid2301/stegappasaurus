@@ -3,7 +3,7 @@ import { DecodeLSB } from '../LSB/DecodeLSB';
 
 
 export default class EncodeLDCT {
-  decode(imageData, separator) {
+  decode = (imageData, separator) => {
     const dct = DCT();
     const dctData = dct.DCT1D(imageData);
     const newPixelData = DecodeLSB().decode(dctData, separator);

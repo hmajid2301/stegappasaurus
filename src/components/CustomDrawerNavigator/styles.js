@@ -1,6 +1,7 @@
 import { StyleSheet } from 'react-native';
 import myColors from '../Common/styles';
 
+
 const styles = StyleSheet.create({
   header: {
     backgroundColor: myColors.pureWhite,

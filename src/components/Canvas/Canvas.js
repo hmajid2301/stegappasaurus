@@ -11,8 +11,7 @@ export default class Canvas extends Component {
     super();
 
     this.state = {
-      last_function_called: null,
-      function_result: null,
+      canvas_result: { function_called: null, function_result: null },
     };
   }
 
@@ -30,20 +29,16 @@ export default class Canvas extends Component {
   onMessage = (data) => {
     const jsonResponse = JSON.parse(data.nativeEvent.data);
     this.setState({ function_result: jsonResponse.data });
-    this.setState({
-      function_result: jsonResponse.data,
-    }, () => {
-      console.log(this.state.function_result);
-    });
   }
 
   getPixelData = () => {
-    this.setState({ last_function_called: 'getPixelData', function_result: null });
+    this.setState({ canvas_result: { function_called: 'getPixelData', function_result: null } });
     this.webview.postMessage(JSON.stringify({ name: 'getPixelData', args: '' }));
   }
 
   setPixelData = (pixelData) => {
     this.setState({ last_function_called: 'setPixelData', function_result: null });
+    this.setState({ canvas_result: { function_called: 'setPixelData', function_result: null } });
     this.webview.postMessage(JSON.stringify({ name: 'setPixelData', args: pixelData }));
   }
 

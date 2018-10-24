@@ -1,5 +1,5 @@
 export default class EncodeLSB {
-  encode(imageData, binaryMessage) {
+  encode = (imageData, binaryMessage) => {
     const newPixelData = [];
     let pixelIndex = 0;
 
@@ -19,7 +19,7 @@ export default class EncodeLSB {
     return newPixelData;
   }
 
-  getNewPixelValue(pixelValue, messageValue) {
+  getNewPixelValue = (pixelValue, messageValue) => {
     let newPixelValue = pixelValue;
 
     if (messageValue === '0') {

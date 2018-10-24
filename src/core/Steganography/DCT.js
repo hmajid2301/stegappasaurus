@@ -1,7 +1,7 @@
 // http://refactorman.com/2015/04/28/exploring-the-dct-part-i/
 
 export default class DCT {
-  DCT1D(imageData) {
+  DCT1D = (imageData) => {
     const N = imageData.length;
     const output = [];
 
@@ -21,7 +21,7 @@ export default class DCT {
     return output;
   }
 
-  IDCT1D(dct) {
+  IDCT1D = (dct) => {
     const N = dct.length;
     const imageData = [];
 

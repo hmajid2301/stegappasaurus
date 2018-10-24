@@ -5,6 +5,10 @@ import { EncodeLDCT, DecodeLDCT } from './LDCT';
 
 
 export default class Steganography {
+  constructor() {
+    this.SEPARATOR = '1101100010100111';
+  }
+
   static propTypes = {
     webview: PropTypes.shape({
       webview: PropTypes.func.isRequired,
@@ -15,17 +19,13 @@ export default class Steganography {
     }).isRequired,
   };
 
-  static getSeparator() {
-    return '1101100010100111';
-  }
-
-  static convertMessageToBinary(message) {
+  static convertMessageToBinary = (message) => {
     const unicodeMessage = [];
     const messageLength = message.length;
     const messageSizeBinary = messageLength.toString(2);
 
     unicodeMessage.push(messageSizeBinary);
-    unicodeMessage.push(this.getSeparator());
+    unicodeMessage.push(this.SEPARATOR);
 
     message.forEach((character) => {
       const unicode = character.codePointAt(0);
@@ -41,7 +41,7 @@ export default class Steganography {
     return unicodeMessage;
   }
 
-  static convertUnicodeToMessage(unicodeList) {
+  static convertUnicodeToMessage = (unicodeList) => {
     let stringMessage = '';
     unicodeList.forEach((unicode) => {
       stringMessage += String.fromCodePoint(unicode);
@@ -50,7 +50,7 @@ export default class Steganography {
     return stringMessage;
   }
 
-  static getAlgorithm(encoding) {
+  static getAlgorithm = (encoding) => {
     let algorithm = '';
 
     if (this.algorithm === 'LSB') {
@@ -72,7 +72,7 @@ export default class Steganography {
     return algorithm;
   }
 
-  encode() {
+  encode = () => {
     const algorithm = this.algorithm(true);
     const binaryMessage = this.convertMessageToBinary(this.message);
     const pixelData = this.getPixelData();
@@ -81,7 +81,7 @@ export default class Steganography {
     return newImage;
   }
 
-  decode() {
+  decode = () => {
     const algorithm = this.algorithm(false);
     const pixelData = this.getPixelData();
     const unicode = algorithm.decode(pixelData, this.getSeparator);
