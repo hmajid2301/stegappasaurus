@@ -1,15 +1,15 @@
 import { createDrawerNavigator } from 'react-navigation';
 
-import Encoding from './screens/Encoding';
+import Home from './screens/Home';
 import Settings from './screens/Settings';
 import AboutUs from './screens/AboutUs';
 import CustomDrawerNavigator from './components/CustomDrawerNavigator';
-import styles from './components/Common/styles';
+import colors from './components/Common/colors';
 
 
 const MyApp = createDrawerNavigator({
-  Encoding: {
-    screen: Encoding,
+  Home: {
+    screen: Home,
   },
   Settings: {
     screen: Settings,
@@ -21,8 +21,8 @@ const MyApp = createDrawerNavigator({
   initialRoute: 'Encoding',
   contentComponent: CustomDrawerNavigator,
   contentOptions: {
-    activeTintColor: styles.pureWhite,
-    activeBackgroundColor: styles.royalBlue,
+    activeTintColor: colors.pureWhite,
+    activeBackgroundColor: colors.primaryColor,
   },
 });
 

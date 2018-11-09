@@ -1,15 +1,15 @@
 import { StyleSheet } from 'react-native';
-import myColors from '../Common/styles';
+import colors from '../Common/colors';
 
 
 const styles = StyleSheet.create({
   icons: {
-    color: myColors.iconBlack,
+    color: colors.iconBlack,
   },
   outerHeaderContainer: {
-    backgroundColor: myColors.pureWhite,
+    backgroundColor: colors.pureWhite,
     borderBottomWidth: 2,
-    borderBottomColor: myColors.royalBlue,
+    borderBottomColor: colors.primaryColor,
   },
   innerHeaderContainer: {
     transform: [{ translateY: 5 }],

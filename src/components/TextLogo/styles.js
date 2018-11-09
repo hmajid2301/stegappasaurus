@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import myColors from '../Common/styles';
+import myColors from '../Common/colors';
 
 
 const styles = StyleSheet.create({
@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
     transform: [{ translateY: 0 }],
   },
   text: {
-    fontFamily: 'roboto-thin',
+    fontFamily: 'RobotoThin',
     fontSize: 20,
   },
   logoContainer: {
