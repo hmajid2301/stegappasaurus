@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { View, WebView } from 'react-native';
 import PropTypes from 'prop-types';
 
-import renderHTML from './CanvasHTML';
 import styles from '../Common/styles';
+import index from './html/index';
 
 
 export default class Canvas extends Component {
@@ -16,41 +16,50 @@ export default class Canvas extends Component {
   }
 
   static propTypes = {
-    blob: PropTypes.shape({
-      blob: PropTypes.string,
-    }).isRequired,
-
+    blob: PropTypes.string.isRequired,
+    sendData: PropTypes.func.isRequired,
     options: PropTypes.shape({
       imageHeight: PropTypes.number,
       imageWidth: PropTypes.number,
     }).isRequired,
   };
 
-  onMessage = (data) => {
-    const jsonResponse = JSON.parse(data.nativeEvent.data);
-    this.setState({ function_result: jsonResponse.data });
+
+  sendToParent = () => {
+    this.props.sendData(this.state.canvas_result);
+  }
+
+  handleDataReceived = (msgData) => {
+    this.setState({
+      canvas_result: {
+        last_function_called: msgData.name,
+        function_result: msgData.data,
+      },
+    }, this.sendToParent);
+  }
+
+  onWebViewMessage = (event) => {
+    const msgData = JSON.parse(event.nativeEvent.data);
+    this[msgData.targetFunc].apply(this, [msgData]);
   }
 
   getPixelData = () => {
-    this.setState({ canvas_result: { function_called: 'getPixelData', function_result: null } });
     this.webview.postMessage(JSON.stringify({ name: 'getPixelData', args: '' }));
   }
 
   setPixelData = (pixelData) => {
-    this.setState({ last_function_called: 'setPixelData', function_result: null });
-    this.setState({ canvas_result: { function_called: 'setPixelData', function_result: null } });
     this.webview.postMessage(JSON.stringify({ name: 'setPixelData', args: pixelData }));
   }
 
   render() {
     const { blob, options, ...props } = this.props;
-    const html = renderHTML(blob, options);
+    const html = index(blob, options);
     return (
       <View {...props} style={styles.showCanvas}>
         <WebView
           ref={(view) => { this.webview = view; }}
           source={{ html }}
-          onMessage={this.onMessage}
+          onMessage={this.onWebViewMessage}
         />
       </View>
     );

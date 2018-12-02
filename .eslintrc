@@ -18,6 +18,7 @@
   "rules": {
     "arrow-body-style": "warn",
     "class-methods-use-this": "off",
-    "import/newline-after-import": ["error", { "count": 2 }]
+    "import/newline-after-import": ["error", { "count": 2 }],
+    "no-console": 0
   }
 }

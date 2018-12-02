@@ -1,7 +1,8 @@
 const myColors = {
   primaryColor: '#009CFF',
   secondaryColor: '#E88C0C',
-  tetiaryColor: '#FF0000',
+  tertiaryColor: '#FF0000',
+  quaternaryColor: '#0D45CC',
   pureWhite: '#FFFFFF',
   iconBlack: '#222222',
   headerBlack: '#222222',

@@ -1,0 +1,11 @@
+image: node
+
+stages:
+  - test
+
+linting:
+  stage: test
+  only:
+    - develop
+  script:
+    - echo "hello"

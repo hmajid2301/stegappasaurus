@@ -1,5 +1,7 @@
 # Introduction
 
+Steg![Logo](src/assets/images/logo.png)ppasaurus
+
 This is a mobile app made with React Native and Expo. The app allows user to encode and decode messages within images using
 Steganography. This is a rewrite of my dissertation project, written in my third year of university. It includes more features
 such as;

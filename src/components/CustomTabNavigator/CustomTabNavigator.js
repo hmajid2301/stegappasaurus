@@ -1,5 +1,8 @@
 import { createMaterialTopTabNavigator } from 'react-navigation';
 
+import { toggleTheme, changeTheme } from '../../actions';
+import COLORS from '../../themes';
+import store from '../../store';
 import colors from '../Common/colors';
 import Encoding from '../../screens/Encoding';
 import Decoding from '../../screens/Decoding';
@@ -27,6 +30,11 @@ const CustomerTabNavigator = createMaterialTopTabNavigator({
     navigationOptions: {
       tabBarLabel: 'Encoding',
       tabBarOptions: commonTabOptions(colors.primaryColor),
+      tabBarOnPress: ({ defaultHandler }) => {
+        store.dispatch(toggleTheme(COLORS.secondary));
+        store.dispatch(changeTheme('Encoding'));
+        defaultHandler();
+      },
     },
   },
   Decoding: {
@@ -34,6 +42,11 @@ const CustomerTabNavigator = createMaterialTopTabNavigator({
     navigationOptions: {
       tabBarLabel: 'Decoding',
       tabBarOptions: commonTabOptions(colors.secondaryColor),
+      tabBarOnPress: ({ defaultHandler }) => {
+        store.dispatch(toggleTheme(COLORS.primary));
+        store.dispatch(changeTheme('Decoding'));
+        defaultHandler();
+      },
     },
   },
 }, {

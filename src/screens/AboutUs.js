@@ -4,6 +4,7 @@ import { View, Text } from 'react-native';
 import { Icon } from 'react-native-elements';
 
 import CustomHeader from '../components/CustomHeader';
+import colors from '../components/Common/colors';
 
 
 export default class AboutUs extends Component {
@@ -23,7 +24,7 @@ export default class AboutUs extends Component {
   render() {
     return (
       <View>
-        <CustomHeader navigation={this.props.navigation}/>
+        <CustomHeader navigation={this.props.navigation} color={colors.quaternaryColor}/>
         <Text> About Us </Text>
       </View>
     );

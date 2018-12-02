@@ -4,7 +4,8 @@ import { Image, Text, View } from 'react-native';
 import styles from './styles';
 
 
-const logo = require('../../../assets/images/logo.png');
+const logo = require('../../assets/images/logo.png');
+
 
 
 const TextLogo = () => (

@@ -6,29 +6,20 @@ import TextLogo from '../TextLogo';
 import styles from './styles';
 
 
-const MenuIcon = ({ navigation }) => (
-  <Icon name='menu' type='simple-line-icon' color={styles.icons.color} onPress={() => navigation.openDrawer()}/>
-);
-
-MenuIcon.propTypes = {
-  navigation: PropTypes.shape({
-    navigate: PropTypes.func.isRequired,
-  }).isRequired,
-};
-
-const CustomerHeader = ({ navigation }) => (
+const CustomHeader = ({ navigation, color }) => (
   <Header
-    leftComponent={MenuIcon({ navigation })}
+    leftComponent={<Icon name='menu' type='simple-line-icon' color={styles(color).icons.color} onPress={() => navigation.openDrawer()}/>}
     centerComponent={<TextLogo />}
-    outerContainerStyles={styles.outerHeaderContainer}
-    innerContainerStyles={styles.innerHeaderContainer}
+    outerContainerStyles={styles(color).outerHeaderContainer}
+    innerContainerStyles={styles(color).innerHeaderContainer}
   />
 );
 
-CustomerHeader.propTypes = {
+CustomHeader.propTypes = {
   navigation: PropTypes.shape({
     navigate: PropTypes.func.isRequired,
   }).isRequired,
+  color: PropTypes.string.isRequired,
 };
 
-export default CustomerHeader;
+export default CustomHeader;

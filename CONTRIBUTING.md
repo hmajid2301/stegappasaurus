@@ -8,11 +8,11 @@ Three main ways to contribute to this project are;
 * **Improving a feature:** Extend/improve an existing feature, such as a new algorithm for image encoding
 * **Fix a bug:** We have a list of [issues](https://github.com/hmajid2301/Stegappasaurus/issues), or you can fix your own bug
 
-## Guidelines for contributions
 
-Examples should:
+## Commit Message
 
-* have a clear function, that's easy to explain and understand
+If you can try to a detailed commit message about what the change is doing. Don't worry about multiple commits they will be squashed (and rebased) into a single commit.
+Use GitMoji, https://gitmoji.carloscuesta.me/, in the commit header message.
 
 ## Code style
 

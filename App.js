@@ -1,12 +1,14 @@
 import Expo from 'expo';
 import React, { Component } from 'react';
+import { Provider } from 'react-redux';
 
+import store from './src/store';
 import MyApp from './src/Routes';
 
 
-const robotoThin = require('./assets/fonts/Roboto-Thin.ttf');
-const openSansLight = require('./assets/fonts/OpenSans-Light.ttf');
-const openSansRegular = require('./assets/fonts/OpenSans-Regular.ttf');
+const robotoThin = require('./src/assets/fonts/Roboto-Thin.ttf');
+const openSansLight = require('./src/assets/fonts/OpenSans-Light.ttf');
+const openSansRegular = require('./src/assets/fonts/OpenSans-Regular.ttf');
 
 
 export default class App extends Component {
@@ -28,7 +30,9 @@ export default class App extends Component {
       return <Expo.AppLoading />;
     }
     return (
-      <MyApp />
+      <Provider store={store}>
+        <MyApp />
+      </Provider>
     );
   }
 }
