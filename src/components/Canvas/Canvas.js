@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, WebView } from 'react-native';
 import PropTypes from 'prop-types';
 
-import styles from '../Common/styles';
+import styles from '../../common/styles';
 import index from './html/index';
 
 

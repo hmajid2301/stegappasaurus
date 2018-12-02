@@ -1,4 +1,4 @@
-import Expo from 'expo';
+import { Font, AppLoading } from 'expo';
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 
@@ -7,8 +7,8 @@ import MyApp from './src/Routes';
 
 
 const robotoThin = require('./src/assets/fonts/Roboto-Thin.ttf');
-const openSansLight = require('./src/assets/fonts/OpenSans-Light.ttf');
-const openSansRegular = require('./src/assets/fonts/OpenSans-Regular.ttf');
+const robotoLight = require('./src/assets/fonts/Roboto-Light.ttf');
+const robotoRegular = require('./src/assets/fonts/Roboto-Regular.ttf');
 
 
 export default class App extends Component {
@@ -18,16 +18,16 @@ export default class App extends Component {
   }
 
   async componentWillMount() {
-    await Expo.Font.loadAsync({
+    await Font.loadAsync({
       RobotoThin: robotoThin,
-      OpenSansLight: openSansLight,
-      OpenSansRegular: openSansRegular,
+      RobotoLight: robotoLight,
+      RobotoRegular: robotoRegular,
     });
     this.setState({ loading: false });
   }
   render() {
     if (this.state.loading) {
-      return <Expo.AppLoading />;
+      return <AppLoading />;
     }
     return (
       <Provider store={store}>

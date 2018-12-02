@@ -7,7 +7,6 @@ import styles from './styles';
 const logo = require('../../assets/images/logo.png');
 
 
-
 const TextLogo = () => (
   <View style={styles.container}>
     <Text style={styles.text}>Steg</Text>

@@ -1,9 +1,6 @@
 import { createMaterialTopTabNavigator } from 'react-navigation';
 
-import { toggleTheme, changeTheme } from '../../actions';
-import COLORS from '../../themes';
-import store from '../../store';
-import colors from '../Common/colors';
+import { colors } from '../../common';
 import Encoding from '../../screens/Encoding';
 import Decoding from '../../screens/Decoding';
 
@@ -13,7 +10,7 @@ const commonTabOptions = color => ({
   pressColor: colors.pureWhite,
   inactiveTintColor: '#ddd',
   labelStyle: {
-    fontFamily: 'OpenSansRegular',
+    fontFamily: 'RobotoRegular',
     fontSize: 12,
   },
   indicatorStyle: {
@@ -29,24 +26,14 @@ const CustomerTabNavigator = createMaterialTopTabNavigator({
     screen: Encoding,
     navigationOptions: {
       tabBarLabel: 'Encoding',
-      tabBarOptions: commonTabOptions(colors.primaryColor),
-      tabBarOnPress: ({ defaultHandler }) => {
-        store.dispatch(toggleTheme(COLORS.secondary));
-        store.dispatch(changeTheme('Encoding'));
-        defaultHandler();
-      },
+      tabBarOptions: commonTabOptions(colors.primary),
     },
   },
   Decoding: {
     screen: Decoding,
     navigationOptions: {
       tabBarLabel: 'Decoding',
-      tabBarOptions: commonTabOptions(colors.secondaryColor),
-      tabBarOnPress: ({ defaultHandler }) => {
-        store.dispatch(toggleTheme(COLORS.primary));
-        store.dispatch(changeTheme('Decoding'));
-        defaultHandler();
-      },
+      tabBarOptions: commonTabOptions(colors.secondary),
     },
   },
 }, {

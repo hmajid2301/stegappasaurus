@@ -2,9 +2,10 @@ import { createDrawerNavigator } from 'react-navigation';
 
 import Home from './screens/Home';
 import Settings from './screens/Settings';
-import AboutUs from './screens/AboutUs';
+import About from './screens/About';
+import FAQ from './screens/FAQ';
 import CustomDrawerNavigator from './components/CustomDrawerNavigator';
-import colors from './components/Common/colors';
+import { colors } from './common';
 
 
 const MyApp = createDrawerNavigator({
@@ -14,15 +15,17 @@ const MyApp = createDrawerNavigator({
   Settings: {
     screen: Settings,
   },
-  AboutUs: {
-    screen: AboutUs,
+  About: {
+    screen: About,
+  },
+  FAQ: {
+    screen: FAQ,
   },
 }, {
-  initialRoute: 'Encoding',
   contentComponent: CustomDrawerNavigator,
   contentOptions: {
     activeTintColor: colors.pureWhite,
-    activeBackgroundColor: colors.primaryColor,
+    activeBackgroundColor: colors.primary,
   },
 });
 

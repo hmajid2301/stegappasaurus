@@ -17,6 +17,7 @@ class CustomDrawerNavigator extends Component {
     toggleTheme: PropTypes.func.isRequired,
     onItemPress: PropTypes.func.isRequired,
   };
+
   render() {
     return (
       <View>

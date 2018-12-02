@@ -1,10 +1,10 @@
 import { StyleSheet } from 'react-native';
-import myColors from '../Common/colors';
+import { colors } from '../../common';
 
 
 const styles = StyleSheet.create({
   icons: {
-    color: myColors.iconBlack,
+    color: colors.iconBlack,
   },
   container: {
     flexDirection: 'row',
@@ -16,11 +16,11 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   logoContainer: {
-    transform: [{ translateY: 3 }],
+    transform: [{ translateY: -5 }],
   },
   logo: {
-    height: 50,
-    width: 50,
+    height: 25,
+    width: 25,
   },
 });
 

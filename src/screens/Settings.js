@@ -4,7 +4,7 @@ import { View, Text } from 'react-native';
 import { Icon } from 'react-native-elements';
 
 import CustomHeader from '../components/CustomHeader';
-import colors from '../components/Common/colors';
+import { colors } from '../common';
 
 
 export default class Settings extends Component {
@@ -24,7 +24,7 @@ export default class Settings extends Component {
   render() {
     return (
       <View>
-        <CustomHeader navigation={this.props.navigation} color={colors.tertiaryColor}/>
+        <CustomHeader navigation={this.props.navigation} color={colors.tertiary}/>
         <Text> Settings </Text>
       </View>
     );

@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import colors from '../Common/colors';
+import { colors } from '../../common';
 
 
 const styles = themeColor => StyleSheet.create({
@@ -12,7 +12,7 @@ const styles = themeColor => StyleSheet.create({
     borderBottomColor: themeColor,
   },
   innerHeaderContainer: {
-    transform: [{ translateY: 5 }],
+    transform: [{ translateY: 10 }],
   },
 });
 
