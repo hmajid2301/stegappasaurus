@@ -33,7 +33,6 @@ class CustomDrawerNavigator extends Component {
               if (routeName === 'Home') {
                 this.props.toggleTheme(COLORS.secondary);
               }
-
               this.props.onItemPress(route);
             },
           }}

@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 
 import store from './src/store';
-import MyApp from './src/Routes';
+import MainApp from './src/Routes';
 
 
 const robotoThin = require('./src/assets/fonts/Roboto-Thin.ttf');
@@ -31,7 +31,7 @@ export default class App extends Component {
     }
     return (
       <Provider store={store}>
-        <MyApp />
+        <MainApp />
       </Provider>
     );
   }

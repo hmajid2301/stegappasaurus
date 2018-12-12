@@ -1,4 +1,4 @@
-import { createDrawerNavigator } from 'react-navigation';
+import { createDrawerNavigator, createAppContainer } from 'react-navigation';
 
 import Home from './screens/Home';
 import Settings from './screens/Settings';
@@ -8,7 +8,7 @@ import CustomDrawerNavigator from './components/CustomDrawerNavigator';
 import { colors } from './common';
 
 
-const MyApp = createDrawerNavigator({
+const MainNavigator = createDrawerNavigator({
   Home: {
     screen: Home,
   },
@@ -29,4 +29,6 @@ const MyApp = createDrawerNavigator({
   },
 });
 
-export default MyApp;
+const App = createAppContainer(MainNavigator);
+
+export default App;

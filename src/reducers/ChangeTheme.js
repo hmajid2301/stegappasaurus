@@ -17,8 +17,10 @@ const ChangeTheme = (state = initialState, action) => {
           return { color: COLORS.secondary.hexCode };
         case 'Settings':
           return { color: COLORS.tertiary.hexCode };
-        case 'AboutUs':
+        case 'About':
           return { color: COLORS.quaternary.hexCode };
+        case 'FAQ':
+          return { color: COLORS.quinary.hexCode };
         default:
           return state;
       }

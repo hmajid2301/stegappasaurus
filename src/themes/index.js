@@ -6,6 +6,7 @@ const COLORS = {
   secondary: { name: 'secondary', hexCode: colors.secondary },
   tertiary: { name: 'tertiary', hexCode: colors.tertiary },
   quaternary: { name: 'quaternary', hexCode: colors.quaternary },
+  quinary: { name: 'quinary', hexCode: colors.quinary },
 };
 
 export default COLORS;

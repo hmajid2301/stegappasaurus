@@ -5,7 +5,7 @@ import { Icon } from 'react-native-elements';
 import Accordion from 'react-native-collapsible/Accordion';
 import MathJax from 'react-native-mathjax';
 
-import CustomHeader from '../components/CustomHeader';
+import Header from '../components/Header';
 import { colors, fonts }  from '../common';
 
 
@@ -55,7 +55,7 @@ const faq = [
   },
 ];
 
-export default class App extends Component {
+export default class FAQ extends Component {
   static navigationOptions = {
     drawerLabel: 'FAQ',
     drawerIcon: ({ tintColor }) => (
@@ -100,7 +100,7 @@ export default class App extends Component {
     return (
       <View style={{ flex: 1, flexDirection: 'column', backgroundColor: '#eeeff3' }}>
         <ScrollView>
-          <CustomHeader navigation={this.props.navigation} color={colors.quaternary} />
+          <Header navigation={this.props.navigation} color={colors.quaternary} />
 
           <View style={{ alignItems: 'stretch', paddingTop: 20 }}>
             <Accordion

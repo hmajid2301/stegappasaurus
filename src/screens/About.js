@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { Text, View, Image, Platform, ScrollView, StyleSheet } from 'react-native';
 import { Icon, List, ListItem } from 'react-native-elements';
 import { WebBrowser } from 'expo';
-import CustomHeader from '../components/CustomHeader';
+import Header from '../components/Header';
 import { colors, fonts } from '../common';
 
 
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class App extends Component {
+export default class About extends Component {
   static navigationOptions = {
     drawerLabel: 'About Us',
     drawerIcon: ({ tintColor }) => (
@@ -124,19 +124,19 @@ export default class App extends Component {
     return (
       <View style={styles.container}>
         <ScrollView>
-          <CustomHeader navigation={this.props.navigation} color={colors.quaternary} />
+          <Header navigation={this.props.navigation} color={colors.quaternary} />
 
           <View style={styles.textContainer}>
             <Image style={styles.logoImage} source={logo} />
             <Text style={styles.about}>
-              This project involves implementing steganography algorithms, and allow users to use
-              these algorithms as a mobile phone app The app allow users to embed messages within
-              image files, and was originally developed using the Ionic/Apache Cordova framework.{'\n\n'}
+              This project involves implementing steganography algorithms. Users can these
+              steganography to embed messages within image files. It was originally developed
+              using the Ionic/Apache Cordova framework.{'\n\n'}
 
               This app is a rewrite of my third year dissertation project.
-              It allows you to use Steganography to hide data within images.
-              The original app was written using Ionic/Apache Cordova.
-              This app is written using Expo/React Native.
+              This new app is written using Expo/React Native.
+              It is quicker because React Native has better performance than Apache Cordova.
+              It has a much better UI/UX and has some added features such as sharing images.
             </Text>
           </View>
 

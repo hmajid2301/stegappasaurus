@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { View } from 'react-native';
 import { Icon } from 'react-native-elements';
 
-import CustomHeader from '../components/CustomHeader';
+import Header from '../components/Header';
 import CustomTabNavigator from '../components/CustomTabNavigator';
 
 
@@ -29,7 +29,7 @@ class Home extends Component {
   render() {
     return (
       <View style={{ flex: 1 }}>
-        <CustomHeader navigation={this.props.navigation} color={this.props.color.hexCode} />
+        <Header navigation={this.props.navigation} color={this.props.color.hexCode} />
         <CustomTabNavigator />
       </View>
     );

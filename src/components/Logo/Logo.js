@@ -7,7 +7,7 @@ import styles from './styles';
 const logo = require('../../assets/images/logo.png');
 
 
-const TextLogo = () => (
+const Logo = () => (
   <View style={styles.container}>
     <Text style={styles.text}>Steg</Text>
     <Text style={styles.logoContainer}>
@@ -18,4 +18,4 @@ const TextLogo = () => (
 );
 
 
-export default TextLogo;
+export default Logo;
