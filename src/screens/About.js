@@ -124,19 +124,20 @@ export default class About extends Component {
     return (
       <View style={styles.container}>
         <ScrollView>
-          <Header navigation={this.props.navigation} color={colors.quaternary} />
+          <Header navigation={this.props.navigation} color={colors.primary} />
 
           <View style={styles.textContainer}>
             <Image style={styles.logoImage} source={logo} />
             <Text style={styles.about}>
-              This project involves implementing steganography algorithms. Users can these
-              steganography to embed messages within image files. It was originally developed
-              using the Ionic/Apache Cordova framework.{'\n\n'}
+              This project involves implementing steganography algorithms. It allows users
+              to hide messages within image files, using these algorithms.
+              It was originally developed using the Ionic/Apache Cordova framework.{'\n\n'}
 
               This app is a rewrite of my third year dissertation project.
               This new app is written using Expo/React Native.
-              It is quicker because React Native has better performance than Apache Cordova.
-              It has a much better UI/UX and has some added features such as sharing images.
+              There are numerous improvements that were made during the rewrite.
+              For example the new app has a much better UI/UX and
+              has some new features such as sharing the encoded images.
             </Text>
           </View>
 

@@ -24,7 +24,7 @@ export default class Settings extends Component {
   render() {
     return (
       <View>
-        <Header navigation={this.props.navigation} color={colors.tertiary}/>
+        <Header navigation={this.props.navigation} color={colors.primary}/>
         <Text> Settings </Text>
       </View>
     );

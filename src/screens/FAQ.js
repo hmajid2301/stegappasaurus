@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import { ScrollView, Text, View, TouchableOpacity } from 'react-native';
 import { Icon } from 'react-native-elements';
 import Accordion from 'react-native-collapsible/Accordion';
-import MathJax from 'react-native-mathjax';
 
 import Header from '../components/Header';
 import { colors, fonts }  from '../common';
@@ -92,15 +91,15 @@ export default class FAQ extends Component {
 
   renderContent = section => (
     <View>
-      <Text style={{ fontFamily: 'RobotoRegular' }}>{section.content}</Text>
+      <Text style={{ fontFamily: 'RobotoThin' }}>{section.content}</Text>
     </View>
   );
 
   render() {
     return (
-      <View style={{ flex: 1, flexDirection: 'column', backgroundColor: '#eeeff3' }}>
+      <View style={{ flex: 1, flexDirection: 'column' }}>
         <ScrollView>
-          <Header navigation={this.props.navigation} color={colors.quaternary} />
+          <Header navigation={this.props.navigation} color={colors.primary} />
 
           <View style={{ alignItems: 'stretch', paddingTop: 20 }}>
             <Accordion
@@ -114,9 +113,6 @@ export default class FAQ extends Component {
             />
           </View>
         </ScrollView>
-                <MathJax
-          html={'Solve the equation $\\frac{x-2}{x+3}=\\frac{x-3}{2}$'}
-        />
       </View>
     );
   }

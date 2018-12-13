@@ -1,4 +1,4 @@
-import { createMaterialTopTabNavigator } from 'react-navigation';
+import { createMaterialTopTabNavigator, createAppContainer } from 'react-navigation';
 
 import { colors } from '../../common';
 import Encoding from '../../screens/Encoding';
@@ -21,17 +21,17 @@ const commonTabOptions = color => ({
   },
 });
 
-const CustomerTabNavigator = createMaterialTopTabNavigator({
+const TabNavigator = createMaterialTopTabNavigator({
   Encoding: {
     screen: Encoding,
-    defaultNavigationOptions: {
+    navigationOptions: {
       tabBarLabel: 'Encoding',
       tabBarOptions: commonTabOptions(colors.primary),
     },
   },
   Decoding: {
     screen: Decoding,
-    defaultNavigationOptions: {
+    navigationOptions: {
       tabBarLabel: 'Decoding',
       tabBarOptions: commonTabOptions(colors.secondary),
     },
@@ -40,4 +40,5 @@ const CustomerTabNavigator = createMaterialTopTabNavigator({
   tabBarPosition: 'bottom',
 });
 
-export default CustomerTabNavigator;
+const CustomTabNavigator = createAppContainer(TabNavigator);
+export default CustomTabNavigator;

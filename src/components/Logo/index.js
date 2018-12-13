@@ -1,4 +1,4 @@
-import TextLogo from './TextLogo';
+import Logo from './Logo';
 
 
-export default TextLogo;
+export default Logo;
