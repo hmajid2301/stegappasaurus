@@ -5,11 +5,9 @@ export const styles = {
 };
 
 export const fonts = {
-  fonts: {
-    header: 'RobotoThin',
-    body: 'RobotoLight',
-    body_xl: 'RobotoRegular',
-  },
+  header: 'RobotoThin',
+  body: 'RobotoLight',
+  body_xl: 'RobotoRegular',
 };
 
 export const colors = {

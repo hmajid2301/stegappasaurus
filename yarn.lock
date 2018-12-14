@@ -6964,7 +6964,7 @@ react-native-maps@expo/react-native-maps#v0.22.0-exp.0:
     babel-plugin-module-resolver "^3.1.0"
     babel-preset-react-native "1.9.0"
 
-react-native-mathjax@2.0.0:
+react-native-mathjax@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/react-native-mathjax/-/react-native-mathjax-2.0.0.tgz#dfa7c37622f28ab5b384cc0c2880e37790d7af78"
   integrity sha512-uyOX/sIiApVB28KlEk9A4g78eEu2pMcsNsGVp3JzCJnQsB3Twn8Ok292hvUNATger4hs11zXo+yRC8uhgRVqjw==
