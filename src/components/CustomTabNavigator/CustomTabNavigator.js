@@ -1,8 +1,15 @@
-import { createMaterialTopTabNavigator, createAppContainer } from 'react-navigation';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
+import { View } from 'react-native';
+import { createMaterialTopTabNavigator } from 'react-navigation';
+import { Icon } from 'react-native-elements';
+import { connect } from 'react-redux';
 
+import Header from '../Header';
 import { colors } from '../../common';
 import Encoding from '../../screens/Encoding';
 import Decoding from '../../screens/Decoding';
+import styles from './styles';
 
 
 const commonTabOptions = color => ({
@@ -21,7 +28,7 @@ const commonTabOptions = color => ({
   },
 });
 
-const TabNavigator = createMaterialTopTabNavigator({
+const CustomTabNavigator = createMaterialTopTabNavigator({
   Encoding: {
     screen: Encoding,
     navigationOptions: {
@@ -40,5 +47,37 @@ const TabNavigator = createMaterialTopTabNavigator({
   tabBarPosition: 'bottom',
 });
 
-const CustomTabNavigator = createAppContainer(TabNavigator);
-export default CustomTabNavigator;
+
+class Home extends Component {
+  static navigationOptions = {
+    drawerLabel: 'Home',
+    drawerIcon: ({ tintColor }) => (
+      <Icon name='home' type='font-awesome' color={tintColor} />
+    ),
+  };
+
+  static propTypes = {
+    navigation: PropTypes.object.isRequired,
+    color: PropTypes.shape({
+      hexCode: PropTypes.string,
+    }).isRequired,
+  };
+
+  static router = CustomTabNavigator.router;
+
+  render() {
+    return (
+      <View style={styles.container}>
+        <Header navigation={this.props.navigation} color={this.props.color.hexCode} />
+        <CustomTabNavigator navigation={this.props.navigation} />
+      </View>
+    );
+  }
+}
+
+
+const mapStateToProps = state => ({
+  color: state.ToggleTheme.colorData,
+});
+
+export default connect(mapStateToProps, null)(Home);
