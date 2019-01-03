@@ -73,18 +73,18 @@ export default class Steganography {
   }
 
   encode = () => {
-    const algorithm = this.algorithm(true);
+    const encodingAlgorithm = this.getAlgorithm(true);
     const binaryMessage = this.convertMessageToBinary(this.message);
     const pixelData = this.getPixelData();
-    const newPixelData = algorithm.encode(pixelData, binaryMessage);
+    const newPixelData = encodingAlgorithm.encode(pixelData, binaryMessage);
     const newImage = this.setPixelData(newPixelData);
     return newImage;
   }
 
   decode = () => {
-    const algorithm = this.algorithm(false);
+    const decodingAlgorithm = this.getAlgorithm(false);
     const pixelData = this.getPixelData();
-    const unicode = algorithm.decode(pixelData, this.getSeparator);
+    const unicode = decodingAlgorithm.decode(pixelData, this.getSeparator);
     const message = this.convertUnicodeToMessage(unicode);
     return message;
   }
