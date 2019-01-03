@@ -9,9 +9,9 @@ import styles from './styles';
 const CustomDrawerNavigator = props => (
     <View>
       <View style={styles.header}>
-        <Logo />
+        <Logo/>
       </View>
-      <DrawerItems {...props} />
+      <DrawerItems {...props}/>
     </View>
 );
 

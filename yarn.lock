@@ -3038,7 +3038,7 @@ eslint-plugin-import@2.11.0:
     read-pkg-up "^2.0.0"
     resolve "^1.6.0"
 
-eslint-plugin-react-native-globals@^0.1.1, eslint-plugin-react-native-globals@^0.1.2:
+eslint-plugin-react-native-globals@^0.1.1:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/eslint-plugin-react-native-globals/-/eslint-plugin-react-native-globals-0.1.2.tgz#ee1348bc2ceb912303ce6bdbd22e2f045ea86ea2"
   integrity sha512-9aEPf1JEpiTjcFAmmyw8eiIXmcNZOqaZyHO77wgm0/dWfT/oxC1SrIq8ET38pMxHYrcB6Uew+TzUVsBeczF88g==
@@ -6966,6 +6966,13 @@ react-native-gesture-handler@^1.0.0:
   dependencies:
     hoist-non-react-statics "^2.3.1"
     invariant "^2.2.2"
+    prop-types "^15.5.10"
+
+react-native-grid-component@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/react-native-grid-component/-/react-native-grid-component-1.1.0.tgz#4d6e14cd6f6c0b016b0a67c79d07de64f2c25e1e"
+  integrity sha1-TW4UzW9sCwFrCmfHnQfeZPLCXh4=
+  dependencies:
     prop-types "^15.5.10"
 
 react-native-maps@expo/react-native-maps#v0.22.0-exp.0:

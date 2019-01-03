@@ -27,11 +27,11 @@ export default class App extends Component {
   }
   render() {
     if (this.state.loading) {
-      return <AppLoading />;
+      return <AppLoading/>;
     }
     return (
       <Provider store={store}>
-        <MainApp />
+        <MainApp/>
       </Provider>
     );
   }

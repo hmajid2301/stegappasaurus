@@ -11,7 +11,7 @@ export default class Settings extends Component {
   static navigationOptions = {
     drawerLabel: 'Settings',
     drawerIcon: ({ tintColor }) => (
-      <Icon name='settings' type='material-community' color={tintColor} />
+      <Icon name='settings' type='material-community' color={tintColor}/>
     ),
   };
 

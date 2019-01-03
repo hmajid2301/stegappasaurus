@@ -125,7 +125,7 @@ export default class FAQ extends Component {
   static navigationOptions = {
     drawerLabel: 'FAQ',
     drawerIcon: ({ tintColor }) => (
-      <Icon name='question-circle' type='font-awesome' color={tintColor} />
+      <Icon name='question-circle' type='font-awesome' color={tintColor}/>
     ),
   };
 
@@ -161,10 +161,10 @@ export default class FAQ extends Component {
     let image = null;
 
     if (section.equation !== undefined) {
-      math = <MathJax html={section.equation} />;
+      math = <MathJax html={section.equation}/>;
     }
     if (section.image !== undefined) {
-      image = <Image style={styles.image} source={section.image} />;
+      image = <Image style={styles.image} source={section.image}/>;
     }
 
     const content = <View style={styles.sectionContentContainer}>
@@ -179,7 +179,7 @@ export default class FAQ extends Component {
     return (
       <View style={styles.container}>
         <ScrollView>
-          <Header navigation={this.props.navigation} color={colors.primary} />
+          <Header navigation={this.props.navigation} color={colors.primary}/>
 
           <View style={styles.accordionContainer}>
             <Accordion
@@ -190,7 +190,7 @@ export default class FAQ extends Component {
               renderContent={this.renderContent}
               duration={200}
               onChange={this.setSections}
-            />
+           />
           </View>
         </ScrollView>
       </View>

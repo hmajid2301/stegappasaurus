@@ -9,10 +9,10 @@ import styles from './styles';
 const CustomHeader = ({ navigation, color }) => (
   <Header
     leftComponent={<Icon name='menu' type='simple-line-icon' color={styles(color).icons.color} onPress={() => navigation.openDrawer()}/>}
-    centerComponent={<Logo />}
+    centerComponent={<Logo/>}
     outerContainerStyles={styles(color).outerHeaderContainer}
     innerContainerStyles={styles(color).innerHeaderContainer}
-  />
+ />
 );
 
 CustomHeader.propTypes = {

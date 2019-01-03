@@ -52,7 +52,7 @@ class Home extends Component {
   static navigationOptions = {
     drawerLabel: 'Home',
     drawerIcon: ({ tintColor }) => (
-      <Icon name='home' type='font-awesome' color={tintColor} />
+      <Icon name='home' type='font-awesome' color={tintColor}/>
     ),
   };
 
@@ -68,8 +68,8 @@ class Home extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Header navigation={this.props.navigation} color={this.props.color.hexCode} />
-        <CustomTabNavigator navigation={this.props.navigation} />
+        <Header navigation={this.props.navigation} color={this.props.color.hexCode}/>
+        <CustomTabNavigator navigation={this.props.navigation}/>
       </View>
     );
   }

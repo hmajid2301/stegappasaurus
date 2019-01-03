@@ -15,6 +15,9 @@
     "plugin:react/recommended",
     "airbnb-base"
   ],
+  "globals": {
+    "fetch": false
+  },
   "rules": {
     "arrow-body-style": "warn",
     "class-methods-use-this": "off",

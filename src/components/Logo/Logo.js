@@ -11,7 +11,7 @@ const Logo = () => (
   <View style={styles.container}>
     <Text style={styles.text}>Steg</Text>
     <Text style={styles.logoContainer}>
-      <Image source={logo} style={styles.logo} />
+      <Image source={logo} style={styles.logo}/>
     </Text>
     <Text style={styles.text}>ppasaurus</Text>
   </View>

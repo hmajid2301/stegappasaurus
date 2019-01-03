@@ -87,7 +87,7 @@ export default class About extends Component {
   static navigationOptions = {
     drawerLabel: 'About Us',
     drawerIcon: ({ tintColor }) => (
-      <Icon name='info' type='simple-line-icons' color={tintColor} />
+      <Icon name='info' type='simple-line-icons' color={tintColor}/>
     ),
   };
 
@@ -105,7 +105,7 @@ export default class About extends Component {
       titleStyle={styles.listItemNoIconText}
       containerStyle={styles.listItem}
       fontFamily={fonts.body}
-    />
+   />
   );
 
   renderWithIcons = item => (
@@ -117,17 +117,17 @@ export default class About extends Component {
       hideChevron
       containerStyle={styles.listItem}
       fontFamily={fonts.body}
-    />
+   />
   );
 
   render() {
     return (
       <View style={styles.container}>
         <ScrollView>
-          <Header navigation={this.props.navigation} color={colors.primary} />
+          <Header navigation={this.props.navigation} color={colors.primary}/>
 
           <View style={styles.textContainer}>
-            <Image style={styles.logoImage} source={logo} />
+            <Image style={styles.logoImage} source={logo}/>
             <Text style={styles.about}>
               This project involves implementing steganography algorithms. It allows users
               to hide messages within image files, using these algorithms.
