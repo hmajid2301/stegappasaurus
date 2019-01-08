@@ -1,4 +1,4 @@
-import { colors } from '../common';
+import { colors } from '../util/styles';
 
 
 const COLORS = {

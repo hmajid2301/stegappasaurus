@@ -6,7 +6,7 @@ import Accordion from 'react-native-collapsible/Accordion';
 import MathJax from 'react-native-mathjax';
 
 import Header from '../components/Header';
-import { colors, fonts } from '../common';
+import { colors, fonts } from '../util/styles';
 
 
 const originalEncoded = require('../assets/images/faq/original.jpg');

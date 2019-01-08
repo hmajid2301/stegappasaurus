@@ -1,14 +1,23 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { View, Image, TouchableOpacity, StyleSheet, ScrollView, Dimensions } from 'react-native';
+import {
+  ActivityIndicator,
+  Dimensions,
+  FlatList,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import { createStackNavigator } from 'react-navigation';
 import { Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
-import { ImagePicker, Permissions, MediaLibrary } from 'expo';
-import Grid from 'react-native-grid-component';
+import { ImagePicker, MediaLibrary, Permissions } from 'expo';
 
-import { colors } from '../common';
+import { colors } from '../util/styles';
 import { toggleTheme } from '../actions';
 import COLORS from '../themes';
+import EncodeImage from './EncodeImage';
 
 
 const styles = StyleSheet.create({
@@ -16,11 +25,17 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 
+  loading: {
+    flex: 1,
+    justifyContent: 'center',
+    flexDirection: 'row',
+  },
+
   buttonsRow: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 10,
+    marginTop: 5,
     marginRight: 2,
   },
 
@@ -56,16 +71,16 @@ class Encoding extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      image: null,
-      row: 1,
-      column: 1,
-      photos: null,
+      photos: [],
+      loading: false,
+      lastPhoto: 0,
     };
   }
+
   static propTypes = {
     navigation: PropTypes.object.isRequired,
     toggleTheme: PropTypes.func.isRequired,
-  };
+  }
 
   async componentDidMount() {
     this.props.navigation.addListener('willFocus', () => {
@@ -73,84 +88,127 @@ class Encoding extends Component {
     });
     const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
     if (status === 'granted') {
-      const { assets } = await MediaLibrary.getAssetsAsync();
-      this.setState({ photos: assets });
+      const { assets, endCursor } = await MediaLibrary.getAssetsAsync({
+        first: 15,
+        sortBy: [MediaLibrary.SortBy.creationTime],
+      });
+      this.setState({ photos: assets, lastPhoto: endCursor });
     } else {
       throw new Error('Camera Roll permission not granted');
     }
   }
 
-  getCameraPhoto = async () => {
+  formatData = (data) => {
+    const numOfCols = 3;
+    const fullRows = Math.floor(data.length / numOfCols);
+    let numElementsInFinalRow = data.length - (fullRows * numOfCols);
+
+    while (numElementsInFinalRow !== numOfCols && numElementsInFinalRow !== 0) {
+      data.push({ empty: true });
+      numElementsInFinalRow += 1;
+    }
+
+    return data;
+  };
+
+  getPhotoFromCamera = async () => {
     const { status } = await Permissions.askAsync(Permissions.CAMERA, Permissions.CAMERA_ROLL);
     if (status === 'granted') {
       const result = await ImagePicker.launchCameraAsync();
       if (!result.cancelled) {
-        this.setState({ image: result.uri });
+        this.selectImage(result.uri);
       }
     } else {
       throw new Error('Camera permission not granted');
     }
-  };
+  }
 
-  getCameraAlbum = async () => {
+  getPhotoFromCameraRoll = async () => {
     const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
     if (status === 'granted') {
       const result = await ImagePicker.launchImageLibraryAsync();
       if (!result.cancelled) {
-        this.setState({ image: result.uri });
+        this.selectImage(result.uri);
       }
     } else {
       throw new Error('Camera Roll permission not granted');
     }
-  };
+  }
 
-  getCatAPI = () => {
+  getPhotoFromCatAPI = () => {
+    this.setState({ loading: true });
+
     const url = 'https://api.thecatapi.com/v1/images/search?mime_types=jpg,png';
     fetch(url)
       .then(response => response.json())
       .then((responseJson) => {
-        this.setState({ image: responseJson[0].url });
+        this.selectImage(responseJson[0].url);
       })
       .catch();
-  };
 
-  getPhoto = (photo) => {
-    this.setState({ image: photo });
+    setTimeout(() => {
+      this.setState({ loading: false });
+    }, 2000);
   }
 
-  renderPhoto = (photo, index) => (
-    <TouchableOpacity
-      onPress={() => this.getPhoto(photo.uri)}
-      style={styles.photoButton}
-      key={index}
-    >
-      <Image style={styles.photos} source={{ uri: photo.uri }}/>
-    </TouchableOpacity>
-  )
+  getMoreAlbumPhotos = async () => {
+    const { assets, endCursor } = await MediaLibrary.getAssetsAsync({
+      first: 9,
+      sortBy: [MediaLibrary.SortBy.creationTime],
+      after: this.state.lastPhoto,
+    });
+
+    this.setState({
+      photos: [...this.state.photos, ...assets],
+      photoEnd: endCursor,
+    });
+  }
+
+  renderPhoto = ({ item }) => {
+    if (item.empty === true) {
+      return <View/>;
+    }
+    return (
+      <TouchableOpacity onPress={() => this.selectImage(item.uri)} style={styles.photoButton}>
+        <Image style={styles.photos} source={{ uri: item.uri }} />
+      </TouchableOpacity>
+    );
+  }
+
+  selectImage = (uri) => {
+    this.props.navigation.navigate('EncodeImage', { uri });
+  }
 
   render() {
+    if (this.state.loading) {
+      return (
+        <View style={styles.loading}>
+          <ActivityIndicator size="large" color={colors.primary}/>
+        </View>
+      );
+    }
+
     return (
-      <ScrollView styles={styles.container}>
+      <View styles={styles.container}>
         <View style={styles.buttonsRow}>
-          <TouchableOpacity style={styles.button} onPress={this.getCameraPhoto}>
-            <Icon name='camera' type='font-awesome' iconStyle={styles.icon}/>
+          <TouchableOpacity style={styles.button} onPress={this.getPhotoFromCamera}>
+            <Icon name='camera' type='font-awesome' iconStyle={styles.icon} />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={this.getCameraAlbum}>
-            <Icon name='photo' type='font-awesome' iconStyle={styles.icon}/>
+          <TouchableOpacity style={styles.button} onPress={this.getPhotoFromCameraRoll}>
+            <Icon name='photo' type='font-awesome' iconStyle={styles.icon} />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={this.getCatAPI}>
-            <Icon name='cat' type='material-community' iconStyle={styles.icon}/>
+          <TouchableOpacity style={styles.button} onPress={this.getPhotoFromCatAPI}>
+            <Icon name='cat' type='material-community' iconStyle={styles.icon} />
           </TouchableOpacity>
         </View>
-        {this.state.image !== null && (
-          <Image style={{ height: 150, width: 150 }} source={{ uri: this.state.image }}/>
-        )}
-        {this.state.photos !== null && (
-          <View style={styles.photoContainer}>
-            <Grid renderItem={this.renderPhoto} data={this.state.photos} itemsPerRow={3}/>
-          </View>
-        )}
-      </ScrollView>
+        <FlatList
+          data={this.formatData(this.state.photos)}
+          renderItem={this.renderPhoto}
+          numColumns={3}
+          keyExtractor={(_, index) => index}
+          onEndReached={this.getMoreAlbumPhotos}
+        />
+      </View>
     );
   }
 }
@@ -159,4 +217,25 @@ const mapDispatchToProps = dispatch => ({
   toggleTheme: color => dispatch(toggleTheme(color)),
 });
 
-export default connect(null, mapDispatchToProps)(Encoding);
+const EncodeNavigator = createStackNavigator({
+  Encoding: {
+    screen: connect(null, mapDispatchToProps)(Encoding),
+    navigationOptions: {
+      header: null,
+    },
+  },
+
+  EncodeImage: {
+    screen: EncodeImage,
+    navigationOptions: {
+      header: null,
+      tabBarVisible: false,
+    },
+  },
+});
+
+EncodeNavigator.navigationOptions = ({ navigation }) => ({
+  tabBarVisible: navigation.state.index === 0,
+});
+
+export default EncodeNavigator;

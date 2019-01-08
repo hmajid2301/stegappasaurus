@@ -4,7 +4,7 @@ import { View, Text } from 'react-native';
 import { Icon } from 'react-native-elements';
 
 import Header from '../components/Header';
-import { colors } from '../common';
+import { colors } from '../util/styles';
 
 
 export default class Settings extends Component {

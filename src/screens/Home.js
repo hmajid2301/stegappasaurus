@@ -1,19 +1,18 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { createMaterialTopTabNavigator } from 'react-navigation';
 import { Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
 
-import Header from '../Header';
-import { colors } from '../../common';
-import Encoding from '../../screens/Encoding';
-import Decoding from '../../screens/Decoding';
-import styles from './styles';
+import Header from '../components/Header';
+import { colors } from '../util/styles';
+import Encoding from './Encoding';
+import Decoding from './Decoding';
 
 
 const commonTabOptions = color => ({
-  activeTintColor: 'white',
+  activeTintColor: colors.pureWhite,
   pressColor: colors.pureWhite,
   inactiveTintColor: '#ddd',
   labelStyle: {
@@ -47,6 +46,11 @@ const CustomTabNavigator = createMaterialTopTabNavigator({
   tabBarPosition: 'bottom',
 });
 
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+});
 
 class Home extends Component {
   static navigationOptions = {

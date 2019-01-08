@@ -4,7 +4,7 @@ import { Text, View, Image, Platform, ScrollView, StyleSheet } from 'react-nativ
 import { Icon, List, ListItem } from 'react-native-elements';
 import { WebBrowser } from 'expo';
 import Header from '../components/Header';
-import { colors, fonts } from '../common';
+import { colors, fonts } from '../util/styles';
 
 
 const logo = require('../assets/images/logo.png');

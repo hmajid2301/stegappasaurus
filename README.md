@@ -5,11 +5,7 @@
 ---------------------------------------------------------------------------------------------------
 
 This is a mobile app made with React Native and Expo. The app allows user to encode and decode messages within images using
-Steganography. This is a rewrite of my dissertation project, written in my third year of university. It includes more features
-such as;
-
-* Share Encoded Images
-* Encode/Decode JPEGs and GIFs
+Steganography. This is a rewrite of my dissertation project, written in my third year of university.
 
 ## Getting Started
 
@@ -40,6 +36,10 @@ yarn run android
 ADB_IP=192.168.112.101
 REACT_NATIVE_PACKAGER_HOSTNAME=192.168.27.1
 ```
+
+## Errors
+
+Any errors in your editor about paths not resolving take a look [here](https://github.com/tleunen/babel-plugin-module-resolver#eslint-plugin).
 
 ## Other
 

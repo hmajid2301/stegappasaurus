@@ -3,12 +3,12 @@ import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 
 import store from './src/store';
-import MainApp from './src/Routes';
+import MainApp from './src/MainApp';
 
 
-const robotoThin = require('./src/assets/fonts/Roboto-Thin.ttf');
-const robotoLight = require('./src/assets/fonts/Roboto-Light.ttf');
-const robotoRegular = require('./src/assets/fonts/Roboto-Regular.ttf');
+const RobotoThin = require('./src/assets/fonts/Roboto-Thin.ttf');
+const RobotoLight = require('./src/assets/fonts/Roboto-Light.ttf');
+const RobotoRegular = require('./src/assets/fonts/Roboto-Regular.ttf');
 
 
 export default class App extends Component {
@@ -19,9 +19,9 @@ export default class App extends Component {
 
   async componentWillMount() {
     await Font.loadAsync({
-      RobotoThin: robotoThin,
-      RobotoLight: robotoLight,
-      RobotoRegular: robotoRegular,
+      RobotoThin,
+      RobotoLight,
+      RobotoRegular,
     });
     this.setState({ loading: false });
   }
