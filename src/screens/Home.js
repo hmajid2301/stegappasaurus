@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { View, StyleSheet } from 'react-native';
+import { StyleSheet, View } from 'react-native';
 import { createMaterialTopTabNavigator } from 'react-navigation';
 import { Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
@@ -62,9 +62,7 @@ class Home extends Component {
 
   static propTypes = {
     navigation: PropTypes.object.isRequired,
-    color: PropTypes.shape({
-      hexCode: PropTypes.string,
-    }).isRequired,
+    color: PropTypes.object.isRequired,
   };
 
   static router = CustomTabNavigator.router;
@@ -72,7 +70,7 @@ class Home extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Header navigation={this.props.navigation} color={this.props.color.hexCode}/>
+        <Header color={this.props.color.hexCode} navigation={this.props.navigation} />
         <CustomTabNavigator navigation={this.props.navigation}/>
       </View>
     );

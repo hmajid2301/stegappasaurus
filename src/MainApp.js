@@ -1,4 +1,4 @@
-import { createDrawerNavigator, createAppContainer } from 'react-navigation';
+import { createAppContainer, createDrawerNavigator } from 'react-navigation';
 
 import CustomDrawerNavigator from './components/CustomDrawerNavigator';
 import Settings from './screens/Settings';

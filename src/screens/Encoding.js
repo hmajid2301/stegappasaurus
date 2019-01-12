@@ -17,8 +17,10 @@ import { ImagePicker, MediaLibrary, Permissions } from 'expo';
 import { colors } from '../util/styles';
 import { toggleTheme } from '../actions';
 import COLORS from '../themes';
-import EncodeImage from './EncodeImage';
+import EncodeMessage from './EncodeImage';
 
+
+const pageWidth = Dimensions.get('window').width;
 
 const styles = StyleSheet.create({
   container: {
@@ -35,7 +37,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 5,
+    marginTop: 2,
     marginRight: 2,
   },
 
@@ -46,7 +48,7 @@ const styles = StyleSheet.create({
   button: {
     flex: 1,
     justifyContent: 'center',
-    height: (Dimensions.get('window').width / 3),
+    height: (pageWidth / 3),
     backgroundColor: colors.primary,
     marginLeft: 2,
     marginTop: 2,
@@ -57,7 +59,7 @@ const styles = StyleSheet.create({
   },
 
   photos: {
-    height: (Dimensions.get('window').width / 3),
+    height: (pageWidth / 3),
     marginLeft: 2,
     marginTop: 2,
   },
@@ -86,6 +88,7 @@ class Encoding extends Component {
     this.props.navigation.addListener('willFocus', () => {
       this.props.toggleTheme(COLORS.secondary);
     });
+
     const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
     if (status === 'granted') {
       const { assets, endCursor } = await MediaLibrary.getAssetsAsync({
@@ -170,7 +173,7 @@ class Encoding extends Component {
     }
     return (
       <TouchableOpacity onPress={() => this.selectImage(item.uri)} style={styles.photoButton}>
-        <Image style={styles.photos} source={{ uri: item.uri }} />
+        <Image source={{ uri: item.uri }} style={styles.photos}/>
       </TouchableOpacity>
     );
   }
@@ -183,7 +186,7 @@ class Encoding extends Component {
     if (this.state.loading) {
       return (
         <View style={styles.loading}>
-          <ActivityIndicator size="large" color={colors.primary}/>
+          <ActivityIndicator color={colors.primary} size='large'/>
         </View>
       );
     }
@@ -191,22 +194,22 @@ class Encoding extends Component {
     return (
       <View styles={styles.container}>
         <View style={styles.buttonsRow}>
-          <TouchableOpacity style={styles.button} onPress={this.getPhotoFromCamera}>
-            <Icon name='camera' type='font-awesome' iconStyle={styles.icon} />
+          <TouchableOpacity onPress={this.getPhotoFromCamera} style={styles.button}>
+            <Icon name='camera' iconStyle={styles.icon} type='font-awesome' />
           </TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={this.getPhotoFromCameraRoll}>
-            <Icon name='photo' type='font-awesome' iconStyle={styles.icon} />
+          <TouchableOpacity onPress={this.getPhotoFromCameraRoll} style={styles.button}>
+            <Icon name='photo' iconStyle={styles.icon} type='font-awesome'/>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={this.getPhotoFromCatAPI}>
-            <Icon name='cat' type='material-community' iconStyle={styles.icon} />
+          <TouchableOpacity onPress={this.getPhotoFromCatAPI} style={styles.button}>
+            <Icon name='cat' iconStyle={styles.icon} type='material-community'/>
           </TouchableOpacity>
         </View>
         <FlatList
           data={this.formatData(this.state.photos)}
-          renderItem={this.renderPhoto}
-          numColumns={3}
           keyExtractor={(_, index) => index}
+          numColumns={3}
           onEndReached={this.getMoreAlbumPhotos}
+          renderItem={this.renderPhoto}
         />
       </View>
     );
@@ -226,7 +229,7 @@ const EncodeNavigator = createStackNavigator({
   },
 
   EncodeImage: {
-    screen: EncodeImage,
+    screen: EncodeMessage,
     navigationOptions: {
       header: null,
       tabBarVisible: false,
@@ -236,6 +239,7 @@ const EncodeNavigator = createStackNavigator({
 
 EncodeNavigator.navigationOptions = ({ navigation }) => ({
   tabBarVisible: navigation.state.index === 0,
+  swipeEnabled: navigation.state.index === 0,
 });
 
 export default EncodeNavigator;

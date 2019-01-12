@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { Text, View } from 'react-native';
 import { Icon } from 'react-native-elements';
 
 import Header from '../components/Header';
@@ -16,15 +16,13 @@ export default class Settings extends Component {
   };
 
   static propTypes = {
-    navigation: PropTypes.shape({
-      navigate: PropTypes.func.isRequired,
-    }).isRequired,
+    navigation: PropTypes.object.isRequired,
   };
 
   render() {
     return (
       <View>
-        <Header navigation={this.props.navigation} color={colors.primary}/>
+        <Header color={colors.primary} navigation={this.props.navigation}/>
         <Text> Settings </Text>
       </View>
     );

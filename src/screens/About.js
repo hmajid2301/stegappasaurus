@@ -1,8 +1,14 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { Text, View, Image, Platform, ScrollView, StyleSheet } from 'react-native';
+import {
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import { Icon, List, ListItem } from 'react-native-elements';
-import { WebBrowser } from 'expo';
+import { StoreReview, WebBrowser } from 'expo';
 import Header from '../components/Header';
 import { colors, fonts } from '../util/styles';
 
@@ -11,10 +17,6 @@ const logo = require('../assets/images/logo.png');
 
 
 const icons = [
-  {
-    title: 'Version 0.1.0',
-    icon: null,
-  },
   {
     title: 'Fork this Project on GitHub',
     icon: {
@@ -41,15 +43,6 @@ const icons = [
       color: colors.iconBlack,
     },
     url: 'https://hmajid2301.github.io',
-  },
-  {
-    title: 'Rate the App',
-    icon: {
-      name: 'rate-review',
-      type: 'material-icons',
-      color: colors.iconBlack,
-    },
-    url: Platform.OS === 'ios' ? 'https://itunes.apple.com/us/genre/ios/id36?mt=8' : 'https://play.google.com/store?hl=en',
   },
 ];
 
@@ -92,42 +85,29 @@ export default class About extends Component {
   };
 
   static propTypes = {
-    navigation: PropTypes.shape({
-      navigate: PropTypes.func.isRequired,
-    }).isRequired,
+    navigation: PropTypes.object.isRequired,
   };
 
-  renderWithoutIcons = item => (
+  renderFAQItem = item => (
     <ListItem
-      key={item.title}
-      title={item.title}
-      hideChevron
-      titleStyle={styles.listItemNoIconText}
       containerStyle={styles.listItem}
       fontFamily={fonts.body}
-   />
-  );
-
-  renderWithIcons = item => (
-    <ListItem
+      hideChevron
       key={item.title}
-      title={item.title}
       leftIcon={{ ...item.icon }}
       onPress={() => WebBrowser.openBrowserAsync(item.url)}
-      hideChevron
-      containerStyle={styles.listItem}
-      fontFamily={fonts.body}
-   />
+      title={item.title}
+    />
   );
 
   render() {
     return (
       <View style={styles.container}>
         <ScrollView>
-          <Header navigation={this.props.navigation} color={colors.primary}/>
+          <Header color={colors.primary} navigation={this.props.navigation}/>
 
           <View style={styles.textContainer}>
-            <Image style={styles.logoImage} source={logo}/>
+            <Image source={logo} style={styles.logoImage}/>
             <Text style={styles.about}>
               This project involves implementing steganography algorithms. It allows users
               to hide messages within image files, using these algorithms.
@@ -143,11 +123,30 @@ export default class About extends Component {
 
           <View>
             <List containerStyle={styles.listContainer}>
+                <ListItem
+                  containerStyle={styles.listItem}
+                  fontFamily={fonts.body}
+                  key={'Version 0.1.0'}
+                  hideChevron
+                  title={'Version 0.1.0'}
+                  titleStyle={styles.listItemNoIconText}
+                />
+              
               {
                 icons.map(item => (
-                  item.icon === null ? this.renderWithoutIcons(item) : this.renderWithIcons(item)
+                  this.renderFAQItem(item)
                 ))
               }
+              
+              <ListItem
+                containerStyle={styles.listItem}
+                fontFamily={fonts.body}
+                hideChevron
+                key={'Rate the App'}
+                leftIcon={{ name: 'rate-review', type: 'material-icons', color: colors.iconBlack }}
+                onPress={() => StoreReview.requestReview()}
+                title={'Rate the app'}
+              />
             </List>
           </View>
         </ScrollView>

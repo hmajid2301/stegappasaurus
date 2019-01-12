@@ -1,15 +1,18 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { ScrollView, Text, View, TouchableOpacity, Image, StyleSheet, Dimensions } from 'react-native';
-import { Icon } from 'react-native-elements';
+import {
+  Dimensions,
+  Text,
+  TouchableOpacity,
+  ScrollView,
+  StyleSheet,
+  View,
+} from 'react-native';
 import Accordion from 'react-native-collapsible/Accordion';
-import MathJax from 'react-native-mathjax';
+import { Icon } from 'react-native-elements';
 
 import Header from '../components/Header';
 import { colors, fonts } from '../util/styles';
-
-
-const originalEncoded = require('../assets/images/faq/original.jpg');
 
 
 const faq = [
@@ -59,8 +62,8 @@ const faq = [
       'To find the maximum number of characters we can encode we must use the same equation above except we = 0 not > 0 and we will solve for "m". ' +
       'Let\'s say our image is 100 x 100, then we have 100 * 100 * 3 = 30,000 - 8 (for separator) = 29,992. So 29,992 = ceil(log2(m)) - 8m = 3747. ' +
       'So using the LSB algorithm we can encode a message with 3747 characters.\n\n' +
-      'Note: With LSB we only can encode one bit per byte of data, so that we don\'t completely change the colour of that pixel.',
-    equation: '<p>Equation 1</p>$3(h * w) - ceil(log_2 m) - 8m -8 > 0$',
+      'Note: With LSB we only can encode one bit per byte of data, so that we don\'t completely change the colour of that pixel.' +
+      'Equation 1: 3(h * w) - ceil(log2(m)) - 8m -8 > 0',
   },
   {
     title: 'Can you show me an example?',
@@ -73,9 +76,7 @@ const faq = [
   {
     title: 'Why can we only use one bit out of every byte?',
     content: 'If we used the entire byte, remember per pixel we get 3 bytes (one for each RGB item), we would drastically ' +
-      'chang the colour of image. As shown below in the image below on the left is the original and on the right in the encoded. ' +
-      'In this example instead change the last bit of every byte I replaced the whole byte as you can see it\'s very easy to spot the changes',
-    image: originalEncoded,
+      'change the colour of image.',
   },
 ];
 
@@ -130,9 +131,7 @@ export default class FAQ extends Component {
   };
 
   static propTypes = {
-    navigation: PropTypes.shape({
-      navigate: PropTypes.func.isRequired,
-    }).isRequired,
+    navigation: PropTypes.object.isRequired,
   };
 
   state = {
@@ -156,41 +155,28 @@ export default class FAQ extends Component {
     </View>
   );
 
-  renderContent = (section) => {
-    let math = null;
-    let image = null;
-
-    if (section.equation !== undefined) {
-      math = <MathJax html={section.equation}/>;
-    }
-    if (section.image !== undefined) {
-      image = <Image style={styles.image} source={section.image}/>;
-    }
-
-    const content = <View style={styles.sectionContentContainer}>
-                      <Text style={styles.sectionContent}>{section.content}</Text>
-                      {image}
-                      {math}
-                    </View>;
-    return content;
-  }
+  renderContent = section => (
+    <View style={styles.sectionContentContainer}>
+      <Text style={styles.sectionContent}>{section.content}</Text>
+    </View>
+  );
 
   render() {
     return (
       <View style={styles.container}>
         <ScrollView>
-          <Header navigation={this.props.navigation} color={colors.primary}/>
+          <Header color={colors.primary} navigation={this.props.navigation}/>
 
           <View style={styles.accordionContainer}>
             <Accordion
               activeSections={this.state.activeSections}
-              sections={faq}
-              touchableComponent={TouchableOpacity}
-              renderHeader={this.renderHeader}
-              renderContent={this.renderContent}
               duration={200}
               onChange={this.setSections}
-           />
+              renderContent={this.renderContent}
+              renderHeader={this.renderHeader}
+              sections={faq}
+              touchableComponent={TouchableOpacity}
+            />
           </View>
         </ScrollView>
       </View>
