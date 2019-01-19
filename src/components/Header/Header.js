@@ -1,24 +1,29 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { Header, Icon } from 'react-native-elements';
+import { Header, Left, Body, Icon } from 'native-base';
 
 import Logo from '../Logo';
 import styles from './styles';
 
 
 const CustomHeader = ({ navigation, color }) => (
-  <Header
-    leftComponent={<Icon name='menu' type='simple-line-icon' color={styles(color).icons.color} onPress={() => navigation.openDrawer()}/>}
-    centerComponent={<Logo/>}
-    outerContainerStyles={styles(color).outerHeaderContainer}
-    innerContainerStyles={styles(color).innerHeaderContainer}
- />
+  <Header style={styles(color).container}>
+    <Left>
+      <Icon
+        style={styles(color).icons}
+        name='menu'
+        onPress={() => navigation.openDrawer()}
+        type='SimpleLineIcons'
+      />
+    </Left>
+    <Body>
+      <Logo />
+    </Body>
+  </Header>
 );
 
 CustomHeader.propTypes = {
-  navigation: PropTypes.shape({
-    navigate: PropTypes.func.isRequired,
-  }).isRequired,
+  navigation: PropTypes.object.isRequired,
   color: PropTypes.string.isRequired,
 };
 

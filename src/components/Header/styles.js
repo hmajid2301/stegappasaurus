@@ -6,13 +6,12 @@ const styles = themeColor => StyleSheet.create({
   icons: {
     color: colors.iconBlack,
   },
-  outerHeaderContainer: {
+  container: {
+    paddingTop: 20,
+    height: 70,
     backgroundColor: colors.pureWhite,
     borderBottomWidth: 2,
     borderBottomColor: themeColor,
-  },
-  innerHeaderContainer: {
-    transform: [{ translateY: 10 }],
   },
 });
 

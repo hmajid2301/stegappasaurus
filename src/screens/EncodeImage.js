@@ -11,7 +11,7 @@ import {
   Share,
   View,
 } from 'react-native';
-import { Icon } from 'react-native-elements';
+import { Icon } from 'native-base';
 import PercentageCircle from 'react-native-percentage-circle';
 
 import { colors, fonts } from '../util/styles';
@@ -112,7 +112,7 @@ export default class EncodeImage extends Component {
 
   sendImageIcon = () => (
     <View>
-      <Icon name='send' type='font-awesome' size={48} />
+      <Icon name='send' type='FontAwesome' size={48} />
       <Text style={{ fontSize: 30 }}>Share Image</Text>
     </View>
   );

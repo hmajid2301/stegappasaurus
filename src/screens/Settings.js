@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { Text, View } from 'react-native';
-import { Icon } from 'react-native-elements';
+import { Icon } from 'native-base';
 
 import Header from '../components/Header';
 import { colors } from '../util/styles';
@@ -10,8 +10,8 @@ import { colors } from '../util/styles';
 export default class Settings extends Component {
   static navigationOptions = {
     drawerLabel: 'Settings',
-    drawerIcon: ({ tintColor }) => (
-      <Icon name='settings' type='material-community' color={tintColor}/>
+    drawerIcon: () => (
+      <Icon name='settings' type='MaterialCommunityIcons'/>
     ),
   };
 

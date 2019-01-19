@@ -7,7 +7,8 @@ export const styles = {
 export const fonts = {
   header: 'RobotoThin',
   body: 'RobotoLight',
-  body_xl: 'RobotoRegular',
+  body_xl: 'Roboto',
+  body_xxl: 'Roboto_medium',
 };
 
 export const colors = {
@@ -16,5 +17,4 @@ export const colors = {
   pureWhite: '#FFFFFF',
   iconBlack: '#222222',
   headerBlack: '#222222',
-  listGrey: '#EAF2FA',
 };

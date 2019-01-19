@@ -10,7 +10,7 @@ import {
   View,
 } from 'react-native';
 import { createStackNavigator } from 'react-navigation';
-import { Icon } from 'react-native-elements';
+import { Icon } from 'native-base';
 import { connect } from 'react-redux';
 import { ImagePicker, MediaLibrary, Permissions } from 'expo';
 
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
   button: {
     flex: 1,
     justifyContent: 'center',
-    height: (pageWidth / 3),
+    height: pageWidth / 3,
     backgroundColor: colors.primary,
     marginLeft: 2,
     marginTop: 2,
@@ -59,13 +59,15 @@ const styles = StyleSheet.create({
   },
 
   photos: {
-    height: (pageWidth / 3),
+    height: pageWidth / 3,
     marginLeft: 2,
     marginTop: 2,
   },
 
   icon: {
     color: colors.pureWhite,
+    textAlign: 'center',
+    fontSize: 38,
   },
 });
 
@@ -119,7 +121,7 @@ class Encoding extends Component {
     if (status === 'granted') {
       const result = await ImagePicker.launchCameraAsync();
       if (!result.cancelled) {
-        this.selectImage(result.uri);
+        this.selectPhotoToEncode(result.uri);
       }
     } else {
       throw new Error('Camera permission not granted');
@@ -131,7 +133,7 @@ class Encoding extends Component {
     if (status === 'granted') {
       const result = await ImagePicker.launchImageLibraryAsync();
       if (!result.cancelled) {
-        this.selectImage(result.uri);
+        this.selectPhotoToEncode(result.uri);
       }
     } else {
       throw new Error('Camera Roll permission not granted');
@@ -145,7 +147,7 @@ class Encoding extends Component {
     fetch(url)
       .then(response => response.json())
       .then((responseJson) => {
-        this.selectImage(responseJson[0].url);
+        this.selectPhotoToEncode(responseJson[0].url);
       })
       .catch();
 
@@ -154,7 +156,7 @@ class Encoding extends Component {
     }, 2000);
   }
 
-  getMoreAlbumPhotos = async () => {
+  getMorePhotosFromCameraRoll = async () => {
     const { assets, endCursor } = await MediaLibrary.getAssetsAsync({
       first: 9,
       sortBy: [MediaLibrary.SortBy.creationTime],
@@ -167,18 +169,21 @@ class Encoding extends Component {
     });
   }
 
-  renderPhoto = ({ item }) => {
+  renderPhotosFromCameraRoll = ({ item }) => {
     if (item.empty === true) {
       return <View/>;
     }
     return (
-      <TouchableOpacity onPress={() => this.selectImage(item.uri)} style={styles.photoButton}>
+      <TouchableOpacity
+        onPress={() => this.selectPhotoToEncode(item.uri)}
+        style={styles.photoButton}
+      >
         <Image source={{ uri: item.uri }} style={styles.photos}/>
       </TouchableOpacity>
     );
   }
 
-  selectImage = (uri) => {
+  selectPhotoToEncode = (uri) => {
     this.props.navigation.navigate('EncodeImage', { uri });
   }
 
@@ -195,21 +200,21 @@ class Encoding extends Component {
       <View styles={styles.container}>
         <View style={styles.buttonsRow}>
           <TouchableOpacity onPress={this.getPhotoFromCamera} style={styles.button}>
-            <Icon name='camera' iconStyle={styles.icon} type='font-awesome' />
+            <Icon name='camera' style={styles.icon} type='FontAwesome' />
           </TouchableOpacity>
           <TouchableOpacity onPress={this.getPhotoFromCameraRoll} style={styles.button}>
-            <Icon name='photo' iconStyle={styles.icon} type='font-awesome'/>
+            <Icon name='photo' style={styles.icon} type='FontAwesome'/>
           </TouchableOpacity>
           <TouchableOpacity onPress={this.getPhotoFromCatAPI} style={styles.button}>
-            <Icon name='cat' iconStyle={styles.icon} type='material-community'/>
+            <Icon name='cat' style={styles.icon} type='MaterialCommunityIcons'/>
           </TouchableOpacity>
         </View>
         <FlatList
           data={this.formatData(this.state.photos)}
           keyExtractor={(_, index) => index}
           numColumns={3}
-          onEndReached={this.getMoreAlbumPhotos}
-          renderItem={this.renderPhoto}
+          onEndReached={this.getMorePhotosFromCameraRoll}
+          renderItem={this.renderPhotosFromCameraRoll}
         />
       </View>
     );

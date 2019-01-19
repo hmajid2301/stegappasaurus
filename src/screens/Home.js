@@ -2,11 +2,11 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { createMaterialTopTabNavigator } from 'react-navigation';
-import { Icon } from 'react-native-elements';
+import { Icon } from 'native-base';
 import { connect } from 'react-redux';
 
 import Header from '../components/Header';
-import { colors } from '../util/styles';
+import { colors, fonts } from '../util/styles';
 import Encoding from './Encoding';
 import Decoding from './Decoding';
 
@@ -16,7 +16,7 @@ const commonTabOptions = color => ({
   pressColor: colors.pureWhite,
   inactiveTintColor: '#ddd',
   labelStyle: {
-    fontFamily: 'RobotoRegular',
+    fontFamily: fonts.body_xl,
     fontSize: 12,
   },
   indicatorStyle: {
@@ -55,8 +55,8 @@ const styles = StyleSheet.create({
 class Home extends Component {
   static navigationOptions = {
     drawerLabel: 'Home',
-    drawerIcon: ({ tintColor }) => (
-      <Icon name='home' type='font-awesome' color={tintColor}/>
+    drawerIcon: () => (
+      <Icon name='home' type='FontAwesome'/>
     ),
   };
 

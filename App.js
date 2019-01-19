@@ -8,7 +8,8 @@ import MainApp from './src/MainApp';
 
 const RobotoThin = require('./src/assets/fonts/Roboto-Thin.ttf');
 const RobotoLight = require('./src/assets/fonts/Roboto-Light.ttf');
-const RobotoRegular = require('./src/assets/fonts/Roboto-Regular.ttf');
+const Roboto = require('native-base/Fonts/Roboto.ttf');
+const RobotoMedium = require('native-base/Fonts/Roboto_medium.ttf');
 
 
 export default class App extends Component {
@@ -21,7 +22,8 @@ export default class App extends Component {
     await Font.loadAsync({
       RobotoThin,
       RobotoLight,
-      RobotoRegular,
+      Roboto,
+      Roboto_medium: RobotoMedium,
     });
     this.setState({ loading: false });
   }

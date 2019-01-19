@@ -3,13 +3,11 @@ import React, { Component } from 'react';
 import {
   Dimensions,
   Text,
-  TouchableOpacity,
   ScrollView,
   StyleSheet,
   View,
 } from 'react-native';
-import Accordion from 'react-native-collapsible/Accordion';
-import { Icon } from 'react-native-elements';
+import { Accordion, Content, Icon } from 'native-base';
 
 import Header from '../components/Header';
 import { colors, fonts } from '../util/styles';
@@ -62,8 +60,8 @@ const faq = [
       'To find the maximum number of characters we can encode we must use the same equation above except we = 0 not > 0 and we will solve for "m". ' +
       'Let\'s say our image is 100 x 100, then we have 100 * 100 * 3 = 30,000 - 8 (for separator) = 29,992. So 29,992 = ceil(log2(m)) - 8m = 3747. ' +
       'So using the LSB algorithm we can encode a message with 3747 characters.\n\n' +
-      'Note: With LSB we only can encode one bit per byte of data, so that we don\'t completely change the colour of that pixel.' +
-      'Equation 1: 3(h * w) - ceil(log2(m)) - 8m -8 > 0',
+      'Note: With LSB we only can encode one bit per byte of data, so that we don\'t completely change the colour of that pixel.\n\n' +
+      'Equation 1:\n\n 3(h * w) - ceil(log2(m)) - 8m -8 > 0',
   },
   {
     title: 'Can you show me an example?',
@@ -81,8 +79,17 @@ const faq = [
 ];
 
 const styles = StyleSheet.create({
-  sectionHeaderContainer: {
+  container: {
     flex: 1,
+    flexDirection: 'column',
+  },
+  accordionContainer: {
+    alignItems: 'stretch',
+    paddingTop: 5,
+  },
+  headerContainer: {
+    flex: 1,
+    flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
     height: 50,
@@ -95,29 +102,24 @@ const styles = StyleSheet.create({
   inactive: {
     backgroundColor: colors.secondary,
   },
-  sectionHeader: {
+  header: {
     color: colors.pureWhite,
     fontFamily: fonts.body,
   },
-  sectionContentContainer: {
+  iconContainer: {
+    position: 'absolute',
+    right: 10,
+  },
+  icon: {
+    color: colors.pureWhite,
+    fontSize: 12,
+  },
+  contentContainer: {
     paddingHorizontal: 20,
     paddingVertical: 20,
   },
-  sectionContent: {
+  content: {
     fontFamily: fonts.body,
-  },
-  container: {
-    flex: 1,
-    flexDirection: 'column',
-  },
-  accordionContainer: {
-    alignItems: 'stretch',
-    paddingTop: 20,
-  },
-  image: {
-    width: (Dimensions.get('window').width - 40),
-    height: 200,
-    resizeMode: 'contain',
   },
 });
 
@@ -125,8 +127,8 @@ const styles = StyleSheet.create({
 export default class FAQ extends Component {
   static navigationOptions = {
     drawerLabel: 'FAQ',
-    drawerIcon: ({ tintColor }) => (
-      <Icon name='question-circle' type='font-awesome' color={tintColor}/>
+    drawerIcon: () => (
+      <Icon name='question-circle' type='FontAwesome'/>
     ),
   };
 
@@ -134,30 +136,20 @@ export default class FAQ extends Component {
     navigation: PropTypes.object.isRequired,
   };
 
-  state = {
-    activeSections: [],
-    collapsed: true,
-  };
-
-  toggleExpanded = () => {
-    this.setState({ collapsed: !this.state.collapsed });
-  };
-
-  setSections = (sections) => {
-    this.setState({
-      activeSections: sections.includes(undefined) ? [] : sections,
-    });
-  };
-
-  renderHeader = (section, _, isActive) => (
-    <View style={[styles.sectionHeaderContainer, isActive ? styles.inactive : styles.active]}>
-      <Text style={styles.sectionHeader}>{section.title}</Text>
+  renderHeader = (item, expanded) => (
+    <View style={[styles.headerContainer, expanded ? styles.inactive : styles.active]}>
+      <Text style={styles.header}>{item.title}</Text>
+      <View style={styles.iconContainer}>
+        {expanded
+          ? <Icon style={styles.icon} type='FontAwesome' name='chevron-up' />
+          : <Icon style={styles.icon} type='FontAwesome' name='chevron-down' />}
+      </View>
     </View>
   );
 
-  renderContent = section => (
-    <View style={styles.sectionContentContainer}>
-      <Text style={styles.sectionContent}>{section.content}</Text>
+  renderContent = item => (
+    <View style={styles.contentContainer}>
+      <Text style={styles.content}>{item.content}</Text>
     </View>
   );
 
@@ -168,15 +160,13 @@ export default class FAQ extends Component {
           <Header color={colors.primary} navigation={this.props.navigation}/>
 
           <View style={styles.accordionContainer}>
-            <Accordion
-              activeSections={this.state.activeSections}
-              duration={200}
-              onChange={this.setSections}
-              renderContent={this.renderContent}
-              renderHeader={this.renderHeader}
-              sections={faq}
-              touchableComponent={TouchableOpacity}
-            />
+            <Content padder>
+              <Accordion
+                dataArray={faq}
+                renderContent={this.renderContent}
+                renderHeader={this.renderHeader}
+              />
+            </Content>
           </View>
         </ScrollView>
       </View>

@@ -5,9 +5,10 @@ import {
   ScrollView,
   StyleSheet,
   Text,
+  TouchableOpacity,
   View,
 } from 'react-native';
-import { Icon, List, ListItem } from 'react-native-elements';
+import { Body, Button, Icon, Left, List, ListItem } from 'native-base';
 import { StoreReview, WebBrowser } from 'expo';
 import Header from '../components/Header';
 import { colors, fonts } from '../util/styles';
@@ -18,37 +19,46 @@ const logo = require('../assets/images/logo.png');
 
 const icons = [
   {
+    title: 'Version 0.1.0',
+    icon: {
+      name: 'versions',
+      type: 'Octicons',
+    },
+    color: '#FF9501',
+    url: 'https://github.com/hmajid2301/Stegappasaurus',
+  },
+  {
     title: 'Fork this Project on GitHub',
     icon: {
       name: 'code-fork',
-      type: 'font-awesome',
-      color: colors.iconBlack,
+      type: 'FontAwesome',
     },
+    color: '#007CFE',
     url: 'https://github.com/hmajid2301/Stegappasaurus',
   },
   {
     title: 'Personal GitHub',
     icon: {
       name: 'github',
-      type: 'font-awesome',
-      color: colors.iconBlack,
+      type: 'FontAwesome',
     },
+    color: '#333333',
     url: 'https://github.com/hmajid2301',
   },
   {
     title: 'Personal Website',
     icon: {
       name: 'web',
-      type: 'material-community',
-      color: colors.iconBlack,
+      type: 'MaterialCommunityIcons',
     },
+    color: '#4CDA64',
     url: 'https://hmajid2301.github.io',
   },
 ];
 
 const styles = StyleSheet.create({
   listItem: {
-    borderBottomColor: colors.listGrey,
+    borderBottomColor: '#EAF2FA',
     borderBottomWidth: 1,
   },
   listItemNoIconText: {
@@ -70,17 +80,13 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     fontFamily: fonts.body,
   },
-  listContainer: {
-    borderTopWidth: 1,
-    borderTopColor: colors.listGrey,
-  },
 });
 
 export default class About extends Component {
   static navigationOptions = {
     drawerLabel: 'About Us',
-    drawerIcon: ({ tintColor }) => (
-      <Icon name='info' type='simple-line-icons' color={tintColor}/>
+    drawerIcon: () => (
+      <Icon name='info-circle' type='FontAwesome'/>
     ),
   };
 
@@ -89,15 +95,21 @@ export default class About extends Component {
   };
 
   renderFAQItem = item => (
-    <ListItem
-      containerStyle={styles.listItem}
-      fontFamily={fonts.body}
-      hideChevron
-      key={item.title}
-      leftIcon={{ ...item.icon }}
-      onPress={() => WebBrowser.openBrowserAsync(item.url)}
-      title={item.title}
-    />
+    <ListItem icon key={item.title}>
+      <Left>
+        <Button
+          onPress={() => WebBrowser.openBrowserAsync(item.url)}
+          style={{ backgroundColor: item.color }}
+        >
+          <Icon {...item.icon} />
+        </Button>
+      </Left>
+      <Body>
+        <TouchableOpacity onPress={() => WebBrowser.openBrowserAsync(item.url)}>
+          <Text>{item.title}</Text>
+        </TouchableOpacity>
+      </Body>
+    </ListItem>
   );
 
   render() {
@@ -122,31 +134,25 @@ export default class About extends Component {
           </View>
 
           <View>
-            <List containerStyle={styles.listContainer}>
-                <ListItem
-                  containerStyle={styles.listItem}
-                  fontFamily={fonts.body}
-                  key={'Version 0.1.0'}
-                  hideChevron
-                  title={'Version 0.1.0'}
-                  titleStyle={styles.listItemNoIconText}
-                />
-              
+            <List>
               {
                 icons.map(item => (
                   this.renderFAQItem(item)
                 ))
               }
-              
-              <ListItem
-                containerStyle={styles.listItem}
-                fontFamily={fonts.body}
-                hideChevron
-                key={'Rate the App'}
-                leftIcon={{ name: 'rate-review', type: 'material-icons', color: colors.iconBlack }}
-                onPress={() => StoreReview.requestReview()}
-                title={'Rate the app'}
-              />
+              <ListItem icon>
+                <Left>
+                  <Button
+                    onPress={() => StoreReview.requestReview()}
+                    style={{ backgroundColor: '#FD3C2D' }}
+                  >
+                    <Icon name='rate-review' type='MaterialIcons'/>
+                  </Button>
+                </Left>
+                <Body>
+                  <Text style={styles.body}>Rate the App</Text>
+                </Body>
+              </ListItem>
             </List>
           </View>
         </ScrollView>
