@@ -7,6 +7,7 @@ import {
   StyleSheet,
   Text,
   TextInput,
+  TouchableOpacity,
   Share,
   View,
 } from 'react-native';
@@ -85,6 +86,15 @@ export default class EncodeImage extends Component {
     navigation: PropTypes.object.isRequired,
   }
 
+  share = () => {
+    if (this.state.encoded === 100) {
+      Share.share({
+        url: this.state.photo,
+        message: this.state.photo,
+      });
+    }
+  }
+
   incrementCounter = () => {
     if (this.state.encoded < 100) {
       this.setState({ encoded: this.state.encoded + 1 });
@@ -100,37 +110,39 @@ export default class EncodeImage extends Component {
     }, 50);
   }
 
-  share = () => {
-    Share.share({
-      url: this.state.photo,
-      message: this.state.photo,
-    });
-  }
+  sendImageIcon = () => (
+    <View>
+      <Icon name='send' type='font-awesome' size={48} />
+      <Text style={{ fontSize: 30 }}>Share Image</Text>
+    </View>
+  );
+
+  encodedPercentage = () => (
+    <Text style={styles.textPercentage}>{this.state.encoded}%</Text>
+  );
 
   render() {
     if (this.state.isEncoding) {
       return (
         <View style={styles.encodeImageContainer}>
-          <PercentageCircle
-            radius={pageWidth * 0.325}
-            percent={this.state.encoded}
-            color={colors.primary}
-            borderWidth={7}
-          >
-            <ImageBackground
-              imageStyle={styles.circularImage}
-              source={{ uri: this.state.photo }}
-              style={styles.encodingImage}
+          <TouchableOpacity activeOpacity={0.8} onPress={() => this.share()}>
+            <PercentageCircle
+              borderWidth={7}
+              color={colors.primary}
+              percent={this.state.encoded}
+              radius={pageWidth * 0.325}
             >
-              <View style={styles.textPercentageContainer}>
-                {
-                  this.state.encoded === 100 ?
-                  (<Icon name='send' type='font-awesome' size={48} onPress={() => console.log('hello')}/>) :
-                  (<Text style={styles.textPercentage}>{this.state.encoded}%</Text>)
-                }
-              </View>
-            </ImageBackground>
-          </PercentageCircle>
+              <ImageBackground
+                imageStyle={styles.circularImage}
+                source={{ uri: this.state.photo }}
+                style={styles.encodingImage}
+              >
+                <View style={styles.textPercentageContainer}>
+                  { this.state.encoded === 100 ? this.sendImageIcon() : this.encodedPercentage() }
+                </View>
+              </ImageBackground>
+            </PercentageCircle>
+          </TouchableOpacity>
         </View>
       );
     }
