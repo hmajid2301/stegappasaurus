@@ -12,11 +12,11 @@ const MainNavigator = createDrawerNavigator({
   Home: {
     screen: Home,
   },
-  Settings: {
-    screen: Settings,
-  },
   About: {
     screen: About,
+  },
+  Settings: {
+    screen: Settings,
   },
   FAQ: {
     screen: FAQ,

@@ -21,7 +21,6 @@ import EncodeMessage from './EncodeImage';
 
 
 const pageWidth = Dimensions.get('window').width;
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,

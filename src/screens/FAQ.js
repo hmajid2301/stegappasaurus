@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import {
-  Dimensions,
   Text,
   ScrollView,
   StyleSheet,
@@ -127,8 +126,8 @@ const styles = StyleSheet.create({
 export default class FAQ extends Component {
   static navigationOptions = {
     drawerLabel: 'FAQ',
-    drawerIcon: () => (
-      <Icon name='question-circle' type='FontAwesome'/>
+    drawerIcon: ({ tintColor }) => (
+      <Icon name='question-circle' type='FontAwesome' style={{ color: tintColor }}/>
     ),
   };
 

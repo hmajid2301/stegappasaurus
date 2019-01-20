@@ -14,7 +14,7 @@ import Decoding from './Decoding';
 const commonTabOptions = color => ({
   activeTintColor: colors.pureWhite,
   pressColor: colors.pureWhite,
-  inactiveTintColor: '#ddd',
+  inactiveTintColor: '#DDD',
   labelStyle: {
     fontFamily: fonts.body_xl,
     fontSize: 12,
@@ -55,8 +55,8 @@ const styles = StyleSheet.create({
 class Home extends Component {
   static navigationOptions = {
     drawerLabel: 'Home',
-    drawerIcon: () => (
-      <Icon name='home' type='FontAwesome'/>
+    drawerIcon: ({ tintColor }) => (
+      <Icon name='home' type='FontAwesome' style={{ color: tintColor }}/>
     ),
   };
 

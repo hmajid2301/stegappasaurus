@@ -43,6 +43,8 @@ Any errors in your editor about paths not resolving take a look [here](https://g
 
 ## Other
 
+Design Inspired by: [PixelKnot](https://play.google.com/store/apps/details?id=info.guardianproject.pixelknot)
+
 ### Licenses :copyright:
 
 * Purchased stegstegosaurus dinosaur logo from [here](https://www.iconfinder.com/icons/380124/animal_big_experience_dino_paleontology_reptile_stegosaurus_zababa_icon#size=512)

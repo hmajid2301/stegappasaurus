@@ -14,7 +14,11 @@ export const fonts = {
 export const colors = {
   primary: '#009CFF',
   secondary: '#E88C0C',
-  pureWhite: '#FFFFFF',
-  iconBlack: '#222222',
-  headerBlack: '#222222',
+  pureWhite: '#FFF',
+  iconBlack: '#222',
+  iconBlue: '#007CFE',
+  iconGreen: '#4CDA64',
+  iconOrange: '#FF9501',
+  iconRed: '#FD3C2D',
+  iconLightGreen: '#25AE88',
 };
