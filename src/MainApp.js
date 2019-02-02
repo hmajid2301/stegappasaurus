@@ -1,33 +1,24 @@
-import { createAppContainer, createDrawerNavigator } from 'react-navigation';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import React, { Component } from 'react';
 
-import CustomDrawerNavigator from './components/CustomDrawerNavigator';
-import Settings from './screens/Settings';
-import About from './screens/About';
-import FAQ from './screens/FAQ';
-import Home from './screens/Home';
-import { colors } from './util/styles';
+import App from './Routes';
 
 
-const MainNavigator = createDrawerNavigator({
-  Home: {
-    screen: Home,
-  },
-  About: {
-    screen: About,
-  },
-  Settings: {
-    screen: Settings,
-  },
-  FAQ: {
-    screen: FAQ,
-  },
-}, {
-  contentComponent: CustomDrawerNavigator,
-  contentOptions: {
-    activeTintColor: colors.pureWhite,
-    activeBackgroundColor: colors.primary,
-  },
+class MainApp extends Component {
+  static propTypes = {
+    theme: PropTypes.object.isRequired,
+  }
+
+  render() {
+    return (
+      <App screenProps={{ theme: this.props.theme }}/>
+    );
+  }
+}
+
+const mapStateToProps = state => ({
+  theme: state.ToggleDarkTheme.theme,
 });
 
-const App = createAppContainer(MainNavigator);
-export default App;
+export default connect(mapStateToProps, null)(MainApp);

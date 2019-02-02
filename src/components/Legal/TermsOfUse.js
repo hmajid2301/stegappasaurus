@@ -134,7 +134,7 @@ export default class TermsOfUse extends Component {
         </Modal>
 
         <TouchableOpacity onPress={() => { this.setModalVisible(true); }}>
-          <Text style={styles.text}>Terms Of Use</Text>
+          <Text style={[styles.text, { color: this.props.theme.color }]}>Terms of Use</Text>
         </TouchableOpacity>
       </View>
     );

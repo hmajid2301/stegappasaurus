@@ -15,8 +15,8 @@ import { connect } from 'react-redux';
 import { ImagePicker, MediaLibrary, Permissions } from 'expo';
 
 import { colors } from '../util/styles';
-import { toggleTheme } from '../actions';
-import COLORS from '../themes';
+import { PRIMARY_COLORS } from '../util/constants';
+import { changePrimaryColor } from '../actions';
 import EncodeMessage from './EncodeImage';
 
 
@@ -82,12 +82,12 @@ class Encoding extends Component {
 
   static propTypes = {
     navigation: PropTypes.object.isRequired,
-    toggleTheme: PropTypes.func.isRequired,
+    changePrimaryColor: PropTypes.func.isRequired,
   }
 
   async componentDidMount() {
     this.props.navigation.addListener('willFocus', () => {
-      this.props.toggleTheme(COLORS.secondary);
+      this.props.changePrimaryColor(PRIMARY_COLORS.orange);
     });
 
     const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
@@ -101,6 +101,7 @@ class Encoding extends Component {
       throw new Error('Camera Roll permission not granted');
     }
   }
+
 
   formatData = (data) => {
     const numOfCols = 3;
@@ -196,7 +197,7 @@ class Encoding extends Component {
     }
 
     return (
-      <View styles={styles.container}>
+      <View style={[styles.container, { backgroundColor: this.props.screenProps.theme.backgroundColor }]}>
         <View style={styles.buttonsRow}>
           <TouchableOpacity onPress={this.getPhotoFromCamera} style={styles.button}>
             <Icon name='camera' style={styles.icon} type='FontAwesome' />
@@ -221,7 +222,7 @@ class Encoding extends Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  toggleTheme: color => dispatch(toggleTheme(color)),
+  changePrimaryColor: color => dispatch(changePrimaryColor(color)),
 });
 
 const EncodeNavigator = createStackNavigator({

@@ -61,8 +61,9 @@ class Home extends Component {
   };
 
   static propTypes = {
-    navigation: PropTypes.object.isRequired,
     color: PropTypes.object.isRequired,
+    navigation: PropTypes.object.isRequired,
+    theme: PropTypes.object.isRequired,
   };
 
   static router = CustomTabNavigator.router;
@@ -70,16 +71,23 @@ class Home extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Header color={this.props.color.hexCode} navigation={this.props.navigation} />
-        <CustomTabNavigator navigation={this.props.navigation}/>
+        <Header
+          color={this.props.color.hexCode}
+          navigation={this.props.navigation}
+          theme={this.props.theme}
+        />
+        <CustomTabNavigator
+          screenProps={{ theme: this.props.theme }}
+          navigation={this.props.navigation}
+        />
       </View>
     );
   }
 }
 
-
 const mapStateToProps = state => ({
-  color: state.ToggleTheme.colorData,
+  color: state.ChangePrimaryColor.colorData,
+  theme: state.ToggleDarkTheme.theme,
 });
 
 export default connect(mapStateToProps, null)(Home);

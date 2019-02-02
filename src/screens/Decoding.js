@@ -3,25 +3,25 @@ import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import { connect } from 'react-redux';
 
-import { toggleTheme } from '../actions';
-import COLORS from '../themes';
+import { changePrimaryColor } from '../actions';
+import { PRIMARY_COLORS } from '../util/constants';
 
 
 class Decoding extends Component {
   static propTypes = {
     navigation: PropTypes.object.isRequired,
-    toggleTheme: PropTypes.func.isRequired,
+    changePrimaryColor: PropTypes.func.isRequired,
   };
 
   componentDidMount() {
     this.props.navigation.addListener('willFocus', () => {
-      this.props.toggleTheme(COLORS.primary);
+      this.props.changePrimaryColor(PRIMARY_COLORS.blue);
     });
   }
 
   render() {
     return (
-      <View>
+      <View style={{ flex: 1, backgroundColor: 'black' }}>
         <Text> Decoding </Text>
       </View>
     );
@@ -29,7 +29,7 @@ class Decoding extends Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  toggleTheme: color => dispatch(toggleTheme(color)),
+  changePrimaryColor: color => dispatch(changePrimaryColor(color)),
 });
 
 export default connect(null, mapDispatchToProps)(Decoding);

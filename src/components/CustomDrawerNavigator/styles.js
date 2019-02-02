@@ -1,16 +1,25 @@
 import { StyleSheet } from 'react-native';
-import { colors } from '../../util/styles';
+import { fonts, colors } from '../../util/styles';
 
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   header: {
-    backgroundColor: colors.pureWhite,
     height: 70,
     paddingTop: 15,
     alignItems: 'center',
     justifyContent: 'center',
     borderBottomWidth: 2,
     borderBottomColor: colors.primary,
+  },
+  icons: {
+    width: 30,
+  },
+  text: {
+    fontFamily: fonts.body_xl,
+    fontWeight: 'normal',
   },
 });
 

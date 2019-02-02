@@ -1,7 +1,12 @@
 import { combineReducers } from 'redux';
-import ToggleTheme from './ToggleTheme';
+
+import ChangePrimaryColor from './ChangePrimaryColor';
+import SelectAlgorithm from './SelectAlgorithm';
+import ToggleDarkTheme from './ToggleDarkTheme';
 
 
 export default combineReducers({
-  ToggleTheme,
+  ChangePrimaryColor,
+  SelectAlgorithm,
+  ToggleDarkTheme,
 });

@@ -50,7 +50,7 @@ export default class Licenses extends Component {
         </Modal>
 
         <TouchableOpacity onPress={() => { this.setModalVisible(true); }}>
-          <Text style={styles.text}>Licenses</Text>
+          <Text style={[styles.text, { color: this.props.theme.color }]}>License</Text>
         </TouchableOpacity>
       </View>
     );

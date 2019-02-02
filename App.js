@@ -1,8 +1,9 @@
 import { Font, AppLoading } from 'expo';
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/lib/integration/react';
 
-import store from './src/store';
+import { persistor, store } from './src/store';
 import MainApp from './src/MainApp';
 
 
@@ -33,7 +34,9 @@ export default class App extends Component {
     }
     return (
       <Provider store={store}>
-        <MainApp/>
+        <PersistGate loading={null} persistor={persistor}>
+          <MainApp/>
+        </PersistGate>
       </Provider>
     );
   }

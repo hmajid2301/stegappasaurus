@@ -6,6 +6,7 @@ import {
   StyleSheet,
   View,
 } from 'react-native';
+import { connect } from 'react-redux';
 import { Accordion, Content, Icon } from 'native-base';
 
 import Header from '../components/Header';
@@ -92,7 +93,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     height: 50,
-    borderBottomColor: colors.pureWhite,
     borderBottomWidth: 1,
   },
   active: {
@@ -122,21 +122,21 @@ const styles = StyleSheet.create({
   },
 });
 
-
-export default class FAQ extends Component {
+class FAQ extends Component {
   static navigationOptions = {
     drawerLabel: 'FAQ',
     drawerIcon: ({ tintColor }) => (
-      <Icon name='question-circle' type='FontAwesome' style={{ color: tintColor }}/>
+      <Icon name='questioncircleo' type='AntDesign' style={{ color: tintColor }}/>
     ),
   };
 
   static propTypes = {
     navigation: PropTypes.object.isRequired,
+    theme: PropTypes.object.isRequired,
   };
 
   renderHeader = (item, expanded) => (
-    <View style={[styles.headerContainer, expanded ? styles.inactive : styles.active]}>
+    <View style={[styles.headerContainer, expanded ? styles.inactive : styles.active, { borderBottomColor: this.props.theme.backgroundColor }]}>
       <Text style={styles.header}>{item.title}</Text>
       <View style={styles.iconContainer}>
         {expanded
@@ -148,15 +148,19 @@ export default class FAQ extends Component {
 
   renderContent = item => (
     <View style={styles.contentContainer}>
-      <Text style={styles.content}>{item.content}</Text>
+      <Text style={[styles.content, { color: this.props.theme.color }]}>{item.content}</Text>
     </View>
   );
 
   render() {
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, { backgroundColor: this.props.theme.backgroundColor }]}>
         <ScrollView>
-          <Header color={colors.primary} navigation={this.props.navigation}/>
+          <Header
+            color={colors.primary}
+            navigation={this.props.navigation}
+            theme={this.props.theme}
+          />
 
           <View style={styles.accordionContainer}>
             <Content padder>
@@ -172,3 +176,11 @@ export default class FAQ extends Component {
     );
   }
 }
+
+
+const mapStateToProps = state => ({
+  theme: state.ToggleDarkTheme.theme,
+});
+
+export default connect(mapStateToProps, null)(FAQ);
+

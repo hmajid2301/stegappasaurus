@@ -10,6 +10,8 @@ import {
 } from 'react-native';
 import { Body, Button, Icon, Left, List, ListItem } from 'native-base';
 import { StoreReview, WebBrowser } from 'expo';
+import { connect } from 'react-redux';
+
 
 import Header from '../components/Header';
 import { colors, fonts } from '../util/styles';
@@ -66,6 +68,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 20,
   },
+  text: {
+    fontFamily: fonts.body,
+  },
   logoImage: {
     height: 50,
     width: 50,
@@ -76,16 +81,17 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class About extends Component {
+class About extends Component {
   static navigationOptions = {
     drawerLabel: 'About Us',
     drawerIcon: ({ tintColor }) => (
-      <Icon name='info-circle' type='FontAwesome' style={{ color: tintColor }}/>
+      <Icon name='info' type='Feather' style={{ color: tintColor }}/>
     ),
   };
 
   static propTypes = {
     navigation: PropTypes.object.isRequired,
+    theme: PropTypes.object.isRequired,
   };
 
   renderFAQItem = item => (
@@ -100,7 +106,7 @@ export default class About extends Component {
       </Left>
       <Body>
         <TouchableOpacity onPress={() => WebBrowser.openBrowserAsync(item.url)}>
-          <Text>{item.title}</Text>
+          <Text style={[styles.text, { color: this.props.theme.color }]}>{item.title}</Text>
         </TouchableOpacity>
       </Body>
     </ListItem>
@@ -108,13 +114,17 @@ export default class About extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <View style={[styles.container, { backgroundColor: this.props.theme.backgroundColor }]}>
         <ScrollView>
-          <Header color={colors.primary} navigation={this.props.navigation}/>
+          <Header
+            color={colors.primary}
+            navigation={this.props.navigation}
+            theme={this.props.theme}
+          />
 
           <View style={styles.textContainer}>
             <Image source={logo} style={styles.logoImage}/>
-            <Text style={styles.about}>
+            <Text style={[styles.about, { color: this.props.theme.color }]}>
               This project involves implementing steganography algorithms. It allows users
               to hide messages within image files, using these algorithms.
               It was originally developed using the Ionic/Apache Cordova framework.{'\n\n'}
@@ -146,7 +156,10 @@ export default class About extends Component {
                 </Left>
                 <Body>
                   <TouchableOpacity onPress={() => StoreReview.requestReview()}>
-                    <Text style={styles.body}>Rate the App</Text>
+                    <Text
+                      style={[styles.text, { color: this.props.theme.color }]}
+                    >
+                      Rate the App</Text>
                   </TouchableOpacity>
                 </Body>
               </ListItem>
@@ -158,3 +171,9 @@ export default class About extends Component {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  theme: state.ToggleDarkTheme.theme,
+});
+
+export default connect(mapStateToProps, null)(About);

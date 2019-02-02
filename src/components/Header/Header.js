@@ -6,18 +6,20 @@ import Logo from '../Logo';
 import styles from './styles';
 
 
-const CustomHeader = ({ navigation, color }) => (
-  <Header style={styles(color).container}>
+const CustomHeader = ({ navigation, color, theme }) => (
+  <Header
+    style={[styles.container, { borderBottomColor: color, backgroundColor: theme.backgroundColor }]}
+  >
     <Left>
       <Icon
-        style={styles(color).icons}
+        style={{ color: theme.color }}
         name='menu'
         onPress={() => navigation.openDrawer()}
         type='SimpleLineIcons'
       />
     </Left>
     <Body>
-      <Logo />
+      <Logo theme={theme}/>
     </Body>
   </Header>
 );
@@ -25,6 +27,7 @@ const CustomHeader = ({ navigation, color }) => (
 CustomHeader.propTypes = {
   navigation: PropTypes.object.isRequired,
   color: PropTypes.string.isRequired,
+  theme: PropTypes.object.isRequired,
 };
 
 export default CustomHeader;

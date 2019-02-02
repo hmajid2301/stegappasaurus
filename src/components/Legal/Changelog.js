@@ -57,7 +57,7 @@ export default class Changelog extends Component {
         </Modal>
 
         <TouchableOpacity onPress={() => { this.setModalVisible(true); }}>
-          <Text style={styles.text}>Changelog</Text>
+          <Text style={[styles.text, { color: this.props.theme.color }]}>Changelog</Text>
         </TouchableOpacity>
       </View>
     );

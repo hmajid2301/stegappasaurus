@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import { MailComposer } from 'expo';
 import React, { Component } from 'react';
 import { Text, TouchableOpacity, StyleSheet, View } from 'react-native';
+import { connect } from 'react-redux';
 import {
   Body,
   CheckBox,
@@ -12,6 +13,7 @@ import {
   Right,
 } from 'native-base';
 
+import { selectAlgorithm, toggleDarkTheme } from '../actions';
 import Header from '../components/Header';
 import { Changelog, Licenses, PrivatePolicy, TermsOfUse } from '../components/Legal';
 import { colors, fonts } from '../util/styles';
@@ -20,6 +22,7 @@ import { colors, fonts } from '../util/styles';
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: colors.pureWhite,
   },
   picker: {
     height: 30,
@@ -45,32 +48,21 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class Settings extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      algorithm: 'F5',
-      darkTheme: false,
-    };
-  }
-
+class Settings extends Component {
   static navigationOptions = {
     drawerLabel: 'Settings',
     drawerIcon: ({ tintColor }) => (
-      <Icon name='settings' type='MaterialCommunityIcons' style={{ color: tintColor }}/>
+      <Icon name='settings' type='Feather' style={{ color: tintColor }}/>
     ),
   };
 
   static propTypes = {
+    algorithm: PropTypes.string.isRequired,
     navigation: PropTypes.object.isRequired,
-  }
-
-  algorithmChange = (value) => {
-    this.setState({ algorithm: value });
-  }
-
-  toggleDarkTheme = () => {
-    this.setState({ darkTheme: !this.state.darkTheme });
+    darkTheme: PropTypes.bool.isRequired,
+    theme: PropTypes.object.isRequired,
+    selectAlgorithm: PropTypes.func.isRequired,
+    toggleDarkTheme: PropTypes.func.isRequired,
   }
 
   sendEmail = () => {
@@ -82,8 +74,12 @@ export default class Settings extends Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <Header color={colors.primary} navigation={this.props.navigation} />
+      <View style={[styles.container, { backgroundColor: this.props.theme.backgroundColor }]}>
+        <Header
+          color={colors.primary}
+          navigation={this.props.navigation}
+          theme={this.props.theme}
+        />
         <List>
 
           <ListItem itemHeader style={styles.itemHeader}>
@@ -92,16 +88,15 @@ export default class Settings extends Component {
 
           <ListItem noIndent>
             <Body>
-              <Text style={styles.itemText}>Encoding Algorithm</Text>
+              <Text style={[styles.itemText, { color: this.props.theme.color }]}>Encoding Algorithm</Text>
             </Body>
             <Right>
               <Picker
                 mode='dropdown'
                 note
-                onValueChange={value => this.algorithmChange(value)}
-                selectedValue={this.state.algorithm}
+                onValueChange={value => this.props.selectAlgorithm(value)}
+                selectedValue={this.props.algorithm}
                 style={styles.picker}
-                itemTextStyle={{ fontFamily: fonts.body }}
               >
                 <Picker.Item label='F5' value='F5'/>
                 <Picker.Item label='LSB PNG' value='LSB-PNG'/>
@@ -116,13 +111,13 @@ export default class Settings extends Component {
 
           <ListItem noIndent>
             <Body>
-              <Text style={styles.itemText}>Dark Mode</Text>
+              <Text style={[styles.itemText, { color: this.props.theme.color }]}>Dark Mode</Text>
             </Body>
             <Right style={styles.checkbox}>
               <CheckBox
-                checked={this.state.darkTheme}
+                checked={this.props.darkTheme}
                 color={colors.primary}
-                onPress={() => this.toggleDarkTheme()}
+                onPress={() => this.props.toggleDarkTheme(this.props.darkTheme)}
               />
             </Right>
           </ListItem>
@@ -132,15 +127,15 @@ export default class Settings extends Component {
           </ListItem>
 
           <ListItem noIndent>
-            <PrivatePolicy/>
+            <PrivatePolicy theme={this.props.theme}/>
           </ListItem>
 
           <ListItem noIndent>
-            <TermsOfUse/>
+            <TermsOfUse theme={this.props.theme}/>
           </ListItem>
 
           <ListItem noIndent>
-            <Licenses/>
+            <Licenses theme={this.props.theme}/>
           </ListItem>
 
           <ListItem itemHeader style={styles.itemHeader}>
@@ -148,13 +143,13 @@ export default class Settings extends Component {
           </ListItem>
 
           <ListItem noIndent>
-            <Changelog/>
+            <Changelog theme={this.props.theme}/>
           </ListItem>
 
           <ListItem noIndent>
             <Body>
               <TouchableOpacity onPress={() => this.sendEmail()}>
-                <Text style={styles.itemText}>Email</Text>
+                <Text style={[styles.itemText, { color: this.props.theme.color }]}>Email</Text>
                 <Text style={[styles.itemText, styles.itemTextUnder]}>me@haseebmajid.com</Text>
               </TouchableOpacity>
             </Body>
@@ -165,3 +160,16 @@ export default class Settings extends Component {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  algorithm: state.SelectAlgorithm.algorithm,
+  darkTheme: state.ToggleDarkTheme.theme.dark,
+  theme: state.ToggleDarkTheme.theme,
+});
+
+const mapDispatchToProps = dispatch => ({
+  selectAlgorithm: algorithm => dispatch(selectAlgorithm(algorithm)),
+  toggleDarkTheme: darkTheme => dispatch(toggleDarkTheme(darkTheme)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Settings);

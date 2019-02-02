@@ -155,7 +155,7 @@ export default class PrivatePolicy extends Component {
         </Modal>
 
         <TouchableOpacity onPress={() => { this.setModalVisible(true); }}>
-          <Text style={styles.text}>Private Policy</Text>
+          <Text style={[styles.text, { color: this.props.theme.color }]}>Private Policy</Text>
         </TouchableOpacity>
       </View>
     );

@@ -21,7 +21,8 @@
     "react-native-simple-markdown": "^1.1.0",
     "react-navigation": "3.0.9",
     "react-redux": "5.1.1",
-    "redux": "4.0.1"
+    "redux": "4.0.1",
+    "redux-persist": "^5.10.0"
   },
   "devDependencies": {
     "babel-eslint": "8.2.3",
