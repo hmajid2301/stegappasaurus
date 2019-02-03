@@ -1,6 +1,6 @@
 # Introduction
 
-![Logo](src/assets/images/logo.png)
+![Logo](src/assets/images/logo-light.png)
 
 ---------------------------------------------------------------------------------------------------
 

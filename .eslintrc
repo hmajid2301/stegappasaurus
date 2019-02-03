@@ -23,5 +23,10 @@
     "class-methods-use-this": "off",
     "import/newline-after-import": ["error", { "count": 2 }],
     "no-console": 0
+  },
+  "settings": {
+    "import/resolver": {
+      "babel-module": {}
+    }
   }
 }

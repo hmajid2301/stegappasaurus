@@ -6,10 +6,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
   },
+  
   text: {
     fontFamily: 'RobotoThin',
     fontSize: 20,
   },
+
   logo: {
     height: 25,
     width: 25,

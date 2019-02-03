@@ -5,19 +5,21 @@ import { Image, Text, View } from 'react-native';
 import styles from './styles';
 
 
-const logo = require('../../assets/images/logo.png');
+const logoDark = require('~/assets/images/logo-dark.png');
+const logoLight = require('~/assets/images/logo-light.png');
 
 
-const Logo = ({ theme }) => (
+const Logo = ({ color, isDark }) => (
   <View style={styles.container}>
-    <Text style={[styles.text, { color: theme.color }]}>Steg</Text>
-      <Image source={logo} style={styles.logo}/>
-    <Text style={[styles.text, { color: theme.color }]}>ppasaurus</Text>
+    <Text style={[styles.text, { color }]}>Steg</Text>
+    <Image source={isDark ? logoLight : logoDark} style={styles.logo} />
+    <Text style={[styles.text, { color }]}>ppasaurus</Text>
   </View>
 );
 
 Logo.propTypes = {
-  theme: PropTypes.object.isRequired,
+  color: PropTypes.string.isRequired,
+  isDark: PropTypes.bool.isRequired,
 };
 
 export default Logo;

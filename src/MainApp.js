@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import React, { Component } from 'react';
 
-import App from './Routes';
+import App from './views/Routes';
 
 
 class MainApp extends Component {

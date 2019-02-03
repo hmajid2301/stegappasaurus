@@ -3,19 +3,19 @@ import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/lib/integration/react';
 
-import { persistor, store } from './src/store';
-import MainApp from './src/MainApp';
+import { persistor, store } from '~/redux/store';
+import MainApp from '~/MainApp';
 
 
-const RobotoThin = require('./src/assets/fonts/Roboto-Thin.ttf');
-const RobotoLight = require('./src/assets/fonts/Roboto-Light.ttf');
+const RobotoThin = require('~/assets/fonts/Roboto-Thin.ttf');
+const RobotoLight = require('~/assets/fonts/Roboto-Light.ttf');
 const Roboto = require('native-base/Fonts/Roboto.ttf');
 const RobotoMedium = require('native-base/Fonts/Roboto_medium.ttf');
 
 
 export default class App extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = { loading: true };
   }
 
@@ -26,6 +26,7 @@ export default class App extends Component {
       Roboto,
       Roboto_medium: RobotoMedium,
     });
+
     this.setState({ loading: false });
   }
   render() {

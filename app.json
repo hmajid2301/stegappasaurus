@@ -8,7 +8,7 @@
     "platforms": ["ios", "android"],
     "version": "0.1.0",
     "orientation": "portrait",
-    "icon": "./src/assets/images/logo.png",
+    "icon": "./src/assets/images/logo-light.png",
     "splash": {
       "image": "./src/assets/images/splash.png",
       "resizeMode": "contain",
@@ -18,7 +18,7 @@
       "fallbackToCacheTimeout": 0
     },
     "assetBundlePatterns": [
-      "**/*"
+      "assets/**"
     ],
     "ios": {
       "supportsTablet": true
