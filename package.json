@@ -19,6 +19,7 @@
     "react-native-canvas": "0.1.25",
     "react-native-percentage-circle": "1.0.7",
     "react-native-simple-markdown": "1.1.0",
+    "react-native-snackbar-component": "1.1.0",
     "react-navigation": "3.0.9",
     "react-redux": "5.1.1",
     "redux": "4.0.1",

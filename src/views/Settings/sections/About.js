@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Text, TouchableOpacity } from 'react-native';
 
-import { Changelog } from './Modals';
+import { Changelog } from './modals';
 
 import styles from './styles';
 

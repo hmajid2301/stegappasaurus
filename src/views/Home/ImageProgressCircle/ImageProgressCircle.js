@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import SnackBar from 'react-native-snackbar-component';
 import PercentageCircle from 'react-native-percentage-circle';
 
 import styles from './styles';
@@ -36,9 +37,15 @@ export default class ImageProgressCircle extends Component {
 
   static propTypes = {
     action: PropTypes.func.isRequired,
+    message: PropTypes.string,
     photo: PropTypes.string.isRequired,
     primaryColor: PropTypes.string.isRequired,
-    theme: PropTypes.object.isRequired,
+    theme: PropTypes.shape({
+      isDark: PropTypes.bool.isRequired,
+      background: PropTypes.string.isRequired,
+      color: PropTypes.string.isRequired,
+    }),
+    snackAction: PropTypes.func,
   }
 
   incrementCounter = () => {
@@ -54,12 +61,12 @@ export default class ImageProgressCircle extends Component {
 
     return (
       <View style={[styles.encodeImageContainer, { backgroundColor: theme.background }]}>
-        <TouchableOpacity activeOpacity={0.8} onPress={() => this.share()}>
+        <TouchableOpacity activeOpacity={0.8}>
           <PercentageCircle
             borderWidth={5}
             color={this.props.primaryColor}
             percent={this.state.percentage}
-            radius={pageWidth * 0.31}
+            radius={pageWidth * 0.334}
           >
             <ImageBackground
               imageStyle={styles.circularImage}
@@ -72,6 +79,13 @@ export default class ImageProgressCircle extends Component {
             </ImageBackground>
           </PercentageCircle>
         </TouchableOpacity>
+        <SnackBar
+          autoHidingTime={2000}
+          actionHandler={() => this.props.snackAction()}
+          actionText={'OPEN'}
+          textMessage={this.props.message}
+          visible={this.state.percentage === 100}
+        />
       </View>
     );
   }

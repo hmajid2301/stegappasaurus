@@ -20,7 +20,13 @@ class Home extends Component {
 
   static propTypes = {
     navigation: PropTypes.object.isRequired,
-    screenProps: PropTypes.object.isRequired,
+    screenProps: PropTypes.shape({
+      theme: PropTypes.shape({
+        isDark: PropTypes.bool.isRequired,
+        background: PropTypes.string.isRequired,
+        color: PropTypes.string.isRequired,
+      }),
+    }),
     primaryColor: PropTypes.string.isRequired,
   };
 
@@ -32,7 +38,7 @@ class Home extends Component {
     return (
       <View style={styles.container}>
         <CustomHeader
-          color={this.props.primaryColor}
+          primaryColor={this.props.primaryColor}
           navigation={this.props.navigation}
           theme={theme}
         />

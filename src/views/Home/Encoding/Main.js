@@ -30,7 +30,13 @@ class Main extends Component {
 
   static propTypes = {
     navigation: PropTypes.object.isRequired,
-    screenProps: PropTypes.object.isRequired,
+    screenProps: PropTypes.shape({
+      theme: PropTypes.shape({
+        isDark: PropTypes.bool.isRequired,
+        background: PropTypes.string.isRequired,
+        color: PropTypes.string.isRequired,
+      }),
+    }),
     togglePrimaryColor: PropTypes.func.isRequired,
   }
 
@@ -159,13 +165,15 @@ class Main extends Component {
             <Icon name='cat' style={styles.icon} type='MaterialCommunityIcons'/>
           </TouchableOpacity>
         </View>
-        <FlatList
-          data={this.padData(this.state.photos)}
-          keyExtractor={(_, index) => index}
-          numColumns={3}
-          onEndReached={this.getMorePhotosFromCameraRoll}
-          renderItem={this.renderPhotosFromCameraRoll}
-        />
+        <View style={styles.photoListContainer}>
+          <FlatList
+            data={this.padData(this.state.photos)}
+            keyExtractor={(_, index) => index}
+            numColumns={3}
+            onEndReached={this.getMorePhotosFromCameraRoll}
+            renderItem={this.renderPhotosFromCameraRoll}
+          />
+        </View>
       </View>
     );
   }

@@ -40,7 +40,7 @@ export default class Settings extends Component {
     return (
       <View style={[styles.container, { backgroundColor: theme.background }]}>
         <CustomHeader
-          color={colors.primary}
+          primaryColor={colors.primary}
           navigation={this.props.navigation}
           theme={theme}
         />

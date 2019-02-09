@@ -8,8 +8,17 @@ import styles from './styles';
 
 export default class AccordionList extends Component {
   static propTypes = {
-    faq: PropTypes.array.isRequired,
-    theme: PropTypes.object.isRequired,
+    faq: PropTypes.arrayOf(
+      PropTypes.shape({
+        title: PropTypes.string.isRequired,
+        content: PropTypes.string.isRequired,
+      }),
+    ).isRequired,
+    theme: PropTypes.shape({
+      isDark: PropTypes.bool.isRequired,
+      background: PropTypes.string.isRequired,
+      color: PropTypes.string.isRequired,
+    }),
   };
 
   renderHeader = (item, expanded) => (

@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import { Text } from 'react-native';
 
-import { License, PrivatePolicy, TermsOfUse } from './Modals';
+import { License, PrivatePolicy, TermsOfUse } from './modals';
 
 import styles from './styles';
 

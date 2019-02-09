@@ -7141,6 +7141,13 @@ react-native-simple-markdown@1.1.0:
     lodash "^4.15.0"
     simple-markdown "git://github.com/CharlesMangwa/simple-markdown.git"
 
+react-native-snackbar-component@1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/react-native-snackbar-component/-/react-native-snackbar-component-1.1.0.tgz#51be4ab92e004d20010a1a8de0e269c0a3feaa5d"
+  integrity sha512-fV6X6ejVqQhqvrtAGsxn2cMKskbv5s0ZkcMfW2wiUa+Zaobk/otds+vEwRDQivfk1RST4UfCqDJtMbnMwYAS0w==
+  dependencies:
+    prop-types "^15.6.0"
+
 react-native-svg@8.0.10:
   version "8.0.10"
   resolved "https://registry.yarnpkg.com/react-native-svg/-/react-native-svg-8.0.10.tgz#b07e2342d1486220f5fda1a584e316e7d2d1f392"

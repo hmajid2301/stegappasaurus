@@ -6,9 +6,10 @@ import Logo from '~/components/Logo';
 import styles from './styles';
 
 
-const CustomHeader = ({ color, navigation, theme }) => (
+const CustomHeader = ({ navigation, primaryColor, theme }) => (
   <Header
-    style={[styles.container, { borderBottomColor: color, backgroundColor: theme.background }]}
+    style={[styles.container,
+    { borderBottomColor: primaryColor, backgroundColor: theme.background }]}
   >
     <Left>
       <Icon
@@ -25,9 +26,13 @@ const CustomHeader = ({ color, navigation, theme }) => (
 );
 
 CustomHeader.propTypes = {
-  color: PropTypes.string.isRequired,
   navigation: PropTypes.object.isRequired,
-  theme: PropTypes.object.isRequired,
+  primaryColor: PropTypes.string.isRequired,
+  theme: PropTypes.shape({
+    isDark: PropTypes.bool.isRequired,
+    background: PropTypes.string.isRequired,
+    color: PropTypes.string.isRequired,
+  }),
 };
 
 export default CustomHeader;

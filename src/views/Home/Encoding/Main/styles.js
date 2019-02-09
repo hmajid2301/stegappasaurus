@@ -24,10 +24,6 @@ const styles = StyleSheet.create({
     marginRight: 2,
   },
 
-  photoContainer: {
-    marginRight: 2,
-  },
-
   button: {
     backgroundColor: colors.primary,
     flex: 1,
@@ -39,12 +35,20 @@ const styles = StyleSheet.create({
 
   icon: {
     color: colors.pureWhite,
-    fontSize: 50,
+    fontSize: 40,
     textAlign: 'center',
   },
 
   photoButton: {
     flex: 1,
+  },
+
+  photoListContainer: {
+    marginRight: 2,
+  },
+
+  photoContainer: {
+    marginTop: 2,
   },
 
   photos: {

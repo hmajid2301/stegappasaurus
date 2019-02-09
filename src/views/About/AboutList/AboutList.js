@@ -49,7 +49,18 @@ const AboutList = ({ color, icons }) => (
 
 AboutList.propTypes = {
   color: PropTypes.string.isRequired,
-  icons: PropTypes.array.isRequired,
+  icons: PropTypes.arrayOf(
+    PropTypes.shape({
+      title: PropTypes.string.isRequired,
+      icon: PropTypes.shape({
+        name: PropTypes.string.name.isRequired,
+        type: PropTypes.string,
+      }),
+      color: PropTypes.string.isRequired,
+      url: PropTypes.string,
+      function: PropTypes.string,
+    }),
+  ).isRequired,
 };
 
 export default AboutList;

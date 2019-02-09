@@ -13,12 +13,12 @@ const styles = StyleSheet.create({
   },
 
   circularImage: {
-    borderRadius: pageWidth * 0.6,
+    borderRadius: pageWidth * 0.666,
   },
 
   encodingImage: {
-    width: pageWidth * 0.6,
-    height: pageWidth * 0.6,
+    width: pageWidth * 0.666,
+    height: pageWidth * 0.666,
   },
 
   textPercentageContainer: {

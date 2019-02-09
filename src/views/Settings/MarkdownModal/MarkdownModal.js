@@ -25,7 +25,11 @@ class MarkdownModal extends Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
     name: PropTypes.string.isRequired,
-    theme: PropTypes.object.isRequired,
+    theme: PropTypes.shape({
+      isDark: PropTypes.bool.isRequired,
+      background: PropTypes.string.isRequired,
+      color: PropTypes.string.isRequired,
+    }),
   };
 
   setModalVisible(visible) {

@@ -21,7 +21,13 @@ export default class FAQ extends Component {
 
   static propTypes = {
     navigation: PropTypes.object.isRequired,
-    screenProps: PropTypes.object.isRequired,
+    screenProps: PropTypes.shape({
+      theme: PropTypes.shape({
+        isDark: PropTypes.bool.isRequired,
+        background: PropTypes.string.isRequired,
+        color: PropTypes.string.isRequired,
+      }),
+    }),
   };
 
   render() {
@@ -31,7 +37,7 @@ export default class FAQ extends Component {
       <View style={[styles.container, { backgroundColor: theme.background }]}>
         <ScrollView>
           <CustomHeader
-            color={colors.primary}
+            primaryColor={colors.primary}
             navigation={this.props.navigation}
             theme={theme}
           />

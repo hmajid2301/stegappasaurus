@@ -47,4 +47,4 @@ Design Inspired by: [PixelKnot](https://play.google.com/store/apps/details?id=in
 
 ### Licenses :copyright:
 
-* Purchased stegstegosaurus dinosaur logo from [here](https://www.iconfinder.com/icons/380124/animal_big_experience_dino_paleontology_reptile_stegosaurus_zababa_icon#size=512)
+* Purchased stegosaurus dinosaur logo from [here](https://www.iconfinder.com/icons/380124/animal_big_experience_dino_paleontology_reptile_stegosaurus_zababa_icon#size=512)
