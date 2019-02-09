@@ -34,7 +34,7 @@ class Main extends Component {
     togglePrimaryColor: PropTypes.func.isRequired,
   }
 
-  async componentDidMount() {
+  componentDidMount = async () => {
     this.props.navigation.addListener('willFocus', () => {
       this.props.togglePrimaryColor(PRIMARY_COLORS.ORANGE.name);
     });

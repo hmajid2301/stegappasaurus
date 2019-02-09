@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
 
   icon: {
     color: colors.pureWhite,
-    fontSize: 38,
+    fontSize: 50,
     textAlign: 'center',
   },
 

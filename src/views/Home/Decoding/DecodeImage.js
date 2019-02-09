@@ -1,21 +1,19 @@
-import { Icon } from 'native-base';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import { Share, Text, View } from 'react-native';
 
 import ImageMessage from '~/views/Home/ImageMessage';
 import ImageProgressCircle from '~/views/Home/ImageProgressCircle';
 import { colors } from '~/util/styles';
 
 
-export default class EncodeImage extends Component {
+export default class DecodeImage extends Component {
   constructor(props) {
     const { navigation } = props;
     const uri = navigation.getParam('uri', 'NO-ID');
 
     super(props);
     this.state = {
-      isEncoding: false,
+      isDecoded: false,
       photo: uri,
     };
   }
@@ -25,28 +23,26 @@ export default class EncodeImage extends Component {
     screenProps: PropTypes.object.isRequired,
   }
 
-  isEncoding = () => {
-    this.setState({ isEncoding: true });
-  }
-
-  encoded = () => {
-    console.log('hello');
+  decoded = () => {
+    this.setState({ isDecoded: true });
   }
 
   render() {
     const { theme } = this.props.screenProps;
-    if (this.state.isEncoding) {
+
+    if (this.state.isDecoded) {
       return (
-        <ImageProgressCircle
-          action={this.encoded}
-          photo={this.state.photo}
-          primaryColor={colors.primary}
-          theme={theme}
-        />
+      <ImageMessage message={'Temp'} photo={this.state.photo}/>
       );
     }
+
     return (
-      <ImageMessage action={this.isEncoding} photo={this.state.photo}/>
+      <ImageProgressCircle
+        action={this.decoded}
+        photo={this.state.photo}
+        primaryColor={colors.secondary}
+        theme={theme}
+      />
     );
   }
 }

@@ -1,39 +1,29 @@
-import PropTypes from 'prop-types';
-import React, { Component } from 'react';
-import { View, Text } from 'react-native';
-import { connect } from 'react-redux';
+import { createStackNavigator } from 'react-navigation';
 
-import { togglePrimaryColor } from '~/redux/actions';
-import { PRIMARY_COLORS } from '~/util/constants';
-
-import styles from './Decoding/styles';
+import Main from './Decoding/Main';
+import DecodeImage from './Decoding/DecodeImage';
 
 
-class Decoding extends Component {
-  static propTypes = {
-    navigation: PropTypes.object.isRequired,
-    screenProps: PropTypes.object.isRequired,
-    togglePrimaryColor: PropTypes.func.isRequired,
-  };
+const DecodeNavigator = createStackNavigator({
+  Main: {
+    screen: Main,
+    navigationOptions: {
+      header: null,
+    },
+  },
 
-  componentDidMount() {
-    this.props.navigation.addListener('willFocus', () => {
-      this.props.togglePrimaryColor(PRIMARY_COLORS.BLUE.name);
-    });
-  }
-
-  render() {
-    const { theme } = this.props.screenProps;
-    return (
-      <View style={[styles.container, { backgroundColor: theme.background }]}>
-        <Text> Decoding </Text>
-      </View>
-    );
-  }
-}
-
-const mapDispatchToProps = dispatch => ({
-  togglePrimaryColor: color => dispatch(togglePrimaryColor(color)),
+  DecodeImage: {
+    screen: DecodeImage,
+    navigationOptions: {
+      header: null,
+      tabBarVisible: false,
+    },
+  },
 });
 
-export default connect(null, mapDispatchToProps)(Decoding);
+DecodeNavigator.navigationOptions = ({ navigation }) => ({
+  tabBarVisible: navigation.state.index === 0,
+  swipeEnabled: navigation.state.index === 0,
+});
+
+export default DecodeNavigator;

@@ -13,13 +13,21 @@ import styles from './styles';
 export default class ImageMessage extends Component {
   constructor(props) {
     super(props);
+
+    let editable = true;
+    if (this.props.message) {
+      editable = false;
+    }
+
     this.state = {
       message: '',
+      editable,
     };
   }
 
   static propTypes = {
-    action: PropTypes.func.isRequired,
+    action: PropTypes.func,
+    message: PropTypes.string,
     photo: PropTypes.string.isRequired,
   }
 
@@ -32,10 +40,11 @@ export default class ImageMessage extends Component {
               autoFocus={true}
               blurOnSubmit={true}
               enablesReturnKeyAutomatically={true}
+              editable={this.state.editable}
               multiline={true}
               onChangeText={message => this.setState({ message })}
               onSubmitEditing={this.props.action}
-              placeholder='Enter your message here....'
+              placeholder={this.props.message ? this.props.message : 'Enter your message here....'}
               style={styles.userMessage}
               underlineColorAndroid='transparent'
             />

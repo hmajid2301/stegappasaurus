@@ -1,4 +1,3 @@
-import { Icon } from 'native-base';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import {
@@ -6,12 +5,9 @@ import {
   ImageBackground,
   Text,
   TouchableOpacity,
-  Share,
   View,
 } from 'react-native';
 import PercentageCircle from 'react-native-percentage-circle';
-
-import { colors } from '~/util/styles';
 
 import styles from './styles';
 
@@ -22,42 +18,36 @@ export default class ImageProgressCircle extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      encoded: 0,
+      percentage: 0,
     };
   }
 
-  static propTypes = {
-    photo: PropTypes.string.isRequired,
-    theme: PropTypes.object.isRequired,
+  componentDidMount = () => {
+    this.interval = setInterval(() => {
+      this.incrementCounter();
+    }, 50);
   }
 
-  share = () => {
-    if (this.state.encoded === 100) {
-      Share.share({
-        url: this.state.photo,
-        message: this.state.photo,
-      });
+  componentDidUpdate = () => {
+    if (this.state.percentage === 100) {
+      this.props.action();
     }
   }
 
+  static propTypes = {
+    action: PropTypes.func.isRequired,
+    photo: PropTypes.string.isRequired,
+    primaryColor: PropTypes.string.isRequired,
+    theme: PropTypes.object.isRequired,
+  }
+
   incrementCounter = () => {
-    if (this.state.encoded < 100) {
-      this.setState({ encoded: this.state.encoded + 1 });
+    if (this.state.percentage < 100) {
+      this.setState({ percentage: this.state.percentage + 1 });
     } else {
       clearInterval(this.interval);
     }
   }
-
-  sendImageIcon = () => (
-    <View>
-      <Icon name='send' type='FontAwesome' size={48} />
-      <Text style={{ fontSize: 30 }}>Share Image</Text>
-    </View>
-  );
-
-  encodedPercentage = () => (
-    <Text style={styles.textPercentage}>{this.state.encoded}%</Text>
-  );
 
   render() {
     const { theme } = this.props;
@@ -66,9 +56,9 @@ export default class ImageProgressCircle extends Component {
       <View style={[styles.encodeImageContainer, { backgroundColor: theme.background }]}>
         <TouchableOpacity activeOpacity={0.8} onPress={() => this.share()}>
           <PercentageCircle
-            borderWidth={7}
-            color={colors.primary}
-            percent={this.state.encoded}
+            borderWidth={5}
+            color={this.props.primaryColor}
+            percent={this.state.percentage}
             radius={pageWidth * 0.31}
           >
             <ImageBackground
@@ -77,7 +67,7 @@ export default class ImageProgressCircle extends Component {
               style={styles.encodingImage}
             >
               <View style={styles.textPercentageContainer}>
-                {this.state.encoded === 100 ? this.sendImageIcon() : this.encodedPercentage()}
+                <Text style={styles.textPercentage}>{this.state.percentage}%</Text>
               </View>
             </ImageBackground>
           </PercentageCircle>
