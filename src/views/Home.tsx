@@ -1,4 +1,3 @@
-import { Icon } from "native-base";
 import React, { Component } from "react";
 import { View } from "react-native";
 import { NavigationScreenProp } from "react-navigation";
@@ -21,18 +20,7 @@ interface IProps {
   primaryColor: string;
 }
 
-interface IColor {
-  tintColor: string;
-}
-
 class Home extends Component<IProps, {}> {
-  public static navigationOptions = {
-    drawerIcon: ({ tintColor }: IColor) => (
-      <Icon name="home" type="FontAwesome" style={{ color: tintColor }} />
-    ),
-    drawerLabel: "Home"
-  };
-
   public static router = CustomTabNavigator.router;
 
   public render() {

@@ -1,4 +1,3 @@
-import { Icon } from "native-base";
 import React, { Component } from "react";
 import { ScrollView, Text, View } from "react-native";
 import { NavigationScreenProp } from "react-navigation";
@@ -20,18 +19,7 @@ interface IProps {
   };
 }
 
-interface IColor {
-  tintColor: string;
-}
-
 export default class About extends Component<IProps, {}> {
-  public static navigationOptions = {
-    drawerIcon: ({ tintColor }: IColor) => (
-      <Icon name="info" type="Feather" style={{ color: tintColor }} />
-    ),
-    drawerLabel: "About Us"
-  };
-
   public render() {
     const { theme } = this.props.screenProps;
 

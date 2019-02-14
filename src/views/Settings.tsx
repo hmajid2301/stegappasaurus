@@ -1,5 +1,5 @@
 import { MailComposer } from "expo";
-import { Icon, List } from "native-base";
+import { List } from "native-base";
 import React, { Component } from "react";
 import { View } from "react-native";
 import { NavigationScreenProp } from "react-navigation";
@@ -21,18 +21,7 @@ interface IProps {
   };
 }
 
-interface IColor {
-  tintColor: string;
-}
-
 export default class Settings extends Component<IProps, {}> {
-  public static navigationOptions = {
-    drawerIcon: ({ tintColor }: IColor) => (
-      <Icon name="settings" type="Feather" style={{ color: tintColor }} />
-    ),
-    drawerLabel: "Settings"
-  };
-
   public render() {
     const { theme } = this.props.screenProps;
 
