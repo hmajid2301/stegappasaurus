@@ -1,8 +1,10 @@
-# Introduction
+[![coverage report](https://gitlab.com/hmajid2301/stegappasaurus/badges/master/coverage.svg)](https://gitlab.com/hmajid2301/stegappasaurus/commits/master)
+
+[![pipeline status](https://gitlab.com/hmajid2301/stegappasaurus/badges/master/pipeline.svg)](https://gitlab.com/hmajid2301/stegappasaurus/commits/master)
 
 ![Logo](src/assets/images/logo-light.png)
 
----------------------------------------------------------------------------------------------------
+# Introduction
 
 This is a mobile app made with React Native and Expo. The app allows user to encode and decode messages within images using
 Steganography. This is a rewrite of my dissertation project, written in my third year of university.
@@ -47,4 +49,4 @@ Design Inspired by: [PixelKnot](https://play.google.com/store/apps/details?id=in
 
 ### Licenses :copyright:
 
-* Purchased stegosaurus dinosaur logo from [here](https://www.iconfinder.com/icons/380124/animal_big_experience_dino_paleontology_reptile_stegosaurus_zababa_icon#size=512)
+- Purchased stegosaurus dinosaur logo from [here](https://www.iconfinder.com/icons/380124/animal_big_experience_dino_paleontology_reptile_stegosaurus_zababa_icon#size=512)

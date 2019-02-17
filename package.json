@@ -4,7 +4,9 @@
   "scripts": {
     "start": "expo-cli start",
     "lint": "tslint src/**/*.{tx,tsx}",
-    "test": "jest"
+    "test": "jest",
+    "lint-critical": "prettier --check src/**/*.{tx,tsx}",
+    "tsc-test": "tsc --project . --noEmit"
   },
   "dependencies": {
     "@expo/vector-icons": "9.0.0",
@@ -30,17 +32,45 @@
     "typescript": "3.3.3"
   },
   "devDependencies": {
-    "@types/jest": "24.0.0",
-    "@types/react-test-renderer": "16.8.0",
+    "@types/jest": "24.0.5",
+    "@types/react-test-renderer": "16.8.1",
     "babel-plugin-module-resolver": "3.1.3",
-    "jest": "24.1.0",
+    "jest": "23.0.0",
+    "jest-expo": "32.0.0",
     "prettier": "1.16.4",
     "react-native-typescript-transformer": "1.2.11",
+    "react-test-renderer": "16.8.2",
     "ts-jest": "23.10.5",
     "tslib": "1.9.3",
     "tslint": "5.12.1",
     "tslint-config-prettier": "1.18.0",
     "tslint-config-standard": "8.0.1",
     "tslint-react": "3.6.0"
+  },
+  "jest": {
+    "preset": "jest-expo",
+    "transform": {
+      "^.+\\.js$": "<rootDir>/node_modules/react-native/jest/preprocessor.js",
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testMatch": [
+      "**/__tests__/**/*.ts?(x)",
+      "**/?(*.)+(spec|test).ts?(x)"
+    ],
+    "modulePathIgnorePatterns": [
+      ".history"
+    ],
+    "moduleFileExtensions": [
+      "js",
+      "ts",
+      "tsx"
+    ],
+    "globals": {
+      "ts-jest": {
+        "tsConfig": {
+          "jsx": "react"
+        }
+      }
+    }
   }
 }

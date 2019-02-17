@@ -1,11 +1,53 @@
-image: node
+image: node:alpine
 
 stages:
   - test
+  - build
+  - publish
 
-linting:
+cache:
+  key: ${CI_COMMIT_REF_SLUG}
+  paths:
+    - ~/.npm
+    - .jest
+
+before_script:
+  - yarn
+
+lint:
   stage: test
   only:
-    - develop
+    - master
+  before_script:
+    - yarn
   script:
-    - echo "hello"
+    - yarn lint
+
+lint:critical:
+  stage: test
+  only:
+    - master
+  script:
+    - yarn lint-critical
+
+typescript-compilation:
+  stage: test
+  only:
+    - master
+  script:
+    - yarn tsc-test
+
+unit-tests:
+  stage: test
+  only:
+    - master
+  script:
+    - yarn jest
+
+publish_app:
+  stage: publish
+  only:
+    - /^release/.*$/
+  script:
+    - expo login -u $PROJECT_USERNAME -p $PROJECT_PASSWORD
+    - expo --non-interactive publish
