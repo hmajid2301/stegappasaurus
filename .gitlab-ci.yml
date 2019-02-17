@@ -1,6 +1,7 @@
 image: node:alpine
 
 stages:
+  - open_mr
   - test
   - build
   - publish
@@ -13,6 +14,18 @@ cache:
 
 before_script:
   - yarn
+
+Open Merge Request:
+  image: tmaier/gitlab-auto-merge-request
+  stage: open_mr
+  before_script: []
+  variables:
+    GIT_STRATEGY: none
+  except:
+    - master
+    - production
+  script:
+    - merge-request.sh
 
 lint:
   stage: test

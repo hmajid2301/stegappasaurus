@@ -1,8 +1,24 @@
-[![coverage report](https://gitlab.com/hmajid2301/stegappasaurus/badges/master/coverage.svg)](https://gitlab.com/hmajid2301/stegappasaurus/commits/master)
+<p align="center">
+<a href="https://gitlab.com/hmajid2301/stegappasaurus/commits/master" alt="coverage report">
+    <img src="https://gitlab.com/hmajid2301/stegappasaurus/badges/master/coverage.svg"/>
+</a>
 
-[![pipeline status](https://gitlab.com/hmajid2301/stegappasaurus/badges/master/pipeline.svg)](https://gitlab.com/hmajid2301/stegappasaurus/commits/master)
+<a href="https://gitlab.com/hmajid2301/stegappasaurus/commits/master" alt="pipeline status">
+    <img src="https://gitlab.com/hmajid2301/stegappasaurus/badges/master/pipeline.svg"/>
+</a>
 
-![Logo](src/assets/images/logo-light.png)
+<a href="https://snyk.io/test/github/hmajid2301/stegappasaurus" alt="Known Vulnerabilities">
+    <img src="https://snyk.io/test/github/hmajid2301/stegappasaurus/badge.svg"/>
+</a>
+
+<a href="https://app.fossa.io/projects/git%2Bgitlab.com%2Fhmajid2301%2Fstegappasaurus?ref=badge_shield" alt="Licenses">
+    <img src="https://app.fossa.io/api/projects/git%2Bgitlab.com%2Fhmajid2301%2Fstegappasaurus.svg?type=shield"/>
+</a>
+</p>
+
+<p align="center">
+    <img src="src/assets/images/logo-dark.png">
+</p>
 
 # Introduction
 
