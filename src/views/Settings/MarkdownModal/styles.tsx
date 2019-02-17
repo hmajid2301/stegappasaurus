@@ -43,8 +43,8 @@ const styles = {
 
     paragraph: {
       alignItems: "flex-start",
-      flexWrap: "wrap",
       flexDirection: "row",
+      flexWrap: "wrap",
       justifyContent: "flex-start",
       paddingBottom: 10
     }

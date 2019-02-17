@@ -16,18 +16,22 @@ interface IColor {
 const MainNavigator = createDrawerNavigator(
   {
     Home: {
-      drawerIcon: ({ tintColor }: IColor) => (
-        <Icon name="home" type="FontAwesome" style={{ color: tintColor }} />
-      ),
-      drawerLabel: "Home",
+      navigationOptions: {
+        drawerIcon: ({ tintColor }: IColor) => (
+          <Icon name="home" type="FontAwesome" style={{ color: tintColor }} />
+        ),
+        drawerLabel: "Home"
+      },
       screen: Home
     },
 
     About: {
-      drawerIcon: ({ tintColor }: IColor) => (
-        <Icon name="info" type="Feather" style={{ color: tintColor }} />
-      ),
-      drawerLabel: "About Us",
+      navigationOptions: {
+        drawerIcon: ({ tintColor }: IColor) => (
+          <Icon name="info" type="Feather" style={{ color: tintColor }} />
+        ),
+        drawerLabel: "About Us"
+      },
       screen: About
     },
 
@@ -42,14 +46,16 @@ const MainNavigator = createDrawerNavigator(
     },
 
     FAQ: {
-      drawerIcon: ({ tintColor }: IColor) => (
-        <Icon
-          name="questioncircleo"
-          type="AntDesign"
-          style={{ color: tintColor }}
-        />
-      ),
-      drawerLabel: "FAQ",
+      navigationOptions: {
+        drawerIcon: ({ tintColor }: IColor) => (
+          <Icon
+            name="questioncircleo"
+            type="AntDesign"
+            style={{ color: tintColor }}
+          />
+        ),
+        drawerLabel: "FAQ"
+      },
       screen: FAQ
     }
   },

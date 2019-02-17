@@ -1,7 +1,7 @@
 import { Icon } from "native-base";
 import React, { Component, ReactNode } from "react";
 import { Modal, ScrollView, Text, TouchableOpacity, View } from "react-native";
-import Markdown from "react-native-simple-markdown";
+import Markdown from "react-native-markdown-renderer";
 import { connect } from "react-redux";
 
 import styles from "./styles";
@@ -72,7 +72,7 @@ class MarkdownModal extends Component<IProps, IState> {
             <ScrollView>
               <View style={styles.container}>
                 <Markdown
-                  styles={{
+                  style={{
                     ...styles.markdown,
                     ...{ text: { color: theme.color } }
                   }}
