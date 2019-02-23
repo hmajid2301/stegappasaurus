@@ -1,4 +1,8 @@
+import { isType } from "typescript-fsa";
+
+import { togglePrimaryColor } from "~/redux/actions";
 import { PRIMARY_COLORS } from "~/util/constants";
+import { PrimaryColor } from "~/util/interfaces";
 
 const initialState = {
   colorData: PRIMARY_COLORS.BLUE
@@ -6,32 +10,24 @@ const initialState = {
 
 interface IAction {
   type: string;
-  payload: string;
+  color: string;
 }
 
 export interface IReducerState {
   colorData: {
     name: "BLUE" | "ORANGE";
-    color: "#009CFF" | "#E88C0C";
+    color: PrimaryColor;
   };
 }
 
 const TogglePrimaryColor = (state = initialState, action: IAction) => {
-  switch (action.type) {
-    case "TOGGLE_PRIMARY_COLOR":
-      switch (action.payload) {
-        case "ORANGE":
-          return { colorData: PRIMARY_COLORS.BLUE };
-
-        case "BLUE":
-          return { colorData: PRIMARY_COLORS.ORANGE };
-
-        default:
-          return state;
-      }
-    default:
-      return state;
+  if (isType(action, togglePrimaryColor)) {
+    const { color } = action;
+    const colorData =
+      color === "ORANGE" ? PRIMARY_COLORS.BLUE : PRIMARY_COLORS.ORANGE;
+    return { colorData };
   }
+  return state;
 };
 
 export default TogglePrimaryColor;

@@ -2,10 +2,10 @@ import { Icon } from "native-base";
 import React, { Component, ReactNode } from "react";
 import { Modal, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import Markdown from "react-native-markdown-renderer";
-import { connect } from "react-redux";
 
-import { IReducerState } from "~/redux/reducers/ToggleDarkTheme";
+import { withTheme } from "~/redux/hoc";
 import { ITheme } from "~/util/interfaces";
+
 import styles from "./styles";
 
 interface IProps {
@@ -88,11 +88,4 @@ class MarkdownModal extends Component<IProps, IState> {
   }
 }
 
-const mapStateToProps = (state: IReducerState) => ({
-  theme: state.theme
-});
-
-export default connect(
-  mapStateToProps,
-  null
-)(MarkdownModal);
+export default withTheme(MarkdownModal);

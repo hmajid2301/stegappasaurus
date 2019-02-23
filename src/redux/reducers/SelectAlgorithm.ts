@@ -1,24 +1,27 @@
+import { isType } from "typescript-fsa";
+
+import { selectAlgorithm } from "~/redux/actions";
+import { AlgorithmNames } from "~/util/interfaces";
+
 const initialState = {
   algorithm: "F5"
 };
 
 interface IAction {
   type: string;
-  payload: string;
+  algorithm: string;
 }
 
 export interface IReducerState {
-  algorithm: "F5" | "LSB-PNG" | "LSB-DCT";
+  algorithm: AlgorithmNames;
 }
 
 const SelectAlgorithm = (state = initialState, action: IAction) => {
-  switch (action.type) {
-    case "SELECT_ALGORITHM":
-      return { algorithm: action.payload };
-
-    default:
-      return state;
+  if (isType(action, selectAlgorithm)) {
+    const { algorithm } = action;
+    return { algorithm };
   }
+  return state;
 };
 
 export default SelectAlgorithm;

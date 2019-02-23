@@ -1,10 +1,8 @@
 import { Body, CheckBox, List, ListItem, Right } from "native-base";
 import React, { Component } from "react";
 import { Text } from "react-native";
-import { connect } from "react-redux";
-import { Dispatch } from "redux";
 
-import { toggleDarkTheme } from "~/redux/actions";
+import { dispatchTheme } from "~/redux/hoc";
 import { ITheme } from "~/util/interfaces";
 import { colors } from "~/util/styles";
 
@@ -44,11 +42,4 @@ class Themes extends Component<IProps, {}> {
   }
 }
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  toggleDarkTheme: (isDark: boolean) => dispatch(toggleDarkTheme(isDark))
-});
-
-export default connect(
-  null,
-  mapDispatchToProps
-)(Themes);
+export default dispatchTheme(Themes);

@@ -9,7 +9,8 @@ stages:
 cache:
   key: ${CI_COMMIT_REF_SLUG}
   paths:
-    - ~/.npm
+    - node_modules/
+    - .yarn
     - .jest
 
 before_script:
@@ -23,7 +24,6 @@ open_merge_request:
     GIT_STRATEGY: none
     REMOVE_BRANCH_AFTER_MERGE: "true"
     SQUASH: "true"
-    AUTO_MERGE: "true"
     TARGET_BRANCH: "master"
   except:
     - master

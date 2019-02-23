@@ -1,18 +1,15 @@
 import { Body, List, ListItem, Picker, Right } from "native-base";
 import React, { Component } from "react";
 import { Text } from "react-native";
-import { connect } from "react-redux";
-import { Dispatch } from "redux";
 
-import { selectAlgorithm } from "~/redux/actions";
-import { IReducerState } from "~/redux/reducers/SelectAlgorithm";
-import { ITheme } from "~/util/interfaces";
+import { withDispatchAlgorithm } from "~/redux/hoc";
+import { AlgorithmNames, ITheme } from "~/util/interfaces";
 
 import styles from "./styles";
 
 interface IProps {
   algorithm: string;
-  selectAlgorithm: (value: string) => void;
+  selectAlgorithm: (value: AlgorithmNames) => void;
   theme: ITheme;
 }
 
@@ -51,15 +48,4 @@ class Algorithms extends Component<IProps, {}> {
   }
 }
 
-const mapStateToProps = (state: IReducerState) => ({
-  algorithm: state.algorithm
-});
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  selectAlgorithm: (algorithm: string) => dispatch(selectAlgorithm(algorithm))
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Algorithms);
+export default withDispatchAlgorithm(Algorithms);

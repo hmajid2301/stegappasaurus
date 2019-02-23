@@ -1,11 +1,10 @@
 import React, { Component } from "react";
 import { View } from "react-native";
 import { NavigationScreenProp } from "react-navigation";
-import { connect } from "react-redux";
 
 import CustomHeader from "~/components/CustomHeader";
 import CustomTabNavigator from "~/components/CustomTabNavigator";
-import { IReducerState } from "~/redux/reducers/TogglePrimaryColor";
+import { withPrimaryColor } from "~/redux/hoc";
 import { ITheme, PrimaryColor } from "~/util/interfaces";
 
 import styles from "./Home/styles";
@@ -15,7 +14,7 @@ interface IProps {
   screenProps: {
     theme: ITheme;
   };
-  primaryColor: string;
+  primaryColor: PrimaryColor;
 }
 
 class Home extends Component<IProps, {}> {
@@ -27,7 +26,7 @@ class Home extends Component<IProps, {}> {
     return (
       <View style={styles.container}>
         <CustomHeader
-          primaryColor={this.props.primaryColor as PrimaryColor}
+          primaryColor={this.props.primaryColor}
           navigation={this.props.navigation}
           theme={theme}
         />
@@ -40,11 +39,4 @@ class Home extends Component<IProps, {}> {
   }
 }
 
-const mapStateToProps = (state: IReducerState) => ({
-  primaryColor: state.colorData.color
-});
-
-export default connect(
-  mapStateToProps,
-  null
-)(Home);
+export default withPrimaryColor(Home);

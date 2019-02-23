@@ -9,12 +9,10 @@ import {
   View
 } from "react-native";
 import { NavigationScreenProp } from "react-navigation";
-import { connect } from "react-redux";
-import { Dispatch } from "redux";
 
-import { togglePrimaryColor } from "~/redux/actions";
+import { dispatchPrimaryColor } from "~/redux/hoc";
 import { PRIMARY_COLORS } from "~/util/constants";
-import { ITheme, PrimaryColor } from "~/util/interfaces";
+import { ITheme, PrimaryColorNames } from "~/util/interfaces";
 import { colors } from "~/util/styles";
 
 import styles from "./Main/styles";
@@ -24,11 +22,7 @@ interface IProps {
   screenProps: {
     theme: ITheme;
   };
-  togglePrimaryColor: (primaryColor: string) => void;
-}
-
-interface IDispatchFromProps {
-  togglePrimaryColor: (primaryColor: string) => void;
+  togglePrimaryColor: (primaryColor: PrimaryColorNames) => void;
 }
 
 interface IState {
@@ -205,11 +199,4 @@ class Main extends Component<IProps, IState> {
   };
 }
 
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  togglePrimaryColor: (color: string) => dispatch(togglePrimaryColor(color))
-});
-
-export default connect<{}, IDispatchFromProps>(
-  null,
-  mapDispatchToProps
-)(Main);
+export default dispatchPrimaryColor(Main);

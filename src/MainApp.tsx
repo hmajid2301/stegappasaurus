@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import { connect } from "react-redux";
 
-import { IReducerState } from "~/redux/reducers/ToggleDarkTheme";
+import { withTheme } from "~/redux/hoc";
 import { ITheme } from "~/util/interfaces";
 
 import App from "./views/Routes";
@@ -16,11 +15,4 @@ class MainApp extends Component<IProps, {}> {
   }
 }
 
-const mapStateToProps = (state: IReducerState) => ({
-  theme: state.theme
-});
-
-export default connect(
-  mapStateToProps,
-  null
-)(MainApp);
+export default withTheme(MainApp);
