@@ -6,7 +6,7 @@
     "lint": "tslint src/**/*.{tx,tsx}",
     "test": "jest",
     "lint-critical": "prettier --check src/**/*.{tx,tsx}",
-    "tsc-test": "tsc --project . --noEmit"
+    "tsc-test": "tsc --project . --noEmit --pretty --skipLibCheck"
   },
   "dependencies": {
     "@expo/vector-icons": "9.0.0",
@@ -17,7 +17,7 @@
     "@types/react-redux": "7.0.1",
     "buffer": "5.1.0",
     "expo": "32.0.0",
-    "expo-cli": "2.10.1",
+    "expo-cli": "2.11.1",
     "native-base": "2.10.0",
     "react": "16.5.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz",

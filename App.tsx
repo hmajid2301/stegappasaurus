@@ -1,7 +1,7 @@
 import { AppLoading, Font } from "expo";
 import React, { Component } from "react";
 import { Provider } from "react-redux";
-import { PersistGate } from "redux-persist/lib/integration/react";
+import { PersistGate } from "redux-persist/integration/react";
 
 import MainApp from "~/MainApp";
 import { persistor, store } from "~/redux/store";
@@ -34,7 +34,7 @@ export default class App extends Component<{}, IState> {
 
   public render() {
     if (this.state.loading) {
-      return <AppLoading />;
+      return <AppLoading startAsync={null} onError={null} onFinish={null} />;
     }
     return (
       <Provider store={store}>

@@ -42,10 +42,6 @@ const styles = {
     },
 
     paragraph: {
-      alignItems: "flex-start",
-      flexDirection: "row",
-      flexWrap: "wrap",
-      justifyContent: "flex-start",
       paddingBottom: 10
     }
   }

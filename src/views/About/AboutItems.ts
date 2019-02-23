@@ -1,9 +1,9 @@
+import { IAboutItem } from "~/components/AboutList";
 import { colors } from "~/util/styles";
 
-const icons = [
+const AboutItems: IAboutItem[] = [
   {
     color: colors.iconOrange,
-    function: "browser",
     icon: {
       name: "versions",
       type: "Octicons"
@@ -13,7 +13,6 @@ const icons = [
   },
   {
     color: colors.iconBlue,
-    function: "browser",
     icon: {
       name: "code-fork",
       type: "FontAwesome"
@@ -23,7 +22,6 @@ const icons = [
   },
   {
     color: colors.iconBlack,
-    function: "browser",
     icon: {
       name: "github",
       type: "FontAwesome"
@@ -33,7 +31,6 @@ const icons = [
   },
   {
     color: colors.iconGreen,
-    function: "browser",
     icon: {
       name: "web",
       type: "MaterialCommunityIcons"
@@ -53,4 +50,4 @@ const icons = [
   }
 ];
 
-export default icons;
+export default AboutItems;

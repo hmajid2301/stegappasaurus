@@ -5,17 +5,15 @@ import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
 import { selectAlgorithm } from "~/redux/actions";
+import { IReducerState } from "~/redux/reducers/SelectAlgorithm";
+import { ITheme } from "~/util/interfaces";
 
 import styles from "./styles";
 
 interface IProps {
   algorithm: string;
   selectAlgorithm: (value: string) => void;
-  theme: {
-    background: string;
-    color: string;
-    isDark: boolean;
-  };
+  theme: ITheme;
 }
 
 class Algorithms extends Component<IProps, {}> {
@@ -53,8 +51,8 @@ class Algorithms extends Component<IProps, {}> {
   }
 }
 
-const mapStateToProps = state => ({
-  algorithm: state.SelectAlgorithm.algorithm
+const mapStateToProps = (state: IReducerState) => ({
+  algorithm: state.algorithm
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

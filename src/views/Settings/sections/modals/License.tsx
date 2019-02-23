@@ -1,6 +1,6 @@
 import React from "react";
 
-import MarkdownModal from "~/views/Settings/MarkdownModal";
+import MarkdownModal from "~/components/MarkdownModal";
 import license from "./markdown/license";
 
 const License = () => <MarkdownModal name="License">{license}</MarkdownModal>;

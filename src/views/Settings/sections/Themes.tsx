@@ -5,18 +5,14 @@ import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
 import { toggleDarkTheme } from "~/redux/actions";
+import { ITheme } from "~/util/interfaces";
 import { colors } from "~/util/styles";
 
 import styles from "./styles";
 
 interface IProps {
-  algorithm: string;
   toggleDarkTheme: (isDark: boolean) => void;
-  theme: {
-    background: string;
-    color: string;
-    isDark: boolean;
-  };
+  theme: ITheme;
 }
 
 class Themes extends Component<IProps, {}> {
@@ -49,7 +45,7 @@ class Themes extends Component<IProps, {}> {
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  toggleDarkTheme: (algorithm: boolean) => dispatch(toggleDarkTheme(algorithm))
+  toggleDarkTheme: (isDark: boolean) => dispatch(toggleDarkTheme(isDark))
 });
 
 export default connect(

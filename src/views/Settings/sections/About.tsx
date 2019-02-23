@@ -1,18 +1,23 @@
+import { MailComposer } from "expo";
 import { Body, List, ListItem } from "native-base";
 import React from "react";
 import { Text, TouchableOpacity } from "react-native";
 
-import { Changelog } from "./modals";
+import { ITheme } from "~/util/interfaces";
 
+import { Changelog } from "./modals";
 import styles from "./styles";
 
 interface IProps {
-  theme: {
-    background: string;
-    color: string;
-    isDark: boolean;
-  };
+  theme: ITheme;
 }
+
+const sendEmail = async () => {
+  await MailComposer.composeAsync({
+    recipients: ["me@haseebmajid.com"],
+    subject: "Stegappasaurus"
+  });
+};
 
 const About = ({ theme }: IProps) => (
   <List>
@@ -26,7 +31,7 @@ const About = ({ theme }: IProps) => (
 
     <ListItem noIndent>
       <Body>
-        <TouchableOpacity onPress={() => this.sendEmail()}>
+        <TouchableOpacity onPress={() => sendEmail()}>
           <Text style={[styles.itemText, { color: theme.color }]}>Email</Text>
           <Text style={[styles.itemText, styles.itemTextUnder]}>
             me@haseebmajid.com

@@ -8,17 +8,14 @@ import { Dispatch } from "redux";
 
 import { togglePrimaryColor } from "~/redux/actions";
 import { PRIMARY_COLORS } from "~/util/constants";
+import { ITheme } from "~/util/interfaces";
 
 import styles from "./Main/styles";
 
 interface IProps {
   navigation: NavigationScreenProp<any, any>;
   screenProps: {
-    theme: {
-      background: string;
-      color: string;
-      isDark: boolean;
-    };
+    theme: ITheme;
   };
   togglePrimaryColor: (primaryColor: string) => void;
 }

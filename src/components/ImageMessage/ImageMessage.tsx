@@ -50,8 +50,8 @@ export default class ImageMessage extends Component<IProps, IState> {
             <TextInput
               autoFocus={true}
               blurOnSubmit={true}
-              enablesReturnKeyAutomatically={true}
               editable={this.state.editable}
+              enablesReturnKeyAutomatically={true}
               multiline={true}
               onChangeText={message => this.setState({ message })}
               onSubmitEditing={this.props.action}

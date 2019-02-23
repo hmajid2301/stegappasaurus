@@ -1,4 +1,6 @@
-const faq = [
+import { IFAQ } from "~/components/AccordionList";
+
+const faq: IFAQ[] = [
   {
     content:
       "Steganography is the art/science of hiding data in plain sight. In the context of this app, it allows " +

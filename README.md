@@ -43,7 +43,7 @@ git clone https://github.com/hmajid2301/stegappasaurus.git
 cd stegappasaurus
 touch .env
 yarn
-yarn run android
+yarn android
 ```
 
 #### Example `.env` file

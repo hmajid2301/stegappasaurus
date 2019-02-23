@@ -3,32 +3,41 @@ import { Body, Button, Icon, Left, List, ListItem } from "native-base";
 import React from "react";
 import { Text, TouchableOpacity } from "react-native";
 
+import { ThemeColors } from "~/util/interfaces";
+
 import styles from "./styles";
 
 interface IProps {
-  icons: Icons[];
-  color: string;
+  items: IAboutItem[];
+  color: ThemeColors;
 }
 
-interface Icons {
+export interface IAboutItem {
   title: string;
   color: string;
-  function: string;
+  function?: "store";
   icon: {
     name: string;
-    type: string;
+    type:
+      | "AntDesign"
+      | "Entypo"
+      | "EvilIcons"
+      | "Feather"
+      | "FontAwesome"
+      | "FontAwesome5"
+      | "Foundation"
+      | "Ionicons"
+      | "MaterialCommunityIcons"
+      | "MaterialIcons"
+      | "Octicons"
+      | "SimpleLineIcons"
+      | "Zocial";
   };
   url: string;
 }
 
-const chooseFunction = (item: Icons) => {
+const chooseFunction = (item: IAboutItem) => {
   switch (item.function) {
-    case "browser":
-      WebBrowser.openBrowserAsync(item.url)
-        .then()
-        .catch();
-      break;
-
     case "store":
       StoreReview.requestReview()
         .then()
@@ -36,11 +45,14 @@ const chooseFunction = (item: Icons) => {
       break;
 
     default:
+      WebBrowser.openBrowserAsync(item.url)
+        .then()
+        .catch();
       break;
   }
 };
 
-const renderListItem = (color: string, item: Icons) => (
+const renderListItem = (color: string, item: IAboutItem) => (
   <ListItem icon key={item.title}>
     <Left>
       <Button
@@ -58,8 +70,8 @@ const renderListItem = (color: string, item: Icons) => (
   </ListItem>
 );
 
-const AboutList = ({ color, icons }: IProps) => (
-  <List>{icons.map(item => renderListItem(color, item))}</List>
+const AboutList = ({ color, items }: IProps) => (
+  <List>{items.map(item => renderListItem(color, item))}</List>
 );
 
 export default AboutList;

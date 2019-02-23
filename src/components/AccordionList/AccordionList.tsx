@@ -2,6 +2,8 @@ import { Accordion, Icon } from "native-base";
 import React, { Component } from "react";
 import { Text, View } from "react-native";
 
+import { ITheme } from "~/util/interfaces";
+
 import styles from "./styles";
 
 interface IProps {
@@ -9,15 +11,9 @@ interface IProps {
   theme: ITheme;
 }
 
-interface IFAQ {
+export interface IFAQ {
   content: string;
   title: string;
-}
-
-interface ITheme {
-  background: string;
-  color: string;
-  isDark: boolean;
 }
 
 export default class AccordionList extends Component<IProps, {}> {
