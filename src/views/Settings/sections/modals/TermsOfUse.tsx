@@ -1,6 +1,6 @@
 import React from "react";
 
-import MarkdownModal from "~/views/Settings/MarkdownModal";
+import MarkdownModal from "~/components/MarkdownModal";
 import termsOfUse from "./markdown/termsOfUse";
 
 const TermsOfUse = () => (

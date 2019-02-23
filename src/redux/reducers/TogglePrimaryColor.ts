@@ -9,6 +9,13 @@ interface IAction {
   payload: string;
 }
 
+export interface IReducerState {
+  colorData: {
+    name: "BLUE" | "ORANGE";
+    color: "#009CFF" | "#E88C0C";
+  };
+}
+
 const TogglePrimaryColor = (state = initialState, action: IAction) => {
   switch (action.type) {
     case "TOGGLE_PRIMARY_COLOR":

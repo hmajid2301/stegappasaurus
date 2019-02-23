@@ -3,23 +3,24 @@ import React from "react";
 import { NavigationScreenProp } from "react-navigation";
 
 import Logo from "~/components/Logo";
+import { ITheme, PrimaryColor } from "~/util/interfaces";
+
 import styles from "./styles";
 
 interface IProps {
   navigation: NavigationScreenProp<any, any>;
-  primaryColor: string;
-  theme: {
-    isDark: boolean;
-    background: string;
-    color: string;
-  };
+  primaryColor: PrimaryColor;
+  theme: ITheme;
 }
 
 const CustomHeader = ({ navigation, primaryColor, theme }: IProps) => (
   <Header
     style={[
       styles.container,
-      { borderBottomColor: primaryColor, backgroundColor: theme.background }
+      {
+        backgroundColor: theme.background as string,
+        borderBottomColor: primaryColor as string
+      }
     ]}
   >
     <Left>

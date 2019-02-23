@@ -39,6 +39,7 @@ const CustomTabNavigator = createMaterialTopTabNavigator(
   },
   {
     initialRouteName: "Encoding",
+    order: ["Encoding", "Decoding"],
     tabBarPosition: "bottom"
   }
 );

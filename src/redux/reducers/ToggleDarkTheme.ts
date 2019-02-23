@@ -9,6 +9,14 @@ interface IAction {
   payload: boolean;
 }
 
+export interface IReducerState {
+  theme: {
+    background: "000" | "#FFF";
+    color: "#17212D" | "#FFF";
+    isDark: boolean;
+  };
+}
+
 const ToggleDarkTheme = (state = initialState, action: IAction) => {
   switch (action.type) {
     case "TOGGLE_DARK_THEME":

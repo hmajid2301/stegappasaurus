@@ -9,21 +9,19 @@ import {
 import PercentageCircle from "react-native-percentage-circle";
 import SnackBar from "react-native-snackbar-component";
 
+import { ITheme, PrimaryColor } from "~/util/interfaces";
+
 import styles from "./styles";
 
 const pageWidth = Dimensions.get("window").width;
 
 interface IProps {
   action: () => void;
-  message: string;
+  message?: string;
   photo: string;
-  primaryColor: string;
-  theme: {
-    background: string;
-    color: string;
-    isDark: boolean;
-  };
-  snackAction: () => void;
+  primaryColor: PrimaryColor;
+  theme: ITheme;
+  snackAction?: () => void;
 }
 
 interface IState {
@@ -31,18 +29,14 @@ interface IState {
 }
 
 export default class ImageProgressCircle extends Component<IProps, IState> {
+  public static defaultProps = {};
+
   constructor(props: IProps) {
     super(props);
     this.state = {
       percentage: 0
     };
   }
-
-  public componentDidMount = () => {
-    this.interval = setInterval(() => {
-      this.incrementCounter();
-    }, 50);
-  };
 
   public componentDidUpdate = () => {
     if (this.state.percentage === 100) {
@@ -52,6 +46,10 @@ export default class ImageProgressCircle extends Component<IProps, IState> {
 
   public render() {
     const { theme } = this.props;
+    let { snackAction } = this.props;
+    if (this.props.snackAction === undefined) {
+      snackAction = () => undefined;
+    }
 
     return (
       <View
@@ -82,7 +80,7 @@ export default class ImageProgressCircle extends Component<IProps, IState> {
         </TouchableOpacity>
         <SnackBar
           autoHidingTime={2000}
-          actionHandler={() => this.props.snackAction()}
+          actionHandler={() => snackAction}
           actionText={"OPEN"}
           textMessage={this.props.message}
           visible={this.state.percentage === 100}
@@ -90,12 +88,4 @@ export default class ImageProgressCircle extends Component<IProps, IState> {
       </View>
     );
   }
-
-  private incrementCounter = () => {
-    if (this.state.percentage < 100) {
-      this.setState({ percentage: this.state.percentage + 1 });
-    } else {
-      clearInterval(this.interval);
-    }
-  };
 }

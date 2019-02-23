@@ -1,18 +1,15 @@
 import React, { Component } from "react";
 import { NavigationScreenProp } from "react-navigation";
 
+import ImageMessage from "~/components/ImageMessage";
+import ImageProgressCircle from "~/components/ImageProgressCircle";
+import { ITheme, PrimaryColor } from "~/util/interfaces";
 import { colors } from "~/util/styles";
-import ImageMessage from "~/views/Home/ImageMessage";
-import ImageProgressCircle from "~/views/Home/ImageProgressCircle";
 
 interface IProps {
   navigation: NavigationScreenProp<any, any>;
   screenProps: {
-    theme: {
-      background: string;
-      color: string;
-      isDark: boolean;
-    };
+    theme: ITheme;
   };
 }
 
@@ -44,7 +41,7 @@ export default class DecodeImage extends Component<IProps, IState> {
       <ImageProgressCircle
         action={this.decoded}
         photo={this.state.photo}
-        primaryColor={colors.secondary}
+        primaryColor={colors.secondary as PrimaryColor}
         theme={theme}
       />
     );

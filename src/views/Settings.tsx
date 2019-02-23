@@ -1,10 +1,10 @@
-import { MailComposer } from "expo";
 import { List } from "native-base";
 import React, { Component } from "react";
 import { View } from "react-native";
 import { NavigationScreenProp } from "react-navigation";
 
 import CustomHeader from "~/components/CustomHeader";
+import { ITheme, PrimaryColor } from "~/util/interfaces";
 import { colors } from "~/util/styles";
 
 import { About, Algorithms, Support, Themes } from "./Settings/sections";
@@ -13,11 +13,7 @@ import styles from "./Settings/styles";
 interface IProps {
   navigation: NavigationScreenProp<any, any>;
   screenProps: {
-    theme: {
-      background: string;
-      color: string;
-      isDark: boolean;
-    };
+    theme: ITheme;
   };
 }
 
@@ -28,24 +24,17 @@ export default class Settings extends Component<IProps, {}> {
     return (
       <View style={[styles.container, { backgroundColor: theme.background }]}>
         <CustomHeader
-          primaryColor={colors.primary}
+          primaryColor={colors.primary as PrimaryColor}
           navigation={this.props.navigation}
           theme={theme}
         />
         <List>
           <Algorithms theme={theme} />
           <Themes theme={theme} />
-          <Support theme={theme} />
+          <Support />
           <About theme={theme} />
         </List>
       </View>
     );
   }
-
-  private sendEmail = async () => {
-    await MailComposer.composeAsync({
-      recipients: ["me@haseebmajid.com"],
-      subject: "Stegappasaurus"
-    });
-  };
 }

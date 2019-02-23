@@ -6,14 +6,7 @@ import { License, PrivatePolicy, TermsOfUse } from "./modals";
 
 import styles from "./styles";
 
-interface IProps {
-  theme: {
-    background: string;
-    color: string;
-    isDark: boolean;
-  };
-}
-const Support = ({ theme }: IProps) => (
+const Support = () => (
   <List>
     <ListItem itemHeader style={styles.itemHeader}>
       <Text style={styles.itemHeaderText}>Support</Text>

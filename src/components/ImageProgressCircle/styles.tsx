@@ -16,8 +16,8 @@ const styles = StyleSheet.create({
   },
 
   encodingImage: {
-    width: pageWidth * 0.666,
-    height: pageWidth * 0.666
+    height: pageWidth * 0.666,
+    width: pageWidth * 0.666
   },
 
   textPercentageContainer: {

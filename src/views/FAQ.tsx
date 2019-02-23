@@ -3,9 +3,10 @@ import React, { Component } from "react";
 import { ScrollView, View } from "react-native";
 import { NavigationScreenProp } from "react-navigation";
 
+import AccordionList from "~/components/AccordionList";
 import CustomHeader from "~/components/CustomHeader";
+import { ITheme, PrimaryColor } from "~/util/interfaces";
 import { colors } from "~/util/styles";
-import AccordionList from "~/views/FAQ/AccordionList";
 
 import faq from "./FAQ/questions";
 import styles from "./FAQ/styles";
@@ -13,11 +14,7 @@ import styles from "./FAQ/styles";
 interface IProps {
   navigation: NavigationScreenProp<any, any>;
   screenProps: {
-    theme: {
-      background: string;
-      color: string;
-      isDark: boolean;
-    };
+    theme: ITheme;
   };
 }
 
@@ -29,7 +26,7 @@ export default class FAQ extends Component<IProps, {}> {
       <View style={[styles.container, { backgroundColor: theme.background }]}>
         <ScrollView>
           <CustomHeader
-            primaryColor={colors.primary}
+            primaryColor={colors.primary as PrimaryColor}
             navigation={this.props.navigation}
             theme={theme}
           />

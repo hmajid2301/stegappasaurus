@@ -4,32 +4,18 @@ import { Modal, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import Markdown from "react-native-markdown-renderer";
 import { connect } from "react-redux";
 
+import { IReducerState } from "~/redux/reducers/ToggleDarkTheme";
+import { ITheme } from "~/util/interfaces";
 import styles from "./styles";
 
 interface IProps {
   children: ReactNode;
   name: string;
-  theme: {
-    background: string;
-    color: string;
-    isDark: boolean;
-  };
+  theme: ITheme;
 }
 
 interface IState {
   modalVisible: boolean;
-}
-
-interface ITheme {
-  state: {
-    ToggleDarkTheme: {
-      theme: {
-        background: string;
-        color: string;
-        isDark: boolean;
-      };
-    };
-  };
 }
 
 class MarkdownModal extends Component<IProps, IState> {
@@ -102,8 +88,8 @@ class MarkdownModal extends Component<IProps, IState> {
   }
 }
 
-const mapStateToProps = state => ({
-  theme: state.ToggleDarkTheme.theme
+const mapStateToProps = (state: IReducerState) => ({
+  theme: state.theme
 });
 
 export default connect(
