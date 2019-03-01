@@ -4,7 +4,6 @@ import { Text } from "react-native";
 
 import { withDispatchAlgorithm } from "~/redux/hoc";
 import { AlgorithmNames, ITheme } from "~/util/interfaces";
-
 import styles from "./styles";
 
 interface IProps {

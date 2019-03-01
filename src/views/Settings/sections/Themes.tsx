@@ -1,14 +1,18 @@
-import { Body, CheckBox, List, ListItem, Right } from "native-base";
+import { Body, CheckBox, List, ListItem, Right, Switch } from "native-base";
 import React, { Component } from "react";
 import { Text } from "react-native";
+import { connect } from "react-redux";
+import { Dispatch } from "redux";
 
-import { dispatchTheme } from "~/redux/hoc";
+import { toggleAutomaticTheme, toggleDarkTheme } from "~/redux/actions";
+import { IReducerState } from "~/redux/reducers/ToggleAutomaticTheme";
 import { ITheme } from "~/util/interfaces";
 import { colors } from "~/util/styles";
-
 import styles from "./styles";
 
 interface IProps {
+  isAutomatic: boolean;
+  toggleAutomaticTheme: (isAutomatic: boolean) => void;
   toggleDarkTheme: (isDark: boolean) => void;
   theme: ITheme;
 }
@@ -29,11 +33,31 @@ class Themes extends Component<IProps, {}> {
               Dark Mode
             </Text>
           </Body>
+          {this.props.isAutomatic || (
+            <Right style={styles.checkbox}>
+              <CheckBox
+                checked={theme.isDark}
+                color={colors.primary}
+                onPress={() => this.props.toggleDarkTheme(theme.isDark)}
+              />
+            </Right>
+          )}
+        </ListItem>
+
+        <ListItem noIndent>
+          <Body>
+            <Text style={[styles.itemText, { color: theme.color }]}>
+              Automatic
+            </Text>
+            <Text style={[styles.itemText, styles.itemTextUnder]}>
+              Automatically changes to dark mode at sunset and light mode at
+              sunrise.
+            </Text>
+          </Body>
           <Right style={styles.checkbox}>
-            <CheckBox
-              checked={theme.isDark}
-              color={colors.primary}
-              onPress={() => this.props.toggleDarkTheme(theme.isDark)}
+            <Switch
+              onValueChange={value => this.props.toggleAutomaticTheme(value)}
+              value={this.props.isAutomatic}
             />
           </Right>
         </ListItem>
@@ -42,4 +66,17 @@ class Themes extends Component<IProps, {}> {
   }
 }
 
-export default dispatchTheme(Themes);
+const mapStateToProps = (state: IReducerState) => ({
+  isAutomatic: state.ToggleAutomaticTheme.isAutomatic
+});
+
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  toggleAutomaticTheme: (isAutomatic: boolean) =>
+    dispatch(toggleAutomaticTheme({ isAutomatic })),
+  toggleDarkTheme: (isDark: boolean) => dispatch(toggleDarkTheme({ isDark }))
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Themes);

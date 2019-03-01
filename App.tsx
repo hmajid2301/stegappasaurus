@@ -1,3 +1,4 @@
+import { Root } from "native-base";
 import { AppLoading, Font } from "expo";
 import React, { Component } from "react";
 import { Provider } from "react-redux";
@@ -39,7 +40,9 @@ export default class App extends Component<{}, IState> {
     return (
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
-          <MainApp />
+          <Root>
+            <MainApp />
+          </Root>
         </PersistGate>
       </Provider>
     );

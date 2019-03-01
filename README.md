@@ -61,7 +61,10 @@ Any errors in your editor about paths not resolving take a look [here](https://g
 
 ## Other
 
-Design Inspired by: [PixelKnot](https://play.google.com/store/apps/details?id=info.guardianproject.pixelknot)
+### Credit:
+
+- Design Inspired by: [PixelKnot](https://play.google.com/store/apps/details?id=info.guardianproject.pixelknot)
+- Cat Photos from [thecatapi](https://thecatapi.com)
 
 ### Licenses :copyright:
 

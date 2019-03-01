@@ -6,7 +6,7 @@ import { IReducerState } from "~/redux/reducers/SelectAlgorithm";
 import { AlgorithmNames } from "~/util/interfaces";
 
 const mapStateToProps = (state: IReducerState) => ({
-  algorithm: state.algorithm
+  algorithm: state.SelectAlgorithm.algorithm
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

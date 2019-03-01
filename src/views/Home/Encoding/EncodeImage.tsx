@@ -39,7 +39,6 @@ export default class EncodeImage extends Component<IProps, IState> {
         <ImageProgressCircle
           action={this.encoded}
           message={"Saved Encoded Photo"}
-          snackAction={this.openPhotos}
           photo={this.state.photo}
           primaryColor={colors.primary as PrimaryColor}
           theme={theme}

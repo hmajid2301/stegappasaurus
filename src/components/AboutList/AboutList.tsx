@@ -4,7 +4,6 @@ import React from "react";
 import { Text, TouchableOpacity } from "react-native";
 
 import { ThemeColors } from "~/util/interfaces";
-
 import styles from "./styles";
 
 interface IProps {

@@ -4,7 +4,6 @@ import { NavigationScreenProp } from "react-navigation";
 
 import Logo from "~/components/Logo";
 import { ITheme, PrimaryColor } from "~/util/interfaces";
-
 import styles from "./styles";
 
 interface IProps {

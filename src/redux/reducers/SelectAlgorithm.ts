@@ -9,16 +9,20 @@ const initialState = {
 
 interface IAction {
   type: string;
-  algorithm: string;
+  payload: {
+    algorithm: AlgorithmNames;
+  };
 }
 
 export interface IReducerState {
-  algorithm: AlgorithmNames;
+  SelectAlgorithm: {
+    algorithm: AlgorithmNames;
+  };
 }
 
 const SelectAlgorithm = (state = initialState, action: IAction) => {
   if (isType(action, selectAlgorithm)) {
-    const { algorithm } = action;
+    const { algorithm } = action.payload;
     return { algorithm };
   }
   return state;

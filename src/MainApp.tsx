@@ -1,18 +1,149 @@
+import { Location, Permissions } from "expo";
+import moment from "moment";
+import { Toast } from "native-base";
 import React, { Component } from "react";
+import { AppState } from "react-native";
+import { connect } from "react-redux";
+import { Dispatch } from "redux";
+import { getSunrise, getSunset } from "sunrise-sunset-js";
 
-import { withTheme } from "~/redux/hoc";
-import { ITheme } from "~/util/interfaces";
-
+import { toggleAutomaticTheme, toggleDarkTheme } from "~/redux/actions";
+import { IReducerState as IReducerAutomaticTheme } from "~/redux/reducers/ToggleAutomaticTheme";
+import { IReducerState as IReducerDarkTheme } from "~/redux/reducers/ToggleDarkTheme";
+import { retrieveData, storeData } from "~/util/functions";
+import { ITheme, PossibleAppStates } from "~/util/interfaces";
 import App from "./views/Routes";
 
 interface IProps {
+  isAutomatic: boolean;
+  toggleAutomaticTheme: (isAutomatic: boolean) => void;
+  toggleDarkTheme: (isDark: boolean) => void;
   theme: ITheme;
 }
 
-class MainApp extends Component<IProps, {}> {
+interface IState {
+  appState: PossibleAppStates;
+}
+
+interface IReducerState extends IReducerAutomaticTheme, IReducerDarkTheme {}
+
+class MainApp extends Component<IProps, IState> {
+  public componentDidMount = async () => {
+    AppState.addEventListener("change", this.appInFocus);
+    this.state = {
+      appState: AppState.currentState
+    };
+  };
+
+  public componentWillUnmount = () => {
+    AppState.removeEventListener("change", this.appInFocus);
+  };
+
   public render() {
     return <App screenProps={{ theme: this.props.theme }} />;
   }
+
+  private appInFocus = async (nextAppState: PossibleAppStates) => {
+    if (
+      this.state.appState.match(/inactive|background/) &&
+      nextAppState === "active"
+    ) {
+      this.checkAutomaticTheme();
+    }
+    this.setState({ appState: nextAppState });
+  };
+
+  private checkAutomaticTheme = async () => {
+    if (this.props.isAutomatic) {
+      const { sunrise, sunset } = await this.getSunriseSunsetTime();
+      const currentTime = moment().toISOString();
+
+      if (currentTime > sunrise && currentTime < sunset) {
+        this.props.toggleDarkTheme(true);
+      } else {
+        this.props.toggleDarkTheme(false);
+      }
+    }
+  };
+
+  private getSunriseSunsetTime = async () => {
+    const { latitude, longitude } = await this.getLatitudeLongitude();
+
+    if (isNaN(latitude)) {
+      this.props.toggleAutomaticTheme(false);
+      Toast.show({
+        duration: 5000,
+        text:
+          "For automatic theme location services need to be turned on. Turning off automatic theme."
+      });
+      return { sunset: null, sunrise: null };
+    }
+
+    const sunset = getSunset(latitude, longitude);
+    const sunrise = getSunrise(latitude, longitude);
+    return { sunset, sunrise };
+  };
+
+  private async getLatitudeLongitude() {
+    const currentDate = moment().toISOString();
+    const lastQueried = await retrieveData("@LastQueriedLocation");
+    let lastQueriedDate = currentDate;
+    if (lastQueried !== "") {
+      lastQueriedDate = moment(lastQueried)
+        .add(7, "days")
+        .toISOString();
+    }
+
+    let latitude = parseInt(await retrieveData("@Latitude"), 10);
+    let longitude = parseInt(await retrieveData("@Longitude"), 10);
+    ({ latitude, longitude } = await this.getNewLatitudeLongitude(
+      lastQueriedDate,
+      currentDate,
+      latitude,
+      longitude
+    ));
+    return { latitude, longitude };
+  }
+
+  private async getNewLatitudeLongitude(
+    lastQueriedDate: string,
+    currentDate: string,
+    latitude: number,
+    longitude: number
+  ) {
+    if (lastQueriedDate > currentDate) {
+      const { status } = await Permissions.askAsync(Permissions.LOCATION);
+      if (status === "granted") {
+        const locationOn = await Location.hasServicesEnabledAsync();
+        if (locationOn) {
+          const location = await Location.getCurrentPositionAsync({
+            accuracy: Location.Accuracy.Lowest
+          });
+
+          latitude = location.coords.latitude;
+          longitude = location.coords.longitude;
+          storeData("@Latitude", latitude);
+          storeData("@Longitude", longitude);
+          storeData("@LastQueriedLocation", currentDate);
+        }
+      }
+    }
+    return { latitude, longitude };
+  }
 }
 
-export default withTheme(MainApp);
+const mapStateToProps = (state: IReducerState) => ({
+  isAutomatic: state.ToggleAutomaticTheme.isAutomatic,
+  theme: state.ToggleDarkTheme.theme
+});
+
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  toggleAutomaticTheme: (isAutomatic: boolean) =>
+    dispatch(toggleAutomaticTheme({ isAutomatic })),
+  toggleDarkTheme: (isDark: boolean) => dispatch(toggleDarkTheme({ isDark }))
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(MainApp);

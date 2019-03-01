@@ -3,7 +3,6 @@ import React, { Component } from "react";
 import { Text, View } from "react-native";
 
 import { ITheme } from "~/util/interfaces";
-
 import styles from "./styles";
 
 interface IProps {
