@@ -1,3 +1,4 @@
-export const TOGGLE_PRIMARY_COLOR: string = "TOGGLE_PRIMARY_COLOR";
 export const SELECT_ALGORITHM: string = "SELECT_ALGORITHM";
+export const TOGGLE_AUTOMATIC: string = "TOGGLE_AUTOMATIC";
 export const TOGGLE_DARK_THEME: string = "TOGGLE_DARK_THEME";
+export const TOGGLE_PRIMARY_COLOR: string = "TOGGLE_PRIMARY_COLOR";

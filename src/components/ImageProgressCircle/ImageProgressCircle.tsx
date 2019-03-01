@@ -7,10 +7,8 @@ import {
   View
 } from "react-native";
 import PercentageCircle from "react-native-percentage-circle";
-import SnackBar from "react-native-snackbar-component";
 
 import { ITheme, PrimaryColor } from "~/util/interfaces";
-
 import styles from "./styles";
 
 const pageWidth = Dimensions.get("window").width;
@@ -21,7 +19,6 @@ interface IProps {
   photo: string;
   primaryColor: PrimaryColor;
   theme: ITheme;
-  snackAction?: () => void;
 }
 
 interface IState {
@@ -46,10 +43,6 @@ export default class ImageProgressCircle extends Component<IProps, IState> {
 
   public render() {
     const { theme } = this.props;
-    let { snackAction } = this.props;
-    if (this.props.snackAction === undefined) {
-      snackAction = () => undefined;
-    }
 
     return (
       <View
@@ -78,13 +71,6 @@ export default class ImageProgressCircle extends Component<IProps, IState> {
             </ImageBackground>
           </PercentageCircle>
         </TouchableOpacity>
-        <SnackBar
-          autoHidingTime={2000}
-          actionHandler={() => snackAction}
-          actionText={"OPEN"}
-          textMessage={this.props.message}
-          visible={this.state.percentage === 100}
-        />
       </View>
     );
   }

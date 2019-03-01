@@ -5,7 +5,6 @@ import Markdown from "react-native-markdown-renderer";
 
 import { withTheme } from "~/redux/hoc";
 import { ITheme } from "~/util/interfaces";
-
 import styles from "./styles";
 
 interface IProps {

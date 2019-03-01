@@ -10,7 +10,7 @@ const persistConfig = {
   key: "root",
   stateReconciler: autoMergeLevel2,
   storage,
-  whitelist: ["SelectAlgorithm", "ToggleDarkTheme"]
+  whitelist: ["SelectAlgorithm", "ToggleAutomaticTheme", "ToggleDarkTheme"]
 };
 
 const pReducer = persistReducer(persistConfig, rootReducer);

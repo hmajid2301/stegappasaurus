@@ -25,6 +25,7 @@ open_merge_request:
     REMOVE_BRANCH_AFTER_MERGE: "true"
     SQUASH: "true"
     TARGET_BRANCH: "master"
+    COMMIT_PREFIX: "WIP"
   except:
     - master
     - production
@@ -43,16 +44,24 @@ lint:critical:
   script:
     - yarn lint-critical
 
-typescript-compilation:
+lint:tsc:
   stage: test
   allow_failure: true
   script:
-    - yarn tsc-test
+    - yarn lint-tsc
 
 unit-tests:
   stage: test
   script:
     - yarn jest
+    
+coverage:
+  stage: test
+  only: 
+    - master
+  script:
+    - yarn coverage
+  coverage: '/Code coverage: \d+\.\d+/'
 
 publish_app:
   stage: publish

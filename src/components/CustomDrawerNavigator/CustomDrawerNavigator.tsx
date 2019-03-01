@@ -5,7 +5,6 @@ import { DrawerItems, DrawerItemsProps } from "react-navigation";
 import Logo from "~/components/Logo";
 import { ITheme } from "~/util/interfaces";
 import { colors } from "~/util/styles";
-
 import styles from "./styles";
 
 const CustomDrawerNavigator: React.FunctionComponent<

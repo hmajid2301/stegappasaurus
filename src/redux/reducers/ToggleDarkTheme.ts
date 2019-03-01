@@ -10,16 +10,20 @@ const initialState = {
 
 interface IAction {
   type: string;
-  isDark: boolean;
+  payload: {
+    isDark: boolean;
+  };
 }
 
 export interface IReducerState {
-  theme: ITheme;
+  ToggleDarkTheme: {
+    theme: ITheme;
+  };
 }
 
 const ToggleDarkTheme = (state = initialState, action: IAction) => {
   if (isType(action, toggleDarkTheme)) {
-    const { isDark } = action;
+    const { isDark } = action.payload;
     const theme = isDark ? THEMES.LIGHT_THEME : THEMES.DARK_THEME;
     return { theme };
   }

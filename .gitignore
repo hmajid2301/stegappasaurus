@@ -6,3 +6,5 @@ node_modules/**/*
 .vscode/*
 .history/*
 jsconfig.json
+src/config/*
+!config/.gitkeep
