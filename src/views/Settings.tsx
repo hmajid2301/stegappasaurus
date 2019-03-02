@@ -7,7 +7,7 @@ import CustomHeader from "~/components/CustomHeader";
 import { ITheme, PrimaryColor } from "~/util/interfaces";
 import { colors } from "~/util/styles";
 
-import { About, Algorithms, Support, Themes } from "./Settings/sections";
+import { About, Algorithms, Other, Support, Themes } from "./Settings/sections";
 import styles from "./Settings/styles";
 
 interface IProps {
@@ -32,6 +32,7 @@ export default class Settings extends Component<IProps, {}> {
           <Algorithms theme={theme} />
           <Themes theme={theme} />
           <Support />
+          <Other theme={theme} />
           <About theme={theme} />
         </List>
       </View>

@@ -1,3 +1,4 @@
+export const RESET_PREFERENCES: string = "RESET_PREFERENCES";
 export const SELECT_ALGORITHM: string = "SELECT_ALGORITHM";
 export const TOGGLE_AUTOMATIC: string = "TOGGLE_AUTOMATIC";
 export const TOGGLE_DARK_THEME: string = "TOGGLE_DARK_THEME";

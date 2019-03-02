@@ -1,13 +1,32 @@
 import { combineReducers } from "redux";
+import storage from "redux-persist/es/storage";
+import { isType } from "typescript-fsa";
 
+import { resetPreferences } from "../actions";
 import SelectAlgorithm from "./SelectAlgorithm";
 import ToggleAutomaticTheme from "./ToggleAutomaticTheme";
 import ToggleDarkTheme from "./ToggleDarkTheme";
 import TogglePrimaryColor from "./TogglePrimaryColor";
 
-export default combineReducers({
+const AppReducers = combineReducers({
   SelectAlgorithm,
   ToggleAutomaticTheme,
   ToggleDarkTheme,
   TogglePrimaryColor
 });
+
+interface IAction {
+  type: string;
+}
+
+const rootReducer = (state: any, action: IAction) => {
+  if (isType(action, resetPreferences)) {
+    Object.keys(state).forEach(key => {
+      storage.removeItem(`persist:${key}`);
+    });
+    state = undefined;
+  }
+  return AppReducers(state, action);
+};
+
+export default rootReducer;
