@@ -11,13 +11,8 @@
   },
   "dependencies": {
     "@expo/vector-icons": "9.0.0",
-    "@types/expo": "32.0.3",
-    "@types/react": "16.8.4",
-    "@types/react-native": "0.57.38",
-    "@types/react-navigation": "3.0.3",
-    "@types/react-redux": "7.0.1",
     "expo": "32.0.3",
-    "expo-cli": "2.11.3",
+    "expo-cli": "2.11.7",
     "moment": "2.24.0",
     "native-base": "2.12.0",
     "react": "16.5.0",
@@ -34,10 +29,17 @@
     "typescript-fsa": "3.0.0-beta-2"
   },
   "devDependencies": {
+    "@types/expo": "32.0.3",
     "@types/jest": "24.0.6",
+    "@types/react": "16.8.4",
+    "@types/react-native": "0.57.38",
+    "@types/react-native-percentage-circle": "1.0.0",
+    "@types/react-navigation": "3.0.5",
+    "@types/react-redux": "7.0.1",
     "@types/react-test-renderer": "16.8.1",
+    "@types/sunrise-sunset-js": "2.0.0",
     "babel-plugin-module-resolver": "3.2.0",
-    "jest": "24.1.0",
+    "jest": "24.3.0",
     "jest-expo": "32.0.0",
     "npm-check-updates": "2.15.0",
     "prettier": "1.16.4",
@@ -48,7 +50,8 @@
     "tslint": "5.13.0",
     "tslint-config-prettier": "1.18.0",
     "tslint-config-standard": "8.0.1",
-    "tslint-react": "3.6.0"
+    "tslint-react": "3.6.0",
+    "typedoc": "^0.14.2"
   },
   "jest": {
     "preset": "jest-expo",

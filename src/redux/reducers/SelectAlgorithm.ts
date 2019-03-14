@@ -4,7 +4,7 @@ import { selectAlgorithm } from "~/redux/actions";
 import { AlgorithmNames } from "~/util/interfaces";
 
 const initialState = {
-  algorithm: "F5"
+  algorithm: "LSB"
 };
 
 interface IAction {
