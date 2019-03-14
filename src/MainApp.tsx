@@ -2,7 +2,7 @@ import { Location, Permissions } from "expo";
 import moment from "moment";
 import { Toast } from "native-base";
 import React, { Component } from "react";
-import { AppState } from "react-native";
+import { AppState, AsyncStorage } from "react-native";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import { getSunrise, getSunset } from "sunrise-sunset-js";
@@ -10,7 +10,6 @@ import { getSunrise, getSunset } from "sunrise-sunset-js";
 import { toggleAutomaticTheme, toggleDarkTheme } from "~/redux/actions";
 import { IReducerState as IReducerAutomaticTheme } from "~/redux/reducers/ToggleAutomaticTheme";
 import { IReducerState as IReducerDarkTheme } from "~/redux/reducers/ToggleDarkTheme";
-import { retrieveData, storeData } from "~/util/functions";
 import { ITheme, PossibleAppStates } from "~/util/interfaces";
 import App from "./views/Routes";
 
@@ -48,7 +47,7 @@ class MainApp extends Component<IProps, IState> {
       this.state.appState.match(/inactive|background/) &&
       nextAppState === "active"
     ) {
-      this.checkAutomaticTheme();
+      await this.checkAutomaticTheme();
     }
     this.setState({ appState: nextAppState });
   };
@@ -56,12 +55,14 @@ class MainApp extends Component<IProps, IState> {
   private checkAutomaticTheme = async () => {
     if (this.props.isAutomatic) {
       const { sunrise, sunset } = await this.getSunriseSunsetTime();
-      const currentTime = moment().toISOString();
+      if (sunrise !== null && sunset !== null) {
+        const currentTime = new Date();
 
-      if (currentTime > sunrise && currentTime < sunset) {
-        this.props.toggleDarkTheme(true);
-      } else {
-        this.props.toggleDarkTheme(false);
+        if (currentTime > sunrise && currentTime < sunset) {
+          this.props.toggleDarkTheme(true);
+        } else {
+          this.props.toggleDarkTheme(false);
+        }
       }
     }
   };
@@ -86,16 +87,22 @@ class MainApp extends Component<IProps, IState> {
 
   private async getLatitudeLongitude() {
     const currentDate = moment().toISOString();
-    const lastQueried = await retrieveData("@LastQueriedLocation");
+    const lastQueried = await AsyncStorage.getItem("@LastQueriedLocation");
     let lastQueriedDate = currentDate;
-    if (lastQueried !== "") {
+    if (lastQueried !== null) {
       lastQueriedDate = moment(lastQueried)
         .add(7, "days")
         .toISOString();
     }
 
-    let latitude = parseInt(await retrieveData("@Latitude"), 10);
-    let longitude = parseInt(await retrieveData("@Longitude"), 10);
+    let latitude = parseInt(
+      (await AsyncStorage.getItem("@Latitude")) || "0",
+      10
+    );
+    let longitude = parseInt(
+      (await AsyncStorage.getItem("@Longitude")) || "0",
+      10
+    );
     ({ latitude, longitude } = await this.getNewLatitudeLongitude(
       lastQueriedDate,
       currentDate,
@@ -122,9 +129,9 @@ class MainApp extends Component<IProps, IState> {
 
           latitude = location.coords.latitude;
           longitude = location.coords.longitude;
-          storeData("@Latitude", latitude);
-          storeData("@Longitude", longitude);
-          storeData("@LastQueriedLocation", currentDate);
+          await AsyncStorage.setItem("@Latitude", JSON.stringify(latitude));
+          await AsyncStorage.setItem("@Longitude", JSON.stringify(longitude));
+          await AsyncStorage.setItem("@LastQueriedLocation", currentDate);
         }
       }
     }
