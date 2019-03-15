@@ -7,7 +7,7 @@ import { AlgorithmNames, ITheme } from "~/util/interfaces";
 import styles from "./styles";
 
 interface IProps {
-  algorithm: string;
+  algorithm: AlgorithmNames;
   selectAlgorithm: (value: AlgorithmNames) => void;
   theme: ITheme;
 }

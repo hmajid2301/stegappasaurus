@@ -8,7 +8,7 @@ import {
 import styles from "./styles";
 
 interface IProps {
-  action: () => void;
+  action: (message: string) => void;
   message: string;
   photo: string;
 }
@@ -53,7 +53,7 @@ export default class ImageMessage extends Component<IProps, IState> {
               enablesReturnKeyAutomatically={true}
               multiline={true}
               onChangeText={message => this.setState({ message })}
-              onSubmitEditing={this.props.action}
+              onSubmitEditing={() => this.props.action(this.state.message)}
               placeholder={
                 this.props.message
                   ? this.props.message

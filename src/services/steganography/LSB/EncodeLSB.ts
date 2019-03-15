@@ -36,14 +36,14 @@ export default class EncodeLSB {
    *
    * @return The encoded image data array.
    */
-  public encode = (imageData: number[], binaryMessage: string[][]) => {
+  public encode = (imageData: number[], binaryMessage: string) => {
     const newPixelData: number[] = [];
     let pixelIndex = 0;
 
-    binaryMessage.forEach(character => {
-      character.forEach(binaryValue => {
+    for (const character of binaryMessage) {
+      for (const bit of character) {
         const pixelValue = imageData[pixelIndex];
-        const newPixelValue = this.getNewPixelValue(pixelValue, binaryValue);
+        const newPixelValue = this.getNewPixelValue(pixelValue, bit);
         newPixelData[pixelIndex] = newPixelValue;
 
         pixelIndex += 1;
@@ -51,8 +51,8 @@ export default class EncodeLSB {
           newPixelData[pixelIndex] = 255;
           pixelIndex += 1;
         }
-      });
-    });
+      }
+    }
     return newPixelData;
   };
 

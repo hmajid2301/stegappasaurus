@@ -1,6 +1,5 @@
+import { AlgorithmNames } from "~/util/interfaces";
 import { DecodeLSB, EncodeLSB } from "./LSB";
-
-type Algorithm = "LSB";
 
 /**
  * This class chooses what algorithm to use. Calls the correct functions to encode/decode data.
@@ -27,14 +26,14 @@ type Algorithm = "LSB";
  * then convert this from unicode into a normal string.
  */
 export default class Steganography {
-  private readonly algorithm: Algorithm;
+  private readonly algorithm: AlgorithmNames;
   /** The algorithm to use to encode/decode i.e. LSB. */
-  private readonly base64Image: string;
-  /** Image as a base64 string */
+  private readonly pixelData: number[];
+  /** Image pixel data as an array from 0 - 255 and in the form `RGBA`. */
 
-  constructor(algorithm: Algorithm, base64Image: string) {
+  constructor(algorithm: AlgorithmNames, pixelData: number[]) {
     this.algorithm = algorithm;
-    this.base64Image = base64Image;
+    this.pixelData = pixelData;
   }
 
   /**
@@ -45,12 +44,9 @@ export default class Steganography {
    * @return The encoded image as base64 string.
    */
   public encode = (message: string) => {
-    const encodingAlgorithm = this.getAlgorithm(true);
     const binaryMessage = this.convertMessageToBinary(message);
-    const pixelData = this.getPixelData();
-    const newPixelData = encodingAlgorithm.encode(pixelData, binaryMessage);
-    const newImage = this.setPixelData(newPixelData);
-    return newImage;
+    const newPixelData = this.encodeData(this.pixelData, binaryMessage);
+    return newPixelData;
   };
 
   /**
@@ -59,14 +55,13 @@ export default class Steganography {
    * @return The decoded message.
    */
   public decode = () => {
-    const decodingAlgorithm = this.getAlgorithm(false);
-    const pixelData = this.getPixelData();
+    let message = "";
     try {
-      const unicode = decodingAlgorithm.decode(pixelData);
-      const message = this.convertBinaryToMessage(unicode);
+      const unicode = this.decodeData(this.pixelData);
+      message = this.convertBinaryToMessage(unicode);
     } catch (e) {
       if (e instanceof RangeError) {
-        const message = "Invalid image, cannot decode.";
+        message = "Invalid image, cannot decode.";
       }
     }
 
@@ -110,17 +105,6 @@ export default class Steganography {
     return unicodeMessage.join("");
   };
 
-  // dummy
-  private getPixelData() {
-    return this.base64Image;
-  }
-
-  // dummy
-  private setPixelData(data: number[]) {
-    const imageData = data;
-    return imageData;
-  }
-
   /**
    * Converts ascii binary decoded from image back into original unicode. First converts binary
    * ascii into a unicode string. Then the unicode string back into original unicode message.
@@ -141,24 +125,43 @@ export default class Steganography {
   };
 
   /**
-   * Gets the correct algorithm to use, whether to decode/encode.
+   * Encodes the data based on the select algorithm.
    *
-   * @param isEncoding: Whether we want the encoding algorithm or decoding.
+   * @param pixelData: An array where numbers range from 0 - 255 (1 byte). In the order of Red \
+   * Green Blue Alpha (repeating), like output from `canvas.getImageData()`
    *
-   * @return The algorithm object to use.
+   * @param binaryMessage: The message to encode, where each element is a character in the message
+   * in unicode.
+   *
+   * @return The encoded image data.
    */
-  private getAlgorithm = (isEncoding: boolean) => {
-    let algorithm;
+  private encodeData = (pixelData: number[], binaryMessage: string) => {
+    let encodedData;
 
     switch (this.algorithm) {
       default:
-        if (isEncoding) {
-          algorithm = new EncodeLSB();
-        } else {
-          algorithm = new DecodeLSB();
-        }
+        encodedData = new EncodeLSB().encode(pixelData, binaryMessage);
     }
 
-    return algorithm;
+    return encodedData;
+  };
+
+  /**
+   * Decodes the hidden message, based on the select algorithm.
+   *
+   * @param pixelData: An array where numbers range from 0 - 255 (1 byte). In the order of Red \
+   * Green Blue Alpha (repeating), like output from `canvas.getImageData()`
+   *
+   * @return The decoded message.
+   */
+  private decodeData = (pixelData: number[]) => {
+    let decodedMessage;
+
+    switch (this.algorithm) {
+      default:
+        decodedMessage = new DecodeLSB().decode(pixelData);
+    }
+
+    return decodedMessage;
   };
 }
