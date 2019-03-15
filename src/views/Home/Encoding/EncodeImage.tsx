@@ -1,14 +1,18 @@
 import { FileSystem, MediaLibrary } from "expo";
 import React, { Component } from "react";
-import { Linking, Platform } from "react-native";
+import { View } from "react-native";
+import Canvas, { Image as CanvasImage, ImageData } from "react-native-canvas";
 import { NavigationScreenProp } from "react-navigation";
 
 import ImageMessage from "~/components/ImageMessage";
 import ImageProgressCircle from "~/components/ImageProgressCircle";
-import { ITheme, PrimaryColor } from "~/util/interfaces";
+import { withDispatchAlgorithm } from "~/redux/hoc";
+import Steganography from "~/services/steganography";
+import { AlgorithmNames, ITheme, PrimaryColor } from "~/util/interfaces";
 import { colors } from "~/util/styles";
 
 interface IProps {
+  algorithm: AlgorithmNames;
   navigation: NavigationScreenProp<any, any>;
   screenProps: {
     theme: ITheme;
@@ -17,10 +21,11 @@ interface IProps {
 
 interface IState {
   isEncoding: boolean;
+  message: string;
   photo: string;
 }
 
-export default class EncodeImage extends Component<IProps, IState> {
+class EncodeImage extends Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     const { navigation } = props;
@@ -28,6 +33,7 @@ export default class EncodeImage extends Component<IProps, IState> {
 
     this.state = {
       isEncoding: false,
+      message: "",
       photo: uri
     };
   }
@@ -36,20 +42,23 @@ export default class EncodeImage extends Component<IProps, IState> {
     const { theme } = this.props.screenProps;
     if (this.state.isEncoding) {
       return (
-        <ImageProgressCircle
-          action={this.encoded}
-          message={"Saved Encoded Photo"}
-          photo={this.state.photo}
-          primaryColor={colors.primary as PrimaryColor}
-          theme={theme}
-        />
+        <View>
+          <ImageProgressCircle
+            action={this.encoded}
+            message={"Saved Encoded Photo"}
+            photo={this.state.photo}
+            primaryColor={colors.primary as PrimaryColor}
+            theme={theme}
+          />
+          <Canvas ref={this.encodeData} />
+        </View>
       );
     }
     return <ImageMessage action={this.isEncoding} photo={this.state.photo} />;
   }
 
-  private isEncoding = () => {
-    this.setState({ isEncoding: true });
+  private isEncoding = (message: string) => {
+    this.setState({ isEncoding: true, message });
   };
 
   private encoded = async () => {
@@ -62,16 +71,31 @@ export default class EncodeImage extends Component<IProps, IState> {
     );
   };
 
-  private openPhotos = async () => {
-    switch (Platform.OS) {
-      case "ios":
-        await Linking.openURL("photos-redirect://");
-        break;
-      case "android":
-        await Linking.openURL("content://media/internal/images/media");
-        break;
-      default:
-        throw new Error("Could not open gallery app");
-    }
+  private encodeData = async (canvas: Canvas) => {
+    const image = new CanvasImage(canvas);
+    image.addEventListener("load", () => {
+      context.drawImage(image, 0, 0);
+    });
+    image.src = this.state.photo;
+    const context = canvas.getContext("2d");
+    const imageData = await context.getImageData(
+      0,
+      0,
+      image.width,
+      image.height
+    );
+    const steganography = new Steganography(this.props.algorithm, imageData);
+    const encodedData = steganography.encode(this.state.message);
+
+    const imgData = new ImageData(
+      canvas,
+      encodedData,
+      image.width,
+      image.height
+    );
+    context.putImageData(imgData, 0, 0);
+    return canvas.toDataURL();
   };
 }
+
+export default withDispatchAlgorithm(EncodeImage);
