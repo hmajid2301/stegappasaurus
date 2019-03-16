@@ -15,7 +15,7 @@ before_script:
   - yarn
 
 open_merge_request:
-  image: registry.gitlab.com/hmajid2301/gitlab-auto-merge-request
+  image: registry.gitlab.com/hmajid2301/gitlab-auto-mr
   stage: open
   before_script: []
   variables:
@@ -28,7 +28,7 @@ open_merge_request:
     - master
     - production
   script:
-    - merge-request.sh
+    - gitlab_auto_mr
 
 lint:
   stage: test

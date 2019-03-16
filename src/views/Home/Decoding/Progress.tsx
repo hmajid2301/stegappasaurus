@@ -19,19 +19,17 @@ interface IProps {
 }
 
 interface IState {
-  isDecoded: boolean;
   message: string;
   photo: string;
 }
 
-class DecodeImage extends Component<IProps, IState> {
+class Progress extends Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     const { navigation } = props;
     const uri = navigation.getParam("uri", "NO-ID");
 
     this.state = {
-      isDecoded: false,
       message: "",
       photo: uri
     };
@@ -39,12 +37,6 @@ class DecodeImage extends Component<IProps, IState> {
 
   public render() {
     const { theme } = this.props.screenProps;
-
-    if (this.state.isDecoded) {
-      return (
-        <ImageMessage message={this.state.message} photo={this.state.photo} />
-      );
-    }
 
     return (
       <View>
@@ -60,7 +52,10 @@ class DecodeImage extends Component<IProps, IState> {
   }
 
   private decoded = () => {
-    this.setState({ isDecoded: true });
+    this.props.navigation.navigate("Progress", {
+      message: this.state.message,
+      uri: this.state.photo
+    });
   };
 
   private decodeData = async (canvas: Canvas) => {
@@ -82,4 +77,4 @@ class DecodeImage extends Component<IProps, IState> {
   };
 }
 
-export default withDispatchAlgorithm(DecodeImage);
+export default withDispatchAlgorithm(Progress);
