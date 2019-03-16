@@ -4,8 +4,9 @@ import {
   NavigationScreenProp
 } from "react-navigation";
 
-import DecodeImage from "./Decoding/DecodeImage";
 import Main from "./Decoding/Main";
+import Message from "./Decoding/Message";
+import Progress from "./Decoding/Progress";
 
 const DecodeNavigator = createStackNavigator({
   Main: {
@@ -14,13 +15,19 @@ const DecodeNavigator = createStackNavigator({
     },
     screen: Main
   },
-
-  DecodeImage: {
+  Message: {
     navigationOptions: {
       header: null,
       tabBarVisible: false
     },
-    screen: DecodeImage
+    screen: Message
+  },
+  Progress: {
+    navigationOptions: {
+      header: null,
+      tabBarVisible: false
+    },
+    screen: Progress
   }
 });
 

@@ -4,8 +4,9 @@ import {
   NavigationScreenProp
 } from "react-navigation";
 
-import EncodeImage from "./Encoding/EncodeImage";
 import Main from "./Encoding/Main";
+import Message from "./Encoding/Message";
+import Progress from "./Encoding/Progress";
 
 const EncodeNavigator = createStackNavigator({
   Main: {
@@ -14,13 +15,19 @@ const EncodeNavigator = createStackNavigator({
     },
     screen: Main
   },
-
-  EncodeImage: {
+  Message: {
     navigationOptions: {
       header: null,
       tabBarVisible: false
     },
-    screen: EncodeImage
+    screen: Message
+  },
+  Progress: {
+    navigationOptions: {
+      header: null,
+      tabBarVisible: false
+    },
+    screen: Progress
   }
 });
 
