@@ -1,3 +1,5 @@
+import console = require("console");
+
 /**
  * This class implements using the following steganography algorithm.
  *
@@ -37,7 +39,7 @@ export default class EncodeLSB {
    * @return The encoded image data array.
    */
   public encode = (imageData: number[], binaryMessage: string) => {
-    const newPixelData: number[] = [];
+    const newPixelData = imageData;
     let pixelIndex = 0;
 
     for (const character of binaryMessage) {
@@ -47,8 +49,7 @@ export default class EncodeLSB {
         newPixelData[pixelIndex] = newPixelValue;
 
         pixelIndex += 1;
-        if (pixelIndex % 4 === 0) {
-          newPixelData[pixelIndex] = 255;
+        if ((pixelIndex + 1) % 4 === 0) {
           pixelIndex += 1;
         }
       }
@@ -76,14 +77,13 @@ export default class EncodeLSB {
 
     if (messageBinaryDigit === "0") {
       if (pixelValue % 2 === 1) {
-        newPixelValue += 1;
+        newPixelValue -= 1;
       }
     } else if (messageBinaryDigit === "1") {
       if (pixelValue % 2 === 0) {
-        newPixelValue -= 1;
+        newPixelValue += 1;
       }
     }
-
     return newPixelValue;
   };
 }

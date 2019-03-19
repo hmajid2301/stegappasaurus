@@ -51,7 +51,7 @@ lint:tsc:
 unit-tests:
   stage: test
   script:
-    - yarn test
+    - yarn tests
 
 coverage:
   stage: test

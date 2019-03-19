@@ -1,3 +1,5 @@
+import console = require("console");
+
 /**
  * This class implements using the following steganography algorithm.
  *
@@ -63,8 +65,6 @@ export default class DecodeLSB {
 
     for (let i = 0; i < messageLength; i += 1) {
       const asciiByte = this.getNextLSBByte(imageData);
-      this.pixelIndex += 10;
-
       binaryMessage.push(asciiByte);
     }
     return binaryMessage;
@@ -86,11 +86,9 @@ export default class DecodeLSB {
 
     while (!completed) {
       const byte = this.getNextLSBByte(imageData);
+      binaryMessage.push(byte);
       if (binaryMessage.slice(-1)[0] !== DecodeLSB.LARGEST_BYTE_VALUE) {
         completed = true;
-      } else {
-        binaryMessage.push(byte);
-        this.pixelIndex += 10;
       }
     }
 
@@ -110,10 +108,10 @@ export default class DecodeLSB {
    * @return The decoded byte.
    */
   private getNextLSBByte = (imageData: number[]) => {
-    const currentPixel = imageData[this.pixelIndex];
-
     let byte = "";
+
     for (let j = 0; j < 8; j += 1) {
+      const currentPixel = imageData[this.pixelIndex];
       let lsb = "0";
       if (currentPixel % 2 === 1) {
         lsb = "1";
@@ -121,11 +119,10 @@ export default class DecodeLSB {
       byte += lsb;
 
       this.pixelIndex += 1;
-      if (this.pixelIndex % 4 === 0) {
+      if ((this.pixelIndex + 1) % 4 === 0) {
         this.pixelIndex += 1;
       }
     }
-
     return byte;
   };
 }
