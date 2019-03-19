@@ -3,7 +3,6 @@ import { View } from "react-native";
 import Canvas, { Image as CanvasImage } from "react-native-canvas";
 import { NavigationScreenProp } from "react-navigation";
 
-import ImageMessage from "~/components/ImageMessage";
 import ImageProgressCircle from "~/components/ImageProgressCircle";
 import { withDispatchAlgorithm } from "~/redux/hoc";
 import Steganography from "~/services/steganography";

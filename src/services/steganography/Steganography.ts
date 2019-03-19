@@ -72,23 +72,12 @@ export default class Steganography {
    * Converts a message into binary, first converts the message into a unicode string. Then
    * converts that unicode string into a binary ascii string.
    *
-   * @param message: THe message to encode as a string.
+   * @param message: The message to encode as a string.
    *
    * @return A binary string (each character is a byte).
    */
   private convertMessageToBinary = (message: string) => {
-    const unicodeMessage = [];
-    let messageLengthBinary = message.length.toString(2);
-    const messageModulo = messageLengthBinary.length % 8;
-
-    if (messageModulo !== 0) {
-      messageLengthBinary = messageLengthBinary.padStart(
-        message.length - messageModulo,
-        "0"
-      );
-    }
-
-    unicodeMessage.push(messageLengthBinary);
+    const unicodeBinaryMessage = [];
 
     for (const character of message) {
       const unicode = "\\u" + (character.codePointAt(0) || 0).toString(16);
@@ -98,11 +87,21 @@ export default class Steganography {
           const padLength = 8 - (binaryValue.length - 1);
           binaryValue = binaryValue.padStart(padLength, "0");
         }
-        unicodeMessage.push(binaryValue);
+        unicodeBinaryMessage.push(binaryValue);
       }
     }
 
-    return unicodeMessage.join("");
+    let messageLengthBinary = unicodeBinaryMessage.length.toString(2);
+    const messageModulo = messageLengthBinary.length % 8;
+
+    if (messageModulo !== 0) {
+      messageLengthBinary = messageLengthBinary.padStart(
+        message.length - messageModulo,
+        "0"
+      );
+    }
+    unicodeBinaryMessage.unshift(messageLengthBinary);
+    return unicodeBinaryMessage.join("");
   };
 
   /**
