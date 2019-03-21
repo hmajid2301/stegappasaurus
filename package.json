@@ -12,7 +12,7 @@
   "dependencies": {
     "@expo/vector-icons": "9.0.0",
     "expo": "32.0.3",
-    "expo-cli": "2.11.7",
+    "expo-cli": "2.13.0",
     "moment": "2.24.0",
     "native-base": "2.12.0",
     "react": "16.5.0",
@@ -65,7 +65,8 @@
       "**/?(*.)+(spec|test).ts?(x)"
     ],
     "modulePathIgnorePatterns": [
-      ".history"
+      ".history",
+      "data.ts"
     ],
     "moduleFileExtensions": [
       "js",
