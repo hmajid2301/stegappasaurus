@@ -1,5 +1,3 @@
-import console = require("console");
-
 /**
  * This class implements using the following steganography algorithm.
  *

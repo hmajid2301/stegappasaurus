@@ -22,6 +22,7 @@ open_merge_request:
     GIT_STRATEGY: none
     REMOVE_BRANCH_AFTER_MERGE: "true"
     SQUASH: "true"
+    AUTO_MERGE: "true"
     TARGET_BRANCH: "master"
     COMMIT_PREFIX: "WIP"
   except:

@@ -39,7 +39,7 @@ export default class Steganography {
   /**
    * Encodes a string (message) into an image using steganography algorithms.
    *
-   * @param message: THe message to encode as a string.
+   * @param message: The message to encode as a string.
    *
    * @return The encoded image as base64 string.
    */
@@ -80,29 +80,39 @@ export default class Steganography {
     const unicodeBinaryMessage = [];
 
     for (const character of message) {
-      const unicode = "\\u" + (character.codePointAt(0) || 0).toString(16);
+      const codePoint = character.codePointAt(0) || 0;
+      const encodingType = codePoint > 128 ? "\\u" : "\\x";
+      const unicode = encodingType + codePoint.toString(16);
       for (const c of unicode) {
-        let binaryValue = (c.codePointAt(0) || 0).toString(2);
-        if (binaryValue.length < 8) {
-          const padLength = 8 - (binaryValue.length - 1);
-          binaryValue = binaryValue.padStart(padLength, "0");
-        }
+        const binaryValue = this.convertToBinary(c.codePointAt(0) || 0);
         unicodeBinaryMessage.push(binaryValue);
       }
     }
 
-    let messageLengthBinary = unicodeBinaryMessage.length.toString(2);
-    const messageModulo = messageLengthBinary.length % 8;
-
-    if (messageModulo !== 0) {
-      messageLengthBinary = messageLengthBinary.padStart(
-        message.length - messageModulo,
-        "0"
+    if (unicodeBinaryMessage.length !== 0) {
+      const paddedMessageLength = this.convertToBinary(
+        unicodeBinaryMessage.length
       );
+      unicodeBinaryMessage.unshift(paddedMessageLength);
     }
-    unicodeBinaryMessage.unshift(messageLengthBinary);
-    return unicodeBinaryMessage.join("");
+
+    return unicodeBinaryMessage;
   };
+
+  /**
+   * Pads data to the nearest byte for example if data = 4 then this function will return
+   * "00000100".
+   *
+   * @param data: Integer value to convert to string
+   *
+   * @return The padded binary data.
+   */
+  private convertToBinary(data: number) {
+    const binary = data.toString(2);
+    const nearestByteLength = Math.ceil(binary.length / 8) * 8;
+    const paddedData = binary.padStart(nearestByteLength, "0");
+    return paddedData;
+  }
 
   /**
    * Converts ascii binary decoded from image back into original unicode. First converts binary
@@ -134,7 +144,7 @@ export default class Steganography {
    *
    * @return The encoded image data.
    */
-  private encodeData = (pixelData: number[], binaryMessage: string) => {
+  private encodeData = (pixelData: number[], binaryMessage: string[]) => {
     let encodedData;
 
     switch (this.algorithm) {
