@@ -60,7 +60,7 @@ coverage:
     - master
   script:
     - yarn coverage
-  coverage: '/Code coverage: \d+\.\d+/'
+  coverage: '/^All files\s+\|\s+\d+\.*\d*\s+\|\s*(\d+\.*\d*)/'
 
 publish_app:
   stage: publish

@@ -1,10 +1,12 @@
+# Library
 node_modules/**/*
 .expo/*
-.idea/*
-*.env
-*.log
+
+# IDEs
 .vscode/*
 .history/*
+.idea/*
 jsconfig.json
-src/config/*
-!config/.gitkeep
+
+# Other
+coverage/
