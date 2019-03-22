@@ -1,6 +1,9 @@
+import { FileSystem, MediaLibrary } from "expo";
+import { Toast } from "native-base";
 import React, { Component } from "react";
 import { View } from "react-native";
 import Canvas, { Image as CanvasImage, ImageData } from "react-native-canvas";
+import uuid from "react-native-uuid";
 import { NavigationScreenProp } from "react-navigation";
 
 import ImageProgressCircle from "~/components/ImageProgressCircle";
@@ -8,6 +11,8 @@ import { withDispatchAlgorithm } from "~/redux/hoc";
 import Steganography from "~/services/steganography";
 import { AlgorithmNames, ITheme, PrimaryColor } from "~/util/interfaces";
 import { colors } from "~/util/styles";
+
+type ImageExtension = "jpg" | "png";
 
 interface IProps {
   algorithm: AlgorithmNames;
@@ -18,6 +23,8 @@ interface IProps {
 }
 
 interface IState {
+  base64Image: string;
+  extension: ImageExtension;
   message: string;
   photo: string;
 }
@@ -29,7 +36,14 @@ class Progress extends Component<IProps, IState> {
     const uri = navigation.getParam("uri", "NO-ID");
     const message = navigation.getParam("message", "NO-ID");
 
+    let imageExtension = "jpg";
+    if (this.props.algorithm === "LSB-PNG") {
+      imageExtension = "png";
+    }
+
     this.state = {
+      base64Image: "",
+      extension: imageExtension as ImageExtension,
       message,
       photo: uri
     };
@@ -52,23 +66,35 @@ class Progress extends Component<IProps, IState> {
   }
 
   private encoded = async () => {
-    const a = "";
+    const imageName = uuid.v1();
+    const imagePath = `${FileSystem.documentDirectory}${imageName}.${
+      this.state.extension
+    }`;
+    await FileSystem.writeAsStringAsync(
+      imagePath,
+      this.state.base64Image,
+      FileSystem.EncodingTypes.Base64
+    ).then();
+
+    await MediaLibrary.createAssetAsync(imagePath);
+    Toast.show({
+      duration: 5000,
+      text: "Encoded image saved to gallery."
+    });
   };
 
-  private encodeData = async (canvas: Canvas) => {
+  private encodeData = (canvas: Canvas) => {
     const image = new CanvasImage(canvas);
     image.addEventListener("load", () => {
       context.drawImage(image, 0, 0);
     });
     image.src = this.state.photo;
     const context = canvas.getContext("2d");
-    const imageData = await context.getImageData(
-      0,
-      0,
-      image.width,
-      image.height
+    const imageData = context.getImageData(0, 0, image.width, image.height);
+    const steganography = new Steganography(
+      this.props.algorithm,
+      imageData.data
     );
-    const steganography = new Steganography(this.props.algorithm, imageData);
     const encodedData = steganography.encode(this.state.message);
 
     const imgData = new ImageData(
@@ -78,7 +104,7 @@ class Progress extends Component<IProps, IState> {
       image.height
     );
     context.putImageData(imgData, 0, 0);
-    return canvas.toDataURL();
+    this.setState({ base64Image: canvas.toDataURL() });
   };
 }
 
