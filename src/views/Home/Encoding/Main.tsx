@@ -4,13 +4,12 @@ import { Icon } from "native-base";
 import React, { Component } from "react";
 import {
   ActivityIndicator,
-  Alert,
   FlatList,
   Image,
   TouchableOpacity,
   View
 } from "react-native";
-import env from "react-native-dotenv";
+import { CAT_API_KEY } from "react-native-dotenv";
 import { NavigationScreenProp } from "react-navigation";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
@@ -18,6 +17,7 @@ import { Dispatch } from "redux";
 import { PRIMARY_COLORS } from "~/common/constants";
 import { ITheme, PrimaryColorNames } from "~/common/interfaces";
 import { colors } from "~/common/styles";
+import Snackbar from "~/components/Snackbar";
 import { togglePrimaryColor } from "~/redux/actions";
 
 import styles from "./Main/styles";
@@ -126,15 +126,9 @@ class Main extends Component<IProps, IState> {
       });
       this.setState({ photos: assets, lastPhoto: endCursor });
     } else {
-      Alert.alert(
-        "Permissions",
-        "Please grant permission to access your camera roll.",
-        [
-          {
-            text: "ok"
-          }
-        ]
-      );
+      Snackbar.show({
+        text: "Grant permissions to access camera roll, to view photos here."
+      });
     }
   };
 
@@ -158,15 +152,9 @@ class Main extends Component<IProps, IState> {
         this.selectPhotoToEncode(result.uri);
       }
     } catch {
-      Alert.alert(
-        "Permissions",
-        "Please grant permission to access your camera.",
-        [
-          {
-            text: "ok"
-          }
-        ]
-      );
+      Snackbar.show({
+        text: "This app does not have permission to access the camera."
+      });
     }
   };
 
@@ -177,15 +165,9 @@ class Main extends Component<IProps, IState> {
         this.selectPhotoToEncode(result.uri);
       }
     } catch {
-      Alert.alert(
-        "Permissions",
-        "Please grant permission to access your camera roll.",
-        [
-          {
-            text: "ok"
-          }
-        ]
-      );
+      Snackbar.show({
+        text: "This app does not have permission to access the camera roll."
+      });
     }
   };
 
@@ -194,7 +176,7 @@ class Main extends Component<IProps, IState> {
 
     const api = create({
       baseURL: "https://api.thecatapi.com",
-      headers: { "x-api-key": env.CAT_API_KEY }
+      headers: { "x-api-key": CAT_API_KEY }
     });
 
     const response = await api.get("/v1/images/search?mime_types=jpg,png");
@@ -202,15 +184,10 @@ class Main extends Component<IProps, IState> {
       const urls = response.data as ICatAPI[];
       this.selectPhotoToEncode(urls[0].url);
     } else {
-      Alert.alert(
-        "Failed",
-        "Failed to get a cat photo, check you're connected to the internet.",
-        [
-          {
-            text: "ok"
-          }
-        ]
-      );
+      Snackbar.show({
+        text:
+          "Failed to fetch a cat photo, check you're connected to the internet."
+      });
     }
 
     setTimeout(() => {

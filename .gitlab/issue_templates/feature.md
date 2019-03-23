@@ -6,15 +6,15 @@ name: "🚀 Feature Request"
 
 ## New Feature
 
-**Describe the new feature**
+<!-- Describe the new feature -->
 
 ## Why is it required
 
-**What benefit would this feature add**
+<!-- What benefit would this feature add -->
 
 ## How to implement
 
-**List how the feature could be implemented**
+<!-- List how the feature could be implemented -->
 
 - [ ] step 1
 - [ ] step 2
@@ -22,4 +22,4 @@ name: "🚀 Feature Request"
 
 ## Other Information
 
-**Other information such as how it could be implemented, examples of it else where etc**
+<!-- Other information such as how it could be implemented, examples of it else where etc -->

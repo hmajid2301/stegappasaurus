@@ -1,9 +1,10 @@
 import { ApiResponse, create } from "apisauce";
 import { FileSystem, MediaLibrary } from "expo";
 import { storage } from "firebase";
-import { Toast } from "native-base";
+import { Base64 } from "js-base64";
 import React, { Component } from "react";
 import { Alert, Image, Share, View } from "react-native";
+import { FIREBASE_API_URL } from "react-native-dotenv";
 import { NavigationScreenProp } from "react-navigation";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
@@ -11,11 +12,13 @@ import { Dispatch } from "redux";
 import { AlgorithmNames, ITheme, PrimaryColor } from "~/common/interfaces";
 import { colors } from "~/common/styles";
 import ImageProgress from "~/components/ImageProgress";
+import Snackbar from "~/components/Snackbar";
 import { selectAlgorithm } from "~/redux/actions";
 import { IReducerState as IReducerFireBase } from "~/redux/reducers/FirebaseToken";
 import { IReducerState as IReducerSelectAlgorithm } from "~/redux/reducers/SelectAlgorithm";
+import { IEncodingError, IEncodingSuccess } from "~/services/web/models";
 
-type ImageExtension = "jpg" | "png";
+type Encoding = IEncodingSuccess | IEncodingError;
 
 interface IReducerState extends IReducerSelectAlgorithm, IReducerFireBase {}
 
@@ -29,9 +32,7 @@ interface IProps {
 }
 
 interface IState {
-  base64Image: string;
   encoding: boolean;
-  extension: ImageExtension;
   filename: string;
   message: string;
   percentage: number;
@@ -43,18 +44,16 @@ class Progress extends Component<IProps, IState> {
     super(props);
     const { navigation } = props;
     const uri = navigation.getParam("uri", "NO-ID");
-    const filename = new Date().toISOString();
     const message = navigation.getParam("message", "NO-ID");
 
     let imageExtension = "jpg";
     if (this.props.algorithm === "LSB-PNG") {
       imageExtension = "png";
     }
+    const filename = `${new Date().toISOString()}.${imageExtension}`;
 
     this.state = {
-      base64Image: "",
       encoding: true,
-      extension: imageExtension as ImageExtension,
       filename,
       message,
       percentage: 0,
@@ -82,8 +81,9 @@ class Progress extends Component<IProps, IState> {
       encoding: FileSystem.EncodingTypes.Base64
     });
 
+    (global as any).btoa = Base64.btoa;
+    (global as any).atob = Base64.atob;
     await this.callEncodeAPI(base64Image);
-    await this.encoded();
   };
 
   private callEncodeAPI = async (base64Image: string) => {
@@ -91,7 +91,7 @@ class Progress extends Component<IProps, IState> {
       this.state.photo,
       async (width, height) => {
         const api = create({
-          baseURL: "https://us-central1-stegappasaurus.cloudfunctions.net/api",
+          baseURL: FIREBASE_API_URL,
           headers: { Authorization: `Bearer ${this.props.token}` }
         });
         const response = await api.post("/encode", {
@@ -103,60 +103,68 @@ class Progress extends Component<IProps, IState> {
           },
           message: this.state.message
         });
-        this.handleResponse(response);
+        await this.handleResponse(response);
       },
       () => null
     );
   };
 
-  private handleResponse(response: ApiResponse<{}>) {
-    if (response.status === 200) {
-      this.setState({ base64Image: response.data as string });
-    } else if (
-      response.status === 200 &&
-      response.data === "message_too_large"
-    ) {
-      this.props.navigation.goBack();
-      Alert.alert("Message too large to encode in image.");
-    } else {
-      Alert.alert(
-        "Encoding Failure",
-        "Failed to decode photo, please check you have an internet connection.",
-        [
-          {
-            text: "ok"
-          }
-        ]
-      );
+  private handleResponse = async (response: ApiResponse<{}>) => {
+    if (response.data !== undefined) {
+      const data = response.data as Encoding;
+      const status = response.status;
+
+      if (status === 200 && this.isSuccess(data)) {
+        await this.encoded(data.encoded);
+      } else if (
+        status === 500 &&
+        !this.isSuccess(data) &&
+        data.code === ("message_too_large" as IEncodingError["code"])
+      ) {
+        this.props.navigation.goBack();
+        Snackbar.show({
+          text: "Message too large to encode in image."
+        });
+      } else {
+        this.props.navigation.navigate("Main");
+        Alert.alert(
+          "Encoding Failure",
+          "Failed to encode photo, please check you have an internet connection.",
+          [
+            {
+              text: "ok"
+            }
+          ]
+        );
+      }
     }
-  }
+  };
 
-  private encoded = async () => {
-    const imagePath = `${FileSystem.documentDirectory}${this.state.filename}.${
-      this.state.extension
-    }`;
-    await FileSystem.writeAsStringAsync(imagePath, this.state.base64Image, {
+  private isSuccess = (data: Encoding): data is IEncodingSuccess => {
+    if ((data as IEncodingSuccess).encoded) {
+      return true;
+    }
+    return false;
+  };
+
+  private encoded = async (base64Image: string) => {
+    const imagePath = `${FileSystem.cacheDirectory}${this.state.filename}`;
+    await FileSystem.writeAsStringAsync(imagePath, base64Image.substring(22), {
       encoding: FileSystem.EncodingTypes.Base64
-    }).then();
-
-    await MediaLibrary.createAssetAsync(imagePath);
-    Toast.show({
-      buttonText: "Okay",
-      duration: 5000,
-      text: "Encoded image saved to gallery."
     });
+    await MediaLibrary.createAssetAsync(imagePath);
+    const blob = await this.uriToBlob(imagePath);
+    await FileSystem.deleteAsync(imagePath);
 
-    const blob = await this.uriToBlob();
     const ref = storage()
       .ref()
       .child(`images/${this.state.filename}`);
+
     ref.put(blob);
-    setTimeout(() => {
-      this.setState({ encoding: false });
-    }, 1000);
+    this.setState({ encoding: false });
   };
 
-  private uriToBlob = async () => {
+  private uriToBlob = async (uri: string) => {
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
       xhr.onload = () => {
@@ -166,7 +174,7 @@ class Progress extends Component<IProps, IState> {
         reject(new TypeError("Network request failed"));
       };
       xhr.responseType = "blob";
-      xhr.open("GET", this.state.photo, true);
+      xhr.open("GET", uri, true);
       xhr.send(null);
     });
   };
