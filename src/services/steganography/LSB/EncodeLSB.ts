@@ -34,11 +34,20 @@ export default class EncodeLSB {
    * @param binaryMessage: The message to encode, where each element is a character in the message
    * in unicode.
    *
+   * @param updateProgress: A function to call update progress from 0 - 100 of encoding.
+   *
    * @return The encoded image data array.
    */
-  public encode = (imageData: number[], binaryMessage: string[]) => {
+  public encode = (
+    imageData: number[],
+    binaryMessage: string[],
+    updateProgress?: (newValue: number) => void
+  ) => {
     const newPixelData = imageData;
+    const incrementPerBit = 100 / binaryMessage.join("").length;
+
     let pixelIndex = 0;
+    let progress = 0;
 
     for (const character of binaryMessage) {
       for (const bit of character) {
@@ -49,6 +58,11 @@ export default class EncodeLSB {
         pixelIndex += 1;
         if ((pixelIndex + 1) % 4 === 0) {
           pixelIndex += 1;
+        }
+
+        progress += incrementPerBit;
+        if (updateProgress !== undefined) {
+          updateProgress(progress);
         }
       }
     }
