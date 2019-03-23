@@ -19,6 +19,7 @@ interface IProps {
 
 interface IState {
   message: string;
+  percentage: number;
   photo: string;
 }
 
@@ -30,6 +31,7 @@ class Progress extends Component<IProps, IState> {
 
     this.state = {
       message: "",
+      percentage: 0,
       photo: uri
     };
   }
@@ -42,6 +44,7 @@ class Progress extends Component<IProps, IState> {
         <ImageProgressCircle
           action={this.decoded}
           photo={this.state.photo}
+          percentage={this.state.percentage}
           primaryColor={colors.secondary as PrimaryColor}
           theme={theme}
         />
@@ -50,6 +53,10 @@ class Progress extends Component<IProps, IState> {
     );
   }
 
+  public updateProgressBar = (newValue: number) => {
+    this.setState({ percentage: newValue });
+  };
+
   private decoded = () => {
     this.props.navigation.navigate("Progress", {
       message: this.state.message,
@@ -57,20 +64,19 @@ class Progress extends Component<IProps, IState> {
     });
   };
 
-  private decodeData = async (canvas: Canvas) => {
+  private decodeData = (canvas: Canvas) => {
     const image = new CanvasImage(canvas);
     image.addEventListener("load", () => {
       context.drawImage(image, 0, 0);
     });
     image.src = this.state.photo;
     const context = canvas.getContext("2d");
-    const imageData = await context.getImageData(
-      0,
-      0,
-      image.width,
-      image.height
+    const imageData = context.getImageData(0, 0, image.width, image.height);
+    const steganography = new Steganography(
+      this.props.algorithm,
+      imageData.data,
+      this.updateProgressBar
     );
-    const steganography = new Steganography(this.props.algorithm, imageData);
     const decodedMessage = steganography.decode();
     this.setState({ message: decodedMessage });
   };

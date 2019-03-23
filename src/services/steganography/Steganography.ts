@@ -26,14 +26,21 @@ import { DecodeLSB, EncodeLSB } from "./LSB";
  * then convert this from unicode into a normal string.
  */
 export default class Steganography {
-  private readonly algorithm: AlgorithmNames;
   /** The algorithm to use to encode/decode i.e. LSB. */
-  private readonly pixelData: number[];
+  private readonly algorithm: AlgorithmNames;
   /** Image pixel data as an array from 0 - 255 and in the form `RGBA`. */
+  private readonly pixelData: number[];
+  /** Function used to increment progress of steganography encoding/decoding. */
+  private updateProgress?: (newValue: number) => void;
 
-  constructor(algorithm: AlgorithmNames, pixelData: number[]) {
+  constructor(
+    algorithm: AlgorithmNames,
+    pixelData: number[],
+    updateProgress?: (increment: number) => void
+  ) {
     this.algorithm = algorithm;
     this.pixelData = pixelData;
+    this.updateProgress = updateProgress;
   }
 
   /**
@@ -149,7 +156,11 @@ export default class Steganography {
 
     switch (this.algorithm) {
       default:
-        encodedData = new EncodeLSB().encode(pixelData, binaryMessage);
+        encodedData = new EncodeLSB().encode(
+          pixelData,
+          binaryMessage,
+          this.updateProgress
+        );
     }
 
     return encodedData;
@@ -168,7 +179,7 @@ export default class Steganography {
 
     switch (this.algorithm) {
       default:
-        decodedMessage = new DecodeLSB().decode(pixelData);
+        decodedMessage = new DecodeLSB().decode(pixelData, this.updateProgress);
     }
 
     return decodedMessage;

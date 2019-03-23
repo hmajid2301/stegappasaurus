@@ -17,26 +17,16 @@ interface IProps {
   action: () => void;
   message?: string;
   photo: string;
+  percentage: number;
   primaryColor: PrimaryColor;
   theme: ITheme;
 }
 
-interface IState {
-  percentage: number;
-}
-
-export default class ImageProgressCircle extends Component<IProps, IState> {
+export default class ImageProgressCircle extends Component<IProps, {}> {
   public static defaultProps = {};
 
-  constructor(props: IProps) {
-    super(props);
-    this.state = {
-      percentage: 0
-    };
-  }
-
   public componentDidUpdate = () => {
-    if (this.state.percentage === 100) {
+    if (this.props.percentage === 100) {
       this.props.action();
     }
   };
@@ -55,7 +45,7 @@ export default class ImageProgressCircle extends Component<IProps, IState> {
           <PercentageCircle
             borderWidth={5}
             color={this.props.primaryColor}
-            percent={this.state.percentage}
+            percent={this.props.percentage}
             radius={pageWidth * 0.334}
           >
             <ImageBackground
@@ -65,7 +55,7 @@ export default class ImageProgressCircle extends Component<IProps, IState> {
             >
               <View style={styles.textPercentageContainer}>
                 <Text style={styles.textPercentage}>
-                  {this.state.percentage}%
+                  {this.props.percentage}%
                 </Text>
               </View>
             </ImageBackground>

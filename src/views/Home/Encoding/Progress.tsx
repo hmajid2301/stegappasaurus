@@ -26,6 +26,7 @@ interface IState {
   base64Image: string;
   extension: ImageExtension;
   message: string;
+  percentage: number;
   photo: string;
 }
 
@@ -45,6 +46,7 @@ class Progress extends Component<IProps, IState> {
       base64Image: "",
       extension: imageExtension as ImageExtension,
       message,
+      percentage: 0,
       photo: uri
     };
   }
@@ -57,6 +59,7 @@ class Progress extends Component<IProps, IState> {
           action={this.encoded}
           message={"Saved Encoded Photo"}
           photo={this.state.photo}
+          percentage={this.state.percentage}
           primaryColor={colors.primary as PrimaryColor}
           theme={theme}
         />
@@ -64,6 +67,10 @@ class Progress extends Component<IProps, IState> {
       </View>
     );
   }
+
+  public updateProgressBar = (newValue: number) => {
+    this.setState({ percentage: newValue });
+  };
 
   private encoded = async () => {
     const imageName = uuid.v1();
@@ -93,10 +100,10 @@ class Progress extends Component<IProps, IState> {
     const imageData = context.getImageData(0, 0, image.width, image.height);
     const steganography = new Steganography(
       this.props.algorithm,
-      imageData.data
+      imageData.data,
+      this.updateProgressBar
     );
     const encodedData = steganography.encode(this.state.message);
-
     const imgData = new ImageData(
       canvas,
       encodedData,

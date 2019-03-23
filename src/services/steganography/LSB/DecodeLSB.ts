@@ -43,6 +43,10 @@ export default class DecodeLSB {
   /** The largest possible value for a byte (255) */
   private pixelIndex = 0;
   /** The index to start decoding the next byte from. */
+  private progress = 0;
+  /** The progress of decoding algorithm. */
+  private incrementPerBit = 0;
+  /** How much to progress by. */
 
   /**
    * Acts a main function decodes binary message from image data. **Note**: alpha channel is
@@ -54,16 +58,28 @@ export default class DecodeLSB {
    * @param imageData: An array where numbers range from 0 - 255 (1 byte). In the order of Red \
    * Green Blue Alpha (repeating), like output from `canvas.getImageData()`.
    *
+   * @param updateProgress: A function to call update progress from 0 - 100 of encoding.
+   *
    * @return The decoded binary message as a string.
    */
-  public decode = (imageData: number[]) => {
+  public decode = (
+    imageData: number[],
+    updateProgress?: (newValue: number) => void
+  ) => {
     this.pixelIndex = 0;
+    this.progress = 0;
     const messageLength = this.getMessageLength(imageData);
+    this.incrementPerBit = (100 / messageLength) * 8;
     const binaryMessage: string[] = [];
 
     for (let i = 0; i < messageLength; i += 1) {
       const asciiByte = this.getNextLSBByte(imageData);
       binaryMessage.push(asciiByte);
+      this.progress += this.incrementPerBit;
+
+      if (updateProgress !== undefined) {
+        updateProgress(this.progress);
+      }
     }
     return binaryMessage;
   };
