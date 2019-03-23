@@ -84,27 +84,100 @@ export default class Steganography {
    * @return A binary string (each character is a byte).
    */
   public convertMessageToBinary = (message: string) => {
-    const unicodeBinaryMessage = [];
+    const isASCII = this.isASCII(message);
+    let binaryMessage = [];
+
+    if (isASCII) {
+      binaryMessage = this.encodeAsASCII(message);
+    } else {
+      binaryMessage = this.encodeAsUnicodeString(message);
+    }
+
+    const binaryMessageLength = this.getMessageLengthBinary(binaryMessage);
+    binaryMessage.unshift(binaryMessageLength);
+    return binaryMessage;
+  };
+
+  /**
+   * Checks if the message can be encoded in ASCII. For example
+   * unicode characters like emojis cannot be encoded in ASCII but
+   * normal English characters can like "A" or "1".
+   *
+   * @param message: The message that will be encoded.
+   *
+   * @return True if the message can be encoded in ASCII, else returns False.
+   */
+  private isASCII = (message: string) => {
+    for (const character of message) {
+      const value = character.codePointAt(0) || -1;
+      if (value < 0 || value > 127) {
+        return false;
+      }
+    }
+    return true;
+  };
+
+  /**
+   * Encodes the message as an ASCII string, For example "A" -> ["01000001"].
+   *
+   * @param message: The message to encode in ASCII binary.
+   *
+   * @return The message in binary to encode as an array where each item is a character
+   * in the message.
+   */
+  private encodeAsASCII = (message: string) => {
+    const binaryMessage = [];
+    for (const character of message) {
+      const codePoint = character.codePointAt(0) || 0;
+      const binaryValue = this.convertToBinary(codePoint);
+      binaryMessage.push(binaryValue);
+    }
+
+    return binaryMessage;
+  };
+
+  /**
+   * Encodes the message as a unicode string, then into ascii binary.
+   * For example "A" -> "\x41" -> ["01011100", "01111000", "00110100", "00110001"].
+   * This is used when we want to encode unicode characters such as emojis in our
+   * message.
+   *
+   * @param message: The message to encode in unicode ascii binary.
+   *
+   * @return The message in binary to encode as an array where each item is a character
+   * in the message.
+   */
+  private encodeAsUnicodeString = (message: string) => {
+    const binaryMessage = [];
 
     for (const character of message) {
       const codePoint = character.codePointAt(0) || 0;
       const encodingType = codePoint > 128 ? "\\u" : "\\x";
       const unicode = encodingType + codePoint.toString(16);
-      for (const c of unicode) {
-        const binaryValue = this.convertToBinary(c.codePointAt(0) || 0);
-        unicodeBinaryMessage.push(binaryValue);
+
+      for (const bit of unicode) {
+        const binaryValue = this.convertToBinary(bit.codePointAt(0) || 0);
+        binaryMessage.push(binaryValue);
       }
     }
 
-    if (unicodeBinaryMessage.length !== 0) {
-      const paddedMessageLength = this.convertToBinary(
-        unicodeBinaryMessage.length
-      );
-      unicodeBinaryMessage.unshift(paddedMessageLength);
-    }
-
-    return unicodeBinaryMessage;
+    return binaryMessage;
   };
+
+  /**
+   * Gets the message length in binary. Gets the message to the nearest byte.
+   *
+   * @param message: The message where each character is a byte.
+   *
+   * @return The message length in binary.
+   */
+  private getMessageLengthBinary(message: string[]) {
+    let messageLength = "";
+    if (message.length !== 0) {
+      messageLength = this.convertToBinary(message.length);
+    }
+    return messageLength;
+  }
 
   /**
    * Pads data to the nearest byte for example if data = 4 then this function will return
@@ -122,7 +195,7 @@ export default class Steganography {
   }
 
   /**
-   * Converts ascii binary decoded from image back into original unicode. First converts binary
+   * Converts ASCII binary decoded from image back into original unicode. First converts binary
    * ascii into a unicode string. Then the unicode string back into original unicode message.
    *
    * @param imageData: An array where numbers range from 0 - 255 (1 byte). In the order of Red \
@@ -131,13 +204,12 @@ export default class Steganography {
    * @return The encoded message as a string.
    */
   private convertBinaryToMessage = (binaryMessage: string[]) => {
-    let unicodeString = "";
-    binaryMessage.forEach(currentByte => {
-      unicodeString += String.fromCodePoint(parseInt(currentByte, 2));
-    });
-
-    const message = unicodeString.normalize();
-    return message;
+    let message = "";
+    for (const currentByte of binaryMessage) {
+      message += String.fromCodePoint(parseInt(currentByte, 2));
+    }
+    const decodedMessage = message.normalize();
+    return decodedMessage;
   };
 
   /**
