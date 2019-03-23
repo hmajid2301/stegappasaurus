@@ -1,7 +1,10 @@
+import { Toast } from "native-base";
 import React, { Component } from "react";
+import { Image } from "react-native";
 import { NavigationScreenProp } from "react-navigation";
 
 import ImageMessage from "~/components/ImageMessage";
+import Steganography from "~/services/steganography";
 
 interface IProps {
   navigation: NavigationScreenProp<any, any>;
@@ -27,9 +30,33 @@ export default class Message extends Component<IProps, IState> {
   }
 
   private onSubmit = (message: string) => {
-    this.props.navigation.navigate("Progress", {
-      message,
-      uri: this.state.photo
-    });
+    let bitsCanEncode = 0;
+    Image.getSize(
+      this.state.photo,
+      (width, height) => {
+        bitsCanEncode = (width * height * 3) / 4;
+      },
+      () => null
+    );
+
+    const binaryMessage = new Steganography(
+      "LSB-PNG",
+      []
+    ).convertMessageToBinary(message);
+    const messageLength = binaryMessage.join("").length;
+
+    if (messageLength > bitsCanEncode) {
+      Toast.show({
+        buttonText: "Okay",
+        duration: 5000,
+        text: "Message too large to encode in image.",
+        type: "danger"
+      });
+    } else {
+      this.props.navigation.navigate("Progress", {
+        message,
+        uri: this.state.photo
+      });
+    }
   };
 }

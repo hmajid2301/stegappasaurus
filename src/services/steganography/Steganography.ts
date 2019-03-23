@@ -83,7 +83,7 @@ export default class Steganography {
    *
    * @return A binary string (each character is a byte).
    */
-  private convertMessageToBinary = (message: string) => {
+  public convertMessageToBinary = (message: string) => {
     const unicodeBinaryMessage = [];
 
     for (const character of message) {
