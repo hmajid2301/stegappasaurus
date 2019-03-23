@@ -73,6 +73,7 @@ class MainApp extends Component<IProps, IState> {
     if (isNaN(latitude)) {
       this.props.toggleAutomaticTheme(false);
       Toast.show({
+        buttonText: "Okay",
         duration: 5000,
         text:
           "For automatic theme location services need to be turned on. Turning off automatic theme."

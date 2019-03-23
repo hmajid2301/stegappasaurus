@@ -85,6 +85,7 @@ class Progress extends Component<IProps, IState> {
 
     await MediaLibrary.createAssetAsync(imagePath);
     Toast.show({
+      buttonText: "Okay",
       duration: 5000,
       text: "Encoded image saved to gallery."
     });
