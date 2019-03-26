@@ -45,7 +45,6 @@ lint:critical:
 
 lint:tsc:
   stage: test
-  allow_failure: true
   script:
     - yarn lint-tsc
 
@@ -62,7 +61,15 @@ coverage:
     - yarn coverage
   coverage: '/^All files\s+\|\s+\d+\.*\d*\s+\|\s*(\d+\.*\d*)/'
 
-publish_app:
+publish-firebase-functions:
+  stage: publish
+  only:
+    - master
+  script:
+    - firebase use --token $FIREBASE_DEPLOY_KEY production
+    - firebase deploy -m "Pipeline $CI_PIPELINE_ID, build $CI_BUILD_ID" --non-interactive --token $FIREBASE_DEPLOY_KEY
+
+publish-app:
   stage: publish
   only:
     - /^release/.*$/
