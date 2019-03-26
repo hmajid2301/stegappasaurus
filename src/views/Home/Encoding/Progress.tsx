@@ -1,14 +1,12 @@
+import { create } from "apisauce";
 import { FileSystem, MediaLibrary } from "expo";
 import { Toast } from "native-base";
 import React, { Component } from "react";
-import { View } from "react-native";
-import Canvas, { Image as CanvasImage, ImageData } from "react-native-canvas";
-import uuid from "react-native-uuid";
+import { Image, View } from "react-native";
 import { NavigationScreenProp } from "react-navigation";
 
 import ImageProgressCircle from "~/components/ImageProgressCircle";
 import { withDispatchAlgorithm } from "~/redux/hoc";
-import Steganography from "~/services/steganography";
 import { AlgorithmNames, ITheme, PrimaryColor } from "~/util/interfaces";
 import { colors } from "~/util/styles";
 
@@ -51,10 +49,36 @@ class Progress extends Component<IProps, IState> {
     };
   }
 
+  public componentWillMount = async () => {
+    const base64Image = await FileSystem.readAsStringAsync(
+      this.state.photo,
+      FileSystem.EncodingTypes.Base64
+    );
+    await Image.getSize(
+      this.state.photo,
+      async (width, height) => {
+        const api = create({
+          baseURL: "https://us-central1-stegappasaurus.cloudfunctions.net"
+        });
+        const response = await api.post("/encode", {
+          algorithm: this.props.algorithm,
+          imageData: {
+            base64Image,
+            height,
+            width
+          },
+          message: this.state.message
+        });
+        console.log(JSON.stringify(response));
+      },
+      () => null
+    );
+  };
+
   public render() {
     const { theme } = this.props.screenProps;
     return (
-      <View>
+      <View style={{ flex: 1 }}>
         <ImageProgressCircle
           action={this.encoded}
           message={"Saved Encoded Photo"}
@@ -63,7 +87,6 @@ class Progress extends Component<IProps, IState> {
           primaryColor={colors.primary as PrimaryColor}
           theme={theme}
         />
-        <Canvas ref={this.encodeData} />
       </View>
     );
   }
@@ -73,7 +96,7 @@ class Progress extends Component<IProps, IState> {
   };
 
   private encoded = async () => {
-    const imageName = uuid.v1();
+    const imageName = new Date().toISOString();
     const imagePath = `${FileSystem.documentDirectory}${imageName}.${
       this.state.extension
     }`;
@@ -89,30 +112,6 @@ class Progress extends Component<IProps, IState> {
       duration: 5000,
       text: "Encoded image saved to gallery."
     });
-  };
-
-  private encodeData = (canvas: Canvas) => {
-    const image = new CanvasImage(canvas);
-    image.addEventListener("load", () => {
-      context.drawImage(image, 0, 0);
-    });
-    image.src = this.state.photo;
-    const context = canvas.getContext("2d");
-    const imageData = context.getImageData(0, 0, image.width, image.height);
-    const steganography = new Steganography(
-      this.props.algorithm,
-      imageData.data,
-      this.updateProgressBar
-    );
-    const encodedData = steganography.encode(this.state.message);
-    const imgData = new ImageData(
-      canvas,
-      encodedData,
-      image.width,
-      image.height
-    );
-    context.putImageData(imgData, 0, 0);
-    this.setState({ base64Image: canvas.toDataURL() });
   };
 }
 

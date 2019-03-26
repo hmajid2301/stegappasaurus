@@ -11,23 +11,20 @@
   },
   "dependencies": {
     "@expo/vector-icons": "9.0.0",
+    "apisauce": "^1.0.2",
     "expo": "32.0.3",
     "expo-cli": "2.13.0",
     "moment": "2.24.0",
     "native-base": "2.12.0",
     "react": "16.5.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz",
-    "react-native-canvas": "0.1.30",
     "react-native-markdown-renderer": "3.2.8",
     "react-native-percentage-circle": "1.0.7",
-    "react-native-uuid": "^1.4.9",
     "react-navigation": "3.3.0",
     "react-redux": "6.0.1",
     "redux": "4.0.1",
     "redux-persist": "5.10.0",
-    "sunrise-sunset-js": "2.0.0",
-    "typescript": "3.3.3",
-    "typescript-fsa": "3.0.0-beta-2"
+    "sunrise-sunset-js": "2.0.0"
   },
   "devDependencies": {
     "@types/expo": "32.0.3",
@@ -41,6 +38,8 @@
     "@types/react-test-renderer": "16.8.1",
     "@types/sunrise-sunset-js": "2.0.0",
     "babel-plugin-module-resolver": "3.2.0",
+    "canvas": "2.4.1",
+    "firebase-tools": "6.5.0",
     "jest": "24.3.0",
     "jest-expo": "32.0.0",
     "npm-check-updates": "2.15.0",
@@ -53,7 +52,8 @@
     "tslint-config-prettier": "1.18.0",
     "tslint-config-standard": "8.0.1",
     "tslint-react": "3.6.0",
-    "typedoc": "^0.14.2"
+    "typescript": "3.3.3",
+    "typescript-fsa": "3.0.0-beta-2"
   },
   "jest": {
     "preset": "jest-expo",

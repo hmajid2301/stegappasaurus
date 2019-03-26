@@ -1,17 +1,18 @@
-import Steganography from "../../src/services/steganography";
+import Steganography from "../../functions/src/services/steganography";
 import data from "./data";
 
 test.each(data)(
   "Steganography EncodeLSB",
-  ({ imageData, message, encodedData }) => {
-    const newPixelData = new Steganography("LSB-PNG", imageData).encode(
-      message
-    );
-    expect(newPixelData).toEqual(encodedData.LSB);
+  ({ image, message, encodedImage }) => {
+    const encodedBase64 = new Steganography("LSB-PNG", image).encode(message);
+    expect(encodedBase64).toEqual(encodedImage.base64Image);
   }
 );
 
-test.each(data)("Steganography DecodeLSB", ({ imageData, decodedString }) => {
-  const decodedMessage = new Steganography("LSB-PNG", imageData).decode();
-  expect(decodedMessage).toEqual(decodedString);
-});
+test.each(data)(
+  "Steganography DecodeLSB",
+  ({ encodedImage, decodedString }) => {
+    const decodedMessage = new Steganography("LSB-PNG", encodedImage).decode();
+    expect(decodedMessage).toEqual(decodedString);
+  }
+);
