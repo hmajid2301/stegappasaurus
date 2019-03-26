@@ -4,14 +4,15 @@ import { Image } from "react-native";
 import { NavigationScreenProp } from "react-navigation";
 
 import ImageMessage from "~/components/ImageMessage";
-import Steganography from "~/services/steganography";
 
 interface IProps {
   navigation: NavigationScreenProp<any, any>;
 }
 
 interface IState {
+  height: number;
   photo: string;
+  width: number;
 }
 
 export default class Message extends Component<IProps, IState> {
@@ -21,42 +22,53 @@ export default class Message extends Component<IProps, IState> {
     const uri = navigation.getParam("uri", "NO-ID");
 
     this.state = {
-      photo: uri
+      height: 0,
+      photo: uri,
+      width: 0
     };
   }
+
+  public componentWillMount = () => {
+    Image.getSize(
+      this.state.photo,
+      (width, height) => {
+        this.setState({ height, width });
+      },
+      () => null
+    );
+  };
 
   public render() {
     return <ImageMessage action={this.onSubmit} photo={this.state.photo} />;
   }
 
-  private onSubmit = (message: string) => {
-    let bitsCanEncode = 0;
-    Image.getSize(
-      this.state.photo,
-      (width, height) => {
-        bitsCanEncode = (width * height * 3) / 4;
-      },
-      () => null
-    );
+  private onSubmit = async (message: string) => {
+    // const binaryMessage = new Steganography(
+    //   "LSB-PNG",
+    //   []
+    // ).convertMessageToBinary(message);
+    // const messageLength = binaryMessage.join("").length;
+    // const encodableBits = (this.state.height * this.state.width * 3) / 4;
 
-    const binaryMessage = new Steganography(
-      "LSB-PNG",
-      []
-    ).convertMessageToBinary(message);
-    const messageLength = binaryMessage.join("").length;
-
-    if (messageLength > bitsCanEncode) {
-      Toast.show({
-        buttonText: "Okay",
-        duration: 5000,
-        text: "Message too large to encode in image.",
-        type: "danger"
-      });
-    } else {
-      this.props.navigation.navigate("Progress", {
-        message,
-        uri: this.state.photo
-      });
-    }
+    // if (messageLength === 0) {
+    //   Toast.show({
+    //     buttonText: "Okay",
+    //     duration: 3000,
+    //     text: "Please enter a valid message.",
+    //     type: "danger"
+    //   });
+    // } else if (messageLength > encodableBits) {
+    //   Toast.show({
+    //     buttonText: "Okay",
+    //     duration: 5000,
+    //     text: "Message too large to encode in image.",
+    //     type: "danger"
+    //   });
+    // } else {
+    this.props.navigation.navigate("Progress", {
+      message,
+      uri: this.state.photo
+    });
+    // }
   };
 }

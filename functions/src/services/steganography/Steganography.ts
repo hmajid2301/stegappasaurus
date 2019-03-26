@@ -1,4 +1,5 @@
-import { AlgorithmNames } from "~/util/interfaces";
+import { createCanvas, createImageData, Image } from "canvas";
+
 import { DecodeLSB, EncodeLSB } from "./LSB";
 
 /**
@@ -25,22 +26,22 @@ import { DecodeLSB, EncodeLSB } from "./LSB";
  * `"\u0041\u0020\uD83D\uDE00"`, this is a unicode string. So to get back our original message we
  * then convert this from unicode into a normal string.
  */
+type AlgorithmNames = "F5" | "LSB-PNG" | "LSB-DCT";
+interface ImageData {
+  base64Image: string;
+  width: number;
+  height: number;
+}
+
 export default class Steganography {
   /** The algorithm to use to encode/decode i.e. LSB. */
   private readonly algorithm: AlgorithmNames;
   /** Image pixel data as an array from 0 - 255 and in the form `RGBA`. */
-  private readonly pixelData: number[];
-  /** Function used to increment progress of steganography encoding/decoding. */
-  private updateProgress?: (newValue: number) => void;
+  private readonly imageData: ImageData;
 
-  constructor(
-    algorithm: AlgorithmNames,
-    pixelData: number[],
-    updateProgress?: (increment: number) => void
-  ) {
+  constructor(algorithm: AlgorithmNames, imageData: ImageData) {
     this.algorithm = algorithm;
-    this.pixelData = pixelData;
-    this.updateProgress = updateProgress;
+    this.imageData = imageData;
   }
 
   /**
@@ -52,8 +53,10 @@ export default class Steganography {
    */
   public encode = (message: string) => {
     const binaryMessage = this.convertMessageToBinary(message);
-    const newPixelData = this.encodeData(this.pixelData, binaryMessage);
-    return newPixelData;
+    const pixelData = this.getImageData();
+    const newPixelData = this.encodeData(pixelData, binaryMessage);
+    const dataURL = this.putImageData(newPixelData);
+    return dataURL;
   };
 
   /**
@@ -64,7 +67,8 @@ export default class Steganography {
   public decode = () => {
     let message = "";
     try {
-      const unicode = this.decodeData(this.pixelData);
+      const pixelData = this.getImageData();
+      const unicode = this.decodeData(pixelData);
       message = this.convertBinaryToMessage(unicode);
     } catch (e) {
       if (e instanceof RangeError) {
@@ -76,6 +80,46 @@ export default class Steganography {
   };
 
   /**
+   * Gets image data from a base64 image. Where the image
+   * data is an array RGBA (Red, Green, Blue, Alpha), with values
+   * from 0 - 255 (1 byte).
+   *
+   * @return The image data.
+   */
+  private getImageData = () => {
+    const { width, height } = this.imageData;
+    const canvas = createCanvas(width, height);
+    const ctx = canvas.getContext("2d", { alpha: false });
+    const img = new Image();
+
+    img.onload = () => {
+      ctx.drawImage(img, 0, 0);
+    };
+    img.onerror = err => {
+      throw err;
+    };
+    img.src = this.imageData.base64Image;
+    const imageData = ctx.getImageData(0, 0, width, height);
+    return imageData.data;
+  };
+
+  /**
+   * Changes the image data with the new encoded data.
+   *
+   * @param newData: The new image pixel data.
+   *
+   * @return The new image as base64 string.
+   */
+  private putImageData = (newData: Uint8ClampedArray) => {
+    const { width, height } = this.imageData;
+    const canvas = createCanvas(width, height);
+    const ctx = canvas.getContext("2d", { alpha: false });
+    const imageData = createImageData(newData, width, height);
+    ctx.putImageData(imageData, 0, 0);
+    return canvas.toDataURL();
+  };
+
+  /**
    * Converts a message into binary, first converts the message into a unicode string. Then
    * converts that unicode string into a binary ascii string.
    *
@@ -83,7 +127,7 @@ export default class Steganography {
    *
    * @return A binary string (each character is a byte).
    */
-  public convertMessageToBinary = (message: string) => {
+  private convertMessageToBinary = (message: string) => {
     const isASCII = this.isASCII(message);
     let binaryMessage = [];
 
@@ -223,16 +267,15 @@ export default class Steganography {
    *
    * @return The encoded image data.
    */
-  private encodeData = (pixelData: number[], binaryMessage: string[]) => {
+  private encodeData = (
+    pixelData: Uint8ClampedArray,
+    binaryMessage: string[]
+  ) => {
     let encodedData;
 
     switch (this.algorithm) {
       default:
-        encodedData = new EncodeLSB().encode(
-          pixelData,
-          binaryMessage,
-          this.updateProgress
-        );
+        encodedData = new EncodeLSB().encode(pixelData, binaryMessage);
     }
 
     return encodedData;
@@ -246,12 +289,12 @@ export default class Steganography {
    *
    * @return The decoded message.
    */
-  private decodeData = (pixelData: number[]) => {
+  private decodeData = (pixelData: Uint8ClampedArray) => {
     let decodedMessage;
 
     switch (this.algorithm) {
       default:
-        decodedMessage = new DecodeLSB().decode(pixelData, this.updateProgress);
+        decodedMessage = new DecodeLSB().decode(pixelData);
     }
 
     return decodedMessage;

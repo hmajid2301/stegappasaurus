@@ -55,7 +55,7 @@ export default class ImageProgressCircle extends Component<IProps, {}> {
             >
               <View style={styles.textPercentageContainer}>
                 <Text style={styles.textPercentage}>
-                  {this.props.percentage}%
+                  {Math.ceil(this.props.percentage)}%
                 </Text>
               </View>
             </ImageBackground>

@@ -1,11 +1,11 @@
+import { create } from "apisauce";
+import { FileSystem } from "expo";
 import React, { Component } from "react";
-import { View } from "react-native";
-import Canvas, { Image as CanvasImage } from "react-native-canvas";
+import { Image, View } from "react-native";
 import { NavigationScreenProp } from "react-navigation";
 
 import ImageProgressCircle from "~/components/ImageProgressCircle";
 import { withDispatchAlgorithm } from "~/redux/hoc";
-import Steganography from "~/services/steganography";
 import { AlgorithmNames, ITheme, PrimaryColor } from "~/util/interfaces";
 import { colors } from "~/util/styles";
 
@@ -36,6 +36,31 @@ class Progress extends Component<IProps, IState> {
     };
   }
 
+  public componentWillMount = async () => {
+    const base64Image = await FileSystem.readAsStringAsync(
+      this.state.photo,
+      FileSystem.EncodingTypes.Base64
+    );
+    await Image.getSize(
+      this.state.photo,
+      async (width, height) => {
+        const api = create({
+          baseURL: "https://us-central1-stegappasaurus.cloudfunctions.net"
+        });
+        const response = await api.post("/decode", {
+          algorithm: this.props.algorithm,
+          imageData: {
+            base64Image,
+            height,
+            width
+          }
+        });
+        console.log(JSON.stringify(response));
+      },
+      () => null
+    );
+  };
+
   public render() {
     const { theme } = this.props.screenProps;
 
@@ -48,7 +73,6 @@ class Progress extends Component<IProps, IState> {
           primaryColor={colors.secondary as PrimaryColor}
           theme={theme}
         />
-        <Canvas ref={this.decodeData} />
       </View>
     );
   }
@@ -62,23 +86,6 @@ class Progress extends Component<IProps, IState> {
       message: this.state.message,
       uri: this.state.photo
     });
-  };
-
-  private decodeData = (canvas: Canvas) => {
-    const image = new CanvasImage(canvas);
-    image.addEventListener("load", () => {
-      context.drawImage(image, 0, 0);
-    });
-    image.src = this.state.photo;
-    const context = canvas.getContext("2d");
-    const imageData = context.getImageData(0, 0, image.width, image.height);
-    const steganography = new Steganography(
-      this.props.algorithm,
-      imageData.data,
-      this.updateProgressBar
-    );
-    const decodedMessage = steganography.decode();
-    this.setState({ message: decodedMessage });
   };
 }
 
