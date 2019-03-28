@@ -1,4 +1,4 @@
-import { EncodeLSB } from "../../../functions/src/services/steganography/LSB";
+import { EncodeLSB } from "../../../src/services/steganography/LSB";
 import data from "../data";
 
 test.each(data)("EncodeLSB", ({ binaryMessage, pixelData, encoded }) => {
