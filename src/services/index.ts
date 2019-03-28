@@ -1,6 +1,6 @@
 import { https } from "firebase-functions";
 
-import Steganography from "./services/steganography";
+import Steganography from "./steganography";
 
 export const encode = https.onRequest((request, response) => {
   const imageData = request.body.imageData;

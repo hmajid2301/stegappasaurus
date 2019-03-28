@@ -14,7 +14,7 @@ cache:
 before_script:
   - yarn
 
-open_merge_request:
+open-merge-request:
   image: registry.gitlab.com/hmajid2301/gitlab-auto-mr
   stage: open
   before_script: []
@@ -48,7 +48,7 @@ lint:tsc:
   script:
     - yarn lint-tsc
 
-unit-tests:
+tests:unit:
   stage: test
   script:
     - yarn tests
@@ -61,15 +61,14 @@ coverage:
     - yarn coverage
   coverage: '/^All files\s+\|\s+\d+\.*\d*\s+\|\s*(\d+\.*\d*)/'
 
-publish-firebase-functions:
+publish:firebase-functions:
   stage: publish
-  only:
-    - master
+  # only:
+  #   - master
   script:
-    - firebase use --token $FIREBASE_DEPLOY_KEY production
-    - firebase deploy -m "Pipeline $CI_PIPELINE_ID, build $CI_BUILD_ID" --non-interactive --token $FIREBASE_DEPLOY_KEY
+    - yarn run deploy -m "Pipeline $CI_PIPELINE_ID, build $CI_BUILD_ID" --non-interactive --token $FIREBASE_DEPLOY_TOKEN &> /dev/null
 
-publish-app:
+publish:app:
   stage: publish
   only:
     - /^release/.*$/

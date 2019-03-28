@@ -1,4 +1,4 @@
-import Steganography from "../../functions/src/services/steganography";
+import Steganography from "../../src/services/steganography";
 import data from "./data";
 
 test.each(data)(
