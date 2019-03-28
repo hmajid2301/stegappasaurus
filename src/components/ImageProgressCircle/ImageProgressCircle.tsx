@@ -14,8 +14,8 @@ import styles from "./styles";
 const pageWidth = Dimensions.get("window").width;
 
 interface IProps {
-  action: () => void;
   message?: string;
+  onPress?: (...args: any) => void;
   photo: string;
   percentage: number;
   primaryColor: PrimaryColor;
@@ -23,14 +23,6 @@ interface IProps {
 }
 
 export default class ImageProgressCircle extends Component<IProps, {}> {
-  public static defaultProps = {};
-
-  public componentDidUpdate = () => {
-    if (this.props.percentage === 100) {
-      this.props.action();
-    }
-  };
-
   public render() {
     const { theme } = this.props;
 
@@ -41,7 +33,7 @@ export default class ImageProgressCircle extends Component<IProps, {}> {
           { backgroundColor: theme.background }
         ]}
       >
-        <TouchableOpacity activeOpacity={0.8}>
+        <TouchableOpacity activeOpacity={0.8} onPress={this.props.onPress}>
           <PercentageCircle
             borderWidth={5}
             color={this.props.primaryColor}

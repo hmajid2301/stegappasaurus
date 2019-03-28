@@ -43,6 +43,16 @@ REACT_NATIVE_PACKAGER_HOSTNAME=192.168.27.1
 
 Any errors in your editor about paths not resolving take a look [here](https://github.com/tleunen/babel-plugin-module-resolver#eslint-plugin).
 
+## Technologies
+
+Some technologies/libraries used in this project include;
+
+- React Native
+- Expo
+- TypeScript
+- Firebase
+- Docker
+
 ## Other
 
 ### Credit
