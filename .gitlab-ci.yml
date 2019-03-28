@@ -12,6 +12,8 @@ cache:
     - node_modules/
 
 before_script:
+  - chmod +x ./src/configs/index.sh
+  - ./src/configs/index.sh ${FIREBASE_API_KEY} > index.ts
   - yarn
 
 open-merge-request:
@@ -63,8 +65,8 @@ coverage:
 
 publish:firebase-functions:
   stage: publish
-  # only:
-  #   - master
+  only:
+    - master
   script:
     - yarn run deploy -m "Pipeline $CI_PIPELINE_ID, build $CI_BUILD_ID" --non-interactive --token $FIREBASE_DEPLOY_TOKEN &> /dev/null
 

@@ -67,7 +67,6 @@ class Progress extends Component<IProps, IState> {
     return (
       <View>
         <ImageProgressCircle
-          action={this.decoded}
           photo={this.state.photo}
           percentage={this.state.percentage}
           primaryColor={colors.secondary as PrimaryColor}

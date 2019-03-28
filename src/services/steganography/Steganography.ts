@@ -95,7 +95,7 @@ export default class Steganography {
     img.onload = () => {
       ctx.drawImage(img, 0, 0);
     };
-    img.onerror = err => {
+    img.onerror = (err: any) => {
       throw err;
     };
     img.src = this.imageData.base64Image;
@@ -116,7 +116,14 @@ export default class Steganography {
     const ctx = canvas.getContext("2d", { alpha: false });
     const imageData = createImageData(newData, width, height);
     ctx.putImageData(imageData, 0, 0);
-    return canvas.toDataURL();
+
+    let data = "";
+    if (this.algorithm === "LSB-PNG") {
+      data = canvas.toDataURL("image/png");
+    } else {
+      data = canvas.toDataURL("image/jpeg");
+    }
+    return data;
   };
 
   /**

@@ -1,6 +1,5 @@
 # Library
 node_modules/**/*
-node_modules/*
 .expo/*
 
 # IDEs
@@ -19,3 +18,8 @@ coverage/
 
 # Typescript v1 declaration files
 typings/
+
+
+# environment file
+src/configs/index.ts
+src/services/node_modules/**/*

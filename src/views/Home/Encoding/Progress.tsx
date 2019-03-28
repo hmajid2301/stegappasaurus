@@ -1,11 +1,13 @@
 import { create } from "apisauce";
 import { FileSystem, MediaLibrary } from "expo";
+import { initializeApp, storage } from "firebase";
 import { Toast } from "native-base";
 import React, { Component } from "react";
-import { Image, View } from "react-native";
+import { Image, Share, View } from "react-native";
 import { NavigationScreenProp } from "react-navigation";
 
 import ImageProgressCircle from "~/components/ImageProgressCircle";
+import configs from "~/configs";
 import { withDispatchAlgorithm } from "~/redux/hoc";
 import { AlgorithmNames, ITheme, PrimaryColor } from "~/util/interfaces";
 import { colors } from "~/util/styles";
@@ -23,6 +25,7 @@ interface IProps {
 interface IState {
   base64Image: string;
   extension: ImageExtension;
+  filename: string;
   message: string;
   percentage: number;
   photo: string;
@@ -33,6 +36,7 @@ class Progress extends Component<IProps, IState> {
     super(props);
     const { navigation } = props;
     const uri = navigation.getParam("uri", "NO-ID");
+    const filename = new Date().toISOString();
     const message = navigation.getParam("message", "NO-ID");
 
     let imageExtension = "jpg";
@@ -43,6 +47,7 @@ class Progress extends Component<IProps, IState> {
     this.state = {
       base64Image: "",
       extension: imageExtension as ImageExtension,
+      filename,
       message,
       percentage: 0,
       photo: uri
@@ -50,10 +55,17 @@ class Progress extends Component<IProps, IState> {
   }
 
   public componentWillMount = async () => {
-    const base64Image = await FileSystem.readAsStringAsync(
-      this.state.photo,
-      FileSystem.EncodingTypes.Base64
-    );
+    const firebaseConfig = {
+      apiKey: configs.FIREBASE_API_KEY,
+      authDomain: "stegappasaurus.firebaseapp.com",
+      databaseURL: "stegappasaurus.firebaseio.com",
+      storageBucket: "stegappasaurus.appspot.com"
+    };
+    initializeApp(firebaseConfig);
+
+    const base64Image = await FileSystem.readAsStringAsync(this.state.photo, {
+      encoding: FileSystem.EncodingTypes.Base64
+    });
     await Image.getSize(
       this.state.photo,
       async (width, height) => {
@@ -63,16 +75,17 @@ class Progress extends Component<IProps, IState> {
         const response = await api.post("/encode", {
           algorithm: this.props.algorithm,
           imageData: {
-            base64Image,
+            base64Image: `data:image/png;base64,${base64Image}`,
             height,
             width
           },
           message: this.state.message
         });
-        console.log(JSON.stringify(response));
+        this.setState({ base64Image: response.data as string });
       },
       () => null
     );
+    await this.encoded();
   };
 
   public render() {
@@ -80,7 +93,7 @@ class Progress extends Component<IProps, IState> {
     return (
       <View style={{ flex: 1 }}>
         <ImageProgressCircle
-          action={this.encoded}
+          onPress={this.shareImage}
           message={"Saved Encoded Photo"}
           photo={this.state.photo}
           percentage={this.state.percentage}
@@ -96,21 +109,49 @@ class Progress extends Component<IProps, IState> {
   };
 
   private encoded = async () => {
-    const imageName = new Date().toISOString();
-    const imagePath = `${FileSystem.documentDirectory}${imageName}.${
+    const imagePath = `${FileSystem.documentDirectory}${this.state.filename}.${
       this.state.extension
     }`;
-    await FileSystem.writeAsStringAsync(
-      imagePath,
-      this.state.base64Image,
-      FileSystem.EncodingTypes.Base64
-    ).then();
+    await FileSystem.writeAsStringAsync(imagePath, this.state.base64Image, {
+      encoding: FileSystem.EncodingTypes.Base64
+    }).then();
 
     await MediaLibrary.createAssetAsync(imagePath);
     Toast.show({
       buttonText: "Okay",
       duration: 5000,
       text: "Encoded image saved to gallery."
+    });
+    const blob = await this.uriToBlob();
+    const ref = storage()
+      .ref()
+      .child(`images/${this.state.filename}`);
+    ref.put(blob);
+  };
+
+  private async uriToBlob() {
+    return new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.onload = () => {
+        resolve(xhr.response);
+      };
+      xhr.onerror = e => {
+        reject(new TypeError("Network request failed"));
+      };
+      xhr.responseType = "blob";
+      xhr.open("GET", this.state.photo, true);
+      xhr.send(null);
+    });
+  }
+
+  private shareImage = async () => {
+    const url = await storage()
+      .ref()
+      .child(`images/${this.state.filename}`)
+      .getDownloadURL();
+
+    await Share.share({
+      message: url
     });
   };
 }
