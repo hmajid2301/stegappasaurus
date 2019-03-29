@@ -2,8 +2,12 @@
   "main": "lib/index.js",
   "dependencies": {
     "canvas": "2.4.1",
+    "express": "4.16.4",
     "firebase-admin": "7.0.0",
     "firebase-functions": "2.2.0"
+  },
+  "devDependencies": {
+    "@types/express": "4.11.1"
   },
   "engines": {
     "node": "8"

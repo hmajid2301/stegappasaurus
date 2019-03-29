@@ -1,8 +1,13 @@
+import express from "express";
 import { https } from "firebase-functions";
 
+import validateToken from "./middleware/Token";
 import Steganography from "./steganography";
 
-export const encode = https.onRequest((request, response) => {
+const app = express();
+app.use(validateToken);
+
+app.post("/encode", (request, response) => {
   const imageData = request.body.imageData;
   const algorithm = request.body.algorithm;
   const message = request.body.message;
@@ -11,10 +16,12 @@ export const encode = https.onRequest((request, response) => {
   response.send(encodedImage);
 });
 
-export const decode = https.onRequest((request, response) => {
+app.post("/decode", (request, response) => {
   const imageData = request.body.imageData;
   const algorithm = request.body.algorithm;
 
   const decodedMessage = new Steganography(algorithm, imageData).decode();
   response.send(decodedMessage);
 });
+
+export default https.onRequest(app);

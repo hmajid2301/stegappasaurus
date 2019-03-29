@@ -1,6 +1,6 @@
 import { create } from "apisauce";
 import { FileSystem, MediaLibrary } from "expo";
-import { initializeApp, storage } from "firebase";
+import { auth, initializeApp, storage } from "firebase";
 import { Toast } from "native-base";
 import React, { Component } from "react";
 import { Image, Share, View } from "react-native";
@@ -29,6 +29,7 @@ interface IState {
   message: string;
   percentage: number;
   photo: string;
+  token: string;
 }
 
 class Progress extends Component<IProps, IState> {
@@ -50,7 +51,8 @@ class Progress extends Component<IProps, IState> {
       filename,
       message,
       percentage: 0,
-      photo: uri
+      photo: uri,
+      token: ""
     };
   }
 
@@ -62,6 +64,13 @@ class Progress extends Component<IProps, IState> {
       storageBucket: "stegappasaurus.appspot.com"
     };
     initializeApp(firebaseConfig);
+    const userAuth = auth();
+    await userAuth.signInAnonymously();
+    const currentUser = userAuth.currentUser;
+    if (currentUser !== null) {
+      const token = await currentUser.getIdToken();
+      this.setState({ token });
+    }
 
     const base64Image = await FileSystem.readAsStringAsync(this.state.photo, {
       encoding: FileSystem.EncodingTypes.Base64
@@ -135,7 +144,7 @@ class Progress extends Component<IProps, IState> {
       xhr.onload = () => {
         resolve(xhr.response);
       };
-      xhr.onerror = e => {
+      xhr.onerror = () => {
         reject(new TypeError("Network request failed"));
       };
       xhr.responseType = "blob";
