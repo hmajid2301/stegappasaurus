@@ -12,8 +12,8 @@ cache:
     - node_modules/
 
 before_script:
-  - chmod +x ./src/configs/index.sh
-  - ./src/configs/index.sh ${FIREBASE_API_KEY} > index.ts
+  - mkdir -p src/configs
+  - echo $CONFIG >> src/configs/index.ts
   - yarn
 
 open-merge-request:
