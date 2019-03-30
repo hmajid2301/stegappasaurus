@@ -1,4 +1,4 @@
-import express from "express";
+import * as express from "express";
 import { auth } from "firebase-admin";
 
 const validateFirebaseToken = (

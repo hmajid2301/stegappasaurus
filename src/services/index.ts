@@ -1,4 +1,4 @@
-import express from "express";
+import * as express from "express";
 import { https } from "firebase-functions";
 
 import validateToken from "./middleware/Token";
@@ -7,7 +7,7 @@ import Steganography from "./steganography";
 const app = express();
 app.use(validateToken);
 
-app.post("/encode", (request, response) => {
+app.post("/encode", (request: express.Request, response: express.Response) => {
   const imageData = request.body.imageData;
   const algorithm = request.body.algorithm;
   const message = request.body.message;
@@ -16,7 +16,7 @@ app.post("/encode", (request, response) => {
   response.send(encodedImage);
 });
 
-app.post("/decode", (request, response) => {
+app.post("/decode", (request: express.Request, response: express.Response) => {
   const imageData = request.body.imageData;
   const algorithm = request.body.algorithm;
 
