@@ -6,7 +6,7 @@ import React, { Component } from "react";
 import { Image, Share, View } from "react-native";
 import { NavigationScreenProp } from "react-navigation";
 
-import ImageProgressCircle from "~/components/ImageProgressCircle";
+import ImageProgress from "~/components/ImageProgress";
 import configs from "~/configs";
 import { withDispatchAlgorithm } from "~/redux/hoc";
 import { AlgorithmNames, ITheme, PrimaryColor } from "~/util/interfaces";
@@ -24,6 +24,7 @@ interface IProps {
 
 interface IState {
   base64Image: string;
+  encoding: boolean;
   extension: ImageExtension;
   filename: string;
   message: string;
@@ -47,6 +48,7 @@ class Progress extends Component<IProps, IState> {
 
     this.state = {
       base64Image: "",
+      encoding: true,
       extension: imageExtension as ImageExtension,
       filename,
       message,
@@ -81,7 +83,7 @@ class Progress extends Component<IProps, IState> {
         const api = create({
           baseURL: "https://us-central1-stegappasaurus.cloudfunctions.net"
         });
-        const response = await api.post("/encode", {
+        const response = await api.post("/api/encode", {
           algorithm: this.props.algorithm,
           imageData: {
             base64Image: `data:image/png;base64,${base64Image}`,
@@ -101,21 +103,16 @@ class Progress extends Component<IProps, IState> {
     const { theme } = this.props.screenProps;
     return (
       <View style={{ flex: 1 }}>
-        <ImageProgressCircle
+        <ImageProgress
+          animating={this.state.encoding}
           onPress={this.shareImage}
-          message={"Saved Encoded Photo"}
           photo={this.state.photo}
-          percentage={this.state.percentage}
           primaryColor={colors.primary as PrimaryColor}
           theme={theme}
         />
       </View>
     );
   }
-
-  public updateProgressBar = (newValue: number) => {
-    this.setState({ percentage: newValue });
-  };
 
   private encoded = async () => {
     const imagePath = `${FileSystem.documentDirectory}${this.state.filename}.${
@@ -136,6 +133,9 @@ class Progress extends Component<IProps, IState> {
       .ref()
       .child(`images/${this.state.filename}`);
     ref.put(blob);
+    setTimeout(() => {
+      this.setState({ encoding: false });
+    }, 1000);
   };
 
   private async uriToBlob() {

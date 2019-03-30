@@ -80,6 +80,29 @@ export default class Steganography {
   };
 
   /**
+   * Converts a message into binary, first converts the message into a unicode string. Then
+   * converts that unicode string into a binary ascii string.
+   *
+   * @param message: The message to encode as a string.
+   *
+   * @return A binary string (each character is a byte).
+   */
+  public convertMessageToBinary = (message: string) => {
+    const isASCII = this.isASCII(message);
+    let binaryMessage = [];
+
+    if (isASCII) {
+      binaryMessage = this.encodeAsASCII(message);
+    } else {
+      binaryMessage = this.encodeAsUnicodeString(message);
+    }
+
+    const binaryMessageLength = this.getMessageLengthBinary(binaryMessage);
+    binaryMessage.unshift(binaryMessageLength);
+    return binaryMessage;
+  };
+
+  /**
    * Gets image data from a base64 image. Where the image
    * data is an array RGBA (Red, Green, Blue, Alpha), with values
    * from 0 - 255 (1 byte).
@@ -124,29 +147,6 @@ export default class Steganography {
       data = canvas.toDataURL("image/jpeg");
     }
     return data;
-  };
-
-  /**
-   * Converts a message into binary, first converts the message into a unicode string. Then
-   * converts that unicode string into a binary ascii string.
-   *
-   * @param message: The message to encode as a string.
-   *
-   * @return A binary string (each character is a byte).
-   */
-  private convertMessageToBinary = (message: string) => {
-    const isASCII = this.isASCII(message);
-    let binaryMessage = [];
-
-    if (isASCII) {
-      binaryMessage = this.encodeAsASCII(message);
-    } else {
-      binaryMessage = this.encodeAsUnicodeString(message);
-    }
-
-    const binaryMessageLength = this.getMessageLengthBinary(binaryMessage);
-    binaryMessage.unshift(binaryMessageLength);
-    return binaryMessage;
   };
 
   /**
