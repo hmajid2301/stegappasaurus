@@ -4,7 +4,7 @@ import React, { Component } from "react";
 import { Image, View } from "react-native";
 import { NavigationScreenProp } from "react-navigation";
 
-import ImageProgressCircle from "~/components/ImageProgressCircle";
+import ImageProgress from "~/components/ImageProgress";
 import { withDispatchAlgorithm } from "~/redux/hoc";
 import { AlgorithmNames, ITheme, PrimaryColor } from "~/util/interfaces";
 import { colors } from "~/util/styles";
@@ -18,8 +18,8 @@ interface IProps {
 }
 
 interface IState {
+  decoding: boolean;
   message: string;
-  percentage: number;
   photo: string;
 }
 
@@ -30,8 +30,8 @@ class Progress extends Component<IProps, IState> {
     const uri = navigation.getParam("uri", "NO-ID");
 
     this.state = {
+      decoding: true,
       message: "",
-      percentage: 0,
       photo: uri
     };
   }
@@ -47,7 +47,7 @@ class Progress extends Component<IProps, IState> {
         const api = create({
           baseURL: "https://us-central1-stegappasaurus.cloudfunctions.net"
         });
-        const response = await api.post("/decode", {
+        const response = await api.post("/api/decode", {
           algorithm: this.props.algorithm,
           imageData: {
             base64Image,
@@ -55,10 +55,11 @@ class Progress extends Component<IProps, IState> {
             width
           }
         });
-        console.log(JSON.stringify(response));
+        this.setState({ message: response.data as string, decoding: false });
       },
       () => null
     );
+    await this.decoded();
   };
 
   public render() {
@@ -66,19 +67,15 @@ class Progress extends Component<IProps, IState> {
 
     return (
       <View>
-        <ImageProgressCircle
+        <ImageProgress
+          animating={this.state.decoding}
           photo={this.state.photo}
-          percentage={this.state.percentage}
           primaryColor={colors.secondary as PrimaryColor}
           theme={theme}
         />
       </View>
     );
   }
-
-  public updateProgressBar = (newValue: number) => {
-    this.setState({ percentage: newValue });
-  };
 
   private decoded = () => {
     this.props.navigation.navigate("Progress", {

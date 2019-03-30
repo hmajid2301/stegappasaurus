@@ -1,8 +1,10 @@
-import React, { Component } from "react";
+import React, { Component, ReactChild } from "react";
 import {
   ImageBackground,
+  Keyboard,
   KeyboardAvoidingView,
   TextInput,
+  TouchableWithoutFeedback,
   View
 } from "react-native";
 import styles from "./styles";
@@ -17,6 +19,12 @@ interface IState {
   message: string;
   editable: boolean;
 }
+
+const DismissKeyboard = ({ children }: { children: ReactChild }) => (
+  <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+    {children}
+  </TouchableWithoutFeedback>
+);
 
 export default class ImageMessage extends Component<IProps, IState> {
   public static defaultProps = {
@@ -41,29 +49,31 @@ export default class ImageMessage extends Component<IProps, IState> {
   public render() {
     return (
       <KeyboardAvoidingView behavior="padding" enabled>
-        <ImageBackground
-          source={{ uri: this.props.photo }}
-          style={styles.selectedImage}
-        >
-          <View style={styles.textContainer}>
-            <TextInput
-              autoFocus={true}
-              blurOnSubmit={true}
-              editable={this.state.editable}
-              enablesReturnKeyAutomatically={true}
-              multiline={true}
-              onChangeText={message => this.setState({ message })}
-              onSubmitEditing={() => this.props.action(this.state.message)}
-              placeholder={
-                this.props.message
-                  ? this.props.message
-                  : "Enter your message here...."
-              }
-              style={styles.userMessage}
-              underlineColorAndroid="transparent"
-            />
-          </View>
-        </ImageBackground>
+        <DismissKeyboard>
+          <ImageBackground
+            source={{ uri: this.props.photo }}
+            style={styles.selectedImage}
+          >
+            <View style={styles.textContainer}>
+              <TextInput
+                autoFocus={true}
+                blurOnSubmit={true}
+                editable={this.state.editable}
+                enablesReturnKeyAutomatically={true}
+                multiline={true}
+                onChangeText={message => this.setState({ message })}
+                onSubmitEditing={() => this.props.action(this.state.message)}
+                placeholder={
+                  this.props.message
+                    ? this.props.message
+                    : "Enter your message here...."
+                }
+                style={styles.userMessage}
+                underlineColorAndroid="transparent"
+              />
+            </View>
+          </ImageBackground>
+        </DismissKeyboard>
       </KeyboardAvoidingView>
     );
   }
