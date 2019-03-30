@@ -55,7 +55,7 @@ tests:unit:
   script:
     - yarn tests
 
-coverage:
+test:coverage:
   stage: test
   only:
     - master
@@ -63,17 +63,29 @@ coverage:
     - yarn coverage
   coverage: '/^All files\s+\|\s+\d+\.*\d*\s+\|\s*(\d+\.*\d*)/'
 
+publish:image-ttl:
+  stage: publish
+  image: google/cloud-sdk:slim
+  only:
+    - master
+  before_script:
+    - echo $FIREBASE_KEY_FILE >> /tmp/$CI_PIPELINE_ID.json
+    - gcloud auth activate-service-account --key-file /tmp/$CI_PIPELINE_ID.json
+  script:
+    - gsutil lifecycle set src/services/ImagesTTL.json gs://stegappasaurus.appspot.com/
+
 publish:firebase-functions:
   stage: publish
   only:
     - master
   script:
-    - yarn run deploy -m "Pipeline $CI_PIPELINE_ID, build $CI_BUILD_ID" --non-interactive --token $FIREBASE_DEPLOY_TOKEN &> /dev/null
+    - yarn run deploy -m "Pipeline $CI_PIPELINE_ID, build $CI_BUILD_ID" --non-interactive --token $FIREBASE_DEPLOY_TOKEN > output
+    - tail -n +4 output
 
 publish:app:
   stage: publish
   only:
     - /^release/.*$/
   script:
-    - expo login -u $PROJECT_USERNAME -p $PROJECT_PASSWORD
-    - expo --non-interactive publish
+    - yarn expo login -u $PROJECT_USERNAME -p $PROJECT_PASSWORD
+    - yarn expo --non-interactive publish
