@@ -1,8 +1,8 @@
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
+import { PrimaryColorNames } from "~/common/interfaces";
 import { togglePrimaryColor } from "~/redux/actions";
-import { PrimaryColorNames } from "~/util/interfaces";
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   togglePrimaryColor: (colorName: PrimaryColorNames) =>

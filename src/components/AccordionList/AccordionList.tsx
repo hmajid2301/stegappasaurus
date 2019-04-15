@@ -2,7 +2,7 @@ import { Accordion, Icon } from "native-base";
 import React, { Component } from "react";
 import { Text, View } from "react-native";
 
-import { ITheme } from "~/util/interfaces";
+import { ITheme } from "~/common/interfaces";
 import styles from "./styles";
 
 interface IProps {

@@ -2,10 +2,10 @@ import React, { Component } from "react";
 import { View } from "react-native";
 import { NavigationScreenProp } from "react-navigation";
 
+import { ITheme, PrimaryColor } from "~/common/interfaces";
 import CustomHeader from "~/components/CustomHeader";
 import CustomTabNavigator from "~/components/CustomTabNavigator";
 import { withPrimaryColor } from "~/redux/hoc";
-import { ITheme, PrimaryColor } from "~/util/interfaces";
 
 import styles from "./Home/styles";
 

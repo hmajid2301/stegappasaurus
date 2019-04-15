@@ -1,8 +1,8 @@
 import { isType } from "typescript-fsa";
 
 import { toggleDarkTheme } from "~/redux/actions";
-import { THEMES } from "~/util/constants";
-import { ITheme } from "~/util/interfaces";
+import { THEMES } from "~/common/constants";
+import { ITheme } from "~/common/interfaces";
 
 const initialState = {
   theme: THEMES.LIGHT_THEME

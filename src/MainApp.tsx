@@ -7,10 +7,10 @@ import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import { getSunrise, getSunset } from "sunrise-sunset-js";
 
+import { ITheme, PossibleAppStates } from "~/common/interfaces";
 import { toggleAutomaticTheme, toggleDarkTheme } from "~/redux/actions";
 import { IReducerState as IReducerAutomaticTheme } from "~/redux/reducers/ToggleAutomaticTheme";
 import { IReducerState as IReducerDarkTheme } from "~/redux/reducers/ToggleDarkTheme";
-import { ITheme, PossibleAppStates } from "~/util/interfaces";
 import App from "./views/Routes";
 
 interface IProps {

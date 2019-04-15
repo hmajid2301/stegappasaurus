@@ -2,9 +2,9 @@ import React from "react";
 import { View } from "react-native";
 import { DrawerItems, DrawerItemsProps } from "react-navigation";
 
+import { ITheme } from "~/common/interfaces";
+import { colors } from "~/common/styles";
 import Logo from "~/components/Logo";
-import { ITheme } from "~/util/interfaces";
-import { colors } from "~/util/styles";
 import styles from "./styles";
 
 const CustomDrawerNavigator: React.FunctionComponent<

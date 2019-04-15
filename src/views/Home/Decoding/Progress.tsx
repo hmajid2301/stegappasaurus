@@ -1,13 +1,13 @@
 import { create } from "apisauce";
 import { FileSystem } from "expo";
 import React, { Component } from "react";
-import { Image, View } from "react-native";
+import { Alert, Image, View } from "react-native";
 import { NavigationScreenProp } from "react-navigation";
 
+import { AlgorithmNames, ITheme, PrimaryColor } from "~/common/interfaces";
+import { colors } from "~/common/styles";
 import ImageProgress from "~/components/ImageProgress";
 import { withDispatchAlgorithm } from "~/redux/hoc";
-import { AlgorithmNames, ITheme, PrimaryColor } from "~/util/interfaces";
-import { colors } from "~/util/styles";
 
 interface IProps {
   algorithm: AlgorithmNames;
@@ -55,11 +55,23 @@ class Progress extends Component<IProps, IState> {
             width
           }
         });
-        this.setState({ message: response.data as string, decoding: false });
+        if (response.ok) {
+          this.setState({ message: response.data as string, decoding: false });
+        } else {
+          Alert.alert(
+            "Encoding Failure",
+            "Failed to decode photo, please check you have an internet connection.",
+            [
+              {
+                text: "ok"
+              }
+            ]
+          );
+        }
       },
       () => null
     );
-    await this.decoded();
+    this.decoded();
   };
 
   public render() {

@@ -3,8 +3,8 @@ import React, { Component, ReactNode } from "react";
 import { Modal, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import Markdown from "react-native-markdown-renderer";
 
+import { ITheme } from "~/common/interfaces";
 import { withTheme } from "~/redux/hoc";
-import { ITheme } from "~/util/interfaces";
 import styles from "./styles";
 
 interface IProps {

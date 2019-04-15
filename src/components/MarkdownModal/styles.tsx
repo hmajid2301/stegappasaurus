@@ -1,4 +1,4 @@
-import { fonts } from "~/util/styles";
+import { fonts } from "~/common/styles";
 
 const styles = {
   icons: {

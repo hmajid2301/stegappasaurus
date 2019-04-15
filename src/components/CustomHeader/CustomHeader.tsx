@@ -2,8 +2,8 @@ import { Body, Header, Icon, Left } from "native-base";
 import React from "react";
 import { NavigationScreenProp } from "react-navigation";
 
+import { ITheme, PrimaryColor } from "~/common/interfaces";
 import Logo from "~/components/Logo";
-import { ITheme, PrimaryColor } from "~/util/interfaces";
 import styles from "./styles";
 
 interface IProps {

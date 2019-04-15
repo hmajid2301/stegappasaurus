@@ -1,8 +1,10 @@
 import { AppLoading, Font } from "expo";
 import { Root } from "native-base";
 import React, { Component } from "react";
+import env from "react-native-dotenv";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
+import Sentry from "sentry-expo";
 
 import MainApp from "~/MainApp";
 import { persistor, store } from "~/redux/store";
@@ -29,8 +31,9 @@ export default class App extends Component<{}, IState> {
       RobotoThin,
       Roboto_medium: RobotoMedium
     });
-
     this.setState({ loading: false });
+    Sentry.enableInExpoDevelopment = true;
+    await Sentry.config(env.SENTRY_PUBLIC_DSN).install();
   };
 
   public render() {

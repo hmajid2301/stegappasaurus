@@ -4,8 +4,8 @@ import {
   PrimaryColor,
   PrimaryColorNames,
   ThemeColors
-} from "~/util/interfaces";
-import { colors } from "~/util/styles";
+} from "~/common/interfaces";
+import { colors } from "~/common/styles";
 
 interface IThemes {
   DARK_THEME: ITheme;

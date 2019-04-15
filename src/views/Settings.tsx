@@ -3,9 +3,9 @@ import React, { Component } from "react";
 import { View } from "react-native";
 import { NavigationScreenProp } from "react-navigation";
 
+import { ITheme, PrimaryColor } from "~/common/interfaces";
+import { colors } from "~/common/styles";
 import CustomHeader from "~/components/CustomHeader";
-import { ITheme, PrimaryColor } from "~/util/interfaces";
-import { colors } from "~/util/styles";
 
 import { About, Algorithms, Other, Support, Themes } from "./Settings/sections";
 import styles from "./Settings/styles";

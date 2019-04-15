@@ -22,4 +22,4 @@ typings/
 
 
 # Configs
-src/configs/*
+.env

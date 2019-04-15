@@ -4,10 +4,10 @@ import { Text } from "react-native";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
+import { ITheme } from "~/common/interfaces";
+import { colors } from "~/common/styles";
 import { toggleAutomaticTheme, toggleDarkTheme } from "~/redux/actions";
 import { IReducerState } from "~/redux/reducers/ToggleAutomaticTheme";
-import { ITheme } from "~/util/interfaces";
-import { colors } from "~/util/styles";
 import styles from "./styles";
 
 interface IProps {

@@ -1,6 +1,6 @@
 import { Dimensions, StyleSheet } from "react-native";
 
-import { colors } from "~/util/styles";
+import { colors } from "~/common/styles";
 
 const pageWidth = Dimensions.get("window").width;
 
