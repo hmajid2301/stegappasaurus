@@ -4,8 +4,8 @@ import { Text, TouchableOpacity } from "react-native";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
+import { ITheme } from "~/common/interfaces";
 import { resetPreferences } from "~/redux/actions";
-import { ITheme } from "~/util/interfaces";
 import styles from "./styles";
 
 interface IProps {

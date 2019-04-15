@@ -3,10 +3,10 @@ import React, { Component } from "react";
 import { ScrollView, View } from "react-native";
 import { NavigationScreenProp } from "react-navigation";
 
+import { ITheme, PrimaryColor } from "~/common/interfaces";
+import { colors } from "~/common/styles";
 import AccordionList from "~/components/AccordionList";
 import CustomHeader from "~/components/CustomHeader";
-import { ITheme, PrimaryColor } from "~/util/interfaces";
-import { colors } from "~/util/styles";
 
 import faq from "./FAQ/questions";
 import styles from "./FAQ/styles";

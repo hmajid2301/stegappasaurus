@@ -15,23 +15,30 @@
       "backgroundColor": "#ffffff"
     },
     "packagerOpts": {
-      "sourceExts": [
-        "ts",
-        "tsx"
-      ],
+      "sourceExts": ["ts", "tsx"],
       "transformer": "node_modules/react-native-typescript-transformer/index.js"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "assets/**"
-    ],
+    "assetBundlePatterns": ["assets/**"],
     "ios": {
       "supportsTablet": true
     },
     "android": {
       "playStoreUrl": "https://play.google.com/store/apps/details?id=host.exp.exponent"
+    },
+    "hooks": {
+      "postPublish": [
+        {
+          "file": "sentry-expo/upload-sourcemaps",
+          "config": {
+            "organization": "majiy",
+            "project": "stegappasaurus",
+            "authToken": ""
+          }
+        }
+      ]
     }
   }
 }

@@ -1,12 +1,12 @@
 import { ImagePicker, Permissions } from "expo";
 import { Icon } from "native-base";
 import React, { Component } from "react";
-import { TouchableOpacity, View } from "react-native";
+import { Alert, TouchableOpacity, View } from "react-native";
 import { NavigationScreenProp } from "react-navigation";
 
+import { PRIMARY_COLORS } from "~/common/constants";
+import { ITheme, PrimaryColorNames } from "~/common/interfaces";
 import { dispatchPrimaryColor } from "~/redux/hoc";
-import { PRIMARY_COLORS } from "~/util/constants";
-import { ITheme, PrimaryColorNames } from "~/util/interfaces";
 
 import styles from "./Main/styles";
 
@@ -47,7 +47,15 @@ class Main extends Component<IProps, {}> {
         this.selectPhotoToEncode(result.uri);
       }
     } else {
-      throw new Error("Camera Roll permission not granted");
+      Alert.alert(
+        "Permissions",
+        "Please grant permission to access your camera roll.",
+        [
+          {
+            text: "ok"
+          }
+        ]
+      );
     }
   };
 

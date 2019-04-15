@@ -2,8 +2,8 @@ import { Body, List, ListItem, Picker, Right } from "native-base";
 import React, { Component } from "react";
 import { Text } from "react-native";
 
+import { AlgorithmNames, ITheme } from "~/common/interfaces";
 import { withDispatchAlgorithm } from "~/redux/hoc";
-import { AlgorithmNames, ITheme } from "~/util/interfaces";
 import styles from "./styles";
 
 interface IProps {

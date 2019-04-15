@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { ImageBackground, TouchableOpacity, View } from "react-native";
 import { PacmanIndicator } from "react-native-indicators";
 
-import { ITheme, PrimaryColor } from "~/util/interfaces";
+import { ITheme, PrimaryColor } from "~/common/interfaces";
 import styles from "./styles";
 
 interface IProps {

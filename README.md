@@ -49,8 +49,10 @@ Some technologies/libraries used in this project include;
 
 - React Native
 - Expo
+- Redux
 - TypeScript
 - Firebase
+- Sentry
 - Docker
 
 ## Other

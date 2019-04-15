@@ -1,19 +1,22 @@
+import { create } from "apisauce";
 import { ImagePicker, MediaLibrary, Permissions } from "expo";
 import { Icon } from "native-base";
 import React, { Component } from "react";
 import {
   ActivityIndicator,
+  Alert,
   FlatList,
   Image,
   TouchableOpacity,
   View
 } from "react-native";
+import env from "react-native-dotenv";
 import { NavigationScreenProp } from "react-navigation";
 
+import { PRIMARY_COLORS } from "~/common/constants";
+import { ITheme, PrimaryColorNames } from "~/common/interfaces";
+import { colors } from "~/common/styles";
 import { dispatchPrimaryColor } from "~/redux/hoc";
-import { PRIMARY_COLORS } from "~/util/constants";
-import { ITheme, PrimaryColorNames } from "~/util/interfaces";
-import { colors } from "~/util/styles";
 
 import styles from "./Main/styles";
 
@@ -35,6 +38,14 @@ interface IPhoto {
   uri: string;
 }
 
+interface ICatAPI {
+  breeds: string[];
+  id: string;
+  url: string;
+  width: number;
+  height: number;
+}
+
 class Main extends Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
@@ -50,7 +61,10 @@ class Main extends Component<IProps, IState> {
       this.props.togglePrimaryColor(PRIMARY_COLORS.ORANGE.name);
     });
 
-    const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
+    const { status } = await Permissions.askAsync(
+      Permissions.CAMERA,
+      Permissions.CAMERA_ROLL
+    );
     if (status === "granted") {
       const { assets, endCursor } = await MediaLibrary.getAssetsAsync({
         first: 15,
@@ -58,7 +72,15 @@ class Main extends Component<IProps, IState> {
       });
       this.setState({ photos: assets, lastPhoto: endCursor });
     } else {
-      throw new Error("Camera Roll permission not granted");
+      Alert.alert(
+        "Permissions",
+        "Please grant permission to access your camera roll.",
+        [
+          {
+            text: "ok"
+          }
+        ]
+      );
     }
   };
 
@@ -126,42 +148,66 @@ class Main extends Component<IProps, IState> {
   };
 
   private getPhotoFromCamera = async () => {
-    const { status } = await Permissions.askAsync(
-      Permissions.CAMERA,
-      Permissions.CAMERA_ROLL
-    );
-    if (status === "granted") {
+    try {
       const result = await ImagePicker.launchCameraAsync();
       if (!result.cancelled) {
         this.selectPhotoToEncode(result.uri);
       }
-    } else {
-      throw new Error("Camera permission not granted");
+    } catch {
+      Alert.alert(
+        "Permissions",
+        "Please grant permission to access your camera.",
+        [
+          {
+            text: "ok"
+          }
+        ]
+      );
     }
   };
 
   private getPhotoFromCameraRoll = async () => {
-    const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-    if (status === "granted") {
+    try {
       const result = await ImagePicker.launchImageLibraryAsync();
       if (!result.cancelled) {
         this.selectPhotoToEncode(result.uri);
       }
-    } else {
-      throw new Error("Camera Roll permission not granted");
+    } catch {
+      Alert.alert(
+        "Permissions",
+        "Please grant permission to access your camera roll.",
+        [
+          {
+            text: "ok"
+          }
+        ]
+      );
     }
   };
 
-  private getPhotoFromCatAPI = () => {
+  private getPhotoFromCatAPI = async () => {
     this.setState({ loading: true });
 
-    const url = "https://api.thecatapi.com/v1/images/search?mime_types=jpg,png";
-    fetch(url)
-      .then(response => response.json())
-      .then(responseJson => {
-        this.selectPhotoToEncode(responseJson[0].url);
-      })
-      .catch();
+    const api = create({
+      baseURL: "https://api.thecatapi.com",
+      headers: { "x-api-key": env.CAT_API_KEY }
+    });
+
+    const response = await api.get("/v1/images/search?mime_types=jpg,png");
+    if (response.ok) {
+      const urls = response.data as ICatAPI[];
+      this.selectPhotoToEncode(urls[0].url);
+    } else {
+      Alert.alert(
+        "Failed",
+        "Failed to get a cat photo, check you're connected to the internet.",
+        [
+          {
+            text: "ok"
+          }
+        ]
+      );
+    }
 
     setTimeout(() => {
       this.setState({ loading: false });

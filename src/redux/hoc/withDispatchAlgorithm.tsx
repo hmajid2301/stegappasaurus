@@ -1,9 +1,9 @@
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
+import { AlgorithmNames } from "~/common/interfaces";
 import { selectAlgorithm } from "~/redux/actions";
 import { IReducerState } from "~/redux/reducers/SelectAlgorithm";
-import { AlgorithmNames } from "~/util/interfaces";
 
 const mapStateToProps = (state: IReducerState) => ({
   algorithm: state.SelectAlgorithm.algorithm

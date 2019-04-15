@@ -1,7 +1,7 @@
 import { isType } from "typescript-fsa";
 
 import { selectAlgorithm } from "~/redux/actions";
-import { AlgorithmNames } from "~/util/interfaces";
+import { AlgorithmNames } from "~/common/interfaces";
 
 const initialState = {
   algorithm: "LSB-PNG"

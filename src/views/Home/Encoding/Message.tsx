@@ -1,7 +1,7 @@
 import { create } from "apisauce";
 import { Toast } from "native-base";
 import React, { Component } from "react";
-import { Image } from "react-native";
+import { Alert, Image } from "react-native";
 import { NavigationScreenProp } from "react-navigation";
 
 import ImageMessage from "~/components/ImageMessage";
@@ -59,7 +59,19 @@ export default class Message extends Component<IProps, IState> {
           },
           message
         });
-        canEncode = response.data as boolean;
+        if (response.ok) {
+          canEncode = response.data as boolean;
+        } else {
+          Alert.alert(
+            "Encoding Possible",
+            "Failed to check if encoding is possible, please check internet connection.",
+            [
+              {
+                text: "ok"
+              }
+            ]
+          );
+        }
       },
       () => null
     );
@@ -72,12 +84,15 @@ export default class Message extends Component<IProps, IState> {
         type: "danger"
       });
     } else if (!canEncode) {
-      Toast.show({
-        buttonText: "Okay",
-        duration: 5000,
-        text: "Message too large to encode in image.",
-        type: "danger"
-      });
+      Alert.alert(
+        "Large Message",
+        "The message you entered it too large to encode.",
+        [
+          {
+            text: "ok"
+          }
+        ]
+      );
     } else {
       this.props.navigation.navigate("Progress", {
         message,

@@ -1,8 +1,8 @@
 import { isType } from "typescript-fsa";
 
 import { togglePrimaryColor } from "~/redux/actions";
-import { PRIMARY_COLORS } from "~/util/constants";
-import { PrimaryColor, PrimaryColorNames } from "~/util/interfaces";
+import { PRIMARY_COLORS } from "~/common/constants";
+import { PrimaryColor, PrimaryColorNames } from "~/common/interfaces";
 
 const initialState = {
   colorData: PRIMARY_COLORS.BLUE

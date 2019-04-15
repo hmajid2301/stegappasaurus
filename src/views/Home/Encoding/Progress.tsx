@@ -3,14 +3,14 @@ import { FileSystem, MediaLibrary } from "expo";
 import { auth, initializeApp, storage } from "firebase";
 import { Toast } from "native-base";
 import React, { Component } from "react";
-import { Image, Share, View } from "react-native";
+import { Alert, Image, Share, View } from "react-native";
+import env from "react-native-dotenv";
 import { NavigationScreenProp } from "react-navigation";
 
+import { AlgorithmNames, ITheme, PrimaryColor } from "~/common/interfaces";
+import { colors } from "~/common/styles";
 import ImageProgress from "~/components/ImageProgress";
-import configs from "~/configs";
 import { withDispatchAlgorithm } from "~/redux/hoc";
-import { AlgorithmNames, ITheme, PrimaryColor } from "~/util/interfaces";
-import { colors } from "~/util/styles";
 
 type ImageExtension = "jpg" | "png";
 
@@ -60,7 +60,7 @@ class Progress extends Component<IProps, IState> {
 
   public componentWillMount = async () => {
     const firebaseConfig = {
-      apiKey: configs.FIREBASE_API_KEY,
+      apiKey: env.FIREBASE_API_KEY,
       authDomain: "stegappasaurus.firebaseapp.com",
       databaseURL: "stegappasaurus.firebaseio.com",
       storageBucket: "stegappasaurus.appspot.com"
@@ -92,7 +92,19 @@ class Progress extends Component<IProps, IState> {
           },
           message: this.state.message
         });
-        this.setState({ base64Image: response.data as string });
+        if (response.ok) {
+          this.setState({ base64Image: response.data as string });
+        } else {
+          Alert.alert(
+            "Encoding Failure",
+            "Failed to decode photo, please check you have an internet connection.",
+            [
+              {
+                text: "ok"
+              }
+            ]
+          );
+        }
       },
       () => null
     );
