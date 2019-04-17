@@ -1,8 +1,13 @@
 import { isType } from "typescript-fsa";
 
-import { togglePrimaryColor } from "~/redux/actions";
 import { PRIMARY_COLORS } from "~/common/constants";
 import { PrimaryColor, PrimaryColorNames } from "~/common/interfaces";
+import { togglePrimaryColor } from "~/redux/actions";
+
+/**
+ * This reducer toggles which primary colour to use.
+ * Swaps the primary colour between blue and orange.
+ */
 
 const initialState = {
   colorData: PRIMARY_COLORS.BLUE

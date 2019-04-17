@@ -1,13 +1,19 @@
-import { create } from "apisauce";
+import { ApiResponse, create } from "apisauce";
 import { FileSystem } from "expo";
 import React, { Component } from "react";
 import { Alert, Image, View } from "react-native";
 import { NavigationScreenProp } from "react-navigation";
+import { connect } from "react-redux";
+import { Dispatch } from "redux";
 
 import { AlgorithmNames, ITheme, PrimaryColor } from "~/common/interfaces";
 import { colors } from "~/common/styles";
 import ImageProgress from "~/components/ImageProgress";
-import { withDispatchAlgorithm } from "~/redux/hoc";
+import { selectAlgorithm } from "~/redux/actions";
+import { IReducerState as IReducerFireBase } from "~/redux/reducers/FirebaseToken";
+import { IReducerState as IReducerSelectAlgorithm } from "~/redux/reducers/SelectAlgorithm";
+
+interface IReducerState extends IReducerSelectAlgorithm, IReducerFireBase {}
 
 interface IProps {
   algorithm: AlgorithmNames;
@@ -15,6 +21,7 @@ interface IProps {
   screenProps: {
     theme: ITheme;
   };
+  token: string;
 }
 
 interface IState {
@@ -36,44 +43,6 @@ class Progress extends Component<IProps, IState> {
     };
   }
 
-  public componentWillMount = async () => {
-    const base64Image = await FileSystem.readAsStringAsync(
-      this.state.photo,
-      FileSystem.EncodingTypes.Base64
-    );
-    await Image.getSize(
-      this.state.photo,
-      async (width, height) => {
-        const api = create({
-          baseURL: "https://us-central1-stegappasaurus.cloudfunctions.net"
-        });
-        const response = await api.post("/api/decode", {
-          algorithm: this.props.algorithm,
-          imageData: {
-            base64Image,
-            height,
-            width
-          }
-        });
-        if (response.ok) {
-          this.setState({ message: response.data as string, decoding: false });
-        } else {
-          Alert.alert(
-            "Encoding Failure",
-            "Failed to decode photo, please check you have an internet connection.",
-            [
-              {
-                text: "ok"
-              }
-            ]
-          );
-        }
-      },
-      () => null
-    );
-    this.decoded();
-  };
-
   public render() {
     const { theme } = this.props.screenProps;
 
@@ -89,6 +58,56 @@ class Progress extends Component<IProps, IState> {
     );
   }
 
+  public componentWillMount = async () => {
+    const base64Image = await FileSystem.readAsStringAsync(
+      this.state.photo,
+      FileSystem.EncodingTypes.Base64
+    );
+    await this.callDecodeAPI(base64Image);
+    this.decoded();
+  };
+
+  private callDecodeAPI = async (base64Image: string) => {
+    await Image.getSize(
+      this.state.photo,
+      async (width, height) => {
+        const api = create({
+          baseURL: "https://us-central1-stegappasaurus.cloudfunctions.net",
+          headers: { Authorization: `Bearer ${this.props.token}` }
+        });
+        const response = await api.post("/api/decode", {
+          algorithm: this.props.algorithm,
+          imageData: {
+            base64Image,
+            height,
+            width
+          }
+        });
+        this.handleResponse(response);
+      },
+      () => null
+    );
+  };
+
+  private handleResponse(response: ApiResponse<{}>) {
+    if (response.status === 200) {
+      this.setState({ message: response.data as string, decoding: false });
+    } else if (response.status === 200 && response.data === "invalid_message") {
+      this.props.navigation.navigate("Main");
+      Alert.alert("Invalid image could not decode.");
+    } else {
+      Alert.alert(
+        "Decoding Failure",
+        "Failed to decode photo, please check you have an internet connection.",
+        [
+          {
+            text: "ok"
+          }
+        ]
+      );
+    }
+  }
+
   private decoded = () => {
     this.props.navigation.navigate("Progress", {
       message: this.state.message,
@@ -97,4 +116,17 @@ class Progress extends Component<IProps, IState> {
   };
 }
 
-export default withDispatchAlgorithm(Progress);
+const mapStateToProps = (state: IReducerState) => ({
+  algorithm: state.SelectAlgorithm.algorithm,
+  token: state.FirebaseToken.token
+});
+
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  selectAlgorithm: (algorithm: AlgorithmNames) =>
+    dispatch(selectAlgorithm({ algorithm }))
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Progress);

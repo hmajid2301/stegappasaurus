@@ -13,13 +13,8 @@ const styles = StyleSheet.create({
     paddingVertical: 20
   },
 
-  logo: {
-    height: 50,
-    width: 50
-  },
-
   about: {
-    fontFamily: fonts.body,
+    fontFamily: fonts.bodyThin,
     paddingHorizontal: 20
   }
 });

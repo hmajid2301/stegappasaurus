@@ -13,7 +13,7 @@ interface IProps {
 }
 
 const Logo = ({ color, isDark }: IProps) => (
-  <View style={styles.container}>
+  <View style={styles.logoContainer}>
     <Text style={[styles.text, { color }]}>Steg</Text>
     <Image source={isDark ? logoLight : logoDark} style={styles.logo} />
     <Text style={[styles.text, { color }]}>ppasaurus</Text>

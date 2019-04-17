@@ -14,7 +14,7 @@ interface IProps {
 export interface IAboutItem {
   title: string;
   color: string;
-  function?: "store";
+  function_to_call?: "store";
   icon: {
     name: string;
     type:
@@ -35,21 +35,9 @@ export interface IAboutItem {
   url: string;
 }
 
-const chooseFunction = (item: IAboutItem) => {
-  switch (item.function) {
-    case "store":
-      StoreReview.requestReview()
-        .then()
-        .catch();
-      break;
-
-    default:
-      WebBrowser.openBrowserAsync(item.url)
-        .then()
-        .catch();
-      break;
-  }
-};
+const AboutList = ({ color, items }: IProps) => (
+  <List>{items.map(item => renderListItem(color, item))}</List>
+);
 
 const renderListItem = (color: string, item: IAboutItem) => (
   <ListItem icon key={item.title}>
@@ -69,8 +57,20 @@ const renderListItem = (color: string, item: IAboutItem) => (
   </ListItem>
 );
 
-const AboutList = ({ color, items }: IProps) => (
-  <List>{items.map(item => renderListItem(color, item))}</List>
-);
+const chooseFunction = (item: IAboutItem) => {
+  switch (item.function_to_call) {
+    case "store":
+      StoreReview.requestReview()
+        .then()
+        .catch();
+      break;
+
+    default:
+      WebBrowser.openBrowserAsync(item.url)
+        .then()
+        .catch();
+      break;
+  }
+};
 
 export default AboutList;

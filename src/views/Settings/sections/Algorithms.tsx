@@ -1,9 +1,13 @@
 import { Body, List, ListItem, Picker, Right } from "native-base";
 import React, { Component } from "react";
 import { Text } from "react-native";
+import { connect } from "react-redux";
+import { Dispatch } from "redux";
 
 import { AlgorithmNames, ITheme } from "~/common/interfaces";
-import { withDispatchAlgorithm } from "~/redux/hoc";
+import { selectAlgorithm } from "~/redux/actions";
+import { IReducerState } from "~/redux/reducers/SelectAlgorithm";
+
 import styles from "./styles";
 
 interface IProps {
@@ -47,4 +51,16 @@ class Algorithms extends Component<IProps, {}> {
   }
 }
 
-export default withDispatchAlgorithm(Algorithms);
+const mapStateToProps = (state: IReducerState) => ({
+  algorithm: state.SelectAlgorithm.algorithm
+});
+
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  selectAlgorithm: (algorithm: AlgorithmNames) =>
+    dispatch(selectAlgorithm({ algorithm }))
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Algorithms);

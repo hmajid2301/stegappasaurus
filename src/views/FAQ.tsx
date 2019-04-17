@@ -5,8 +5,8 @@ import { NavigationScreenProp } from "react-navigation";
 
 import { ITheme, PrimaryColor } from "~/common/interfaces";
 import { colors } from "~/common/styles";
-import AccordionList from "~/components/AccordionList";
 import CustomHeader from "~/components/CustomHeader";
+import FAQList from "~/components/FAQList";
 
 import faq from "./FAQ/questions";
 import styles from "./FAQ/styles";
@@ -31,9 +31,9 @@ export default class FAQ extends Component<IProps, {}> {
             theme={theme}
           />
 
-          <View style={styles.accordionContainer}>
+          <View style={styles.faqListContainer}>
             <Content padder>
-              <AccordionList faq={faq} theme={theme} />
+              <FAQList items={faq} theme={theme} />
             </Content>
           </View>
         </ScrollView>

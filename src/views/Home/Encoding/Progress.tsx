@@ -1,18 +1,23 @@
-import { create } from "apisauce";
+import { ApiResponse, create } from "apisauce";
 import { FileSystem, MediaLibrary } from "expo";
-import { auth, initializeApp, storage } from "firebase";
+import { storage } from "firebase";
 import { Toast } from "native-base";
 import React, { Component } from "react";
 import { Alert, Image, Share, View } from "react-native";
-import env from "react-native-dotenv";
 import { NavigationScreenProp } from "react-navigation";
+import { connect } from "react-redux";
+import { Dispatch } from "redux";
 
 import { AlgorithmNames, ITheme, PrimaryColor } from "~/common/interfaces";
 import { colors } from "~/common/styles";
 import ImageProgress from "~/components/ImageProgress";
-import { withDispatchAlgorithm } from "~/redux/hoc";
+import { selectAlgorithm } from "~/redux/actions";
+import { IReducerState as IReducerFireBase } from "~/redux/reducers/FirebaseToken";
+import { IReducerState as IReducerSelectAlgorithm } from "~/redux/reducers/SelectAlgorithm";
 
 type ImageExtension = "jpg" | "png";
+
+interface IReducerState extends IReducerSelectAlgorithm, IReducerFireBase {}
 
 interface IProps {
   algorithm: AlgorithmNames;
@@ -20,6 +25,7 @@ interface IProps {
   screenProps: {
     theme: ITheme;
   };
+  token: string;
 }
 
 interface IState {
@@ -30,7 +36,6 @@ interface IState {
   message: string;
   percentage: number;
   photo: string;
-  token: string;
 }
 
 class Progress extends Component<IProps, IState> {
@@ -53,63 +58,9 @@ class Progress extends Component<IProps, IState> {
       filename,
       message,
       percentage: 0,
-      photo: uri,
-      token: ""
+      photo: uri
     };
   }
-
-  public componentWillMount = async () => {
-    const firebaseConfig = {
-      apiKey: env.FIREBASE_API_KEY,
-      authDomain: "stegappasaurus.firebaseapp.com",
-      databaseURL: "stegappasaurus.firebaseio.com",
-      storageBucket: "stegappasaurus.appspot.com"
-    };
-    initializeApp(firebaseConfig);
-    const userAuth = auth();
-    await userAuth.signInAnonymously();
-    const currentUser = userAuth.currentUser;
-    if (currentUser !== null) {
-      const token = await currentUser.getIdToken();
-      this.setState({ token });
-    }
-
-    const base64Image = await FileSystem.readAsStringAsync(this.state.photo, {
-      encoding: FileSystem.EncodingTypes.Base64
-    });
-    await Image.getSize(
-      this.state.photo,
-      async (width, height) => {
-        const api = create({
-          baseURL: "https://us-central1-stegappasaurus.cloudfunctions.net"
-        });
-        const response = await api.post("/api/encode", {
-          algorithm: this.props.algorithm,
-          imageData: {
-            base64Image: `data:image/png;base64,${base64Image}`,
-            height,
-            width
-          },
-          message: this.state.message
-        });
-        if (response.ok) {
-          this.setState({ base64Image: response.data as string });
-        } else {
-          Alert.alert(
-            "Encoding Failure",
-            "Failed to decode photo, please check you have an internet connection.",
-            [
-              {
-                text: "ok"
-              }
-            ]
-          );
-        }
-      },
-      () => null
-    );
-    await this.encoded();
-  };
 
   public render() {
     const { theme } = this.props.screenProps;
@@ -126,6 +77,60 @@ class Progress extends Component<IProps, IState> {
     );
   }
 
+  public componentWillMount = async () => {
+    const base64Image = await FileSystem.readAsStringAsync(this.state.photo, {
+      encoding: FileSystem.EncodingTypes.Base64
+    });
+
+    await this.callEncodeAPI(base64Image);
+    await this.encoded();
+  };
+
+  private callEncodeAPI = async (base64Image: string) => {
+    await Image.getSize(
+      this.state.photo,
+      async (width, height) => {
+        const api = create({
+          baseURL: "https://us-central1-stegappasaurus.cloudfunctions.net",
+          headers: { Authorization: `Bearer ${this.props.token}` }
+        });
+        const response = await api.post("/api/encode", {
+          algorithm: this.props.algorithm,
+          imageData: {
+            base64Image: `data:image/png;base64,${base64Image}`,
+            height,
+            width
+          },
+          message: this.state.message
+        });
+        this.handleResponse(response);
+      },
+      () => null
+    );
+  };
+
+  private handleResponse(response: ApiResponse<{}>) {
+    if (response.status === 200) {
+      this.setState({ base64Image: response.data as string });
+    } else if (
+      response.status === 200 &&
+      response.data === "message_too_large"
+    ) {
+      this.props.navigation.goBack();
+      Alert.alert("Message too large to encode in image.");
+    } else {
+      Alert.alert(
+        "Encoding Failure",
+        "Failed to decode photo, please check you have an internet connection.",
+        [
+          {
+            text: "ok"
+          }
+        ]
+      );
+    }
+  }
+
   private encoded = async () => {
     const imagePath = `${FileSystem.documentDirectory}${this.state.filename}.${
       this.state.extension
@@ -140,6 +145,7 @@ class Progress extends Component<IProps, IState> {
       duration: 5000,
       text: "Encoded image saved to gallery."
     });
+
     const blob = await this.uriToBlob();
     const ref = storage()
       .ref()
@@ -150,7 +156,7 @@ class Progress extends Component<IProps, IState> {
     }, 1000);
   };
 
-  private async uriToBlob() {
+  private uriToBlob = async () => {
     return new Promise((resolve, reject) => {
       const xhr = new XMLHttpRequest();
       xhr.onload = () => {
@@ -163,7 +169,7 @@ class Progress extends Component<IProps, IState> {
       xhr.open("GET", this.state.photo, true);
       xhr.send(null);
     });
-  }
+  };
 
   private shareImage = async () => {
     const url = await storage()
@@ -177,4 +183,17 @@ class Progress extends Component<IProps, IState> {
   };
 }
 
-export default withDispatchAlgorithm(Progress);
+const mapStateToProps = (state: IReducerState) => ({
+  algorithm: state.SelectAlgorithm.algorithm,
+  token: state.FirebaseToken.token
+});
+
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  selectAlgorithm: (algorithm: AlgorithmNames) =>
+    dispatch(selectAlgorithm({ algorithm }))
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Progress);

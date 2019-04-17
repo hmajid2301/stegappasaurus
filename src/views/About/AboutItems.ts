@@ -1,5 +1,5 @@
-import { IAboutItem } from "~/components/AboutList";
 import { colors } from "~/common/styles";
+import { IAboutItem } from "~/components/AboutList";
 
 const AboutItems: IAboutItem[] = [
   {
@@ -40,7 +40,7 @@ const AboutItems: IAboutItem[] = [
   },
   {
     color: colors.iconRed,
-    function: "store",
+    function_to_call: "store",
     icon: {
       name: "rate-review",
       type: "MaterialIcons"

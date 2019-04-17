@@ -3,15 +3,6 @@ import { StyleSheet } from "react-native";
 import { colors, fonts } from "~/common/styles";
 
 const styles = StyleSheet.create({
-  picker: {
-    height: 30,
-    width: 150
-  },
-
-  checkbox: {
-    paddingRight: 20
-  },
-
   itemHeader: {
     paddingBottom: 5,
     paddingTop: 20
@@ -19,16 +10,25 @@ const styles = StyleSheet.create({
 
   itemHeaderText: {
     color: colors.primary,
-    fontFamily: fonts.body_xl,
+    fontFamily: fonts.bodyNormal,
     fontSize: 12
   },
 
   itemText: {
-    fontFamily: fonts.body
+    fontFamily: fonts.bodyThin
   },
 
   itemTextUnder: {
     color: "grey"
+  },
+
+  picker: {
+    height: 30,
+    width: 150
+  },
+
+  checkbox: {
+    paddingRight: 20
   }
 });
 

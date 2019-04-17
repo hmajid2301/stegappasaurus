@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
-  container: {
+  logoContainer: {
     flexDirection: "row",
     flexWrap: "wrap"
   },

@@ -1,7 +1,13 @@
 import { isType } from "typescript-fsa";
 
-import { selectAlgorithm } from "~/redux/actions";
 import { AlgorithmNames } from "~/common/interfaces";
+import { selectAlgorithm } from "~/redux/actions";
+
+/**
+ * This reducer sets the algorithm to use for encoding/decoding.
+ * This reducer takes in the new algorithm names and sets it as
+ * the new algorithm.
+ */
 
 const initialState = {
   algorithm: "LSB-PNG"

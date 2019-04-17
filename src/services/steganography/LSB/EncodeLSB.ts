@@ -22,6 +22,7 @@
  * ```
  *
  */
+
 export default class EncodeLSB {
   /**
    * Acts a main function encodes binary message into the LSB of image data. **Note**: alpha channel

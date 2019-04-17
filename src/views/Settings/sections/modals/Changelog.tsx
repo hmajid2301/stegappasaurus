@@ -1,7 +1,7 @@
 import React from "react";
 
 import MarkdownModal from "~/components/MarkdownModal";
-import changelog from "./markdown/changelog";
+import changelog from "~/views/Settings/content/changelog";
 
 const Changelog = () => (
   <MarkdownModal name="Changelog">{changelog}</MarkdownModal>

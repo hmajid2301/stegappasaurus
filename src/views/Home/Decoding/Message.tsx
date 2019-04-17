@@ -29,7 +29,11 @@ class Progress extends Component<IProps, IState> {
 
   public render() {
     return (
-      <ImageMessage message={this.state.message} photo={this.state.photo} />
+      <ImageMessage
+        editable={false}
+        message={this.state.message}
+        photo={this.state.photo}
+      />
     );
   }
 }

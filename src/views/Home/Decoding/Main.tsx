@@ -3,10 +3,12 @@ import { Icon } from "native-base";
 import React, { Component } from "react";
 import { Alert, TouchableOpacity, View } from "react-native";
 import { NavigationScreenProp } from "react-navigation";
+import { connect } from "react-redux";
+import { Dispatch } from "redux";
 
 import { PRIMARY_COLORS } from "~/common/constants";
 import { ITheme, PrimaryColorNames } from "~/common/interfaces";
-import { dispatchPrimaryColor } from "~/redux/hoc";
+import { togglePrimaryColor } from "~/redux/actions";
 
 import styles from "./Main/styles";
 
@@ -19,12 +21,6 @@ interface IProps {
 }
 
 class Main extends Component<IProps, {}> {
-  public componentDidMount = () => {
-    this.props.navigation.addListener("willFocus", () => {
-      this.props.togglePrimaryColor(PRIMARY_COLORS.BLUE.name);
-    });
-  };
-
   public render() {
     const { theme } = this.props.screenProps;
     return (
@@ -38,6 +34,12 @@ class Main extends Component<IProps, {}> {
       </View>
     );
   }
+
+  public componentDidMount = () => {
+    this.props.navigation.addListener("willFocus", () => {
+      this.props.togglePrimaryColor(PRIMARY_COLORS.BLUE.name);
+    });
+  };
 
   private getPhotoFromCameraRoll = async () => {
     const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
@@ -64,4 +66,12 @@ class Main extends Component<IProps, {}> {
   };
 }
 
-export default dispatchPrimaryColor(Main);
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  togglePrimaryColor: (colorName: PrimaryColorNames) =>
+    dispatch(togglePrimaryColor({ color: colorName }))
+});
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(Main);

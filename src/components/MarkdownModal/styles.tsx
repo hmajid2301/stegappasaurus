@@ -1,6 +1,12 @@
+import { StyleSheet } from "react-native";
+
 import { fonts } from "~/common/styles";
 
-const styles = {
+const styles = StyleSheet.create({
+  modalContainer: {
+    flex: 1
+  },
+
   icons: {
     paddingHorizontal: 10,
     paddingVertical: 10,
@@ -12,38 +18,34 @@ const styles = {
     paddingVertical: 10
   },
 
-  modalContainer: {
-    flex: 1
-  },
-
   buttonText: {
-    fontFamily: fonts.body
+    fontFamily: fonts.bodyThin
+  }
+});
+
+export const markdown = {
+  heading1: {
+    fontFamily: fonts.bodyThin,
+    fontSize: 24,
+    paddingBottom: 15
   },
 
-  markdown: {
-    heading1: {
-      fontFamily: fonts.body,
-      fontSize: 24,
-      paddingBottom: 15
-    },
+  heading2: {
+    fontFamily: fonts.bodyThin,
+    fontSize: 18,
+    paddingBottom: 10
+  },
 
-    heading2: {
-      fontFamily: fonts.body,
-      fontSize: 18,
-      paddingBottom: 10
-    },
+  text: {
+    fontFamily: fonts.bodyThin
+  },
 
-    text: {
-      fontFamily: fonts.body
-    },
+  list: {
+    paddingBottom: 10
+  },
 
-    list: {
-      paddingBottom: 10
-    },
-
-    paragraph: {
-      paddingBottom: 10
-    }
+  paragraph: {
+    paddingBottom: 10
   }
 };
 
