@@ -11,7 +11,7 @@ const commonTabOptions = (primaryColor: string) => ({
     backgroundColor: colors.pureWhite
   },
   labelStyle: {
-    fontFamily: fonts.body_xl,
+    fontFamily: fonts.bodyNormal,
     fontSize: 12
   },
   pressColor: colors.pureWhite,

@@ -20,7 +20,7 @@ export default class ImageProgress extends Component<IProps, {}> {
     return (
       <View
         style={[
-          styles.encodeImageContainer,
+          styles.progressContainer,
           { backgroundColor: theme.background }
         ]}
       >
@@ -36,7 +36,7 @@ export default class ImageProgress extends Component<IProps, {}> {
                 { borderColor: this.props.primaryColor }
               ]}
               source={{ uri: this.props.photo }}
-              style={styles.encodingImage}
+              style={styles.image}
             />
           </TouchableOpacity>
         )}

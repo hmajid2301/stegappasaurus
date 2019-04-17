@@ -11,13 +11,13 @@ import styles from "./styles";
 
 interface IProps {
   action: (message: string) => void;
-  message: string;
+  editable: boolean;
+  message?: string;
   photo: string;
 }
 
 interface IState {
   message: string;
-  editable: boolean;
 }
 
 const DismissKeyboard = ({ children }: { children: ReactChild }) => (
@@ -35,13 +35,7 @@ export default class ImageMessage extends Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
 
-    let editable = true;
-    if (this.props.message) {
-      editable = false;
-    }
-
     this.state = {
-      editable,
       message: ""
     };
   }
@@ -52,13 +46,13 @@ export default class ImageMessage extends Component<IProps, IState> {
         <DismissKeyboard>
           <ImageBackground
             source={{ uri: this.props.photo }}
-            style={styles.selectedImage}
+            style={styles.backgroundImage}
           >
-            <View style={styles.textContainer}>
+            <View style={styles.textInputContainer}>
               <TextInput
                 autoFocus={true}
                 blurOnSubmit={true}
-                editable={this.state.editable}
+                editable={this.props.editable}
                 enablesReturnKeyAutomatically={true}
                 multiline={true}
                 onChangeText={message => this.setState({ message })}
@@ -66,9 +60,9 @@ export default class ImageMessage extends Component<IProps, IState> {
                 placeholder={
                   this.props.message
                     ? this.props.message
-                    : "Enter your message here...."
+                    : "Enter your message here ...."
                 }
-                style={styles.userMessage}
+                style={styles.message}
                 underlineColorAndroid="transparent"
               />
             </View>

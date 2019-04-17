@@ -3,22 +3,22 @@ import { StyleSheet } from "react-native";
 import { colors, fonts } from "~/common/styles";
 
 const styles = StyleSheet.create({
-  textContainer: {
-    alignItems: "center",
-    flex: 1,
-    justifyContent: "center"
-  },
-
-  selectedImage: {
+  backgroundImage: {
     backgroundColor: "rgba(0, 0, 0, 0.7)",
     height: "100%",
     width: "100%"
   },
 
-  userMessage: {
+  textInputContainer: {
+    alignItems: "center",
+    flex: 1,
+    justifyContent: "center"
+  },
+
+  message: {
     backgroundColor: "rgba(0, 0, 0, 0.3)",
     color: colors.pureWhite,
-    fontFamily: fonts.body,
+    fontFamily: fonts.bodyThin,
     fontSize: 22,
     paddingHorizontal: 20,
     paddingVertical: 20

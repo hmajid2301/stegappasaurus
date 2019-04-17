@@ -3,6 +3,15 @@ import { StyleSheet } from "react-native";
 import { colors, fonts } from "~/common/styles";
 
 const styles = StyleSheet.create({
+  contentContainer: {
+    paddingHorizontal: 20,
+    paddingVertical: 20
+  },
+
+  content: {
+    fontFamily: fonts.bodyThin
+  },
+
   headerContainer: {
     alignItems: "center",
     borderBottomWidth: 1,
@@ -12,17 +21,17 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
 
-  active: {
-    backgroundColor: colors.primary
-  },
-
   inactive: {
     backgroundColor: colors.secondary
   },
 
+  active: {
+    backgroundColor: colors.primary
+  },
+
   header: {
     color: colors.pureWhite,
-    fontFamily: fonts.body
+    fontFamily: fonts.bodyThin
   },
 
   iconContainer: {
@@ -33,15 +42,6 @@ const styles = StyleSheet.create({
   icon: {
     color: colors.pureWhite,
     fontSize: 12
-  },
-
-  contentContainer: {
-    paddingHorizontal: 20,
-    paddingVertical: 20
-  },
-
-  content: {
-    fontFamily: fonts.body
   }
 });
 

@@ -12,6 +12,7 @@ const CustomDrawerNavigator: React.FunctionComponent<
 > = props => {
   if (props.screenProps !== undefined) {
     const theme: ITheme = props.screenProps.theme;
+
     return (
       <View style={[styles.container, { backgroundColor: theme.background }]}>
         <View style={[styles.header, { backgroundColor: theme.background }]}>

@@ -1,4 +1,4 @@
-import { IFAQ } from "~/components/AccordionList";
+import { IFAQ } from "~/components/FAQList";
 
 const faq: IFAQ[] = [
   {

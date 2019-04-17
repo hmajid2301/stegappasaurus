@@ -6,7 +6,7 @@ const styles = StyleSheet.create({
     flexDirection: "column"
   },
 
-  accordionContainer: {
+  faqListContainer: {
     alignItems: "stretch",
     paddingTop: 5
   }

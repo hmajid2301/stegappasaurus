@@ -38,6 +38,7 @@
  * ```
  *
  */
+
 export default class DecodeLSB {
   private static readonly LARGEST_BYTE_VALUE = "11111111";
   /** The largest possible value for a byte (255) */

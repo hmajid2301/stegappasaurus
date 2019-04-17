@@ -26,6 +26,7 @@ import { DecodeLSB, EncodeLSB } from "./LSB";
  * `"\u0041\u0020\uD83D\uDE00"`, this is a unicode string. So to get back our original message we
  * then convert this from unicode into a normal string.
  */
+
 type AlgorithmNames = "F5" | "LSB-PNG" | "LSB-DCT";
 interface ImageData {
   base64Image: string;
@@ -52,11 +53,15 @@ export default class Steganography {
    * @return The encoded image as base64 string.
    */
   public encode = (message: string) => {
-    const binaryMessage = this.convertMessageToBinary(message);
-    const pixelData = this.getImageData();
-    const newPixelData = this.encodeData(pixelData, binaryMessage);
-    const dataURL = this.putImageData(newPixelData);
-    return dataURL;
+    const canEncode = this.isEncodingPossible(this.imageData.width, this.imageData.height, message);
+    if (canEncode) {
+      const binaryMessage = this.convertMessageToBinary(message);
+      const pixelData = this.getImageData();
+      const newPixelData = this.encodeData(pixelData, binaryMessage);
+      const dataURL = this.putImageData(newPixelData);
+      return dataURL;
+    }
+    throw new Error("message_too_large")
   };
 
   /**
@@ -72,12 +77,36 @@ export default class Steganography {
       message = this.convertBinaryToMessage(unicode);
     } catch (e) {
       if (e instanceof RangeError) {
-        message = "Invalid image, cannot decode.";
+        throw new Error("invalid_image");
       }
     }
 
     return message;
   };
+
+
+  /**
+   * Checks if it's possible to encode image.
+   *
+   * @param width: Image width in pixels.
+   * 
+   * @param height: Image height in pixels.
+   * 
+   * @param message: The message to encode as a string.
+   *
+   * @return If the encoding is possible returns true, else returns false.
+   */
+  public isEncodingPossible = (width: number, height: number, message: string) => {
+    const bitsCanEncode = (width * height * 3) / 4;
+    const binaryMessage = this.convertMessageToBinary(message);
+    const messageLength = binaryMessage.join("").length;
+
+    if (messageLength > bitsCanEncode) {
+      return false;
+    }
+
+    return true;
+  }
 
   /**
    * Converts a message into binary, first converts the message into a unicode string. Then

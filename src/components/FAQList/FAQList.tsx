@@ -6,7 +6,7 @@ import { ITheme } from "~/common/interfaces";
 import styles from "./styles";
 
 interface IProps {
-  faq: IFAQ[];
+  items: IFAQ[];
   theme: ITheme;
 }
 
@@ -15,16 +15,24 @@ export interface IFAQ {
   title: string;
 }
 
-export default class AccordionList extends Component<IProps, {}> {
+export default class FAQList extends Component<IProps, {}> {
   public render() {
     return (
       <Accordion
-        dataArray={this.props.faq}
+        dataArray={this.props.items}
         renderContent={this.renderContent}
         renderHeader={this.renderHeader}
       />
     );
   }
+
+  private renderContent = (item: IFAQ) => (
+    <View style={styles.contentContainer}>
+      <Text style={[styles.content, { color: this.props.theme.color }]}>
+        {item.content}
+      </Text>
+    </View>
+  );
 
   private renderHeader = (item: IFAQ, expanded: boolean) => (
     <View
@@ -42,14 +50,6 @@ export default class AccordionList extends Component<IProps, {}> {
           <Icon style={styles.icon} type="FontAwesome" name="chevron-down" />
         )}
       </View>
-    </View>
-  );
-
-  private renderContent = (item: IFAQ) => (
-    <View style={styles.contentContainer}>
-      <Text style={[styles.content, { color: this.props.theme.color }]}>
-        {item.content}
-      </Text>
     </View>
   );
 }

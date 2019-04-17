@@ -1,4 +1,5 @@
 import { Location, Permissions } from "expo";
+import { auth, initializeApp } from "firebase";
 import moment from "moment";
 import { Toast } from "native-base";
 import React, { Component } from "react";
@@ -7,14 +8,22 @@ import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import { getSunrise, getSunset } from "sunrise-sunset-js";
 
+import env from "react-native-dotenv";
 import { ITheme, PossibleAppStates } from "~/common/interfaces";
-import { toggleAutomaticTheme, toggleDarkTheme } from "~/redux/actions";
+import {
+  firebaseToken,
+  toggleAutomaticTheme,
+  toggleDarkTheme
+} from "~/redux/actions";
 import { IReducerState as IReducerAutomaticTheme } from "~/redux/reducers/ToggleAutomaticTheme";
 import { IReducerState as IReducerDarkTheme } from "~/redux/reducers/ToggleDarkTheme";
 import App from "./views/Routes";
 
+interface IReducerState extends IReducerAutomaticTheme, IReducerDarkTheme {}
+
 interface IProps {
   isAutomatic: boolean;
+  firebaseToken: (token: string) => void;
   toggleAutomaticTheme: (isAutomatic: boolean) => void;
   toggleDarkTheme: (isDark: boolean) => void;
   theme: ITheme;
@@ -24,50 +33,67 @@ interface IState {
   appState: PossibleAppStates;
 }
 
-interface IReducerState extends IReducerAutomaticTheme, IReducerDarkTheme {}
-
 class MainApp extends Component<IProps, IState> {
+  public render() {
+    return <App screenProps={{ theme: this.props.theme }} />;
+  }
+
+  public componentWillMount = async () => {
+    const firebaseConfig = {
+      apiKey: env.FIREBASE_API_KEY,
+      authDomain: "stegappasaurus.firebaseapp.com",
+      databaseURL: "stegappasaurus.firebaseio.com",
+      storageBucket: "stegappasaurus.appspot.com"
+    };
+
+    initializeApp(firebaseConfig);
+    const userAuth = auth();
+    await userAuth.signInAnonymously();
+    const currentUser = userAuth.currentUser;
+
+    let token = "";
+    if (currentUser !== null) {
+      token = await currentUser.getIdToken();
+    }
+  };
+
   public componentDidMount = async () => {
     AppState.addEventListener("change", this.appInFocus);
-    this.state = {
+    this.setState({
       appState: AppState.currentState
-    };
+    });
   };
 
   public componentWillUnmount = () => {
     AppState.removeEventListener("change", this.appInFocus);
   };
 
-  public render() {
-    return <App screenProps={{ theme: this.props.theme }} />;
-  }
-
   private appInFocus = async (nextAppState: PossibleAppStates) => {
     if (
       this.state.appState.match(/inactive|background/) &&
       nextAppState === "active"
     ) {
-      await this.checkAutomaticTheme();
+      if (this.props.isAutomatic) {
+        await this.toggleTheme();
+      }
     }
     this.setState({ appState: nextAppState });
   };
 
-  private checkAutomaticTheme = async () => {
-    if (this.props.isAutomatic) {
-      const { sunrise, sunset } = await this.getSunriseSunsetTime();
-      if (sunrise !== null && sunset !== null) {
-        const currentTime = new Date();
+  private toggleTheme = async () => {
+    const { sunrise, sunset } = await this.getSunriseAndSunsetTime();
+    if (sunrise !== null && sunset !== null) {
+      const currentTime = new Date();
 
-        if (currentTime > sunrise && currentTime < sunset) {
-          this.props.toggleDarkTheme(true);
-        } else {
-          this.props.toggleDarkTheme(false);
-        }
+      if (currentTime > sunrise && currentTime < sunset) {
+        this.props.toggleDarkTheme(true);
+      } else {
+        this.props.toggleDarkTheme(false);
       }
     }
   };
 
-  private getSunriseSunsetTime = async () => {
+  private getSunriseAndSunsetTime = async () => {
     const { latitude, longitude } = await this.getLatitudeLongitude();
 
     if (isNaN(latitude)) {
@@ -76,7 +102,7 @@ class MainApp extends Component<IProps, IState> {
         buttonText: "Okay",
         duration: 5000,
         text:
-          "For automatic theme location services need to be turned on. Turning off automatic theme."
+          "To use the automatic theme feature, location services must be turned on. Turning off automatic theme."
       });
       return { sunset: null, sunrise: null };
     }
@@ -90,6 +116,7 @@ class MainApp extends Component<IProps, IState> {
     const currentDate = moment().toISOString();
     const lastQueried = await AsyncStorage.getItem("@LastQueriedLocation");
     let lastQueriedDate = currentDate;
+
     if (lastQueried !== null) {
       lastQueriedDate = moment(lastQueried)
         .add(7, "days")
@@ -104,36 +131,35 @@ class MainApp extends Component<IProps, IState> {
       (await AsyncStorage.getItem("@Longitude")) || "0",
       10
     );
-    ({ latitude, longitude } = await this.getNewLatitudeLongitude(
-      lastQueriedDate,
-      currentDate,
-      latitude,
-      longitude
-    ));
+
+    if (lastQueriedDate > currentDate) {
+      ({ latitude, longitude } = await this.getNewLatitudeLongitude(
+        currentDate,
+        latitude,
+        longitude
+      ));
+    }
     return { latitude, longitude };
   }
 
   private async getNewLatitudeLongitude(
-    lastQueriedDate: string,
     currentDate: string,
     latitude: number,
     longitude: number
   ) {
-    if (lastQueriedDate > currentDate) {
-      const { status } = await Permissions.askAsync(Permissions.LOCATION);
-      if (status === "granted") {
-        const locationOn = await Location.hasServicesEnabledAsync();
-        if (locationOn) {
-          const location = await Location.getCurrentPositionAsync({
-            accuracy: Location.Accuracy.Lowest
-          });
+    const { status } = await Permissions.askAsync(Permissions.LOCATION);
+    if (status === "granted") {
+      const locationOn = await Location.hasServicesEnabledAsync();
+      if (locationOn) {
+        const location = await Location.getCurrentPositionAsync({
+          accuracy: Location.Accuracy.Lowest
+        });
 
-          latitude = location.coords.latitude;
-          longitude = location.coords.longitude;
-          await AsyncStorage.setItem("@Latitude", JSON.stringify(latitude));
-          await AsyncStorage.setItem("@Longitude", JSON.stringify(longitude));
-          await AsyncStorage.setItem("@LastQueriedLocation", currentDate);
-        }
+        latitude = location.coords.latitude;
+        longitude = location.coords.longitude;
+        await AsyncStorage.setItem("@Latitude", JSON.stringify(latitude));
+        await AsyncStorage.setItem("@Longitude", JSON.stringify(longitude));
+        await AsyncStorage.setItem("@LastQueriedLocation", currentDate);
       }
     }
     return { latitude, longitude };
@@ -146,6 +172,7 @@ const mapStateToProps = (state: IReducerState) => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+  firebaseToken: (token: string) => dispatch(firebaseToken({ token })),
   toggleAutomaticTheme: (isAutomatic: boolean) =>
     dispatch(toggleAutomaticTheme({ isAutomatic })),
   toggleDarkTheme: (isDark: boolean) => dispatch(toggleDarkTheme({ isDark }))

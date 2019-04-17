@@ -12,11 +12,13 @@ import {
 } from "react-native";
 import env from "react-native-dotenv";
 import { NavigationScreenProp } from "react-navigation";
+import { connect } from "react-redux";
+import { Dispatch } from "redux";
 
 import { PRIMARY_COLORS } from "~/common/constants";
 import { ITheme, PrimaryColorNames } from "~/common/interfaces";
 import { colors } from "~/common/styles";
-import { dispatchPrimaryColor } from "~/redux/hoc";
+import { togglePrimaryColor } from "~/redux/actions";
 
 import styles from "./Main/styles";
 
@@ -56,6 +58,58 @@ class Main extends Component<IProps, IState> {
     };
   }
 
+  public render() {
+    const { theme } = this.props.screenProps;
+
+    if (this.state.loading) {
+      return (
+        <View style={styles.loading}>
+          <ActivityIndicator color={colors.primary} size="large" />
+        </View>
+      );
+    }
+
+    return (
+      <View style={[styles.container, { backgroundColor: theme.background }]}>
+        <View style={styles.buttonsRow}>
+          <TouchableOpacity
+            onPress={this.getPhotoFromCamera}
+            style={styles.button}
+          >
+            <Icon name="camera" style={styles.icon} type="FontAwesome" />
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={this.getPhotoFromCameraRoll}
+            style={styles.button}
+          >
+            <Icon name="photo" style={styles.icon} type="FontAwesome" />
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={this.getPhotoFromCatAPI}
+            style={styles.button}
+          >
+            <Icon
+              name="cat"
+              style={styles.icon}
+              type="MaterialCommunityIcons"
+            />
+          </TouchableOpacity>
+        </View>
+        <View style={styles.photoListContainer}>
+          <FlatList
+            data={this.padData(this.state.photos)}
+            keyExtractor={(item, index) => item.uri + index}
+            numColumns={3}
+            onEndReached={this.morePhotosFromCameraRoll}
+            renderItem={this.renderPhotosFromCameraRoll}
+          />
+        </View>
+      </View>
+    );
+  }
+
   public componentDidMount = async () => {
     this.props.navigation.addListener("willFocus", () => {
       this.props.togglePrimaryColor(PRIMARY_COLORS.ORANGE.name);
@@ -83,56 +137,6 @@ class Main extends Component<IProps, IState> {
       );
     }
   };
-
-  public render() {
-    const { theme } = this.props.screenProps;
-
-    if (this.state.loading) {
-      return (
-        <View style={styles.loading}>
-          <ActivityIndicator color={colors.primary} size="large" />
-        </View>
-      );
-    }
-
-    return (
-      <View style={[styles.container, { backgroundColor: theme.background }]}>
-        <View style={styles.buttonsRow}>
-          <TouchableOpacity
-            onPress={this.getPhotoFromCamera}
-            style={styles.button}
-          >
-            <Icon name="camera" style={styles.icon} type="FontAwesome" />
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={this.getPhotoFromCameraRoll}
-            style={styles.button}
-          >
-            <Icon name="photo" style={styles.icon} type="FontAwesome" />
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={this.getPhotoFromCatAPI}
-            style={styles.button}
-          >
-            <Icon
-              name="cat"
-              style={styles.icon}
-              type="MaterialCommunityIcons"
-            />
-          </TouchableOpacity>
-        </View>
-        <View style={styles.photoListContainer}>
-          <FlatList
-            data={this.padData(this.state.photos)}
-            keyExtractor={(item, index) => item.uri + index}
-            numColumns={3}
-            onEndReached={this.getMorePhotosFromCameraRoll}
-            renderItem={this.renderPhotosFromCameraRoll}
-          />
-        </View>
-      </View>
-    );
-  }
 
   private padData = (data: IPhoto[]) => {
     const numOfCols = 3;
@@ -211,10 +215,10 @@ class Main extends Component<IProps, IState> {
 
     setTimeout(() => {
       this.setState({ loading: false });
-    }, 3000);
+    }, 1000);
   };
 
-  private getMorePhotosFromCameraRoll = async () => {
+  private morePhotosFromCameraRoll = async () => {
     const { assets } = await MediaLibrary.getAssetsAsync({
       after: this.state.lastPhoto,
       first: 9,
@@ -245,4 +249,12 @@ class Main extends Component<IProps, IState> {
   };
 }
 
-export default dispatchPrimaryColor(Main);
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+  togglePrimaryColor: (colorName: PrimaryColorNames) =>
+    dispatch(togglePrimaryColor({ color: colorName }))
+});
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(Main);

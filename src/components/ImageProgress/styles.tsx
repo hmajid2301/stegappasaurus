@@ -3,7 +3,7 @@ import { Dimensions, StyleSheet } from "react-native";
 const pageWidth = Dimensions.get("window").width;
 
 const styles = StyleSheet.create({
-  encodeImageContainer: {
+  progressContainer: {
     alignItems: "center",
     flex: 1,
     justifyContent: "center"
@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
     overflow: "hidden"
   },
 
-  encodingImage: {
+  image: {
     height: pageWidth * 0.75,
     opacity: 0.65,
     width: pageWidth * 0.75
