@@ -4,7 +4,7 @@ import { fonts } from "~/common/styles";
 
 const styles = StyleSheet.create({
   text: {
-    fontFamily: fonts.bodyThin
+    fontFamily: fonts.bodyLight
   }
 });
 

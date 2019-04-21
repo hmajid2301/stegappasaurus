@@ -20,7 +20,7 @@ const styles = StyleSheet.create({
   },
 
   text: {
-    fontFamily: fonts.bodyNormal,
+    fontFamily: fonts.body,
     fontWeight: "normal"
   }
 });

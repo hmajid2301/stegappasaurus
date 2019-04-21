@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
   },
 
   about: {
-    fontFamily: fonts.bodyThin,
+    fontFamily: fonts.bodyLight,
     paddingHorizontal: 20
   }
 });

@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
   },
 
   content: {
-    fontFamily: fonts.bodyThin
+    fontFamily: fonts.bodyLight
   },
 
   headerContainer: {
@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
 
   header: {
     color: colors.pureWhite,
-    fontFamily: fonts.bodyThin
+    fontFamily: fonts.bodyLight
   },
 
   iconContainer: {

@@ -1,7 +1,6 @@
 export const fonts = {
-  bodyLarge: "Roboto_medium",
-  bodyNormal: "Roboto",
-  bodyThin: "RobotoLight",
+  body: "Roboto",
+  bodyLight: "RobotoLight",
   header: "RobotoThin"
 };
 
