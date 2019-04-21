@@ -19,10 +19,10 @@ import { auth } from "firebase-admin";
  * @param next: If the token is valid, pass it onto the actual function
  * that deals with that API request.
  */
-const validateFirebaseToken = (
+const ValidateToken = (
   request: express.Request,
   response: express.Response,
-  next: any
+  next: express.NextFunction
 ) => {
   let token;
   if (
@@ -45,4 +45,4 @@ const validateFirebaseToken = (
     });
 };
 
-export default validateFirebaseToken;
+export default ValidateToken;

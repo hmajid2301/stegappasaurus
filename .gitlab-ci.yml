@@ -26,12 +26,12 @@ open-merge-request:
     AUTO_MERGE: "true"
     TARGET_BRANCH: "master"
     COMMIT_PREFIX: "WIP"
-    DESCRIPTION: "$(< util/MR.md)"
     USE_ISSUE_NAME: "true"
   except:
     - master
     - production
   script:
+    - export DESCRIPTION="$(< util/MR.md)"
     - gitlab_auto_mr
 
 lint:
@@ -78,7 +78,7 @@ publish:firebase-functions:
   only:
     - master
   script:
-    - yarn run deploy -m "Pipeline $CI_PIPELINE_ID, build $CI_BUILD_ID" --non-interactive --token $FIREBASE_DEPLOY_TOKEN > output
+    - yarn run deploy-services -m "Pipeline $CI_PIPELINE_ID, build $CI_BUILD_ID" --non-interactive --token $FIREBASE_DEPLOY_TOKEN > output
     - tail -n +4 output
 
 publish:app:

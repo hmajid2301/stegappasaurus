@@ -1,71 +1,26 @@
 import * as express from "express";
+import { initialize } from "express-openapi";
 import { https } from "firebase-functions";
+import fs from "fs";
+import yaml from "js-yaml";
 
-import validateToken from "./middleware/Token";
-import Steganography from "./steganography";
+import { HTTPError, ValidateToken } from "./middleware";
 
 /**
  * This module has all the APIs that exist on Firebase. This module is the main
- * module called by the user (from the app). We currently have the following
- * endpoints
- *
- * - /api/encode: This API encodes the data into an image.
- * - /api/decode: This API decodes data from the image.
- *
+ * module called by the user (from the app). endpoints
  */
 
+const apiDoc = yaml.load(fs.readFileSync('./openapi/specification.yml', 'utf8'));
 const app = express();
-app.use(validateToken);
+initialize({
+  apiDoc,
+  app,
+  paths: "./api"
+});
 
-/**
- * Encodes data into an image.
- *
- * @param request: Request from the user.
- * 
- * @param response: Response to the user.
- *
- */
-app.post(
-  "/api/encode",
-  (request: express.Request, response: express.Response) => {
-    const imageData = request.body.imageData;
-    const algorithm = request.body.algorithm;
-    const message = request.body.message;
-
-    try {
-      const encodedImage = new Steganography(algorithm, imageData).encode(
-        message
-      );
-      response.status(200).send(encodedImage);
-    }
-    catch (error) {
-      response.status(500).json({ error_code: error.toString() });
-    }
-  }
-);
-
-/**
- * Decodes data from the image.
- *
- * @param request: Request from the user.
- * 
- * @param response: Response to the user.
- *
- */
-app.post(
-  "/api/decode",
-  (request: express.Request, response: express.Response) => {
-    const imageData = request.body.imageData;
-    const algorithm = request.body.algorithm;
-
-    try {
-      const decodedMessage = new Steganography(algorithm, imageData).decode();
-      response.send(decodedMessage);
-    }
-    catch (error) {
-      response.status(500).json({ error_code: error.toString() });
-    }
-  }
-);
+app.use(express.json());
+app.use(ValidateToken);
+app.use(HTTPError);
 
 export default https.onRequest(app);

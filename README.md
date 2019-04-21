@@ -45,13 +45,13 @@ Any errors in your editor about paths not resolving take a look [here](https://g
 
 ## Technologies
 
-Some technologies/libraries used in this project include;
-
 - React Native
 - Expo
 - Redux
 - TypeScript
 - Firebase
+- Express
+- Openapi
 - Sentry
 - Docker
 

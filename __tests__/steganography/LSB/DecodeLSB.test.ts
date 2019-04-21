@@ -1,4 +1,4 @@
-import { DecodeLSB } from "../../../src/services/steganography/LSB";
+import { DecodeLSB } from "../../../src/services/core/Steganography/LSB";
 import data from "../data";
 
 test.each(data)("DecodeLSB", ({ encoded, decodedData }) => {
