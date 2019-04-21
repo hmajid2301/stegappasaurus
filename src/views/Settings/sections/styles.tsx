@@ -10,12 +10,12 @@ const styles = StyleSheet.create({
 
   itemHeaderText: {
     color: colors.primary,
-    fontFamily: fonts.bodyNormal,
+    fontFamily: fonts.body,
     fontSize: 12
   },
 
   itemText: {
-    fontFamily: fonts.bodyThin
+    fontFamily: fonts.bodyLight
   },
 
   itemTextUnder: {

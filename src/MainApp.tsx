@@ -6,6 +6,7 @@ import React, { Component } from "react";
 import { AppState, AsyncStorage } from "react-native";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
+import Sentry from "sentry-expo";
 import { getSunrise, getSunset } from "sunrise-sunset-js";
 
 import env from "react-native-dotenv";
@@ -51,9 +52,14 @@ class MainApp extends Component<IProps, IState> {
     await userAuth.signInAnonymously();
     const currentUser = userAuth.currentUser;
 
-    let token = "";
     if (currentUser !== null) {
-      token = await currentUser.getIdToken();
+      const token = await currentUser.getIdToken();
+      const userId = currentUser.uid;
+
+      this.props.firebaseToken(token);
+      Sentry.setUserContext({
+        id: userId
+      });
     }
   };
 

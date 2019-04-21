@@ -19,25 +19,25 @@ const styles = StyleSheet.create({
   },
 
   buttonText: {
-    fontFamily: fonts.bodyThin
+    fontFamily: fonts.bodyLight
   }
 });
 
 export const markdown = {
   heading1: {
-    fontFamily: fonts.bodyThin,
+    fontFamily: fonts.bodyLight,
     fontSize: 24,
     paddingBottom: 15
   },
 
   heading2: {
-    fontFamily: fonts.bodyThin,
+    fontFamily: fonts.bodyLight,
     fontSize: 18,
     paddingBottom: 10
   },
 
   text: {
-    fontFamily: fonts.bodyThin
+    fontFamily: fonts.bodyLight
   },
 
   list: {
