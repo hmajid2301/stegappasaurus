@@ -72,10 +72,10 @@ class Progress extends Component<IProps, IState> {
       this.state.photo,
       async (width, height) => {
         const api = create({
-          baseURL: "https://us-central1-stegappasaurus.cloudfunctions.net",
+          baseURL: "https://us-central1-stegappasaurus.cloudfunctions.net/api",
           headers: { Authorization: `Bearer ${this.props.token}` }
         });
-        const response = await api.post("/api/decode", {
+        const response = await api.post("/decode", {
           algorithm: this.props.algorithm,
           imageData: {
             base64Image,

@@ -53,15 +53,20 @@ export default class Steganography {
    * @return The encoded image as base64 string.
    */
   public encode = (message: string) => {
-    const canEncode = this.isEncodingPossible(this.imageData.width, this.imageData.height, message);
-    if (canEncode) {
-      const binaryMessage = this.convertMessageToBinary(message);
-      const pixelData = this.getImageData();
-      const newPixelData = this.encodeData(pixelData, binaryMessage);
-      const dataURL = this.putImageData(newPixelData);
-      return dataURL;
+    const canEncode = this.isEncodingPossible(
+      this.imageData.width,
+      this.imageData.height,
+      message
+    );
+
+    if (!canEncode) {
+      throw new Error("message_too_long");
     }
-    throw new Error("message_too_large")
+    const binaryMessage = this.convertMessageToBinary(message);
+    const pixelData = this.getImageData();
+    const newPixelData = this.encodeData(pixelData, binaryMessage);
+    const dataURL = this.putImageData(newPixelData);
+    return dataURL;
   };
 
   /**
@@ -84,19 +89,22 @@ export default class Steganography {
     return message;
   };
 
-
   /**
    * Checks if it's possible to encode image.
    *
    * @param width: Image width in pixels.
-   * 
+   *
    * @param height: Image height in pixels.
-   * 
+   *
    * @param message: The message to encode as a string.
    *
    * @return If the encoding is possible returns true, else returns false.
    */
-  public isEncodingPossible = (width: number, height: number, message: string) => {
+  public isEncodingPossible = (
+    width: number,
+    height: number,
+    message: string
+  ) => {
     const bitsCanEncode = (width * height * 3) / 4;
     const binaryMessage = this.convertMessageToBinary(message);
     const messageLength = binaryMessage.join("").length;
@@ -106,7 +114,7 @@ export default class Steganography {
     }
 
     return true;
-  }
+  };
 
   /**
    * Converts a message into binary, first converts the message into a unicode string. Then
@@ -147,8 +155,8 @@ export default class Steganography {
     img.onload = () => {
       ctx.drawImage(img, 0, 0);
     };
-    img.onerror = (err: any) => {
-      throw err;
+    img.onerror = () => {
+      throw new Error("invalid_image");
     };
     img.src = this.imageData.base64Image;
     const imageData = ctx.getImageData(0, 0, width, height);

@@ -1,4 +1,4 @@
-import Steganography from "../../src/services/steganography";
+import Steganography from "../../src/services/core";
 import data from "./data";
 
 test.each(data)(
