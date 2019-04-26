@@ -1,7 +1,7 @@
 import { ApiResponse, create } from "apisauce";
 import { FileSystem } from "expo";
 import React, { Component } from "react";
-import { Alert, Image, View } from "react-native";
+import { Image, View } from "react-native";
 import { FIREBASE_API_URL } from "react-native-dotenv";
 import { NavigationScreenProp } from "react-navigation";
 import { connect } from "react-redux";
@@ -52,11 +52,11 @@ class Progress extends Component<IProps, IState> {
     const { theme } = this.props.screenProps;
 
     return (
-      <View>
+      <View style={{ flex: 1 }}>
         <ImageProgress
           animating={this.state.decoding}
           photo={this.state.photo}
-          primaryColor={colors.secondary as PrimaryColor}
+          primaryColor={colors.secondary}
           theme={theme}
         />
       </View>
@@ -64,12 +64,16 @@ class Progress extends Component<IProps, IState> {
   }
 
   public componentWillMount = async () => {
-    const base64Image = await FileSystem.readAsStringAsync(
-      this.state.photo,
-      FileSystem.EncodingTypes.Base64
-    );
+    let base64Image = await FileSystem.readAsStringAsync(this.state.photo, {
+      encoding: FileSystem.EncodingTypes.Base64
+    });
+    let mimeType = "image/jpeg";
+    if (this.props.algorithm === "LSB-PNG") {
+      mimeType = "image/png";
+    }
+
+    base64Image = `data:${mimeType};base64,${base64Image}`;
     await this.callDecodeAPI(base64Image);
-    this.decoded();
   };
 
   private callDecodeAPI = async (base64Image: string) => {
@@ -95,23 +99,19 @@ class Progress extends Component<IProps, IState> {
   };
 
   private handleResponse = (response: ApiResponse<{}>) => {
-    console.log(response.data);
     if (response.data !== undefined) {
       const data = response.data as Decoding;
       const status = response.status;
 
       if (status === 200 && this.isSuccess(data)) {
         this.setState({ message: data.decoded, decoding: false });
+        this.decoded();
       } else {
-        Alert.alert(
-          "Decoding Failure",
-          "Failed to decode photo, please check you have an internet connection.",
-          [
-            {
-              text: "ok"
-            }
-          ]
-        );
+        // this.props.navigation.goBack();
+        Snackbar.show({
+          text:
+            "Failed to decode photo, please check you have an internet connection."
+        });
       }
     }
   };
@@ -124,7 +124,7 @@ class Progress extends Component<IProps, IState> {
   };
 
   private decoded = () => {
-    this.props.navigation.navigate("Progress", {
+    this.props.navigation.navigate("Message", {
       message: this.state.message,
       uri: this.state.photo
     });

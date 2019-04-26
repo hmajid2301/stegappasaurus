@@ -3,7 +3,7 @@ import { FileSystem, MediaLibrary } from "expo";
 import { storage } from "firebase";
 import { Base64 } from "js-base64";
 import React, { Component } from "react";
-import { Alert, Image, Share, View } from "react-native";
+import { Image, Share, View } from "react-native";
 import { FIREBASE_API_URL } from "react-native-dotenv";
 import { NavigationScreenProp } from "react-navigation";
 import { connect } from "react-redux";
@@ -69,7 +69,7 @@ class Progress extends Component<IProps, IState> {
           animating={this.state.encoding}
           onPress={this.shareImage}
           photo={this.state.photo}
-          primaryColor={colors.primary as PrimaryColor}
+          primaryColor={colors.primary}
           theme={theme}
         />
       </View>
@@ -121,21 +121,16 @@ class Progress extends Component<IProps, IState> {
         !this.isSuccess(data) &&
         data.code === ("message_too_large" as IEncodingError["code"])
       ) {
-        this.props.navigation.goBack();
         Snackbar.show({
           text: "Message too large to encode in image."
         });
+        this.props.navigation.goBack();
       } else {
+        Snackbar.show({
+          text:
+            "Failed to encode photo, please check you have an internet connection."
+        });
         this.props.navigation.navigate("Main");
-        Alert.alert(
-          "Encoding Failure",
-          "Failed to encode photo, please check you have an internet connection.",
-          [
-            {
-              text: "ok"
-            }
-          ]
-        );
       }
     }
   };
@@ -148,10 +143,11 @@ class Progress extends Component<IProps, IState> {
   };
 
   private encoded = async (base64Image: string) => {
-    const imagePath = `${FileSystem.cacheDirectory}${this.state.filename}`;
+    const imagePath = `${FileSystem.documentDirectory}${this.state.filename}`;
     await FileSystem.writeAsStringAsync(imagePath, base64Image.substring(22), {
       encoding: FileSystem.EncodingTypes.Base64
     });
+
     await MediaLibrary.createAssetAsync(imagePath);
     const blob = await this.uriToBlob(imagePath);
     await FileSystem.deleteAsync(imagePath);

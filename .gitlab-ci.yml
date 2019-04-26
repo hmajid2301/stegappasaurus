@@ -11,6 +11,9 @@ cache:
   paths:
     - node_modules/
 
+variables:
+  DOCKER_DRIVER: overlay2
+
 before_script:
   - chmod +x util/generateDotEnv.sh
   - ./util/generateDotEnv.sh > .env

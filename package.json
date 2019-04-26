@@ -43,7 +43,7 @@
     "@types/react-test-renderer": "16.8.1",
     "@types/sunrise-sunset-js": "2.0.0",
     "babel-plugin-module-resolver": "3.2.0",
-    "canvas": "2.2.0",
+    "canvas": "2.4.1",
     "firebase-tools": "6.7.1",
     "jest": "24.3.0",
     "jest-expo": "32.0.0",
@@ -86,8 +86,5 @@
         }
       }
     }
-  },
-  "engines": {
-    "npm": "10.15.3"
   }
 }

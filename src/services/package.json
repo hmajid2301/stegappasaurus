@@ -7,7 +7,7 @@
     "generate-schema": "op3-codegen openapi/specification.yml -o webserver/models"
   },
   "dependencies": {
-    "canvas": "2.2.0",
+    "canvas": "2.4.1",
     "express": "4.16.4",
     "express-openapi-validator": "0.21.2",
     "firebase-admin": "7.0.0",

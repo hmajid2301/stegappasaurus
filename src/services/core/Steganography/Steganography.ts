@@ -84,6 +84,9 @@ export default class Steganography {
       if (e instanceof RangeError) {
         throw new Error("invalid_image");
       }
+      else {
+        throw new Error(e)
+      }
     }
 
     return message;
@@ -147,18 +150,18 @@ export default class Steganography {
    * @return The image data.
    */
   private getImageData = () => {
-    const { width, height } = this.imageData;
+    const { width, height, base64Image } = this.imageData;
     const canvas = createCanvas(width, height);
     const ctx = canvas.getContext("2d", { alpha: false });
-    const img = new Image();
 
+    const img = new Image();
     img.onload = () => {
       ctx.drawImage(img, 0, 0);
     };
     img.onerror = () => {
       throw new Error("invalid_image");
     };
-    img.src = this.imageData.base64Image;
+    img.src = base64Image;
     const imageData = ctx.getImageData(0, 0, width, height);
     return imageData.data;
   };

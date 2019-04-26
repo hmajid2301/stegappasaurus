@@ -57,7 +57,7 @@ class Main extends Component<IProps, {}> {
   };
 
   private selectPhotoToEncode = (uri: string) => {
-    this.props.navigation.navigate("DecodeImage", { uri });
+    this.props.navigation.navigate("Progress", { uri });
   };
 }
 
