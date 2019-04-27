@@ -1,4 +1,4 @@
-image: node
+image: node:10.15.3
 
 stages:
   - pre
@@ -10,6 +10,9 @@ cache:
   key: ${CI_COMMIT_REF_SLUG}
   paths:
     - node_modules/
+
+variables:
+  DOCKER_DRIVER: overlay2
 
 before_script:
   - chmod +x util/generateDotEnv.sh
@@ -39,15 +42,15 @@ lint:
   script:
     - yarn lint
 
-lint:critical:
+lint:code-formatter:
   stage: test
   script:
-    - yarn lint-critical
+    - yarn lint:code-formatter
 
-lint:tsc:
+lint:compiler:
   stage: test
   script:
-    - yarn lint-tsc
+    - yarn lint:compiler
 
 tests:unit:
   stage: test

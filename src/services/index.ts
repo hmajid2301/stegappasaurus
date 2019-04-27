@@ -1,26 +1,28 @@
 import * as express from "express";
-import { initialize } from "express-openapi";
+import { OpenApiValidator } from "express-openapi-validator";
+import { initializeApp } from "firebase-admin";
 import { https } from "firebase-functions";
-import fs from "fs";
-import yaml from "js-yaml";
+import { resolve } from "path";
 
 import { HTTPError, ValidateToken } from "./middleware";
+import { decode, encode } from "./web/controllers";
 
 /**
  * This module has all the APIs that exist on Firebase. This module is the main
- * module called by the user (from the app). endpoints
+ * module called by the user (from the app). We currently have the following
+ * endpoints
  */
-
-const apiDoc = yaml.load(fs.readFileSync('./openapi/specification.yml', 'utf8'));
+initializeApp()
 const app = express();
-initialize({
-  apiDoc,
-  app,
-  paths: "./api"
-});
+// @ts-ignore
+new OpenApiValidator({
+  apiSpecPath: resolve(__dirname, './openapi/specification.yml'),
+}).install(app);
 
 app.use(express.json());
 app.use(ValidateToken);
 app.use(HTTPError);
 
-export default https.onRequest(app);
+app.post("/encode", encode);
+app.post("/decode", decode);
+export const api = https.onRequest(app);

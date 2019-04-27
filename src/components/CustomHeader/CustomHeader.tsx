@@ -26,7 +26,9 @@ const CustomHeader = ({ navigation, primaryColor, theme }: IProps) => (
       <Icon
         style={{ color: theme.color }}
         name="menu"
-        onPress={() => navigation.openDrawer()}
+        onPress={() => {
+          navigation.openDrawer();
+        }}
         type="SimpleLineIcons"
       />
     </Left>

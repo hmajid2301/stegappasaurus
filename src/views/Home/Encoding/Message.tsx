@@ -1,10 +1,9 @@
-import { create } from "apisauce";
-import { Toast } from "native-base";
 import React, { Component } from "react";
-import { Alert, Image } from "react-native";
+import { Image, Keyboard } from "react-native";
 import { NavigationScreenProp } from "react-navigation";
 
 import ImageMessage from "~/components/ImageMessage";
+import Snackbar from "~/components/Snackbar";
 
 interface IProps {
   navigation: NavigationScreenProp<any, any>;
@@ -50,9 +49,15 @@ export default class Message extends Component<IProps, IState> {
   };
 
   private onSubmit = (message: string) => {
-    this.props.navigation.navigate("Progress", {
-      message,
-      uri: this.state.photo
-    });
+    if (message.length === 0) {
+      Snackbar.show({
+        text: "Message cannot be empty"
+      });
+    } else {
+      this.props.navigation.navigate("Progress", {
+        message,
+        uri: this.state.photo
+      });
+    }
   };
 }

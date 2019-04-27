@@ -1,13 +1,14 @@
 import { ImagePicker, Permissions } from "expo";
 import { Icon } from "native-base";
 import React, { Component } from "react";
-import { Alert, TouchableOpacity, View } from "react-native";
+import { TouchableOpacity, View } from "react-native";
 import { NavigationScreenProp } from "react-navigation";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
 import { PRIMARY_COLORS } from "~/common/constants";
 import { ITheme, PrimaryColorNames } from "~/common/interfaces";
+import Snackbar from "~/components/Snackbar";
 import { togglePrimaryColor } from "~/redux/actions";
 
 import styles from "./Main/styles";
@@ -49,20 +50,14 @@ class Main extends Component<IProps, {}> {
         this.selectPhotoToEncode(result.uri);
       }
     } else {
-      Alert.alert(
-        "Permissions",
-        "Please grant permission to access your camera roll.",
-        [
-          {
-            text: "ok"
-          }
-        ]
-      );
+      Snackbar.show({
+        text: "This app does not have permission to access the camera roll."
+      });
     }
   };
 
   private selectPhotoToEncode = (uri: string) => {
-    this.props.navigation.navigate("DecodeImage", { uri });
+    this.props.navigation.navigate("Progress", { uri });
   };
 }
 

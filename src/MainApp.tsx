@@ -1,16 +1,16 @@
 import { Location, Permissions } from "expo";
 import { auth, initializeApp } from "firebase";
 import moment from "moment";
-import { Toast } from "native-base";
 import React, { Component } from "react";
 import { AppState, AsyncStorage } from "react-native";
+import { FIREBASE_API_KEY, SENTRY_PUBLIC_DSN } from "react-native-dotenv";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import Sentry from "sentry-expo";
 import { getSunrise, getSunset } from "sunrise-sunset-js";
 
-import env from "react-native-dotenv";
 import { ITheme, PossibleAppStates } from "~/common/interfaces";
+import Snackbar from "~/components/Snackbar";
 import {
   firebaseToken,
   toggleAutomaticTheme,
@@ -40,27 +40,28 @@ class MainApp extends Component<IProps, IState> {
   }
 
   public componentWillMount = async () => {
+    Sentry.enableInExpoDevelopment = true;
+    await Sentry.config(SENTRY_PUBLIC_DSN).install();
     const firebaseConfig = {
-      apiKey: env.FIREBASE_API_KEY,
+      apiKey: FIREBASE_API_KEY,
       authDomain: "stegappasaurus.firebaseapp.com",
-      databaseURL: "stegappasaurus.firebaseio.com",
+      databaseURL: "https://stegappasaurus.firebaseio.com",
       storageBucket: "stegappasaurus.appspot.com"
     };
 
     initializeApp(firebaseConfig);
-    const userAuth = auth();
-    await userAuth.signInAnonymously();
-    const currentUser = userAuth.currentUser;
+    await auth().signInAnonymously();
 
-    if (currentUser !== null) {
-      const token = await currentUser.getIdToken();
-      const userId = currentUser.uid;
-
-      this.props.firebaseToken(token);
-      Sentry.setUserContext({
-        id: userId
-      });
-    }
+    let token;
+    auth().onAuthStateChanged(async user => {
+      if (user !== null) {
+        token = await user.getIdToken();
+        this.props.firebaseToken(token);
+        Sentry.setUserContext({
+          id: user.uid
+        });
+      }
+    });
   };
 
   public componentDidMount = async () => {
@@ -104,9 +105,7 @@ class MainApp extends Component<IProps, IState> {
 
     if (isNaN(latitude)) {
       this.props.toggleAutomaticTheme(false);
-      Toast.show({
-        buttonText: "Okay",
-        duration: 5000,
+      Snackbar.show({
         text:
           "To use the automatic theme feature, location services must be turned on. Turning off automatic theme."
       });

@@ -6,4 +6,4 @@ name: "❓ Question"
 
 ## What is the Question
 
-**What is your question ?**
+<!-- Enter your question here -->

@@ -11,6 +11,17 @@ Steganography. This is a rewrite of my dissertation project, written in my third
 
 ## Getting Started
 
+To setup the development environment on your own machine, you can the following instructions to get setup.
+To test the app you don't need to have an Firebase or Sentry account. But if you want to test the app
+properly you may need to set these up.
+
+### Prerequisites
+
+- yarn/npm
+- docker (optional)
+- Firebase Account
+- Sentry Account
+
 ### With :whale: Docker
 
 ```bash
@@ -35,8 +46,20 @@ yarn android
 `.env` file should have the following variables defined
 
 ```bash
+# IP of Android Device
 ADB_IP=192.168.112.101
+# IP of host device where react native is running
 REACT_NATIVE_PACKAGER_HOSTNAME=192.168.27.1
+# API to `thecatapi`, https://thecatapi.com/
+CAT_API_KEY=xxx
+# Firebase API Key, https://stackoverflow.com/questions/13863297/firebase-what-is-the-api-key/37995239
+FIREBASE_API_KEY=xxx
+# Firebase URL to make API requests
+FIREBASE_API_URL=https://us-central1-stegappasaurus.cloudfunctions.net/api
+# Sentry API Token, https://docs.expo.io/versions/latest/guides/using-sentry/
+SENTRY_API_TOKEN=xxx
+# Sentry API Token, https://docs.expo.io/versions/latest/guides/using-sentry/
+SENTRY_PUBLIC_DSN=https://xxx@sentry.io/1427565
 ```
 
 ## Errors
