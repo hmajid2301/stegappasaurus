@@ -69,7 +69,7 @@ class Progress extends Component<IProps, IState> {
           animating={this.state.encoding}
           onPress={this.shareImage}
           photo={this.state.photo}
-          primaryColor={colors.primary}
+          primaryColor={colors.primary as PrimaryColor}
           theme={theme}
         />
       </View>

@@ -56,7 +56,7 @@ class Progress extends Component<IProps, IState> {
         <ImageProgress
           animating={this.state.decoding}
           photo={this.state.photo}
-          primaryColor={colors.secondary}
+          primaryColor={colors.secondary as PrimaryColor}
           theme={theme}
         />
       </View>
@@ -107,11 +107,11 @@ class Progress extends Component<IProps, IState> {
         this.setState({ message: data.decoded, decoding: false });
         this.decoded();
       } else {
-        // this.props.navigation.goBack();
         Snackbar.show({
           text:
             "Failed to decode photo, please check you have an internet connection."
         });
+        this.props.navigation.goBack();
       }
     }
   };
