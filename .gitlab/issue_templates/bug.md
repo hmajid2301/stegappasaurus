@@ -6,23 +6,23 @@ name: "🐛 Bug"
 
 ## Current Behaviour
 
-**What is the current behaviour**
+<!-- What is the current behaviour -->
 
 ## Expected Behaviour
 
-**What is the expected behaviour**
+<!-- What is the expected behaviour -->
 
 ## How to reproduce the bug
 
-**Write down the steps required to reproduce this bug**
+<!-- Write down the steps required to reproduce this bug -->
 
 ## Environment
 
-**What environment did this bug occur in**
+<!-- What environment did this bug occur in -->
 
 - App Version:
 - OS: [Android | IOS]
 
 ## Other Information
 
-**Other useful information such as screenshots, stacktraces, stackoverflow etc**
+<!-- Other useful information such as screenshots, stacktraces, stackoverflow etc -->
