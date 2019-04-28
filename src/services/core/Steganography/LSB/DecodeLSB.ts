@@ -1,3 +1,5 @@
+import varint from "varint";
+
 /**
  * This class implements using the following steganography algorithm.
  *
@@ -40,8 +42,6 @@
  */
 
 export default class DecodeLSB {
-  private static readonly LARGEST_BYTE_VALUE = "11111111";
-  /** The largest possible value for a byte (255) */
   private pixelIndex = 0;
   /** The index to start decoding the next byte from. */
 
@@ -70,9 +70,10 @@ export default class DecodeLSB {
   };
 
   /**
-   * Gets the message length at the front of the image data (top left data). It will end after the
-   * first 8 bytes that aren't 255. We check each byte until we get a byte that's not 255. Since
-   * 255 is the largest byte value we can have. It means there could be more binary "digits" to decode for message length.
+   * Gets the message length at the front of the image data (top left data). It will stop looking
+   * after the message is less < 128. The message length is encoded using varint 128, same as in
+   * Google's proto buffers. If the MSB (most significant bit) is not set to 1 (i.e. value < 128),
+   * then this means there aren't any more values to decode.
    *
    * @param imageData: An array where numbers range from 0 - 255 (1 byte). In the order of Red \
    * Green Blue Alpha (repeating), like output from `canvas.getImageData()`.
@@ -81,18 +82,18 @@ export default class DecodeLSB {
    */
   private getMessageLength = (imageData: Uint8ClampedArray) => {
     let completed = false;
-    const binaryMessage: string[] = [];
+    const messageVarint: number[] = [];
 
     while (!completed) {
       const byte = this.getNextLSBByte(imageData);
-      binaryMessage.push(byte);
-      if (binaryMessage.slice(-1)[0] !== DecodeLSB.LARGEST_BYTE_VALUE) {
+      const num = parseInt(byte, 2);
+      messageVarint.push(num);
+      if (messageVarint.slice(-1)[0] < 128) {
         completed = true;
       }
     }
 
-    const messageLengthBinary = binaryMessage.join("");
-    const messageLength = parseInt(messageLengthBinary, 2);
+    const messageLength = varint.decode(messageVarint)
     return messageLength;
   };
 

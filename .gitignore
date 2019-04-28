@@ -12,6 +12,7 @@ jsconfig.json
 # Other
 coverage/
 *.log
+src/services/lib/
 
 ## Compiled JavaScript files
 **/*.js

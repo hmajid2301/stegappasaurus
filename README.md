@@ -70,8 +70,8 @@ Any errors in your editor about paths not resolving take a look [here](https://g
 
 - React Native
 - Expo
-- Redux
 - TypeScript
+- Redux
 - Firebase
 - Express
 - Openapi

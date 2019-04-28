@@ -326,6 +326,13 @@
   resolved "https://registry.yarnpkg.com/@types/tough-cookie/-/tough-cookie-2.3.5.tgz#9da44ed75571999b65c37b60c9b2b88db54c585d"
   integrity sha512-SCcK7mvGi3+ZNz833RRjFIxrn4gI1PPR3NtuIS+6vMkvmsGjosqTJwRt5bAEFLRz+wtJMWv8+uOnZf2hi2QXTg==
 
+"@types/varint@5.0.0":
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/@types/varint/-/varint-5.0.0.tgz#f667321775101a92d5c401f87a04274282538202"
+  integrity sha512-dIJiYqeDnYQ5Bc4mv+E5prqFIQlUTM1yDzwC5VQfL29pcYlm/5q1shY/MjbBT1FQAU5gzKE10DdGbu8B2EoFQg==
+  dependencies:
+    "@types/node" "*"
+
 abbrev@1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
@@ -648,6 +655,11 @@ content-type@^1.0.4, content-type@~1.0.4:
   resolved "https://registry.yarnpkg.com/content-type/-/content-type-1.0.4.tgz#e138cc75e040c727b1966fe5e5f8c9aee256fe3b"
   integrity sha512-hIP3EEPs8tB9AT1L+NUqtwOAps4mk2Zob89MWXMHjHWg9milF/j4osnnQLXBCBFBk/tvIG/tUc9mOUJiPBhPXA==
 
+convert-string@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/convert-string/-/convert-string-0.1.0.tgz#79ce41a9bb0d03bcf72cdc6a8f3c56fbbc64410a"
+  integrity sha1-ec5BqbsNA7z3LNxqjzxW+7xkQQo=
+
 cookie-signature@1.0.6:
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/cookie-signature/-/cookie-signature-1.0.6.tgz#e303a882b342cc3ee8ca513a79999734dab3ae2c"
@@ -828,10 +840,10 @@ exit@0.1.2:
   resolved "https://registry.yarnpkg.com/exit/-/exit-0.1.2.tgz#0632638f8d877cc82107d30a0fff1a17cba1cd0c"
   integrity sha1-BjJjj42HfMghB9MKD/8aF8uhzQw=
 
-express-openapi-validator@0.21.2:
-  version "0.21.2"
-  resolved "https://registry.yarnpkg.com/express-openapi-validator/-/express-openapi-validator-0.21.2.tgz#206d95704ee234320088a6a81036d95170954e3e"
-  integrity sha512-37mSKldM3gY88mAEdpBElTDEm2BCSiW8fvfjyzVjP4GgXTgHD85nAHlr5nxVH/xvJUhX+Gxr9mQzUCFfrvMYsw==
+express-openapi-validator@0.30.0:
+  version "0.30.0"
+  resolved "https://registry.yarnpkg.com/express-openapi-validator/-/express-openapi-validator-0.30.0.tgz#e1a649e50aca417e93c9231535fa712ca8b3250f"
+  integrity sha512-mPydWjrBybbR8/xxlH3oTFn3cyad+TOZFRNJc8+BY9EB6YgnvAxBxJAvnEdMCn4aHr6kFKkLNGJv7aEywg3ysg==
   dependencies:
     js-yaml "^3.12.2"
     lodash "^4.17.11"
@@ -1713,7 +1725,7 @@ openapi-types@1.3.4, openapi-types@^1.3.4:
   resolved "https://registry.yarnpkg.com/openapi-types/-/openapi-types-1.3.4.tgz#e8c65be38d3b7d48fa84aa3d488d17505d3e30cd"
   integrity sha512-h8rADpW3k/wepLdERKF0VKMAPdoFYNQCLGPmc/f8sgQ2dxUy+7sY4WAX2XDUDjhKTjbJVbxxofLkzy7f1/tE4g==
 
-openapi3-typescript-codegen@^0.0.13:
+openapi3-typescript-codegen@0.0.13:
   version "0.0.13"
   resolved "https://registry.yarnpkg.com/openapi3-typescript-codegen/-/openapi3-typescript-codegen-0.0.13.tgz#d96f14bc07ec085aa61c24b19b00c8d50bdd0344"
   integrity sha512-D6GI6lmnF+BmOfolSsrr4QRpPfKl3kCrwMwIcVcgDqJXn7Cw/ma8Il3vFTHaB1FDPN4ud/Tct06uDB4vgCof4A==
@@ -2264,6 +2276,11 @@ uuid@^3.3.2:
   version "3.3.2"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.3.2.tgz#1b4af4955eb3077c501c23872fc6513811587131"
   integrity sha512-yXJmeNaw3DnnKAOKJE51sL/ZaYfWJRl1pK9dr19YFCu0ObS231AB1/LbqTKRAQ5kw8A90rA6fr4riOUpTZvQZA==
+
+varint@5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/varint/-/varint-5.0.0.tgz#d826b89f7490732fabc0c0ed693ed475dcb29ebf"
+  integrity sha1-2Ca4n3SQcy+rwMDtaT7Uddyynr8=
 
 vary@^1, vary@~1.1.2:
   version "1.1.2"
