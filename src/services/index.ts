@@ -14,7 +14,6 @@ import { decode, encode } from "./web/controllers";
  */
 initializeApp()
 const app = express();
-// @ts-ignore
 new OpenApiValidator({
   apiSpecPath: resolve(__dirname, './openapi/specification.yml'),
 }).install(app);

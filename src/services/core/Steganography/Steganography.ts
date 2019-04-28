@@ -1,4 +1,7 @@
 import { createCanvas, createImageData, Image } from "canvas";
+// @ts-ignore
+import { UTF8 } from "convert-string";
+import varint from "varint";
 
 import { DecodeLSB, EncodeLSB } from "./LSB";
 
@@ -128,18 +131,14 @@ export default class Steganography {
    * @return A binary string (each character is a byte).
    */
   public convertMessageToBinary = (message: string) => {
-    const isASCII = this.isASCII(message);
-    let binaryMessage = [];
-
-    if (isASCII) {
-      binaryMessage = this.encodeAsASCII(message);
-    } else {
-      binaryMessage = this.encodeAsUnicodeString(message);
+    const binaryMessage = [];
+    const decimalMessage = UTF8.stringToBytes(message);
+    for (const num of decimalMessage) {
+      const byte = this.convertToBinary(num);
+      binaryMessage.push(byte);
     }
-
-    const binaryMessageLength = this.getMessageLengthBinary(binaryMessage);
-    binaryMessage.unshift(binaryMessageLength);
-    return binaryMessage;
+    const binaryMessageLength = this.getBinaryMessageLength(binaryMessage);
+    return [...binaryMessageLength, ...binaryMessage];
   };
 
   /**
@@ -190,84 +189,22 @@ export default class Steganography {
   };
 
   /**
-   * Checks if the message can be encoded in ASCII. For example
-   * unicode characters like emojis cannot be encoded in ASCII but
-   * normal English characters can like "A" or "1".
-   *
-   * @param message: The message that will be encoded.
-   *
-   * @return True if the message can be encoded in ASCII, else returns False.
-   */
-  private isASCII = (message: string) => {
-    for (const character of message) {
-      const value = character.codePointAt(0) || -1;
-      if (value < 0 || value > 127) {
-        return false;
-      }
-    }
-    return true;
-  };
-
-  /**
-   * Encodes the message as an ASCII string, For example "A" -> ["01000001"].
-   *
-   * @param message: The message to encode in ASCII binary.
-   *
-   * @return The message in binary to encode as an array where each item is a character
-   * in the message.
-   */
-  private encodeAsASCII = (message: string) => {
-    const binaryMessage = [];
-    for (const character of message) {
-      const codePoint = character.codePointAt(0) || 0;
-      const binaryValue = this.convertToBinary(codePoint);
-      binaryMessage.push(binaryValue);
-    }
-
-    return binaryMessage;
-  };
-
-  /**
-   * Encodes the message as a unicode string, then into ascii binary.
-   * For example "A" -> "\x41" -> ["01011100", "01111000", "00110100", "00110001"].
-   * This is used when we want to encode unicode characters such as emojis in our
-   * message.
-   *
-   * @param message: The message to encode in unicode ascii binary.
-   *
-   * @return The message in binary to encode as an array where each item is a character
-   * in the message.
-   */
-  private encodeAsUnicodeString = (message: string) => {
-    const binaryMessage = [];
-
-    for (const character of message) {
-      const codePoint = character.codePointAt(0) || 0;
-      const encodingType = codePoint > 128 ? "\\u" : "\\x";
-      const unicode = encodingType + codePoint.toString(16);
-
-      for (const bit of unicode) {
-        const binaryValue = this.convertToBinary(bit.codePointAt(0) || 0);
-        binaryMessage.push(binaryValue);
-      }
-    }
-
-    return binaryMessage;
-  };
-
-  /**
    * Gets the message length in binary. Gets the message to the nearest byte.
    *
    * @param message: The message where each character is a byte.
    *
    * @return The message length in binary.
    */
-  private getMessageLengthBinary(message: string[]) {
-    let messageLength = "";
+  private getBinaryMessageLength(message: string[]) {
+    const binaryMessageLength = [];
     if (message.length !== 0) {
-      messageLength = this.convertToBinary(message.length);
+      const encoded = varint.encode(message.length)
+      for (const num of encoded) {
+        const binaryLength = this.convertToBinary(num);
+        binaryMessageLength.push(binaryLength)
+      }
     }
-    return messageLength;
+    return binaryMessageLength;
   }
 
   /**
@@ -275,31 +212,38 @@ export default class Steganography {
    * "00000100".
    *
    * @param data: Integer value to convert to string
+   * 
+   * @param padBinary: If set to true, will pad to the nearest byte.
    *
    * @return The padded binary data.
    */
-  private convertToBinary(data: number) {
-    const binary = data.toString(2);
-    const nearestByteLength = Math.ceil(binary.length / 8) * 8;
-    const paddedData = binary.padStart(nearestByteLength, "0");
-    return paddedData;
+  private convertToBinary(data: number, padByte = true) {
+    let binary = data.toString(2);
+
+    if (padByte) {
+      const nearestByteLength = Math.ceil(binary.length / 8) * 8;
+      binary = binary.padStart(nearestByteLength, "0");
+    }
+
+    return binary;
   }
 
   /**
-   * Converts ASCII binary decoded from image back into original unicode. First converts binary
-   * ascii into a unicode string. Then the unicode string back into original unicode message.
-   *
+   * Converts ASCII binary decoded from image back into original unicode.   
+   * 
    * @param imageData: An array where numbers range from 0 - 255 (1 byte). In the order of Red \
    * Green Blue Alpha (repeating), like output from `canvas.getImageData()`.
    *
    * @return The encoded message as a string.
    */
   private convertBinaryToMessage = (binaryMessage: string[]) => {
-    let message = "";
-    for (const currentByte of binaryMessage) {
-      message += String.fromCodePoint(parseInt(currentByte, 2));
+    const decimalMessage = [];
+    for (const byte of binaryMessage) {
+      const decimal = parseInt(byte, 2)
+      decimalMessage.push(decimal);
     }
-    const decodedMessage = message.normalize();
+
+    const decodedMessage = UTF8.bytesToString(decimalMessage);
     return decodedMessage;
   };
 
