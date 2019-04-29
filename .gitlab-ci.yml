@@ -31,11 +31,11 @@ open-merge-request:
     TARGET_BRANCH: "master"
     COMMIT_PREFIX: "WIP"
     USE_ISSUE_NAME: "true"
+    DESCRIPTION: ".gitlab/merge_request/merge_request.md"
   except:
     - master
     - production
   script:
-    - export DESCRIPTION="$(< util/MR.md)"
     - gitlab_auto_mr
 
 lint:

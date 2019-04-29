@@ -1,6 +1,5 @@
 import { createCanvas, createImageData, Image } from "canvas";
-// @ts-ignore
-import { UTF8 } from "convert-string";
+import { arrayToString, stringToArray } from "utf8-to-bytes";
 import varint from "varint";
 
 import { DecodeLSB, EncodeLSB } from "./LSB";
@@ -130,12 +129,7 @@ export default class Steganography {
    * @return A binary string (each character is a byte).
    */
   public convertMessageToBinary = (message: string) => {
-    const binaryMessage = [];
-    const decimalMessage = UTF8.stringToBytes(message);
-    for (const num of decimalMessage) {
-      const byte = this.convertToBinary(num);
-      binaryMessage.push(byte);
-    }
+    const binaryMessage = stringToArray(message, true) as string[];
     const binaryMessageLength = this.getBinaryMessageLength(binaryMessage);
     return [...binaryMessageLength, ...binaryMessage];
   };
@@ -242,7 +236,7 @@ export default class Steganography {
       decimalMessage.push(decimal);
     }
 
-    const decodedMessage = UTF8.bytesToString(decimalMessage);
+    const decodedMessage = arrayToString(decimalMessage);
     return decodedMessage;
   };
 
