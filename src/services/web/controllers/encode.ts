@@ -1,7 +1,7 @@
 import * as express from "express";
 
 import { Steganography } from "../../core";
-import { IEncode, IEncodingError, IEncodingSuccess, } from "../models";
+import { IEncode, IEncodingError, IEncodingSuccess } from "../models";
 
 /**
  * Encodes data into an image.
@@ -29,13 +29,13 @@ export default async (request: express.Request, response: express.Response) => {
 
     encoding = {
       encoded: encodedImage
-    }
+    };
   } catch (error) {
     encoding = {
       code: error.message,
       message: "An error has occurred."
-    }
+    };
     status = error.status;
   }
   response.status(status).json(encoding);
-}
+};

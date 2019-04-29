@@ -1,7 +1,7 @@
 import * as express from "express";
 
 import { Steganography } from "../../core";
-import { IDecode, IDecodingError, IDecodingSuccess, } from "../models";
+import { IDecode, IDecodingError, IDecodingSuccess } from "../models";
 
 /**
  * Decode data from an image.
@@ -27,13 +27,13 @@ export default (request: express.Request, response: express.Response) => {
     const decodedMessage = new Steganography(algorithm, imageData).decode();
     decoding = {
       decoded: decodedMessage
-    }
+    };
   } catch (error) {
     decoding = {
       code: error.message,
       message: "An error has occurred."
-    }
+    };
     status = error.status;
   }
   response.status(status).json(decoding);
-}
+};

@@ -1,7 +1,6 @@
 import * as express from "express";
 import { auth } from "firebase-admin";
 
-
 /**
  * This module is used to authenticate users when make API requests to Firebase.
  */
@@ -35,7 +34,6 @@ const ValidateToken = (
     response.status(403).json({ code: "unauthorized" });
     return;
   }
-
 
   auth()
     .verifyIdToken(token)
