@@ -12,10 +12,10 @@ import { decode, encode } from "./web/controllers";
  * module called by the user (from the app). We currently have the following
  * endpoints
  */
-initializeApp()
+initializeApp();
 const app = express();
 new OpenApiValidator({
-  apiSpecPath: resolve(__dirname, './openapi/specification.yml'),
+  apiSpecPath: resolve(__dirname, "./openapi/specification.yml")
 }).install(app);
 
 app.use(express.json());

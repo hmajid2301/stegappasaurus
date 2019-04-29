@@ -86,9 +86,8 @@ export default class Steganography {
     } catch (e) {
       if (e instanceof RangeError) {
         throw new Error("invalid_image");
-      }
-      else {
-        throw new Error(e)
+      } else {
+        throw new Error(e);
       }
     }
 
@@ -198,10 +197,10 @@ export default class Steganography {
   private getBinaryMessageLength(message: string[]) {
     const binaryMessageLength = [];
     if (message.length !== 0) {
-      const encoded = varint.encode(message.length)
+      const encoded = varint.encode(message.length);
       for (const num of encoded) {
         const binaryLength = this.convertToBinary(num);
-        binaryMessageLength.push(binaryLength)
+        binaryMessageLength.push(binaryLength);
       }
     }
     return binaryMessageLength;
@@ -212,7 +211,7 @@ export default class Steganography {
    * "00000100".
    *
    * @param data: Integer value to convert to string
-   * 
+   *
    * @param padBinary: If set to true, will pad to the nearest byte.
    *
    * @return The padded binary data.
@@ -229,8 +228,8 @@ export default class Steganography {
   }
 
   /**
-   * Converts ASCII binary decoded from image back into original unicode.   
-   * 
+   * Converts ASCII binary decoded from image back into original unicode.
+   *
    * @param imageData: An array where numbers range from 0 - 255 (1 byte). In the order of Red \
    * Green Blue Alpha (repeating), like output from `canvas.getImageData()`.
    *
@@ -239,7 +238,7 @@ export default class Steganography {
   private convertBinaryToMessage = (binaryMessage: string[]) => {
     const decimalMessage = [];
     for (const byte of binaryMessage) {
-      const decimal = parseInt(byte, 2)
+      const decimal = parseInt(byte, 2);
       decimalMessage.push(decimal);
     }
 

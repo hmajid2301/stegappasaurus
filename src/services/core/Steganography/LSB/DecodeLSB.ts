@@ -93,7 +93,7 @@ export default class DecodeLSB {
       }
     }
 
-    const messageLength = varint.decode(messageVarint)
+    const messageLength = varint.decode(messageVarint);
     return messageLength;
   };
 

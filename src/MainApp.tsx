@@ -30,11 +30,7 @@ interface IProps {
   theme: ITheme;
 }
 
-interface IState {
-  appState: PossibleAppStates;
-}
-
-class MainApp extends Component<IProps, IState> {
+class MainApp extends Component<IProps, {}> {
   public render() {
     return <App screenProps={{ theme: this.props.theme }} />;
   }
@@ -66,9 +62,6 @@ class MainApp extends Component<IProps, IState> {
 
   public componentDidMount = async () => {
     AppState.addEventListener("change", this.appInFocus);
-    this.setState({
-      appState: AppState.currentState
-    });
   };
 
   public componentWillUnmount = () => {
@@ -76,15 +69,11 @@ class MainApp extends Component<IProps, IState> {
   };
 
   private appInFocus = async (nextAppState: PossibleAppStates) => {
-    if (
-      this.state.appState.match(/inactive|background/) &&
-      nextAppState === "active"
-    ) {
+    if (nextAppState === "active") {
       if (this.props.isAutomatic) {
         await this.toggleTheme();
       }
     }
-    this.setState({ appState: nextAppState });
   };
 
   private toggleTheme = async () => {
