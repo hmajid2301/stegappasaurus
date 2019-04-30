@@ -2,13 +2,7 @@ import { create } from "apisauce";
 import { ImagePicker, MediaLibrary, Permissions } from "expo";
 import { Icon } from "native-base";
 import React, { Component } from "react";
-import {
-  ActivityIndicator,
-  FlatList,
-  Image,
-  TouchableOpacity,
-  View
-} from "react-native";
+import { FlatList, Image, TouchableOpacity, View } from "react-native";
 import { CAT_API_KEY } from "react-native-dotenv";
 import { NavigationScreenProp } from "react-navigation";
 import { connect } from "react-redux";
@@ -16,7 +10,7 @@ import { Dispatch } from "redux";
 
 import { PRIMARY_COLORS } from "~/common/constants";
 import { ITheme, PrimaryColorNames } from "~/common/interfaces";
-import { colors } from "~/common/styles";
+import Loading from "~/components/Loading";
 import Snackbar from "~/components/Snackbar";
 import { togglePrimaryColor } from "~/redux/actions";
 
@@ -62,11 +56,7 @@ class Main extends Component<IProps, IState> {
     const { theme } = this.props.screenProps;
 
     if (this.state.loading) {
-      return (
-        <View style={styles.loading}>
-          <ActivityIndicator color={colors.primary} size="large" />
-        </View>
-      );
+      return <Loading hide={this.state.loading} />;
     }
 
     return (
@@ -182,6 +172,7 @@ class Main extends Component<IProps, IState> {
     const response = await api.get("/v1/images/search?mime_types=jpg,png");
     if (response.ok) {
       const urls = response.data as ICatAPI[];
+      await Image.prefetch(urls[0].url);
       this.selectPhotoToEncode(urls[0].url);
     } else {
       Snackbar.show({
@@ -190,9 +181,7 @@ class Main extends Component<IProps, IState> {
       });
     }
 
-    setTimeout(() => {
-      this.setState({ loading: false });
-    }, 1000);
+    this.setState({ loading: false });
   };
 
   private morePhotosFromCameraRoll = async () => {
