@@ -1,12 +1,13 @@
-import React, { Component, ReactChild } from "react";
+import React, { Component } from "react";
 import {
   ImageBackground,
-  Keyboard,
   KeyboardAvoidingView,
   TextInput,
-  TouchableWithoutFeedback,
   View
 } from "react-native";
+
+import DismissKeyboard from "~/components/DismissKeyboard";
+
 import styles from "./styles";
 
 interface IProps {
@@ -19,12 +20,6 @@ interface IProps {
 interface IState {
   message: string;
 }
-
-const DismissKeyboard = ({ children }: { children: ReactChild }) => (
-  <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-    {children}
-  </TouchableWithoutFeedback>
-);
 
 export default class ImageMessage extends Component<IProps, IState> {
   public static defaultProps = {
