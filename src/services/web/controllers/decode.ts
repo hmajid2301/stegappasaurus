@@ -1,6 +1,8 @@
+import * as Sentry from "@sentry/node";
 import * as express from "express";
 
 import { Steganography } from "../../core";
+import { ImageNotEncodedError, InvalidImageError } from "../../core/exceptions";
 import { IDecode, IDecodingError, IDecodingSuccess } from "../models";
 
 /**
@@ -29,11 +31,24 @@ export default (request: express.Request, response: express.Response) => {
       decoded: decodedMessage
     };
   } catch (error) {
+    Sentry.captureException(error);
+    let code = error.message;
+    let errorMessage;
+
+    if (error instanceof ImageNotEncodedError) {
+      status = 400;
+    } else if (error instanceof InvalidImageError) {
+      status = 400;
+    } else {
+      status = 500;
+      code = "ServerError";
+      errorMessage = "Server error, could not encode image";
+    }
+
     decoding = {
-      code: error.message,
-      message: "An error has occurred."
-    };
-    status = error.status;
+      code,
+      message: errorMessage
+    } as IDecodingError;
   }
   response.status(status).json(decoding);
 };

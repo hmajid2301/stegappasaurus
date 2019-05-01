@@ -13,7 +13,7 @@ export interface IEncodingSuccess {
 }
 
 export interface IEncodingError {
-  code: "message_too_long" | "invalid_image" | "invalid_data" | "server_error";
+  code: "MessageTooLong" | "InvalidImage" | "ServerError";
   message: string;
 }
 
@@ -31,6 +31,6 @@ export interface IDecodingSuccess {
 }
 
 export interface IDecodingError {
-  code: "invalid_image" | "invalid_data" | "server_error";
-  message?: string;
+  code: "InvalidImage" | "ImageNotEncoded" | "ServerError";
+  message: string;
 }
