@@ -25,6 +25,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/EncodingSuccess"
+        400:
+          description: Invalid input data.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EncodingError"
         500:
           description: Error occurred while trying to encode image.
           content:
@@ -51,6 +57,12 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/DecodingSuccess"
+        400:
+          description: Invalid input data.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DecodingError"
         500:
           description: Error occurred while trying to decode image.
           content:
@@ -118,15 +130,14 @@ components:
           type: string
           description: Machine readable, reason for the error.
           enum:
-            - message_too_long
-            - invalid_image
-            - invalid_data
-            - server_error
+            - MessageTooLong
+            - InvalidImage
+            - ServerError
         message:
           description: Human readable, reason for the error.
           type: string
       example:
-        code: message_too_large
+        code: MessageTooLong
         message: Message xxx too large to encode within image.
     Decode:
       required:
@@ -172,21 +183,22 @@ components:
           type: string
           description: The decoded message.
       example:
-        decoded: Secret Messge.
+        decoded: Secret Message.
     DecodingError:
       required:
         - code
+        - message
       properties:
         code:
           type: string
           description: Machine readable, reason for the error.
           enum:
-            - invalid_image
-            - invalid_data
-            - server_error
+            - InvalidImage
+            - ImageNotEncoded
+            - ServerError
         message:
           description: Human readable, reason for the error.
           type: string
       example:
-        code: invalid_image
+        code: InvalidImage
         message: Invalid image, could not decode.

@@ -2,6 +2,11 @@ import { createCanvas, createImageData, Image } from "canvas";
 import { arrayToString, stringToArray } from "utf8-to-bytes";
 import varint from "varint";
 
+import {
+  InvalidImageError,
+  ImageNotEncodedError,
+  MessageTooLongError
+} from "../exceptions";
 import { DecodeLSB, EncodeLSB } from "./LSB";
 
 /**
@@ -62,7 +67,7 @@ export default class Steganography {
     );
 
     if (!canEncode) {
-      throw new Error("message_too_long");
+      throw new MessageTooLongError("Message too long to encode", message);
     }
     const binaryMessage = this.convertMessageToBinary(message);
     const pixelData = this.getImageData();
@@ -84,7 +89,10 @@ export default class Steganography {
       message = this.convertBinaryToMessage(unicode);
     } catch (e) {
       if (e instanceof RangeError) {
-        throw new Error("invalid_image");
+        throw new ImageNotEncodedError(
+          "Image is not encoded with any data",
+          this.imageData.base64Image
+        );
       } else {
         throw new Error(e);
       }
@@ -109,7 +117,7 @@ export default class Steganography {
     height: number,
     message: string
   ) => {
-    const bitsCanEncode = (width * height * 3) / 4;
+    const bitsCanEncode = width * height * 0.75;
     const binaryMessage = this.convertMessageToBinary(message);
     const messageLength = binaryMessage.join("").length;
 
@@ -151,7 +159,10 @@ export default class Steganography {
       ctx.drawImage(img, 0, 0);
     };
     img.onerror = () => {
-      throw new Error("invalid_image");
+      throw new InvalidImageError(
+        "Invalid base 64 image data.",
+        this.imageData.base64Image
+      );
     };
     img.src = base64Image;
     const imageData = ctx.getImageData(0, 0, width, height);
