@@ -1,6 +1,6 @@
 import actionCreatorFactory from "typescript-fsa";
 
-import { AlgorithmNames, PrimaryColorNames } from "~/common/interfaces";
+import { AlgorithmNames, PrimaryColorNames } from "@types";
 
 import {
   FIREBASE_TOKEN,

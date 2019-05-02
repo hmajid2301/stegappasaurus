@@ -9,7 +9,7 @@ import { Dispatch } from "redux";
 import Sentry from "sentry-expo";
 import { getSunrise, getSunset } from "sunrise-sunset-js";
 
-import { ITheme, PossibleAppStates } from "~/common/interfaces";
+import { ITheme, PossibleAppStates } from "@types";
 import Snackbar from "~/components/Snackbar";
 import {
   firebaseToken,

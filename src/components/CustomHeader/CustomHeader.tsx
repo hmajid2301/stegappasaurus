@@ -2,7 +2,7 @@ import { Body, Header, Icon, Left } from "native-base";
 import React from "react";
 import { NavigationScreenProp } from "react-navigation";
 
-import { ITheme, PrimaryColor } from "~/common/interfaces";
+import { ITheme, PrimaryColor } from "@types";
 import Logo from "~/components/Logo";
 import styles from "./styles";
 

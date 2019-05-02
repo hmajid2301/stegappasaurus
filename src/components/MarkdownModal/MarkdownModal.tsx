@@ -4,7 +4,7 @@ import { Modal, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import Markdown from "react-native-markdown-renderer";
 import { connect } from "react-redux";
 
-import { ITheme } from "~/common/interfaces";
+import { ITheme } from "@types";
 import { IReducerState } from "~/redux/reducers/ToggleDarkTheme";
 
 import styles, { markdown } from "./styles";

@@ -6,8 +6,8 @@ import { NavigationScreenProp } from "react-navigation";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
+import { ITheme, PrimaryColorNames } from "@types";
 import { PRIMARY_COLORS } from "~/common/constants";
-import { ITheme, PrimaryColorNames } from "~/common/interfaces";
 import Snackbar from "~/components/Snackbar";
 import { togglePrimaryColor } from "~/redux/actions";
 

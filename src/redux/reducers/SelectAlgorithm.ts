@@ -1,6 +1,6 @@
 import { isType } from "typescript-fsa";
 
-import { AlgorithmNames } from "~/common/interfaces";
+import { AlgorithmNames } from "@types";
 import { selectAlgorithm } from "~/redux/actions";
 
 /**
