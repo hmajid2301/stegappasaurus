@@ -1,7 +1,7 @@
 import React from "react";
 import { Image, Text, View } from "react-native";
 
-import { ThemeColors } from "~/common/interfaces";
+import { ThemeColors } from "@types";
 import styles from "./styles";
 
 const logoDark = require("~/assets/images/logo-dark.png");

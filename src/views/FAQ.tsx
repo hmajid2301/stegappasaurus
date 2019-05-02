@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import { ScrollView, View } from "react-native";
 import { NavigationScreenProp } from "react-navigation";
 
-import { ITheme, PrimaryColor } from "~/common/interfaces";
+import { ITheme, PrimaryColor } from "@types";
 import { colors } from "~/common/styles";
 import CustomHeader from "~/components/CustomHeader";
 import FAQList from "~/components/FAQList";

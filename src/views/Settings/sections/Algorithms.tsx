@@ -4,7 +4,7 @@ import { Text } from "react-native";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
-import { AlgorithmNames, ITheme } from "~/common/interfaces";
+import { AlgorithmNames, ITheme } from "@types";
 import { selectAlgorithm } from "~/redux/actions";
 import { IReducerState } from "~/redux/reducers/SelectAlgorithm";
 

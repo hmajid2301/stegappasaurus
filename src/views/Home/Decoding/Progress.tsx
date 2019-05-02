@@ -7,7 +7,7 @@ import { NavigationScreenProp } from "react-navigation";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
-import { AlgorithmNames, ITheme, PrimaryColor } from "~/common/interfaces";
+import { AlgorithmNames, ITheme, PrimaryColor } from "@types";
 import { colors } from "~/common/styles";
 import ImageProgress from "~/components/ImageProgress";
 import Snackbar from "~/components/Snackbar";

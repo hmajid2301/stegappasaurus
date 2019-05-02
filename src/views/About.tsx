@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { ScrollView, Text, View } from "react-native";
 import { NavigationScreenProp } from "react-navigation";
 
-import { ITheme, PrimaryColor } from "~/common/interfaces";
+import { ITheme, PrimaryColor } from "@types";
 import { colors } from "~/common/styles";
 import AboutList from "~/components/AboutList";
 import CustomHeader from "~/components/CustomHeader";

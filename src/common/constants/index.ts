@@ -4,7 +4,7 @@ import {
   PrimaryColor,
   PrimaryColorNames,
   ThemeColors
-} from "~/common/interfaces";
+} from "@types";
 import { colors } from "~/common/styles";
 
 interface IThemes {

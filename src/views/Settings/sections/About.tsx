@@ -3,7 +3,7 @@ import { Body, List, ListItem } from "native-base";
 import React from "react";
 import { Text, TouchableOpacity } from "react-native";
 
-import { ITheme } from "~/common/interfaces";
+import { ITheme } from "@types";
 
 import { Changelog } from "./modals";
 import styles from "./styles";

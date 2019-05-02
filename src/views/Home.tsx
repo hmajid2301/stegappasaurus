@@ -3,7 +3,7 @@ import { View } from "react-native";
 import { NavigationScreenProp } from "react-navigation";
 import { connect } from "react-redux";
 
-import { ITheme, PrimaryColor } from "~/common/interfaces";
+import { ITheme, PrimaryColor } from "@types";
 import CustomHeader from "~/components/CustomHeader";
 import CustomTabNavigator from "~/components/CustomTabNavigator";
 import { IReducerState } from "~/redux/reducers/TogglePrimaryColor";
