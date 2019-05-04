@@ -3,7 +3,11 @@ import { auth, initializeApp } from "firebase";
 import moment from "moment";
 import React, { Component } from "react";
 import { AppState, AsyncStorage } from "react-native";
-import { FIREBASE_API_KEY, SENTRY_PUBLIC_DSN } from "react-native-dotenv";
+import {
+  DEVELOPMENT,
+  FIREBASE_API_KEY,
+  SENTRY_PUBLIC_DSN
+} from "react-native-dotenv";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import Sentry from "sentry-expo";
@@ -31,12 +35,21 @@ interface IProps {
 }
 
 class MainApp extends Component<IProps, {}> {
+  constructor(props: IProps) {
+    super(props);
+  }
   public render() {
-    return <App screenProps={{ theme: this.props.theme }} />;
+    return (
+      <App
+        screenProps={{
+          theme: this.props.theme
+        }}
+      />
+    );
   }
 
   public componentWillMount = async () => {
-    Sentry.enableInExpoDevelopment = true;
+    Sentry.enableInExpoDevelopment = DEVELOPMENT;
     await Sentry.config(SENTRY_PUBLIC_DSN).install();
     const firebaseConfig = {
       apiKey: FIREBASE_API_KEY,

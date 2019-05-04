@@ -37,51 +37,45 @@ export default class EncodeLSB {
    *
    * @return The encoded image data array.
    */
-  public encode = (imageData: Uint8ClampedArray, binaryMessage: string[]) => {
+  public encode = (
+    imageData: Uint8ClampedArray,
+    binaryMessage: string,
+    startByte = 0
+  ) => {
     const newPixelData = imageData;
 
-    let pixelIndex = 0;
-    for (const character of binaryMessage) {
-      for (const bit of character) {
-        const pixelValue = imageData[pixelIndex];
-        const newPixelValue = this.getNewPixelValue(pixelValue, bit);
-        newPixelData[pixelIndex] = newPixelValue;
+    let pixelIndex = startByte * 8 + 2;
+    for (const bit of binaryMessage) {
+      const pixelValue = imageData[pixelIndex];
+      const newPixelValue = this.getNewPixelValue(pixelValue, bit);
+      newPixelData[pixelIndex] = newPixelValue;
 
+      pixelIndex += 1;
+      if ((pixelIndex + 1) % 4 === 0) {
         pixelIndex += 1;
-        if ((pixelIndex + 1) % 4 === 0) {
-          pixelIndex += 1;
-        }
       }
     }
     return newPixelData;
   };
 
   /**
-   * Embeds the current binary "digit" into the LSB of the current imageData. For example if binary
-   * value is `1` and the pixel value is `255` since it's odd the LSB is already `1` so we don't
-   * need to change it. However if pixel value was `254` then since `254` is even in binary it
-   * must end in an `0` so we must increment this by one.
+   * Gets new pixel data value, given a byte to encode and a bit
+   * to encode it with.
    *
-   * @param pixelValue: A decimal value of a RGB pixel (0 - 255).
+   * * If need to encode a 0 make sure the pixel value is even
+   * * If need to encode a 1 make sure the pixel value is odd
    *
-   * @param messageBinaryDigit: The binary "digit" to encode either `1` or `0`.
+   * @param pixelValue: The pixel value as a decimal integer (0 - 255).
    *
-   * @return The encoded pixel value.
+   * @return The newly encoded pixel value.
    */
-  private getNewPixelValue = (
-    pixelValue: number,
-    messageBinaryDigit: string
-  ) => {
+  public getNewPixelValue = (pixelValue: number, bit: string) => {
     let newPixelValue = pixelValue;
 
-    if (messageBinaryDigit === "0") {
-      if (pixelValue % 2 === 1) {
-        newPixelValue -= 1;
-      }
-    } else if (messageBinaryDigit === "1") {
-      if (pixelValue % 2 === 0) {
-        newPixelValue += 1;
-      }
+    if (bit === "0" && pixelValue % 2 === 1) {
+      newPixelValue -= 1;
+    } else if (bit === "1" && pixelValue % 2 === 0) {
+      newPixelValue += 1;
     }
     return newPixelValue;
   };

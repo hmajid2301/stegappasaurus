@@ -1,4 +1,3 @@
-import * as Sentry from "@sentry/node";
 import * as express from "express";
 
 import { Steganography } from "../../core";
@@ -17,23 +16,18 @@ export default (request: express.Request, response: express.Response) => {
   const body: IDecode = request.body;
   const { imageData } = body;
 
-  let algorithm = body.algorithm;
-  if (algorithm === undefined) {
-    algorithm = "LSB-PNG";
-  }
-
   let decoding: IDecodingError | IDecodingSuccess;
   let status = 200;
 
   try {
-    const decodedMessage = new Steganography(algorithm, imageData).decode();
+    const decodedMessage = new Steganography(imageData).decode();
     decoding = {
       decoded: decodedMessage
     };
   } catch (error) {
-    Sentry.captureException(error);
     let code = error.message;
     let errorMessage;
+    console.error(error, request);
 
     if (error instanceof ImageNotEncodedError) {
       status = 400;

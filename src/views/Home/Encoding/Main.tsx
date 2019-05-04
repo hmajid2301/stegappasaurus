@@ -7,6 +7,7 @@ import { CAT_API_KEY } from "react-native-dotenv";
 import { NavigationScreenProp } from "react-navigation";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
+import Sentry from "sentry-expo";
 
 import { ITheme, PrimaryColorNames } from "@types";
 import { PRIMARY_COLORS } from "~/common/constants";
@@ -175,6 +176,7 @@ class Main extends Component<IProps, IState> {
       await Image.prefetch(urls[0].url);
       this.selectPhotoToEncode(urls[0].url);
     } else {
+      Sentry.captureMessage(JSON.stringify(response));
       Snackbar.show({
         text:
           "Failed to fetch a cat photo, check you're connected to the internet."

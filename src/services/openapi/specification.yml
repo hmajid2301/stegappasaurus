@@ -3,7 +3,7 @@ info:
   version: 1.0.0
   title: Stegappasaurus API
 servers:
-  - url: https://us-central1-stegappasaurus.cloudfunctions.net/
+  - url: https://us-central1-stegappasaurus.cloudfunctions.net/api
 paths:
   /encode:
     post:
@@ -79,11 +79,9 @@ components:
         algorithm:
           type: string
           description: Algorithm that will be used to encode image.
-          default: "LSB-PNG"
+          default: LSB
           enum:
-            - "LSB-PNG"
-            - "LSB-DCT"
-            - "F5"
+            - LSB
         message:
           type: string
           description: The message you wish to encode.
@@ -106,7 +104,7 @@ components:
               type: string
               description: The image encoded in base64.
       example:
-        algorithm: "LSB-PNG"
+        algorithm: LSB
         message: Secret Message.
         imageData:
           width: 100
@@ -143,14 +141,6 @@ components:
       required:
         - imageData
       properties:
-        algorithm:
-          type: string
-          description: Algorithm that will be used to encode image.
-          default: "LSB-PNG"
-          enum:
-            - "LSB-PNG"
-            - "LSB-DCT"
-            - "F5"
         imageData:
           type: object
           required: 
@@ -170,7 +160,6 @@ components:
               type: string
               description: The image encoded in base64.
       example:
-        algorithm: "LSB-PNG"
         imageData:
           width: 100
           height: 100

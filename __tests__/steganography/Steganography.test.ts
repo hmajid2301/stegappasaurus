@@ -4,15 +4,12 @@ import data from "./data";
 test.each(data)(
   "Steganography EncodeLSB",
   ({ image, message, encodedImage }) => {
-    const encodedBase64 = new Steganography("LSB-PNG", image).encode(message);
+    const encodedBase64 = new Steganography(image).encode(message, "LSB");
     expect(encodedBase64).toEqual(encodedImage.base64Image);
   }
 );
 
-test.each(data)(
-  "Steganography DecodeLSB",
-  ({ encodedImage, decodedString }) => {
-    const decodedMessage = new Steganography("LSB-PNG", encodedImage).decode();
-    expect(decodedMessage).toEqual(decodedString);
-  }
-);
+test.each(data)("Steganography DecodeLSB", ({ encodedImage, message }) => {
+  const decodedMessage = new Steganography(encodedImage).decode();
+  expect(decodedMessage).toEqual(message);
+});

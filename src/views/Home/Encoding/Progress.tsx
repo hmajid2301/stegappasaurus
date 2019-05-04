@@ -8,6 +8,7 @@ import { FIREBASE_API_URL } from "react-native-dotenv";
 import { NavigationScreenProp } from "react-navigation";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
+import Sentry from "sentry-expo";
 
 import { AlgorithmNames, ITheme, PrimaryColor } from "@types";
 import { colors } from "~/common/styles";
@@ -47,7 +48,7 @@ class Progress extends Component<IProps, IState> {
     const message = navigation.getParam("message", "NO-ID");
 
     let imageExtension = "jpg";
-    if (this.props.algorithm === "LSB-PNG") {
+    if (this.props.algorithm === "LSB") {
       imageExtension = "png";
     }
     const filename = `${new Date().toISOString()}.${imageExtension}`;
@@ -77,6 +78,7 @@ class Progress extends Component<IProps, IState> {
   }
 
   public componentWillMount = async () => {
+    console.log(this.props.screenProps);
     const base64Image = await FileSystem.readAsStringAsync(this.state.photo, {
       encoding: FileSystem.EncodingTypes.Base64
     });
@@ -113,13 +115,14 @@ class Progress extends Component<IProps, IState> {
     if (response.data !== undefined) {
       const data = response.data as Encoding;
       const status = response.status;
+      console.log(response.data);
 
       if (status === 200 && this.isSuccess(data)) {
         await this.encoded(data.encoded);
       } else if (
         status === 500 &&
         !this.isSuccess(data) &&
-        data.code === ("message_too_large" as IEncodingError["code"])
+        data.code === ("MessageTooLong" as IEncodingError["code"])
       ) {
         Snackbar.show({
           text: "Message too large to encode in image."
@@ -132,6 +135,7 @@ class Progress extends Component<IProps, IState> {
         });
         this.props.navigation.navigate("Main");
       }
+      Sentry.captureMessage(JSON.stringify(response));
     }
   };
 

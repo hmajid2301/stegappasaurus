@@ -40,9 +40,7 @@ class Algorithms extends Component<IProps, {}> {
               selectedValue={algorithm}
               style={styles.picker}
             >
-              <Picker.Item label="F5" value="F5" />
-              <Picker.Item label="LSB PNG" value="LSB-PNG" />
-              <Picker.Item label="LSB DCT" value="LSB-DCT" />
+              <Picker.Item label="LSB" value="LSB" />
             </Picker>
           </Right>
         </ListItem>
