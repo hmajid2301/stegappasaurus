@@ -1,4 +1,3 @@
-import * as Sentry from "@sentry/node";
 import * as express from "express";
 
 import { Steganography } from "../../core";
@@ -19,23 +18,24 @@ export default async (request: express.Request, response: express.Response) => {
 
   let algorithm = body.algorithm;
   if (algorithm === undefined) {
-    algorithm = "LSB-PNG";
+    algorithm = "LSB";
   }
 
   let encoding: IEncodingError | IEncodingSuccess;
   let status = 200;
   try {
-    const encodedImage = new Steganography(algorithm, imageData).encode(
-      message
+    const encodedImage = new Steganography(imageData).encode(
+      message,
+      algorithm
     );
 
     encoding = {
       encoded: encodedImage
     };
   } catch (error) {
-    Sentry.captureException(error);
     let code = error.name;
     let errorMessage = error.message;
+    console.error(error, request);
 
     if (error instanceof MessageTooLongError) {
       status = 400;

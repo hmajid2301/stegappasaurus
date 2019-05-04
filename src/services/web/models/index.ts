@@ -1,5 +1,5 @@
 export interface IEncode {
-  algorithm?: "LSB-PNG" | "LSB-DCT" | "F5";
+  algorithm?: "LSB";
   message: string;
   imageData: {
     width: number;
@@ -18,7 +18,7 @@ export interface IEncodingError {
 }
 
 export interface IDecode {
-  algorithm?: "LSB-PNG" | "LSB-DCT" | "F5";
+  algorithm?: "LSB";
   imageData: {
     width: number;
     height: number;

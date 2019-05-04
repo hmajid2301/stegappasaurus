@@ -57,8 +57,8 @@ export default class DecodeLSB {
    *
    * @return The decoded binary message as a string.
    */
-  public decode = (imageData: Uint8ClampedArray) => {
-    this.pixelIndex = 0;
+  public decode = (imageData: Uint8ClampedArray, startByte = 0) => {
+    this.pixelIndex = startByte * 8 + 2;
     const messageLength = this.getMessageLength(imageData);
     const binaryMessage: string[] = [];
 
@@ -67,6 +67,35 @@ export default class DecodeLSB {
       binaryMessage.push(asciiByte);
     }
     return binaryMessage;
+  };
+
+  /**
+   * Gets the next byte of encoded data, since everything is encoded as ASCII strings. This will
+   * be one character. So for example `u` would be `117` in decimal and the returned byte would
+   * be `01110101` (pad front with 0s until we have a byte).
+   *
+   * @param imageData: An array where numbers range from 0 - 255 (1 byte). In the order of Red \
+   * Green Blue Alpha (repeating), like output from `canvas.getImageData()`.
+   *
+   * @return The decoded byte.
+   */
+  public getNextLSBByte = (imageData: Uint8ClampedArray) => {
+    let byte = "";
+
+    for (let j = 0; j < 8; j += 1) {
+      const currentPixel = imageData[this.pixelIndex];
+      let lsb = "0";
+      if (currentPixel % 2 === 1) {
+        lsb = "1";
+      }
+      byte += lsb;
+
+      this.pixelIndex += 1;
+      if ((this.pixelIndex + 1) % 4 === 0) {
+        this.pixelIndex += 1;
+      }
+    }
+    return byte;
   };
 
   /**
@@ -95,34 +124,5 @@ export default class DecodeLSB {
 
     const messageLength = varint.decode(messageVarint);
     return messageLength;
-  };
-
-  /**
-   * Gets the next byte of encoded data, since everything is encoded as ASCII strings. This will
-   * be one character. So for example `u` would be `117` in decimal and the returned byte would
-   * be `01110101` (pad front with 0s until we have a byte).
-   *
-   * @param imageData: An array where numbers range from 0 - 255 (1 byte). In the order of Red \
-   * Green Blue Alpha (repeating), like output from `canvas.getImageData()`.
-   *
-   * @return The decoded byte.
-   */
-  private getNextLSBByte = (imageData: Uint8ClampedArray) => {
-    let byte = "";
-
-    for (let j = 0; j < 8; j += 1) {
-      const currentPixel = imageData[this.pixelIndex];
-      let lsb = "0";
-      if (currentPixel % 2 === 1) {
-        lsb = "1";
-      }
-      byte += lsb;
-
-      this.pixelIndex += 1;
-      if ((this.pixelIndex + 1) % 4 === 0) {
-        this.pixelIndex += 1;
-      }
-    }
-    return byte;
   };
 }

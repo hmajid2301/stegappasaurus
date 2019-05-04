@@ -10,7 +10,7 @@ import { selectAlgorithm } from "~/redux/actions";
  */
 
 const initialState = {
-  algorithm: "LSB-PNG"
+  algorithm: "LSB"
 };
 
 interface IAction {

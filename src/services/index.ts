@@ -1,8 +1,7 @@
-import * as Sentry from "@sentry/node";
 import * as express from "express";
 import { OpenApiValidator } from "express-openapi-validator";
 import { initializeApp } from "firebase-admin";
-import { config, https } from "firebase-functions";
+import { https } from "firebase-functions";
 import { resolve } from "path";
 
 import { decode, encode } from "./web/controllers";
@@ -18,13 +17,6 @@ const app = express();
 new OpenApiValidator({
   apiSpecPath: resolve(__dirname, "./openapi/specification.yml")
 }).install(app);
-
-Sentry.init({
-  dsn: config().stegappasaurus.sentry_public_dsn
-});
-
-app.use(Sentry.Handlers.requestHandler());
-app.use(Sentry.Handlers.errorHandler());
 
 app.use(express.json());
 app.use(ValidateToken);

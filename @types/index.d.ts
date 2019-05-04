@@ -1,4 +1,4 @@
-export type AlgorithmNames = "F5" | "LSB-PNG" | "LSB-DCT";
+export type AlgorithmNames = "LSB";
 export type BackgroundColors = "000" | "#FFF";
 export type ThemeColors = "#17212D" | "#FFF";
 export type PrimaryColor = "#009CFF" | "#E88C0C";

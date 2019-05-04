@@ -6,6 +6,7 @@ import { FIREBASE_API_URL } from "react-native-dotenv";
 import { NavigationScreenProp } from "react-navigation";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
+import Sentry from "sentry-expo";
 
 import { AlgorithmNames, ITheme, PrimaryColor } from "@types";
 import { colors } from "~/common/styles";
@@ -68,7 +69,7 @@ class Progress extends Component<IProps, IState> {
       encoding: FileSystem.EncodingTypes.Base64
     });
     let mimeType = "image/jpeg";
-    if (this.props.algorithm === "LSB-PNG") {
+    if (this.props.algorithm === "LSB") {
       mimeType = "image/png";
     }
 
@@ -113,6 +114,7 @@ class Progress extends Component<IProps, IState> {
         });
         this.props.navigation.goBack();
       }
+      Sentry.captureMessage(JSON.stringify(response));
     }
   };
 

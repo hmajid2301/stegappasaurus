@@ -2,9 +2,10 @@ import { createCanvas, createImageData, Image } from "canvas";
 import { arrayToString, stringToArray } from "utf8-to-bytes";
 import varint from "varint";
 
+import { AlgorithmNames } from "../../../../@types";
 import {
-  InvalidImageError,
   ImageNotEncodedError,
+  InvalidImageError,
   MessageTooLongError
 } from "../exceptions";
 import { DecodeLSB, EncodeLSB } from "./LSB";
@@ -13,133 +14,114 @@ import { DecodeLSB, EncodeLSB } from "./LSB";
  * This class chooses what algorithm to use. Calls the correct functions to encode/decode data.
  * It's main job is to do the common functions required by all steganography algorithm.
  *
- * ## Encoding
- *
- * First we need to get the image data, `canvas.getImageData()` (to encode).
- *
- * Then we need to given an input say `"A 😀"`, we need to convert this first into unicode this would become
- * `"\u0041\u0020\uD83D\uDE00"`. This then gets converted into binary ascii. So `\` into ascii
- * binary is (padded to byte) is `01011100`, We pass a string to binary digits to get encoded.
- *
- * After this we call our encoding algorithm, get the new data. Then we change the image data ().
- * Finally this function returns base64 string of the image which we return to user.
- *
- * ## Decoding
- *
- * First we need to get the image data, `canvas.getImageData()` (to decode). Then we take the
- * returns string which is ascii binary (`01011100` = `\`).
- *
- * We then decode this binary ascii into a string which will look like so
- * `"\u0041\u0020\uD83D\uDE00"`, this is a unicode string. So to get back our original message we
- * then convert this from unicode into a normal string.
  */
 
-type AlgorithmNames = "F5" | "LSB-PNG" | "LSB-DCT";
 interface ImageData {
   base64Image: string;
   width: number;
   height: number;
 }
 
+interface IAlgorithms {
+  [name: number]: AlgorithmNames;
+}
+const numToAlgorithmTypes: IAlgorithms = {
+  0: "LSB"
+};
+
+const algorithmsTypesToNum = (algorithm: string) => {
+  const values = Object.values(numToAlgorithmTypes);
+  return values.find(item => item === algorithm);
+};
+
 export default class Steganography {
-  /** The algorithm to use to encode/decode i.e. LSB. */
-  private readonly algorithm: AlgorithmNames;
-  /** Image pixel data as an array from 0 - 255 and in the form `RGBA`. */
+  /** Image pixel data as an array from (values of 0 - 255, or 1 byte) and as `RGBA`. */
   private readonly imageData: ImageData;
 
-  constructor(algorithm: AlgorithmNames, imageData: ImageData) {
-    this.algorithm = algorithm;
+  constructor(imageData: ImageData) {
     this.imageData = imageData;
   }
 
   /**
    * Encodes a string (message) into an image using steganography algorithms.
    *
+   * * We get our image data as RGBA array.
+   * * We convert our message into bytes, this ordered as `[message length, message]`.
+   * * Next we encode our algorithm type into the pixel data.
+   * * Encode our data with the correct algorithm.
+   * * Convert to base 64.
+   *
    * @param message: The message to encode as a string.
    *
-   * @return The encoded image as base64 string.
+   * @param algorithm: The algorithm to encode the data with.
+   *
+   * @return The encoded image as a base64 string.
    */
-  public encode = (message: string) => {
-    const canEncode = this.isEncodingPossible(
-      this.imageData.width,
-      this.imageData.height,
-      message
-    );
-
-    if (!canEncode) {
-      throw new MessageTooLongError("Message too long to encode", message);
+  public encode = (message: string, algorithm: AlgorithmNames) => {
+    try {
+      const pixelData = this.getImageData();
+      const binaryMessage = this.convertMessageToBits(message);
+      const newPixelData = this.encodeData(pixelData, binaryMessage, algorithm);
+      const dataURL = this.putImageData(newPixelData, algorithm);
+      return dataURL;
+    } catch (error) {
+      if (error instanceof RangeError) {
+        throw new MessageTooLongError("Message too long to encode", message);
+      } else {
+        throw new Error(error);
+      }
     }
-    const binaryMessage = this.convertMessageToBinary(message);
-    const pixelData = this.getImageData();
-    const newPixelData = this.encodeData(pixelData, binaryMessage);
-    const dataURL = this.putImageData(newPixelData);
-    return dataURL;
   };
 
   /**
-   * Decodes an image to get an encoded message.
+   * Decodes an image to get a message.
+   *
+   * * Get image data as a RGBA array.
+   * * Decode algorithm type.
+   * * Convert unicode array to message.
    *
    * @return The decoded message.
    */
   public decode = () => {
-    let message = "";
     try {
       const pixelData = this.getImageData();
       const unicode = this.decodeData(pixelData);
-      message = this.convertBinaryToMessage(unicode);
-    } catch (e) {
-      if (e instanceof RangeError) {
+      const message = arrayToString(unicode);
+      return message;
+    } catch (error) {
+      if (error instanceof RangeError) {
         throw new ImageNotEncodedError(
           "Image is not encoded with any data",
           this.imageData.base64Image
         );
       } else {
-        throw new Error(e);
+        throw new Error(error);
       }
     }
-
-    return message;
   };
 
   /**
-   * Checks if it's possible to encode image.
-   *
-   * @param width: Image width in pixels.
-   *
-   * @param height: Image height in pixels.
-   *
-   * @param message: The message to encode as a string.
-   *
-   * @return If the encoding is possible returns true, else returns false.
-   */
-  public isEncodingPossible = (
-    width: number,
-    height: number,
-    message: string
-  ) => {
-    const bitsCanEncode = width * height * 0.75;
-    const binaryMessage = this.convertMessageToBinary(message);
-    const messageLength = binaryMessage.join("").length;
-
-    if (messageLength > bitsCanEncode) {
-      return false;
-    }
-
-    return true;
-  };
-
-  /**
-   * Converts a message into binary, first converts the message into a unicode string. Then
-   * converts that unicode string into a binary ascii string.
+   * Converts a string message into bytes.
+   * * Uses varint 128 to encode message length.
+   * * Then converts the message to decimal array.
+   * * Then works out length of this array.
+   * * Converts `[message length, message]` into a byte string.
    *
    * @param message: The message to encode as a string.
    *
    * @return A binary string (each character is a byte).
    */
-  public convertMessageToBinary = (message: string) => {
-    const binaryMessage = stringToArray(message, true) as string[];
-    const binaryMessageLength = this.getBinaryMessageLength(binaryMessage);
-    return [...binaryMessageLength, ...binaryMessage];
+  private convertMessageToBits = (message: string) => {
+    const arrayMessage = stringToArray(message) as number[];
+    const messageLength = varint.encode(arrayMessage.length);
+    const arrayToEncode = [...messageLength, ...arrayMessage];
+
+    let bitsToEncode: string = "";
+    for (const element of arrayToEncode) {
+      bitsToEncode += this.convertDecimalToBytes(element);
+    }
+
+    return bitsToEncode;
   };
 
   /**
@@ -174,9 +156,14 @@ export default class Steganography {
    *
    * @param newData: The new image pixel data.
    *
+   * @param algorithm: The algorithm to encode the data with. Determines image type.
+   *
    * @return The new image as base64 string.
    */
-  private putImageData = (newData: Uint8ClampedArray) => {
+  private putImageData = (
+    newData: Uint8ClampedArray,
+    algorithm: AlgorithmNames
+  ) => {
     const { width, height } = this.imageData;
     const canvas = createCanvas(width, height);
     const ctx = canvas.getContext("2d", { alpha: false });
@@ -184,7 +171,7 @@ export default class Steganography {
     ctx.putImageData(imageData, 0, 0);
 
     let data = "";
-    if (this.algorithm === "LSB-PNG") {
+    if (algorithm === "LSB") {
       data = canvas.toDataURL("image/png");
     } else {
       data = canvas.toDataURL("image/jpeg");
@@ -193,88 +180,57 @@ export default class Steganography {
   };
 
   /**
-   * Gets the message length in binary. Gets the message to the nearest byte.
-   *
-   * @param message: The message where each character is a byte.
-   *
-   * @return The message length in binary.
-   */
-  private getBinaryMessageLength(message: string[]) {
-    const binaryMessageLength = [];
-    if (message.length !== 0) {
-      const encoded = varint.encode(message.length);
-      for (const num of encoded) {
-        const binaryLength = this.convertToBinary(num);
-        binaryMessageLength.push(binaryLength);
-      }
-    }
-    return binaryMessageLength;
-  }
-
-  /**
-   * Pads data to the nearest byte for example if data = 4 then this function will return
-   * "00000100".
-   *
-   * @param data: Integer value to convert to string
-   *
-   * @param padBinary: If set to true, will pad to the nearest byte.
-   *
-   * @return The padded binary data.
-   */
-  private convertToBinary(data: number, padByte = true) {
-    let binary = data.toString(2);
-
-    if (padByte) {
-      const nearestByteLength = Math.ceil(binary.length / 8) * 8;
-      binary = binary.padStart(nearestByteLength, "0");
-    }
-
-    return binary;
-  }
-
-  /**
-   * Converts ASCII binary decoded from image back into original unicode.
-   *
-   * @param imageData: An array where numbers range from 0 - 255 (1 byte). In the order of Red \
-   * Green Blue Alpha (repeating), like output from `canvas.getImageData()`.
-   *
-   * @return The encoded message as a string.
-   */
-  private convertBinaryToMessage = (binaryMessage: string[]) => {
-    const decimalMessage = [];
-    for (const byte of binaryMessage) {
-      const decimal = parseInt(byte, 2);
-      decimalMessage.push(decimal);
-    }
-
-    const decodedMessage = arrayToString(decimalMessage);
-    return decodedMessage;
-  };
-
-  /**
-   * Encodes the data based on the select algorithm.
+   * Encodes the data based on the selected algorithm.
    *
    * @param pixelData: An array where numbers range from 0 - 255 (1 byte). In the order of Red \
    * Green Blue Alpha (repeating), like output from `canvas.getImageData()`
    *
-   * @param binaryMessage: The message to encode, where each element is a character in the message
+   * @param data: The message to encode, where each element is a character in the message
    * in unicode.
+   *
+   * @param algorithm: The algorithm to encode the data with.
    *
    * @return The encoded image data.
    */
   private encodeData = (
     pixelData: Uint8ClampedArray,
-    binaryMessage: string[]
+    data: string,
+    algorithm: AlgorithmNames
   ) => {
+    const newPixelData = this.encodeAlgorithm(pixelData, algorithm);
     let encodedData;
 
-    switch (this.algorithm) {
+    switch (algorithm) {
       default:
-        encodedData = new EncodeLSB().encode(pixelData, binaryMessage);
+        encodedData = new EncodeLSB().encode(newPixelData, data, 1);
     }
 
     return encodedData;
   };
+
+  /**
+   * Encodes the data with the encoding algorithm. Each algorithm is given a number i.e. LSB = 0.
+   * This number is then converted to binary and encoded within the first byte of the image.
+   *
+   * @param pixelData: An array where numbers range from 0 - 255 (1 byte). In the order of Red \
+   * Green Blue Alpha (repeating), like output from `canvas.getImageData()`
+   *
+   * @param algorithm: The algorithm to encode the data with.
+   *
+   * @return The encoded image data, with algorithm encoded within it.
+   */
+  private encodeAlgorithm(
+    pixelData: Uint8ClampedArray,
+    algorithm: AlgorithmNames
+  ) {
+    const algorithmNum = algorithmsTypesToNum(algorithm) || 0;
+    const binaryAlgorithm = this.convertDecimalToBytes(algorithmNum);
+    const pixelDataWithMetadata = new EncodeLSB().encode(
+      pixelData,
+      binaryAlgorithm
+    );
+    return pixelDataWithMetadata;
+  }
 
   /**
    * Decodes the hidden message, based on the select algorithm.
@@ -286,12 +242,47 @@ export default class Steganography {
    */
   private decodeData = (pixelData: Uint8ClampedArray) => {
     let decodedMessage;
+    const algorithm = this.decodeAlgorithm(pixelData);
 
-    switch (this.algorithm) {
+    switch (algorithm) {
       default:
-        decodedMessage = new DecodeLSB().decode(pixelData);
+        decodedMessage = new DecodeLSB().decode(pixelData, 1);
     }
 
     return decodedMessage;
+  };
+
+  private decodeAlgorithm = (pixelData: Uint8ClampedArray) => {
+    const binaryMetadata = new DecodeLSB().getNextLSBByte(pixelData);
+    const algorithmNum = this.convertBytesToDecimal(binaryMetadata);
+    const algorithm = numToAlgorithmTypes[algorithmNum] || "LSB";
+    return algorithm;
+  };
+
+  /**
+   * Converts a decimal integer into a byte. Pads data to the nearest
+   * byte for example if data = 4 then this function will return "00000100".
+   *
+   * @param data: Integer value to convert to string.
+   *
+   * @return The padded binary data, as a byte.
+   */
+  private convertDecimalToBytes = (data: number) => {
+    const binaryString = data.toString(2);
+    const nearestByte = Math.ceil(binaryString.length / 8) * 8;
+    const byte = binaryString.padStart(nearestByte, "0");
+    return byte;
+  };
+
+  /**
+   * Converts a binary string into a decimal integer.
+   *
+   * @param bytes: The binary string to convert.
+   *
+   * @return The binary number (string) as a decimal integer.
+   */
+  private convertBytesToDecimal = (bytes: string) => {
+    const decimal = parseInt(bytes, 2);
+    return decimal;
   };
 }
