@@ -6,13 +6,13 @@
 
 ![logo](src/assets/images/logo-dark.png)
 
-This is a mobile app made with React Native and Expo. The app allows user to encode and decode messages within images using
+This is a mobile app made with React Native. The app allows user to encode and decode messages within images using
 Steganography. This is a rewrite of my dissertation project, written in my third year of university.
 
 ## Getting Started
 
 To setup the development environment on your own machine, you can the following instructions to get setup.
-To test the app you don't need to have an Firebase or Sentry account. But if you want to test the app
+To test the app you don't need to have an Firebase. But if you want to test the app
 properly you may need to set these up.
 
 ### Prerequisites
@@ -20,7 +20,6 @@ properly you may need to set these up.
 - yarn/npm
 - docker (optional)
 - Firebase Account
-- Sentry Account
 
 ### With :whale: Docker
 
@@ -56,10 +55,6 @@ CAT_API_KEY=xxx
 FIREBASE_API_KEY=xxx
 # Firebase URL to make API requests
 FIREBASE_API_URL=https://us-central1-stegappasaurus.cloudfunctions.net/api
-# Sentry API Token, https://docs.expo.io/versions/latest/guides/using-sentry/
-SENTRY_API_TOKEN=xxx
-# Sentry API Token, https://docs.expo.io/versions/latest/guides/using-sentry/
-SENTRY_PUBLIC_DSN=https://xxx@sentry.io/1427565
 ```
 
 ## Errors
@@ -69,13 +64,11 @@ Any errors in your editor about paths not resolving take a look [here](https://g
 ## Technologies
 
 - React Native
-- Expo
 - TypeScript
 - Redux
 - Firebase
 - Express
 - Openapi
-- Sentry
 - Docker
 
 ## Other

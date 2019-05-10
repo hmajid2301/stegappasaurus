@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import * as React from "react";
 import { ImageBackground, TouchableOpacity, View } from "react-native";
 import { PacmanIndicator } from "react-native-indicators";
 
@@ -13,7 +13,7 @@ interface IProps {
   theme: ITheme;
 }
 
-export default class ImageProgress extends Component<IProps, {}> {
+export default class ImageProgress extends React.Component<IProps, {}> {
   public render() {
     const { theme } = this.props;
 

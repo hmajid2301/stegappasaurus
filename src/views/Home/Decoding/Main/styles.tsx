@@ -1,6 +1,6 @@
 import { Dimensions, StyleSheet } from "react-native";
 
-import { colors } from "~/common/styles";
+import { colors } from "~/constants";
 
 const pageHeight = Dimensions.get("window").height;
 

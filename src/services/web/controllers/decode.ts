@@ -2,7 +2,7 @@ import * as express from "express";
 
 import { Steganography } from "../../core";
 import { ImageNotEncodedError, InvalidImageError } from "../../core/exceptions";
-import { IDecode, IDecodingError, IDecodingSuccess } from "../models";
+import { IDecode, IDecodingError, IDecodingSuccess } from "../../web/models";
 
 /**
  * Decode data from an image.

@@ -1,17 +1,16 @@
 import { ApiResponse, create } from "apisauce";
-import { FileSystem } from "expo";
-import React, { Component } from "react";
+import * as FileSystem from "expo-file-system";
+import * as React from "react";
 import { Image, View } from "react-native";
-import { FIREBASE_API_URL } from "react-native-dotenv";
+import Config from "react-native-config";
 import { NavigationScreenProp } from "react-navigation";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
-import Sentry from "sentry-expo";
 
 import { AlgorithmNames, ITheme, PrimaryColor } from "@types";
-import { colors } from "~/common/styles";
 import ImageProgress from "~/components/ImageProgress";
 import Snackbar from "~/components/Snackbar";
+import { colors } from "~/constants";
 import { selectAlgorithm } from "~/redux/actions";
 import { IReducerState as IReducerFireBase } from "~/redux/reducers/FirebaseToken";
 import { IReducerState as IReducerSelectAlgorithm } from "~/redux/reducers/SelectAlgorithm";
@@ -36,7 +35,7 @@ interface IState {
   photo: string;
 }
 
-class Progress extends Component<IProps, IState> {
+class Progress extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     const { navigation } = props;
@@ -66,7 +65,7 @@ class Progress extends Component<IProps, IState> {
 
   public componentWillMount = async () => {
     let base64Image = await FileSystem.readAsStringAsync(this.state.photo, {
-      encoding: FileSystem.EncodingTypes.Base64
+      encoding: FileSystem.EncodingType.Base64
     });
     let mimeType = "image/jpeg";
     if (this.props.algorithm === "LSB") {
@@ -82,7 +81,7 @@ class Progress extends Component<IProps, IState> {
       this.state.photo,
       async (width, height) => {
         const api = create({
-          baseURL: FIREBASE_API_URL,
+          baseURL: Config.FIREBASE_API_URL,
           headers: { Authorization: `Bearer ${this.props.token}` }
         });
         const response = await api.post("/decode", {
@@ -114,7 +113,6 @@ class Progress extends Component<IProps, IState> {
         });
         this.props.navigation.goBack();
       }
-      Sentry.captureMessage(JSON.stringify(response));
     }
   };
 

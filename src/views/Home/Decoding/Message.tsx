@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import * as React from "react";
 import { NavigationScreenProp } from "react-navigation";
 
 import ImageMessage from "~/components/ImageMessage";
@@ -13,7 +13,7 @@ interface IState {
   photo: string;
 }
 
-class Progress extends Component<IProps, IState> {
+class Progress extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     const { navigation } = props;

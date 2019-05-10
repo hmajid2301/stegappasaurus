@@ -1,44 +1,4 @@
 {
-  "expo": {
-    "name": "Stegappasaurus",
-    "description": "This app allows user to encode and decode messages within images using Steganography.",
-    "slug": "Stegappasaurus",
-    "privacy": "public",
-    "sdkVersion": "32.0.0",
-    "platforms": ["ios", "android"],
-    "version": "0.1.0",
-    "orientation": "portrait",
-    "icon": "./src/assets/images/logo-light.png",
-    "splash": {
-      "image": "./src/assets/images/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "packagerOpts": {
-      "sourceExts": ["ts", "tsx"],
-      "transformer": "node_modules/react-native-typescript-transformer/index.js"
-    },
-    "updates": {
-      "fallbackToCacheTimeout": 0
-    },
-    "assetBundlePatterns": ["assets/**"],
-    "ios": {
-      "supportsTablet": true
-    },
-    "android": {
-      "playStoreUrl": "https://play.google.com/store/apps/details?id=host.exp.exponent"
-    },
-    "hooks": {
-      "postPublish": [
-        {
-          "file": "sentry-expo/upload-sourcemaps",
-          "config": {
-            "organization": "majiy",
-            "project": "stegappasaurus",
-            "authToken": ""
-          }
-        }
-      ]
-    }
-  }
+  "name": "stegappasaurus",
+  "displayName": "Stegappasaurus"
 }

@@ -1,18 +1,20 @@
 import { create } from "apisauce";
-import { ImagePicker, MediaLibrary, Permissions } from "expo";
-import { Icon } from "native-base";
-import React, { Component } from "react";
+import * as ImagePicker from "expo-image-picker";
+import * as MediaLibrary from "expo-media-library";
+import * as Permissions from "expo-permissions";
+
+import * as React from "react";
 import { FlatList, Image, TouchableOpacity, View } from "react-native";
-import { CAT_API_KEY } from "react-native-dotenv";
+import Config from "react-native-config";
+import { Icon } from "react-native-elements";
 import { NavigationScreenProp } from "react-navigation";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
-import Sentry from "sentry-expo";
 
 import { ITheme, PrimaryColorNames } from "@types";
-import { PRIMARY_COLORS } from "~/common/constants";
 import Loading from "~/components/Loading";
 import Snackbar from "~/components/Snackbar";
+import { PRIMARY_COLORS } from "~/constants";
 import { togglePrimaryColor } from "~/redux/actions";
 
 import styles from "./Main/styles";
@@ -28,7 +30,7 @@ interface IProps {
 interface IState {
   photos: IPhoto[];
   loading: boolean;
-  lastPhoto: number;
+  lastPhoto: string;
 }
 
 interface IPhoto {
@@ -43,11 +45,11 @@ interface ICatAPI {
   height: number;
 }
 
-class Main extends Component<IProps, IState> {
+class Main extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     this.state = {
-      lastPhoto: 0,
+      lastPhoto: "",
       loading: false,
       photos: []
     };
@@ -67,14 +69,14 @@ class Main extends Component<IProps, IState> {
             onPress={this.getPhotoFromCamera}
             style={styles.button}
           >
-            <Icon name="camera" style={styles.icon} type="FontAwesome" />
+            <Icon name="camera" iconStyle={styles.icon} type="font-awesome" />
           </TouchableOpacity>
 
           <TouchableOpacity
             onPress={this.getPhotoFromCameraRoll}
             style={styles.button}
           >
-            <Icon name="photo" style={styles.icon} type="FontAwesome" />
+            <Icon name="photo" iconStyle={styles.icon} type="font-awesome" />
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -83,8 +85,8 @@ class Main extends Component<IProps, IState> {
           >
             <Icon
               name="cat"
-              style={styles.icon}
-              type="MaterialCommunityIcons"
+              iconStyle={styles.icon}
+              type="material-community"
             />
           </TouchableOpacity>
         </View>
@@ -167,7 +169,7 @@ class Main extends Component<IProps, IState> {
 
     const api = create({
       baseURL: "https://api.thecatapi.com",
-      headers: { "x-api-key": CAT_API_KEY }
+      headers: { "x-api-key": Config.CAT_API_KEY }
     });
 
     const response = await api.get("/v1/images/search?mime_types=jpg,png");
@@ -176,7 +178,6 @@ class Main extends Component<IProps, IState> {
       await Image.prefetch(urls[0].url);
       this.selectPhotoToEncode(urls[0].url);
     } else {
-      Sentry.captureMessage(JSON.stringify(response));
       Snackbar.show({
         text:
           "Failed to fetch a cat photo, check you're connected to the internet."
@@ -190,7 +191,7 @@ class Main extends Component<IProps, IState> {
     const { assets } = await MediaLibrary.getAssetsAsync({
       after: this.state.lastPhoto,
       first: 9,
-      sortBy: [MediaLibrary.SortBy.creationTime]
+      sortBy: ["creationTime"]
     });
 
     this.setState({

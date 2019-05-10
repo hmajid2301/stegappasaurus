@@ -1,16 +1,12 @@
-import { Location, Permissions } from "expo";
+import * as Location from "expo-location";
+import * as Permissions from "expo-permissions";
 import { auth, initializeApp } from "firebase";
 import moment from "moment";
-import React, { Component } from "react";
-import { AppState, AsyncStorage } from "react-native";
-import {
-  DEVELOPMENT,
-  FIREBASE_API_KEY,
-  SENTRY_PUBLIC_DSN
-} from "react-native-dotenv";
+import * as React from "react";
+import { AppState, AsyncStorage, StatusBar } from "react-native";
+import Config from "react-native-config";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
-import Sentry from "sentry-expo";
 import { getSunrise, getSunset } from "sunrise-sunset-js";
 
 import { ITheme, PossibleAppStates } from "@types";
@@ -34,10 +30,7 @@ interface IProps {
   theme: ITheme;
 }
 
-class MainApp extends Component<IProps, {}> {
-  constructor(props: IProps) {
-    super(props);
-  }
+class MainApp extends React.Component<IProps, {}> {
   public render() {
     return (
       <App
@@ -49,10 +42,9 @@ class MainApp extends Component<IProps, {}> {
   }
 
   public componentWillMount = async () => {
-    Sentry.enableInExpoDevelopment = DEVELOPMENT;
-    await Sentry.config(SENTRY_PUBLIC_DSN).install();
+    StatusBar.setHidden(true);
     const firebaseConfig = {
-      apiKey: FIREBASE_API_KEY,
+      apiKey: Config.FIREBASE_API_KEY,
       authDomain: "stegappasaurus.firebaseapp.com",
       databaseURL: "https://stegappasaurus.firebaseio.com",
       storageBucket: "stegappasaurus.appspot.com"
@@ -65,10 +57,6 @@ class MainApp extends Component<IProps, {}> {
     auth().onAuthStateChanged(async user => {
       if (user !== null) {
         token = await user.getIdToken();
-        this.props.firebaseToken(token);
-        Sentry.setUserContext({
-          id: user.uid
-        });
       }
     });
   };

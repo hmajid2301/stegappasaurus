@@ -1,7 +1,8 @@
-import { StoreReview, WebBrowser } from "expo";
-import { Body, Button, Icon, Left, List, ListItem } from "native-base";
-import React from "react";
-import { Text, TouchableOpacity } from "react-native";
+import * as WebBrowser from "expo-web-browser";
+import * as React from "react";
+import { Text, TouchableOpacity, View } from "react-native";
+import { ListItem } from "react-native-elements";
+import Rate, { AndroidMarket } from "react-native-rate";
 
 import { ThemeColors } from "@types";
 import styles from "./styles";
@@ -13,62 +14,65 @@ interface IProps {
 
 export interface IAboutItem {
   title: string;
-  color: string;
-  function_to_call?: "store";
+  function_to_call?: "browser" | "store";
   icon: {
+    color: string;
     name: string;
     type:
-      | "AntDesign"
-      | "Entypo"
-      | "EvilIcons"
-      | "Feather"
-      | "FontAwesome"
-      | "FontAwesome5"
-      | "Foundation"
-      | "Ionicons"
-      | "MaterialCommunityIcons"
-      | "MaterialIcons"
-      | "Octicons"
-      | "SimpleLineIcons"
-      | "Zocial";
+      | "material"
+      | "material-community"
+      | "font-awesome"
+      | "octicon"
+      | "ionicon"
+      | "foundation"
+      | "evilicon"
+      | "simple-line-icon"
+      | "zocial"
+      | "entypo"
+      | "feather"
+      | "antdesign";
   };
-  url: string;
+  url?: string;
 }
 
 const AboutList = ({ color, items }: IProps) => (
-  <List>{items.map(item => renderListItem(color, item))}</List>
+  <View>{items.map(item => renderListItem(color, item))}</View>
 );
 
 const renderListItem = (color: string, item: IAboutItem) => (
-  <ListItem icon key={item.title}>
-    <Left>
-      <Button
-        onPress={() => chooseFunction(item)}
-        style={{ backgroundColor: item.color }}
-      >
-        <Icon {...item.icon} />
-      </Button>
-    </Left>
-    <Body>
+  <ListItem
+    key={item.title}
+    leftIcon={{
+      ...item.icon,
+      onPress: () => chooseFunction(item)
+    }}
+    topDivider={true}
+    bottomDivider={true}
+    title={
       <TouchableOpacity onPress={() => chooseFunction(item)}>
         <Text style={[styles.text, { color }]}>{item.title}</Text>
       </TouchableOpacity>
-    </Body>
-  </ListItem>
+    }
+  />
 );
 
 const chooseFunction = (item: IAboutItem) => {
   switch (item.function_to_call) {
     case "store":
-      StoreReview.requestReview()
-        .then()
-        .catch();
+      const options = {
+        GooglePackageName: "com.stegappasaurus",
+        openAppStoreIfInAppFails: true,
+        preferredAndroidMarket: AndroidMarket.Google
+      };
+      Rate.rate(options, () => null);
       break;
 
     default:
-      WebBrowser.openBrowserAsync(item.url)
-        .then()
-        .catch();
+      if (item.url !== undefined) {
+        WebBrowser.openBrowserAsync(item.url)
+          .then()
+          .catch();
+      }
       break;
   }
 };

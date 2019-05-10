@@ -1,0 +1,10 @@
+{
+  "devToolsPort": 19002,
+  "expoServerPort": 19000,
+  "packagerPort": 19001,
+  "packagerPid": 121035,
+  "expoServerNgrokUrl": "https://jy-tmn.anonymous.stegappasaurus.exp.direct",
+  "packagerNgrokUrl": "https://packager.jy-tmn.anonymous.stegappasaurus.exp.direct",
+  "ngrokPid": 121110,
+  "webpackServerPort": null
+}

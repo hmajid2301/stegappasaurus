@@ -1,34 +1,26 @@
-import { Toast } from "native-base";
-
-import styles from "./styles";
+import Snackbar from "react-native-snackbar";
 
 interface IShow {
   text: string;
   buttonText?: string;
-  closeAction?: (reason: "user" | "timeout" | "functionCall") => any;
+  action?: () => void;
   duration?: number;
 }
 
-export default class Snackbar {
+export default class CustomSnackbar {
   public static show = ({
+    action = () => null,
     buttonText = "Okay",
     duration = 5000,
-    text,
-    closeAction
+    text
   }: IShow) => {
-    Toast.show({
-      buttonText,
-      buttonTextStyle: styles.buttonText,
+    Snackbar.show({
+      action: {
+        onPress: action,
+        title: buttonText
+      },
       duration,
-      onClose: closeAction,
-      // @ts-ignore
-      style: styles.snackbar,
-      text,
-      textStyle: styles.text
+      title: text
     });
-  };
-
-  public static hide = () => {
-    Toast.hide();
   };
 }

@@ -1,7 +1,7 @@
-import React, { Component } from "react";
+import * as React from "react";
 import { ActivityIndicator, View } from "react-native";
 
-import { colors } from "~/common/styles";
+import { colors } from "~/constants";
 
 import styles from "./styles";
 
@@ -9,7 +9,7 @@ interface IProps {
   hide: boolean;
 }
 
-export default class Loading extends Component<IProps, {}> {
+export default class Loading extends React.Component<IProps, {}> {
   public render() {
     if (this.props.hide) {
       return (

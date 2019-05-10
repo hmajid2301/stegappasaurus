@@ -1,19 +1,19 @@
 import { ApiResponse, create } from "apisauce";
-import { FileSystem, MediaLibrary } from "expo";
+import * as FileSystem from "expo-file-system";
+import * as MediaLibrary from "expo-media-library";
 import { storage } from "firebase";
 import { Base64 } from "js-base64";
-import React, { Component } from "react";
+import * as React from "react";
 import { Image, Share, View } from "react-native";
-import { FIREBASE_API_URL } from "react-native-dotenv";
+import Config from "react-native-config";
 import { NavigationScreenProp } from "react-navigation";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
-import Sentry from "sentry-expo";
 
 import { AlgorithmNames, ITheme, PrimaryColor } from "@types";
-import { colors } from "~/common/styles";
 import ImageProgress from "~/components/ImageProgress";
 import Snackbar from "~/components/Snackbar";
+import { colors } from "~/constants";
 import { selectAlgorithm } from "~/redux/actions";
 import { IReducerState as IReducerFireBase } from "~/redux/reducers/FirebaseToken";
 import { IReducerState as IReducerSelectAlgorithm } from "~/redux/reducers/SelectAlgorithm";
@@ -40,7 +40,7 @@ interface IState {
   photo: string;
 }
 
-class Progress extends Component<IProps, IState> {
+class Progress extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     const { navigation } = props;
@@ -80,7 +80,7 @@ class Progress extends Component<IProps, IState> {
   public componentWillMount = async () => {
     console.log(this.props.screenProps);
     const base64Image = await FileSystem.readAsStringAsync(this.state.photo, {
-      encoding: FileSystem.EncodingTypes.Base64
+      encoding: FileSystem.EncodingType.Base64
     });
 
     (global as any).btoa = Base64.btoa;
@@ -93,7 +93,7 @@ class Progress extends Component<IProps, IState> {
       this.state.photo,
       async (width, height) => {
         const api = create({
-          baseURL: FIREBASE_API_URL,
+          baseURL: Config.FIREBASE_API_URL,
           headers: { Authorization: `Bearer ${this.props.token}` }
         });
         const response = await api.post("/encode", {
@@ -135,7 +135,6 @@ class Progress extends Component<IProps, IState> {
         });
         this.props.navigation.navigate("Main");
       }
-      Sentry.captureMessage(JSON.stringify(response));
     }
   };
 
@@ -149,7 +148,7 @@ class Progress extends Component<IProps, IState> {
   private encoded = async (base64Image: string) => {
     const imagePath = `${FileSystem.documentDirectory}${this.state.filename}`;
     await FileSystem.writeAsStringAsync(imagePath, base64Image.substring(22), {
-      encoding: FileSystem.EncodingTypes.Base64
+      encoding: FileSystem.EncodingType.Base64
     });
 
     await MediaLibrary.createAssetAsync(imagePath);

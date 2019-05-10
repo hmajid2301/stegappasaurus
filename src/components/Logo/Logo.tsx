@@ -1,4 +1,4 @@
-import React from "react";
+import * as React from "react";
 import { Image, Text, View } from "react-native";
 
 import { ThemeColors } from "@types";
