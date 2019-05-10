@@ -1,10 +1,10 @@
-import { Icon } from "native-base";
-import React from "react";
+import * as React from "react";
+import { Icon } from "react-native-elements";
 import { createAppContainer, createDrawerNavigator } from "react-navigation";
 
 import CustomDrawerNavigator from "~/components/CustomDrawerNavigator";
 
-import About from "./About";
+import AboutUs from "./AboutUs";
 import FAQ from "./FAQ";
 import Home from "./Home";
 import Settings from "./Settings";
@@ -18,7 +18,7 @@ const MainNavigator = createDrawerNavigator(
     Home: {
       navigationOptions: {
         drawerIcon: ({ tintColor }: IColor) => (
-          <Icon name="home" type="FontAwesome" style={{ color: tintColor }} />
+          <Icon name="home" type="font-awesome" color={tintColor} />
         ),
         drawerLabel: "Home"
       },
@@ -28,17 +28,17 @@ const MainNavigator = createDrawerNavigator(
     About: {
       navigationOptions: {
         drawerIcon: ({ tintColor }: IColor) => (
-          <Icon name="info" type="Feather" style={{ color: tintColor }} />
+          <Icon name="info" type="feather" color={tintColor} />
         ),
         drawerLabel: "About Us"
       },
-      screen: About
+      screen: AboutUs
     },
 
     Settings: {
       navigationOptions: {
         drawerIcon: ({ tintColor }: IColor) => (
-          <Icon name="settings" type="Feather" style={{ color: tintColor }} />
+          <Icon name="settings" type="feather" color={tintColor} />
         ),
         drawerLabel: "Settings"
       },
@@ -48,11 +48,7 @@ const MainNavigator = createDrawerNavigator(
     FAQ: {
       navigationOptions: {
         drawerIcon: ({ tintColor }: IColor) => (
-          <Icon
-            name="questioncircleo"
-            type="AntDesign"
-            style={{ color: tintColor }}
-          />
+          <Icon name="questioncircleo" type="antdesign" color={tintColor} />
         ),
         drawerLabel: "FAQ"
       },

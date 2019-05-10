@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import * as React from "react";
 import {
   ImageBackground,
   KeyboardAvoidingView,
@@ -21,7 +21,7 @@ interface IState {
   message: string;
 }
 
-export default class ImageMessage extends Component<IProps, IState> {
+export default class ImageMessage extends React.Component<IProps, IState> {
   public static defaultProps = {
     action: null,
     message: ""

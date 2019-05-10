@@ -1,7 +1,7 @@
 import { isType } from "typescript-fsa";
 
-import { PRIMARY_COLORS } from "~/common/constants";
 import { PrimaryColor, PrimaryColorNames } from "@types";
+import { PRIMARY_COLORS } from "~/constants";
 import { togglePrimaryColor } from "~/redux/actions";
 
 /**

@@ -1,6 +1,6 @@
 import { isType } from "typescript-fsa";
 
-import { THEMES } from "~/common/constants";
+import { THEMES } from "~/constants";
 import { ITheme } from "@types";
 import { toggleDarkTheme } from "~/redux/actions";
 

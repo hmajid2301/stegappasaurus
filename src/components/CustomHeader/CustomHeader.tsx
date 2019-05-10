@@ -1,5 +1,5 @@
-import { Body, Header, Icon, Left } from "native-base";
-import React from "react";
+import * as React from "react";
+import { Header, Icon } from "react-native-elements";
 import { NavigationScreenProp } from "react-navigation";
 
 import { ITheme, PrimaryColor } from "@types";
@@ -14,28 +14,25 @@ interface IProps {
 
 const CustomHeader = ({ navigation, primaryColor, theme }: IProps) => (
   <Header
-    style={[
+    leftComponent={
+      <Icon
+        color={theme.color}
+        name="menu"
+        onPress={() => {
+          navigation.openDrawer();
+        }}
+        type="simple-line-icon"
+      />
+    }
+    centerComponent={<Logo color={theme.color} isDark={theme.isDark} />}
+    containerStyle={[
       styles.container,
       {
         backgroundColor: theme.background as string,
         borderBottomColor: primaryColor as string
       }
     ]}
-  >
-    <Left>
-      <Icon
-        style={{ color: theme.color }}
-        name="menu"
-        onPress={() => {
-          navigation.openDrawer();
-        }}
-        type="SimpleLineIcons"
-      />
-    </Left>
-    <Body>
-      <Logo color={theme.color} isDark={theme.isDark} />
-    </Body>
-  </Header>
+  />
 );
 
 export default CustomHeader;

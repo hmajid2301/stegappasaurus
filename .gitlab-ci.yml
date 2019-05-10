@@ -82,14 +82,13 @@ publish:firebase-functions:
   only:
     - master
   script:
-    - yarn run firebase functions:config:set stegappasaurus.sentry_public_dsn=${SENTRY_PUBLIC_DSN}
     - yarn run deploy-services -m "Pipeline $CI_PIPELINE_ID, build $CI_BUILD_ID" --non-interactive --token $FIREBASE_DEPLOY_TOKEN > output
     - tail -n +4 output
 
-publish:app:
-  stage: publish
-  only:
-    - /^release/.*$/
-  script:
-    - yarn expo login -u $PROJECT_USERNAME -p $PROJECT_PASSWORD
-    - yarn expo --non-interactive publish
+# publish:app:
+#   stage: publish
+#   only:
+#     - /^release/.*$/
+#   script:
+#     - yarn expo login -u $PROJECT_USERNAME -p $PROJECT_PASSWORD
+#     - yarn expo --non-interactive publish

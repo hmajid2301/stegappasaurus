@@ -1,12 +1,11 @@
-import { Content } from "native-base";
-import React, { Component } from "react";
+import * as React from "react";
 import { ScrollView, View } from "react-native";
 import { NavigationScreenProp } from "react-navigation";
 
 import { ITheme, PrimaryColor } from "@types";
-import { colors } from "~/common/styles";
 import CustomHeader from "~/components/CustomHeader";
 import FAQList from "~/components/FAQList";
+import { colors } from "~/constants";
 
 import faq from "./FAQ/questions";
 import styles from "./FAQ/styles";
@@ -18,7 +17,7 @@ interface IProps {
   };
 }
 
-export default class FAQ extends Component<IProps, {}> {
+export default class FAQ extends React.Component<IProps, {}> {
   public render() {
     const { theme } = this.props.screenProps;
 
@@ -32,9 +31,7 @@ export default class FAQ extends Component<IProps, {}> {
           />
 
           <View style={styles.faqListContainer}>
-            <Content padder>
-              <FAQList items={faq} theme={theme} />
-            </Content>
+            <FAQList items={faq} theme={theme} />
           </View>
         </ScrollView>
       </View>

@@ -1,21 +1,23 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "module": "commonjs",
-    "lib": ["es2017"],
-    "jsx": "react-native",
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
     "baseUrl": "./",
+    "esModuleInterop": true,
+    "jsx": "react",
+    "lib": ["es6"],
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "noEmit": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
     "paths": {
       "~/*": ["src/*"]
     },
     "strict": true,
-    "noImplicitAny": true,
     "strictFunctionTypes": true,
-    "noImplicitThis": true,
-    "alwaysStrict": true,
-    "typeRoots": ["node_modules/@types", "@types"],
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true
+    "target": "esnext",
+    "typeRoots": ["node_modules/@types", "@types"]
   },
-  "exclude": ["node_modules", "src/services"]
+  "exclude": ["src/services", "babel.config.js", "metro.config.js"]
 }

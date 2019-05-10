@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import * as React from "react";
 import { View } from "react-native";
 import { NavigationScreenProp } from "react-navigation";
 import { connect } from "react-redux";
@@ -18,7 +18,7 @@ interface IProps {
   primaryColor: PrimaryColor;
 }
 
-class Home extends Component<IProps, {}> {
+class Home extends React.Component<IProps, {}> {
   public static router = CustomTabNavigator.router;
 
   public render() {

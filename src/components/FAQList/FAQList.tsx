@@ -1,6 +1,7 @@
-import { Accordion, Icon } from "native-base";
-import React, { Component } from "react";
-import { Text, View } from "react-native";
+import * as React from "react";
+import { Text, TouchableOpacity, View } from "react-native";
+import Accordion from "react-native-collapsible/Accordion";
+import { Icon } from "react-native-elements";
 
 import { ITheme } from "@types";
 import styles from "./styles";
@@ -10,18 +11,35 @@ interface IProps {
   theme: ITheme;
 }
 
+interface IState {
+  activeSections: number[];
+  collapsed: boolean;
+}
+
 export interface IFAQ {
   content: string;
   title: string;
 }
 
-export default class FAQList extends Component<IProps, {}> {
+export default class FAQList extends React.Component<IProps, IState> {
+  constructor(props: IProps) {
+    super(props);
+    this.state = {
+      activeSections: [],
+      collapsed: true
+    };
+  }
+
   public render() {
     return (
       <Accordion
-        dataArray={this.props.items}
+        activeSections={this.state.activeSections}
+        duration={200}
+        onChange={this.setSections}
         renderContent={this.renderContent}
         renderHeader={this.renderHeader}
+        sections={this.props.items}
+        touchableComponent={TouchableOpacity}
       />
     );
   }
@@ -34,22 +52,32 @@ export default class FAQList extends Component<IProps, {}> {
     </View>
   );
 
-  private renderHeader = (item: IFAQ, expanded: boolean) => (
+  private renderHeader = (item: IFAQ, _: any, isActive: boolean) => (
     <View
       style={[
         styles.headerContainer,
-        expanded ? styles.inactive : styles.active,
+        isActive ? styles.inactive : styles.active,
         { borderBottomColor: this.props.theme.background }
       ]}
     >
       <Text style={styles.header}>{item.title}</Text>
       <View style={styles.iconContainer}>
-        {expanded ? (
-          <Icon style={styles.icon} type="FontAwesome" name="chevron-up" />
+        {isActive ? (
+          <Icon iconStyle={styles.icon} type="font-awesome" name="chevron-up" />
         ) : (
-          <Icon style={styles.icon} type="FontAwesome" name="chevron-down" />
+          <Icon
+            iconStyle={styles.icon}
+            type="font-awesome"
+            name="chevron-down"
+          />
         )}
       </View>
     </View>
   );
+
+  private setSections = (sections: number[]) => {
+    this.setState({
+      activeSections: sections
+    });
+  };
 }

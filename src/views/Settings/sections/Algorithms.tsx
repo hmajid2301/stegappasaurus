@@ -1,6 +1,6 @@
-import { Body, List, ListItem, Picker, Right } from "native-base";
-import React, { Component } from "react";
-import { Text } from "react-native";
+import * as React from "react";
+import { Picker, Text, View } from "react-native";
+import { ListItem } from "react-native-elements";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
@@ -16,35 +16,38 @@ interface IProps {
   theme: ITheme;
 }
 
-class Algorithms extends Component<IProps, {}> {
+class Algorithms extends React.Component<IProps, {}> {
   public render() {
     const { algorithm, theme } = this.props;
 
     return (
-      <List>
-        <ListItem itemHeader style={styles.itemHeader}>
-          <Text style={styles.itemHeaderText}>Algorithms</Text>
-        </ListItem>
+      <View>
+        <ListItem
+          titleStyle={styles.itemHeader}
+          title={<Text style={styles.itemHeaderText}>Algorithms</Text>}
+        />
 
-        <ListItem noIndent>
-          <Body>
-            <Text style={[styles.itemText, { color: theme.color }]}>
-              Encoding Algorithm
-            </Text>
-          </Body>
-          <Right>
+        <ListItem
+          title={
+            <View>
+              <Text style={[styles.itemText, { color: theme.color }]}>
+                Encoding Algorithm
+              </Text>
+            </View>
+          }
+          rightTitle={
             <Picker
-              mode="dropdown"
-              note
               onValueChange={value => this.props.selectAlgorithm(value)}
               selectedValue={algorithm}
               style={styles.picker}
             >
               <Picker.Item label="LSB" value="LSB" />
             </Picker>
-          </Right>
-        </ListItem>
-      </List>
+          }
+          topDivider={true}
+          bottomDivider={true}
+        />
+      </View>
     );
   }
 }

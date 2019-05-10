@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import * as React from "react";
 import { Image, Keyboard } from "react-native";
 import { NavigationScreenProp } from "react-navigation";
 
@@ -15,7 +15,7 @@ interface IState {
   width: number;
 }
 
-export default class Message extends Component<IProps, IState> {
+export default class Message extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     const { navigation } = props;

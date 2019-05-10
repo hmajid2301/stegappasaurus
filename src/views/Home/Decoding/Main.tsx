@@ -1,14 +1,15 @@
-import { ImagePicker, Permissions } from "expo";
-import { Icon } from "native-base";
-import React, { Component } from "react";
+import * as ImagePicker from "expo-image-picker";
+import * as Permissions from "expo-permissions";
+import * as React from "react";
 import { TouchableOpacity, View } from "react-native";
+import { Icon } from "react-native-elements";
 import { NavigationScreenProp } from "react-navigation";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
 import { ITheme, PrimaryColorNames } from "@types";
-import { PRIMARY_COLORS } from "~/common/constants";
 import Snackbar from "~/components/Snackbar";
+import { PRIMARY_COLORS } from "~/constants";
 import { togglePrimaryColor } from "~/redux/actions";
 
 import styles from "./Main/styles";
@@ -21,7 +22,7 @@ interface IProps {
   togglePrimaryColor: (primaryColor: PrimaryColorNames) => void;
 }
 
-class Main extends Component<IProps, {}> {
+class Main extends React.Component<IProps, {}> {
   public render() {
     const { theme } = this.props.screenProps;
     return (
@@ -30,7 +31,7 @@ class Main extends Component<IProps, {}> {
           onPress={this.getPhotoFromCameraRoll}
           style={styles.button}
         >
-          <Icon name="photo" style={styles.icon} type="FontAwesome" />
+          <Icon name="photo" iconStyle={styles.icon} type="font-awesome" />
         </TouchableOpacity>
       </View>
     );

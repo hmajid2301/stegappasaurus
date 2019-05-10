@@ -1,6 +1,6 @@
 import { createMaterialTopTabNavigator } from "react-navigation";
 
-import { colors, fonts } from "~/common/styles";
+import { colors, fonts } from "~/constants";
 import Decoding from "~/views/Home/Decoding";
 import Encoding from "~/views/Home/Encoding";
 

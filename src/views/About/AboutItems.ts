@@ -1,52 +1,51 @@
-import { colors } from "~/common/styles";
 import { IAboutItem } from "~/components/AboutList";
+import { colors } from "~/constants";
 
 const AboutItems: IAboutItem[] = [
   {
-    color: colors.iconOrange,
     icon: {
+      color: colors.iconOrange,
       name: "versions",
-      type: "Octicons"
+      type: "octicon"
     },
     title: "Version 0.1.0",
     url: "https://github.com/hmajid2301/Stegappasaurus"
   },
   {
-    color: colors.iconBlue,
     icon: {
+      color: colors.iconBlue,
       name: "code-fork",
-      type: "FontAwesome"
+      type: "font-awesome"
     },
     title: "Fork this Project on GitHub",
     url: "https://github.com/hmajid2301/Stegappasaurus"
   },
   {
-    color: colors.iconBlack,
     icon: {
+      color: colors.iconBlack,
       name: "github",
-      type: "FontAwesome"
+      type: "font-awesome"
     },
     title: "Personal GitHub",
     url: "https://github.com/hmajid2301"
   },
   {
-    color: colors.iconGreen,
     icon: {
+      color: colors.iconGreen,
       name: "web",
-      type: "MaterialCommunityIcons"
+      type: "material-community"
     },
     title: "Personal Website",
     url: "https://hmajid2301.github.io"
   },
   {
-    color: colors.iconRed,
     function_to_call: "store",
     icon: {
+      color: colors.iconRed,
       name: "rate-review",
-      type: "MaterialIcons"
+      type: "material"
     },
-    title: "Rate the App",
-    url: "https://hmajid2301.github.io"
+    title: "Rate the App"
   }
 ];
 

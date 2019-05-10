@@ -1,6 +1,6 @@
-import { Icon } from "native-base";
-import React, { Component, ReactNode } from "react";
+import * as React from "react";
 import { Modal, ScrollView, Text, TouchableOpacity, View } from "react-native";
+import { Icon } from "react-native-elements";
 import Markdown from "react-native-markdown-renderer";
 import { connect } from "react-redux";
 
@@ -10,7 +10,7 @@ import { IReducerState } from "~/redux/reducers/ToggleDarkTheme";
 import styles, { markdown } from "./styles";
 
 interface IProps {
-  children: ReactNode;
+  children: React.ReactNode;
   name: string;
   theme: ITheme;
 }
@@ -19,7 +19,7 @@ interface IState {
   modalVisible: boolean;
 }
 
-class MarkdownModal extends Component<IProps, IState> {
+class MarkdownModal extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     this.state = {
@@ -50,9 +50,9 @@ class MarkdownModal extends Component<IProps, IState> {
               }}
             >
               <Icon
-                style={[styles.icons, { color: theme.color }]}
+                iconStyle={[styles.icons, { color: theme.color }]}
                 name="close"
-                type="EvilIcons"
+                type="evil-icons"
               />
             </TouchableOpacity>
 

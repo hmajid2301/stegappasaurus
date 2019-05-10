@@ -1,11 +1,16 @@
-import { MailComposer } from "expo";
-import { Body, List, ListItem } from "native-base";
-import React from "react";
-import { Text, TouchableOpacity } from "react-native";
+import * as MailComposer from "expo-mail-composer";
+import * as React from "react";
+import { Text, TouchableOpacity, View } from "react-native";
+import { ListItem } from "react-native-elements";
 
 import { ITheme } from "@types";
 
-import { Changelog } from "./modals";
+import MarkdownModal from "~/components/MarkdownModal";
+import changelog from "~/views/Settings/content/changelog";
+
+const Changelog = () => (
+  <MarkdownModal name="Changelog">{changelog}</MarkdownModal>
+);
 import styles from "./styles";
 
 interface IProps {
@@ -20,26 +25,27 @@ const sendEmail = async () => {
 };
 
 const About = ({ theme }: IProps) => (
-  <List>
-    <ListItem itemHeader style={styles.itemHeader}>
-      <Text style={styles.itemHeaderText}>About</Text>
-    </ListItem>
+  <View>
+    <ListItem
+      titleStyle={styles.itemHeader}
+      title={<Text style={styles.itemHeaderText}>About</Text>}
+    />
+    <ListItem title={<Changelog />} topDivider={true} bottomDivider={true} />
 
-    <ListItem noIndent>
-      <Changelog />
-    </ListItem>
-
-    <ListItem noIndent>
-      <Body>
-        <TouchableOpacity onPress={() => sendEmail()}>
-          <Text style={[styles.itemText, { color: theme.color }]}>Email</Text>
-          <Text style={[styles.itemText, styles.itemTextUnder]}>
-            me@haseebmajid.com
-          </Text>
-        </TouchableOpacity>
-      </Body>
-    </ListItem>
-  </List>
+    <ListItem
+      title={
+        <View>
+          <TouchableOpacity onPress={() => sendEmail()}>
+            <Text style={[styles.itemText, { color: theme.color }]}>Email</Text>
+            <Text style={[styles.itemText, styles.itemTextUnder]}>
+              me@haseebmajid.com
+            </Text>
+          </TouchableOpacity>
+        </View>
+      }
+      bottomDivider={true}
+    />
+  </View>
 );
 
 export default About;
