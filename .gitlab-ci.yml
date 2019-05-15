@@ -5,6 +5,7 @@ stages:
   - test
   - build
   - publish
+  - post
 
 cache:
   key: ${CI_COMMIT_REF_SLUG}
@@ -46,12 +47,12 @@ lint:
 lint:code-formatter:
   stage: test
   script:
-    - yarn lint:code-formatter
+    - yarn code-formatter
 
 lint:compiler:
   stage: test
   script:
-    - yarn lint:compiler
+    - yarn compiler-checker
 
 tests:unit:
   stage: test
@@ -84,11 +85,3 @@ publish:firebase-functions:
   script:
     - yarn run deploy-services -m "Pipeline $CI_PIPELINE_ID, build $CI_BUILD_ID" --non-interactive --token $FIREBASE_DEPLOY_TOKEN > output
     - tail -n +4 output
-
-# publish:app:
-#   stage: publish
-#   only:
-#     - /^release/.*$/
-#   script:
-#     - yarn expo login -u $PROJECT_USERNAME -p $PROJECT_PASSWORD
-#     - yarn expo --non-interactive publish

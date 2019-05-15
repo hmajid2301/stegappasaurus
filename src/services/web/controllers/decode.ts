@@ -1,8 +1,8 @@
 import * as express from "express";
 
-import { Steganography } from "../../core";
-import { ImageNotEncodedError, InvalidImageError } from "../../core/exceptions";
-import { IDecode, IDecodingError, IDecodingSuccess } from "../../web/models";
+import { Steganography } from "~/core";
+import { ImageNotEncodedError, InvalidImageError } from "~/core/exceptions";
+import { IAPIError, IDecode, IDecodingSuccess } from "~/web/models";
 
 /**
  * Decode data from an image.
@@ -16,7 +16,7 @@ export default (request: express.Request, response: express.Response) => {
   const body: IDecode = request.body;
   const { imageData } = body;
 
-  let decoding: IDecodingError | IDecodingSuccess;
+  let decoding: IAPIError | IDecodingSuccess;
   let status = 200;
 
   try {

@@ -30,13 +30,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/EncodingError"
+                $ref: "#/components/schemas/APIError"
         500:
           description: Error occurred while trying to encode image.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/EncodingError"
+                $ref: "#/components/schemas/APIError"
   /decode:
     post:
       summary: Decodes an image using steganography.
@@ -56,13 +56,13 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/DecodingSuccess"
+                $ref: "#/components/schemas/APIError"
         400:
           description: Invalid input data.
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/DecodingError"
+                $ref: "#/components/schemas/APIError"
         500:
           description: Error occurred while trying to decode image.
           content:
@@ -71,6 +71,25 @@ paths:
                 $ref: "#/components/schemas/DecodingError"
 components:
   schemas:
+    APIError:
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+          description: Machine readable, reason for the error.
+          enum:
+            - MessageTooLong
+            - InvalidImage
+            - ImageNotEncoded
+            - ServerError
+        message:
+          description: Human readable, reason for the error.
+          type: string
+      example:
+        code: MessageTooLong
+        message: Message xxx too large to encode within image.
     Encode:
       required:
         - message
@@ -119,24 +138,6 @@ components:
           description: The encoded image in base64.
       example:
         encoded: data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAIAAAD8GO2jAAAABmJLR0QA/wD/AP+gvaeTAAADEUlEQVRIicVWzU/TYBx++vbDtRkrsIzJxzIhGpcM5EJ2E2N2Ei4e/Q+MiSe5ePCiiVfiQQNejQfjzRgwkSzGGQ+AJkI2bZRkLIOFMdjWTdvRrp2HkVmBFgJMn1N/X8/Tvn3f9/ej0AAFqo46QAF1/AEhjOgPdfYNC56zLC9yvAhAU2VdlZXyRmFtSc5JplmDPSi7AMeLgcFxXzBCsy6HekOv5tMLmcSMpspHFSA0GwiP9YSihOYcqK0wDS0rxTLJWdPQDxHgXJ7Q6K02b/8Rqa2obKek+JRWLVudtNUQ2nuHohOC2H0MdgBnhA5fcKSUk/Rq5QABzuUZik5wQsfx2HfpWN7be2krvWjUdhqe3SUiNDsYveO8Mm6BuzZ6MTTg6/V7CEUBeP76S3wxtT+zsp1KxCYb/4NpuALhMWf2bl/b5N3xQLdodXZ4+AOT27z9gfBYevkVAAKA48WeUNSBHcDNG5E97AAo202OnlC0cWgIgMDguPOOZGhyNTLQNNWq/nVlM7mSK8iqXQmhucDgOACGEMYXjDi/fpfXTdOkad57NDe/nHEuAeALRlKfXxLRH3I+qwBYhljNja2KXaYVNOsS/SGms2/YIYkQSnCxAs9anQxDcywNoGaYplm3KQWAzr5haig64em6YJcRPu9/+uC6XfT+k9jcxxUHgfLmD8Lye/fG0ZEv/HJOYHmRcCcQ2CoqzgkcLzLOGaWK+ib+3S1wl0fONZ0fPq3+VDQAW8VDvgAAo6ky39ZlF17PlR9Ovwv2tFsFpl/Mp7OlQ6kBaKpMdJtGcSrQVZko5Y3WCSjlDVJYW2qdQGFticg5ydCrrWA39Kqck4hp1vLphVYI5NMLplkjADKJGdPQTpfdNLRMYgaN61pT5awUO12BrBRrDDK712QmOVvZPqD5HQ+V7VQmOdt43hUwDV2KT2lK8eTsmlKU4lPNAemvpie094av3N4/WBBCtVvab6ms2t3SmlJMvn+slNabnn87eAEwajv51QUKlNsbpMjeqB1MQ1v/9nZl/llN39ul/8fwa8XJx/ffmI5G4TIf7rkAAAAASUVORK5CYII=",
-    EncodingError:
-      required:
-        - code
-        - message
-      properties:
-        code:
-          type: string
-          description: Machine readable, reason for the error.
-          enum:
-            - MessageTooLong
-            - InvalidImage
-            - ServerError
-        message:
-          description: Human readable, reason for the error.
-          type: string
-      example:
-        code: MessageTooLong
-        message: Message xxx too large to encode within image.
     Decode:
       required:
         - imageData
@@ -173,21 +174,3 @@ components:
           description: The decoded message.
       example:
         decoded: Secret Message.
-    DecodingError:
-      required:
-        - code
-        - message
-      properties:
-        code:
-          type: string
-          description: Machine readable, reason for the error.
-          enum:
-            - InvalidImage
-            - ImageNotEncoded
-            - ServerError
-        message:
-          description: Human readable, reason for the error.
-          type: string
-      example:
-        code: InvalidImage
-        message: Invalid image, could not decode.

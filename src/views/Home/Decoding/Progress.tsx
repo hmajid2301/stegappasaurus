@@ -14,9 +14,9 @@ import { colors } from "~/constants";
 import { selectAlgorithm } from "~/redux/actions";
 import { IReducerState as IReducerFireBase } from "~/redux/reducers/FirebaseToken";
 import { IReducerState as IReducerSelectAlgorithm } from "~/redux/reducers/SelectAlgorithm";
-import { IDecodingError, IDecodingSuccess } from "~/services/web/models";
+import { IAPIError, IDecodingSuccess } from "~/services/web/models";
 
-type Decoding = IDecodingSuccess | IDecodingError;
+type Decoding = IDecodingSuccess | IAPIError;
 
 interface IReducerState extends IReducerSelectAlgorithm, IReducerFireBase {}
 
@@ -85,7 +85,6 @@ class Progress extends React.Component<IProps, IState> {
           headers: { Authorization: `Bearer ${this.props.token}` }
         });
         const response = await api.post("/decode", {
-          algorithm: this.props.algorithm,
           imageData: {
             base64Image,
             height,

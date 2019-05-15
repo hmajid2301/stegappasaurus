@@ -2,7 +2,7 @@ import { createCanvas, createImageData, Image } from "canvas";
 import { arrayToString, stringToArray } from "utf8-to-bytes";
 import varint from "varint";
 
-import { AlgorithmNames } from "../../../../@types";
+import { IEncode } from "../../web/models";
 import {
   ImageNotEncodedError,
   InvalidImageError,
@@ -15,6 +15,8 @@ import { DecodeLSB, EncodeLSB } from "./LSB";
  * It's main job is to do the common functions required by all steganography algorithm.
  *
  */
+
+type AlgorithmNames = IEncode["algorithm"];
 
 interface ImageData {
   base64Image: string;
@@ -29,7 +31,7 @@ const numToAlgorithmTypes: IAlgorithms = {
   0: "LSB"
 };
 
-const algorithmsTypesToNum = (algorithm: string) => {
+const algorithmsTypesToNum = (algorithm = "LSB") => {
   const values = Object.values(numToAlgorithmTypes);
   return values.find(item => item === algorithm);
 };

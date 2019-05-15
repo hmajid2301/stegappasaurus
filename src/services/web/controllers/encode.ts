@@ -1,8 +1,8 @@
 import * as express from "express";
 
-import { Steganography } from "../../core";
-import { InvalidImageError, MessageTooLongError } from "../../core/exceptions";
-import { IEncode, IEncodingError, IEncodingSuccess } from "../models";
+import { Steganography } from "~/core";
+import { InvalidImageError, MessageTooLongError } from "~/core/exceptions";
+import { IAPIError, IEncode, IEncodingSuccess } from "~/web/models";
 
 /**
  * Encodes data into an image.
@@ -21,7 +21,7 @@ export default async (request: express.Request, response: express.Response) => {
     algorithm = "LSB";
   }
 
-  let encoding: IEncodingError | IEncodingSuccess;
+  let encoding: IAPIError | IEncodingSuccess;
   let status = 200;
   try {
     const encodedImage = new Steganography(imageData).encode(
@@ -50,7 +50,7 @@ export default async (request: express.Request, response: express.Response) => {
     encoding = {
       code,
       message: errorMessage
-    } as IEncodingError;
+    } as IAPIError;
   }
   response.status(status).json(encoding);
 };

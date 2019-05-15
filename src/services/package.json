@@ -4,7 +4,7 @@
     "build": "tsc -p . --skipLibCheck && yarn run copy-static",
     "lint": "tslint -p .",
     "copy-static": "cp -r ./openapi ./lib/",
-    "generate-schema": "op3-codegen openapi/specification.yml -o webserver/models"
+    "generate-models": "../../util/servicesModelGenerator.sh"
   },
   "dependencies": {
     "canvas": "2.4.1",
