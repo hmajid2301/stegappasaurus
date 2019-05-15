@@ -17,9 +17,9 @@ import { colors } from "~/constants";
 import { selectAlgorithm } from "~/redux/actions";
 import { IReducerState as IReducerFireBase } from "~/redux/reducers/FirebaseToken";
 import { IReducerState as IReducerSelectAlgorithm } from "~/redux/reducers/SelectAlgorithm";
-import { IEncodingError, IEncodingSuccess } from "~/services/web/models";
+import { IAPIError, IEncodingSuccess } from "~/services/web/models";
 
-type Encoding = IEncodingSuccess | IEncodingError;
+type Encoding = IEncodingSuccess | IAPIError;
 
 interface IReducerState extends IReducerSelectAlgorithm, IReducerFireBase {}
 
@@ -122,7 +122,7 @@ class Progress extends React.Component<IProps, IState> {
       } else if (
         status === 500 &&
         !this.isSuccess(data) &&
-        data.code === ("MessageTooLong" as IEncodingError["code"])
+        data.code === ("MessageTooLong" as IAPIError["code"])
       ) {
         Snackbar.show({
           text: "Message too large to encode in image."

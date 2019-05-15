@@ -9,9 +9,10 @@
     "tests": "jest",
     "coverage": "jest --coverage",
     "lint": "tslint src/**/*.{tx,tsx}",
-    "lint:code-formatter": "prettier --check src/**/*.{tx,tsx}",
-    "lint:compiler": "tsc --project . --noEmit --pretty --skipLibCheck",
-    "deploy-services": "firebase deploy --only functions"
+    "code-formatter": "prettier --check src/**/*.{tx,tsx}",
+    "compiler-checker": "tsc --project . --noEmit --pretty --skipLibCheck",
+    "deploy-services": "firebase deploy --only functions",
+    "generate-service-models": "./util/servicesModelGenerator.sh"
   },
   "dependencies": {
     "apisauce": "1.0.2",
@@ -55,7 +56,7 @@
     "@types/react-test-renderer": "16.8.1",
     "@types/sunrise-sunset-js": "2.0.0",
     "babel-jest": "24.1.0",
-    "babel-plugin-module-resolver": "^3.2.0",
+    "babel-plugin-module-resolver": "3.2.0",
     "firebase-tools": "6.7.1",
     "jest": "24.3.0",
     "jest-react-native": "18.0.0",
@@ -93,8 +94,11 @@
     ],
     "moduleFileExtensions": [
       "js",
+      "jsx",
       "ts",
-      "tsx"
+      "tsx",
+      "json",
+      "node"
     ],
     "globals": {
       "ts-jest": {
