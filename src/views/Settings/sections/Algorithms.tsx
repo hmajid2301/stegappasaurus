@@ -42,6 +42,7 @@ class Algorithms extends React.Component<IProps, {}> {
               style={styles.picker}
             >
               <Picker.Item label="LSB" value="LSB" />
+              <Picker.Item label="DCT" value="DCT" />
             </Picker>
           }
           topDivider={true}

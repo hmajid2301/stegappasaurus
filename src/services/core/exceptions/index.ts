@@ -1,12 +1,14 @@
 /* tslint:disable: max-classes-per-file */
-/**
- * This file contains all the custom user made exceptions for this project.
- */
 
 /**
- * This Error is thrown when the message to be encoded, will take more bits
- * than we have available in the image itself. Will only be thrown when trying
- * to encode the image.
+ * This error is thrown when the message is too long to encode into an image.
+ * Can only be thrown when trying to encode data into an image and we run out
+ * of pixels to encode.
+ *
+ * @param name: The "error code".
+ * @param message: The error message.
+ * @param messageToEncode: The message we were trying to encode into the image.
+ *
  */
 export class MessageTooLongError extends Error {
   public name: "MessageTooLong";
@@ -24,8 +26,13 @@ export class MessageTooLongError extends Error {
 }
 
 /**
- * This Error is thrown when the base 64 image is invalid and cannot be loaded onto
- * the canvas.
+ * This error is thrown when the base64 image string is invalid.
+ * It is thrown when the image cannot be loaded into the canvas.
+ *
+ * @param name: The "error code".
+ * @param message: The error message.
+ * @param base64Image: The image data, we were trying to encode/decode.
+ *
  */
 export class InvalidImageError extends Error {
   public name: "InvalidImage";
@@ -43,8 +50,17 @@ export class InvalidImageError extends Error {
 }
 
 /**
- * The Error is thrown when we are trying to decode an image, but we run out of bits
+ * The error is thrown when we are trying to decode an image, but we run out of bits
  * which would not happen if it's encoded correctly.
+ */
+/**
+ * This error is thrown when the we cannot decode the message from an image.
+ * This is thrown during the decoding when we run out of pixels to decode.
+ *
+ * @param name: The "error code".
+ * @param message: The error message.
+ * @param base64Image: The image data, we were trying to decode.
+ *
  */
 export class ImageNotEncodedError extends Error {
   public name: "ImageNotEncoded";
