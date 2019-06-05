@@ -1,8 +1,8 @@
 import * as express from "express";
 
-import { Steganography } from "~/core";
-import { InvalidImageError, MessageTooLongError } from "~/core/exceptions";
-import { IAPIError, IEncode, IEncodingSuccess } from "~/web/models";
+import { Steganography } from "../../core";
+import { InvalidImageError, MessageTooLongError } from "../../core/exceptions";
+import { IAPIError, IEncode, IEncodingSuccess } from "../../web/models";
 
 /**
  * Encodes data into an image.
@@ -14,7 +14,6 @@ import { IAPIError, IEncode, IEncodingSuccess } from "~/web/models";
  */
 export default async (request: express.Request, response: express.Response) => {
   const body: IEncode = request.body;
-  const { imageData, message } = body;
 
   let algorithm = body.algorithm;
   if (algorithm === undefined) {
@@ -24,9 +23,10 @@ export default async (request: express.Request, response: express.Response) => {
   let encoding: IAPIError | IEncodingSuccess;
   let status = 200;
   try {
-    const encodedImage = new Steganography(imageData).encode(
-      message,
-      algorithm
+    const encodedImage = new Steganography(body.imageData).encode(
+      body.message,
+      algorithm,
+      body.metadata
     );
 
     encoding = {

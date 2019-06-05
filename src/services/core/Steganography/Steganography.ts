@@ -8,27 +8,21 @@ import {
   InvalidImageError,
   MessageTooLongError
 } from "../exceptions";
+import { DecodeDCT, EncodeDCT } from "./DCT";
 import { DecodeLSB, EncodeLSB } from "./LSB";
-
-/**
- * This class chooses what algorithm to use. Calls the correct functions to encode/decode data.
- * It's main job is to do the common functions required by all steganography algorithm.
- *
- */
 
 type AlgorithmNames = IEncode["algorithm"];
 
-interface ImageData {
-  base64Image: string;
-  width: number;
-  height: number;
+interface IMetaData {
+  [name: string]: number;
 }
 
 interface IAlgorithms {
   [name: number]: AlgorithmNames;
 }
 const numToAlgorithmTypes: IAlgorithms = {
-  0: "LSB"
+  0: "LSB",
+  1: "DCT"
 };
 
 const algorithmsTypesToNum = (algorithm = "LSB") => {
@@ -38,33 +32,57 @@ const algorithmsTypesToNum = (algorithm = "LSB") => {
 
 export default class Steganography {
   /** Image pixel data as an array from (values of 0 - 255, or 1 byte) and as `RGBA`. */
-  private readonly imageData: ImageData;
+  private readonly imageData: string;
+  /** Image width in pixels. */
+  private width = 0;
+  /** Image height in pixels. */
+  private height = 0;
 
-  constructor(imageData: ImageData) {
+  constructor(imageData: string) {
     this.imageData = imageData;
+    const img = new Image();
+    img.onload = () => {
+      this.width = img.naturalWidth;
+      this.height = img.naturalHeight;
+    };
+
+    img.src = this.imageData;
   }
 
   /**
    * Encodes a string (message) into an image using steganography algorithms.
    *
-   * * We get our image data as RGBA array.
-   * * We convert our message into bytes, this ordered as `[message length, message]`.
-   * * Next we encode our algorithm type into the pixel data.
-   * * Encode our data with the correct algorithm.
-   * * Convert to base 64.
+   * * Get image data as RGBA array
+   * * Convert the message into bytes
+   * * Encode our algorithm type into the data
+   * * Encode our data into the image data
+   * * Convert the image to base64 string
    *
    * @param message: The message to encode as a string.
    *
    * @param algorithm: The algorithm to encode the data with.
    *
+   * @param metadata: `Optional` extra metadata for the encoding algorithm i.e. limit for DCT.
+   *
    * @return The encoded image as a base64 string.
    */
-  public encode = (message: string, algorithm: AlgorithmNames) => {
+  public encode = (
+    message: string,
+    algorithm: AlgorithmNames,
+    metadata?: IMetaData
+  ) => {
     try {
       const pixelData = this.getImageData();
       const binaryMessage = this.convertMessageToBits(message);
-      const newPixelData = this.encodeData(pixelData, binaryMessage, algorithm);
-      const dataURL = this.putImageData(newPixelData, algorithm);
+      const newPixelData = this.encodeData(
+        pixelData,
+        binaryMessage,
+        algorithm,
+        metadata
+      );
+      const dataURL = this.getNewBase64Image(
+        new Uint8ClampedArray(newPixelData)
+      );
       return dataURL;
     } catch (error) {
       if (error instanceof RangeError) {
@@ -76,13 +94,14 @@ export default class Steganography {
   };
 
   /**
-   * Decodes an image to get a message.
+   * Decodes image data to get an encoded message.
    *
-   * * Get image data as a RGBA array.
-   * * Decode algorithm type.
-   * * Convert unicode array to message.
+   * * Get image data as a RGBA array
+   * * Decode algorithm type
+   * * Decode our data into the image data
+   * * Convert binary array to a message
    *
-   * @return The decoded message.
+   * @return The decoded message as a string.
    */
   public decode = () => {
     try {
@@ -94,7 +113,7 @@ export default class Steganography {
       if (error instanceof RangeError) {
         throw new ImageNotEncodedError(
           "Image is not encoded with any data",
-          this.imageData.base64Image
+          this.imageData
         );
       } else {
         throw new Error(error);
@@ -103,15 +122,16 @@ export default class Steganography {
   };
 
   /**
-   * Converts a string message into bytes.
-   * * Uses varint 128 to encode message length.
+   * Converts a message into binary string.
+   *
+   * * Uses varint128 to encode message length.
    * * Then converts the message to decimal array.
    * * Then works out length of this array.
-   * * Converts `[message length, message]` into a byte string.
+   * * Converts data into a binary string.
    *
    * @param message: The message to encode as a string.
    *
-   * @return A binary string (each character is a byte).
+   * @return A binary string (the data to encode).
    */
   private convertMessageToBits = (message: string) => {
     const arrayMessage = stringToArray(message) as number[];
@@ -127,15 +147,13 @@ export default class Steganography {
   };
 
   /**
-   * Gets image data from a base64 image. Where the image
-   * data is an array RGBA (Red, Green, Blue, Alpha), with values
-   * from 0 - 255 (1 byte).
+   * Gets image data from a base64 image. Where the image data is an array RGBA
+   * (Red, Green, Blue, Alpha), with values from 0 - 255 (1 byte).
    *
-   * @return The image data.
+   * @return The image data, as Uint8ClampedArray.
    */
   private getImageData = () => {
-    const { width, height, base64Image } = this.imageData;
-    const canvas = createCanvas(width, height);
+    const canvas = createCanvas(this.width, this.height);
     const ctx = canvas.getContext("2d", { alpha: false });
 
     const img = new Image();
@@ -145,46 +163,35 @@ export default class Steganography {
     img.onerror = () => {
       throw new InvalidImageError(
         "Invalid base 64 image data.",
-        this.imageData.base64Image
+        this.imageData
       );
     };
-    img.src = base64Image;
-    const imageData = ctx.getImageData(0, 0, width, height);
+    img.src = this.imageData;
+    const imageData = ctx.getImageData(0, 0, this.width, this.height);
     return imageData.data;
   };
 
   /**
-   * Changes the image data with the new encoded data.
+   * Converts image data (Uint8ClampedArray) into a base64 string.
    *
-   * @param newData: The new image pixel data.
-   *
-   * @param algorithm: The algorithm to encode the data with. Determines image type.
+   * @param data: The image data, to convert to base64.
    *
    * @return The new image as base64 string.
    */
-  private putImageData = (
-    newData: Uint8ClampedArray,
-    algorithm: AlgorithmNames
-  ) => {
-    const { width, height } = this.imageData;
-    const canvas = createCanvas(width, height);
+  private getNewBase64Image = (data: Uint8ClampedArray) => {
+    const canvas = createCanvas(this.width, this.height);
     const ctx = canvas.getContext("2d", { alpha: false });
-    const imageData = createImageData(newData, width, height);
+    const imageData = createImageData(data, this.width, this.height);
     ctx.putImageData(imageData, 0, 0);
 
-    let data = "";
-    if (algorithm === "LSB") {
-      data = canvas.toDataURL("image/png");
-    } else {
-      data = canvas.toDataURL("image/jpeg");
-    }
-    return data;
+    const base64Image = canvas.toDataURL("image/png");
+    return base64Image;
   };
 
   /**
    * Encodes the data based on the selected algorithm.
    *
-   * @param pixelData: An array where numbers range from 0 - 255 (1 byte). In the order of Red \
+   * @param imageData: An array where numbers range from 0 - 255 (1 byte). In the order of Red \
    * Green Blue Alpha (repeating), like output from `canvas.getImageData()`
    *
    * @param data: The message to encode, where each element is a character in the message
@@ -192,17 +199,25 @@ export default class Steganography {
    *
    * @param algorithm: The algorithm to encode the data with.
    *
-   * @return The encoded image data.
+   * @param metadata: `Optional` extra metadata for the encoding algorithm i.e. limit for DCT.
+   *
+   * @return The encoded image data, as a Uint8ClampedArray.
    */
   private encodeData = (
-    pixelData: Uint8ClampedArray,
+    imageData: Uint8ClampedArray,
     data: string,
-    algorithm: AlgorithmNames
+    algorithm: AlgorithmNames,
+    metadata?: IMetaData
   ) => {
-    const newPixelData = this.encodeAlgorithm(pixelData, algorithm);
+    const newPixelData = this.encodeMetadata(imageData, algorithm, metadata);
     let encodedData;
 
     switch (algorithm) {
+      case "DCT":
+        encodedData = new EncodeDCT(
+          metadata !== undefined ? metadata.limit : 15
+        ).encode(newPixelData, this.width, this.height, data, 1);
+        break;
       default:
         encodedData = new EncodeLSB().encode(newPixelData, data, 1);
     }
@@ -211,63 +226,105 @@ export default class Steganography {
   };
 
   /**
-   * Encodes the data with the encoding algorithm. Each algorithm is given a number i.e. LSB = 0.
+   * Encodes metadata data with the encoding algorithm. Each algorithm is given a number i.e. LSB = 0.
    * This number is then converted to binary and encoded within the first byte of the image.
+   * Some algorithms like DCT will have extra metadata like limit, which will also be encoded.
    *
-   * @param pixelData: An array where numbers range from 0 - 255 (1 byte). In the order of Red \
-   * Green Blue Alpha (repeating), like output from `canvas.getImageData()`
+   * @param imageData: An array where numbers range from 0 - 255 (1 byte). In the order of Red \
+   * Green Blue Alpha (repeating), like output from `canvas.getImageData()`.
    *
    * @param algorithm: The algorithm to encode the data with.
    *
-   * @return The encoded image data, with algorithm encoded within it.
+   * @param metadata: `Optional` extra metadata for the encoding algorithm i.e. limit for DCT.
+   *
+   * @return The image data with the metadata encoded in the image data.
    */
-  private encodeAlgorithm(
-    pixelData: Uint8ClampedArray,
-    algorithm: AlgorithmNames
+  private encodeMetadata(
+    imageData: Uint8ClampedArray,
+    algorithm: AlgorithmNames,
+    metadata?: IMetaData
   ) {
     const algorithmNum = algorithmsTypesToNum(algorithm) || 0;
-    const binaryAlgorithm = this.convertDecimalToBytes(algorithmNum);
+    if (metadata === undefined) {
+      metadata = {};
+    }
+    metadata.algorithm = algorithmNum;
+    const metadataToEncode = [];
+    for (const data of Object.values(metadata)) {
+      const varintData = varint.encode(data);
+      metadataToEncode.push(...varintData);
+    }
+
+    let binaryMetadata = "";
+    for (const data of metadataToEncode) {
+      binaryMetadata += this.convertDecimalToBytes(data);
+    }
     const pixelDataWithMetadata = new EncodeLSB().encode(
-      pixelData,
-      binaryAlgorithm
+      imageData,
+      binaryMetadata
     );
     return pixelDataWithMetadata;
   }
 
   /**
-   * Decodes the hidden message, based on the select algorithm.
+   * Decodes the a message, from image data based on the select algorithm.
    *
-   * @param pixelData: An array where numbers range from 0 - 255 (1 byte). In the order of Red \
-   * Green Blue Alpha (repeating), like output from `canvas.getImageData()`
+   * @param imageData: An array where numbers range from 0 - 255 (1 byte). In the order of Red \
+   * Green Blue Alpha (repeating), like output from `canvas.getImageData()`.
    *
-   * @return The decoded message.
+   * @return The decoded message, as a string.
    */
-  private decodeData = (pixelData: Uint8ClampedArray) => {
+  private decodeData = (imageData: Uint8ClampedArray) => {
     let decodedMessage;
-    const algorithm = this.decodeAlgorithm(pixelData);
+    const { algorithm, metadata } = this.decodeMetadata(imageData);
 
     switch (algorithm) {
+      case "DCT":
+        const starting = Math.ceil(Math.log2(metadata.limit) / 3);
+        decodedMessage = new DecodeDCT(metadata.limit).decode(
+          imageData,
+          this.width,
+          this.height,
+          starting
+        );
+        break;
       default:
-        decodedMessage = new DecodeLSB().decode(pixelData, 1);
+        decodedMessage = new DecodeLSB().decode(imageData, 1);
     }
 
     return decodedMessage;
   };
 
-  private decodeAlgorithm = (pixelData: Uint8ClampedArray) => {
-    const binaryMetadata = new DecodeLSB().getNextLSBByte(pixelData);
+  /**
+   * Decodes metadata from the image, which includes the encoding algorithm used (i.e. DCT or LSB). Some algorithms such as DCT have extra data like limit.
+   *
+   * @param imageData: An array where numbers range from 0 - 255 (1 byte). In the order of Red \
+   * Green Blue Alpha (repeating), like output from `canvas.getImageData()`.
+   *
+   * @return The encoding algorithm and metadata for that algorithm.
+   */
+  private decodeMetadata = (imageData: Uint8ClampedArray) => {
+    const binaryMetadata = new DecodeLSB().getNextLSBByte(imageData);
     const algorithmNum = this.convertBytesToDecimal(binaryMetadata);
     const algorithm = numToAlgorithmTypes[algorithmNum] || "LSB";
-    return algorithm;
+    const metadata: IMetaData = {};
+
+    switch (algorithm) {
+      case "DCT":
+        const limit = new DecodeLSB().decodeVarint(imageData.subarray(0, 10));
+        metadata.limit = varint.decode(limit);
+        break;
+    }
+    return { algorithm, metadata };
   };
 
   /**
    * Converts a decimal integer into a byte. Pads data to the nearest
    * byte for example if data = 4 then this function will return "00000100".
    *
-   * @param data: Integer value to convert to string.
+   * @param data: Integer value to convert to binary string.
    *
-   * @return The padded binary data, as a byte.
+   * @return The padded binary data, as a binary (byte) string.
    */
   private convertDecimalToBytes = (data: number) => {
     const binaryString = data.toString(2);
@@ -277,9 +334,9 @@ export default class Steganography {
   };
 
   /**
-   * Converts a binary string into a decimal integer.
+   * Converts a binary (bytes) string into a decimal integer.
    *
-   * @param bytes: The binary string to convert.
+   * @param bytes: The binary string to convert, into an integer.
    *
    * @return The binary number (string) as a decimal integer.
    */

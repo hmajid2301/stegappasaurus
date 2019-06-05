@@ -1,55 +1,14 @@
 import varint from "varint";
 
-/**
- * This class implements using the following steganography algorithm.
- *
- * input:
- *
- * * Image Data (array)
- * * Separator (byte string)
- *
- * Output:
- *
- * * Message (binary string)
- *
- * ```python
- * function decode(image_data, separator):
- *    var message_length = get_message_length(image_data, separator)
- *    var message = []
- *    var pixel_index = get_start_index(message_length, separator)
- *    for i in 1...message_length:
- *        message += get_next_byte(image_data, pixel_index)
- *    return message
- *
- * function get_message_length(image_data, separator):
- *    current_message_length = []
- *    completed = false
- *
- *    while !completed:
- *       next_byte = get_next_byte(image_data)
- *       if not next_byte:
- *           throw_error("Invalid Image Data")
- *
- *       elif next_byte == separator && \
- *          current_message_length[-1] != separator  && \
- *          len(current_message_length) != 1:
- *          completed = true
- *       current_message_length + = next_byte
- *
- *    return to_decimal("".join(current_message_length))
- * ```
- *
- */
-
 export default class DecodeLSB {
-  private pixelIndex = 0;
   /** The index to start decoding the next byte from. */
+  private pixelIndex = 0;
 
   /**
    * Acts a main function decodes binary message from image data. **Note**: alpha channel is
    * ignored, so only Red Green Blue (RGB) channels are actually decoded from. The encoded data
    * contains the message length which is how many characters were encoded. This is then followed
-   * by the actual encoded data, we need to look at 8 bytes (RGBRGBRG) and get their LSB to get
+   * by the actual encoded data, we need to look at 8 bytes (RGB) and get their LSB to get
    * one.
    *
    * @param imageData: An array where numbers range from 0 - 255 (1 byte). In the order of Red \
@@ -58,13 +17,13 @@ export default class DecodeLSB {
    * @return The decoded binary message as a string.
    */
   public decode = (imageData: Uint8ClampedArray, startByte = 0) => {
-    this.pixelIndex = startByte * 8 + 2;
+    this.pixelIndex = startByte * 8 + startByte * 2;
     const messageLength = this.getMessageLength(imageData);
     const binaryMessage: string[] = [];
 
     for (let i = 0; i < messageLength; i += 1) {
-      const asciiByte = this.getNextLSBByte(imageData);
-      binaryMessage.push(asciiByte);
+      const byte = this.getNextLSBByte(imageData);
+      binaryMessage.push(byte);
     }
     return binaryMessage;
   };
@@ -98,6 +57,20 @@ export default class DecodeLSB {
     return byte;
   };
 
+  public decodeVarint(imageData: Uint8ClampedArray) {
+    let completed = false;
+    const messageVarint: number[] = [];
+    while (!completed) {
+      const byte = this.getNextLSBByte(imageData);
+      const num = parseInt(byte, 2);
+      messageVarint.push(num);
+      if (messageVarint.slice(-1)[0] < 128) {
+        completed = true;
+      }
+    }
+    return messageVarint;
+  }
+
   /**
    * Gets the message length at the front of the image data (top left data). It will stop looking
    * after the message is less < 128. The message length is encoded using varint 128, same as in
@@ -110,18 +83,7 @@ export default class DecodeLSB {
    * @return The message length in decimal.
    */
   private getMessageLength = (imageData: Uint8ClampedArray) => {
-    let completed = false;
-    const messageVarint: number[] = [];
-
-    while (!completed) {
-      const byte = this.getNextLSBByte(imageData);
-      const num = parseInt(byte, 2);
-      messageVarint.push(num);
-      if (messageVarint.slice(-1)[0] < 128) {
-        completed = true;
-      }
-    }
-
+    const messageVarint: number[] = this.decodeVarint(imageData);
     const messageLength = varint.decode(messageVarint);
     return messageLength;
   };

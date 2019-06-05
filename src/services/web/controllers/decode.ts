@@ -1,8 +1,8 @@
 import * as express from "express";
 
-import { Steganography } from "~/core";
-import { ImageNotEncodedError, InvalidImageError } from "~/core/exceptions";
-import { IAPIError, IDecode, IDecodingSuccess } from "~/web/models";
+import { Steganography } from "../../core";
+import { ImageNotEncodedError, InvalidImageError } from "../../core/exceptions";
+import { IAPIError, IDecode, IDecodingSuccess } from "../../web/models";
 
 /**
  * Decode data from an image.
@@ -14,13 +14,11 @@ import { IAPIError, IDecode, IDecodingSuccess } from "~/web/models";
  */
 export default (request: express.Request, response: express.Response) => {
   const body: IDecode = request.body;
-  const { imageData } = body;
-
   let decoding: IAPIError | IDecodingSuccess;
   let status = 200;
 
   try {
-    const decodedMessage = new Steganography(imageData).decode();
+    const decodedMessage = new Steganography(body.imageData).decode();
     decoding = {
       decoded: decodedMessage
     };
@@ -42,7 +40,7 @@ export default (request: express.Request, response: express.Response) => {
     decoding = {
       code,
       message: errorMessage
-    } as IDecodingError;
+    } as IAPIError;
   }
   response.status(status).json(decoding);
 };

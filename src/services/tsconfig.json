@@ -1,14 +1,10 @@
 {
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
-    "baseUrl": "./",
     "module": "commonjs",
     "noImplicitReturns": true,
     "noUnusedLocals": true,
     "outDir": "lib",
-    "paths": {
-      "~/*": ["./*"]
-    },
     "removeComments": true,
     "sourceMap": true,
     "strict": true,

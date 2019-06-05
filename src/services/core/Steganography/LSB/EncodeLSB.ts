@@ -1,28 +1,3 @@
-/**
- * This class implements using the following steganography algorithm.
- *
- * input:
- * * Image Data (array)
- * * Message (byte string array)
- *
- * Output:
- *
- * * Image Data (array)
- *
- * ```python
- * function encode(imageData, message):
- *   var data_to_encode = [padded_length] + message
- *
- *   var imageIndex = 0
- *   for data in data_to_encode:
- *       imageData[imageIndex] = get_new_pixel_data(imageData, data, imageIndex)
- *       imageIndex += 1
- *
- *   return imageData
- * ```
- *
- */
-
 export default class EncodeLSB {
   /**
    * Acts a main function encodes binary message into the LSB of image data. **Note**: alpha channel
@@ -30,10 +5,11 @@ export default class EncodeLSB {
    * to encode data within.
    *
    * @param imageData: An array where numbers range from 0 - 255 (1 byte). In the order of Red \
-   * Green Blue Alpha (repeating), like output from `canvas.getImageData()`
+   * Green Blue Alpha (repeating), like output from `canvas.getImageData()`.
    *
-   * @param binaryMessage: The message to encode, where each element is a character in the message
-   * in unicode.
+   * @param binaryMessage: The message to encode, in binary (0 or 1).
+   *
+   * @param startByte: Byte to start encoding at.
    *
    * @return The encoded image data array.
    */
@@ -44,7 +20,7 @@ export default class EncodeLSB {
   ) => {
     const newPixelData = imageData;
 
-    let pixelIndex = startByte * 8 + 2;
+    let pixelIndex = startByte * 8 + startByte * 2;
     for (const bit of binaryMessage) {
       const pixelValue = imageData[pixelIndex];
       const newPixelValue = this.getNewPixelValue(pixelValue, bit);
@@ -59,15 +35,11 @@ export default class EncodeLSB {
   };
 
   /**
-   * Gets new pixel data value, given a byte to encode and a bit
-   * to encode it with.
-   *
-   * * If need to encode a 0 make sure the pixel value is even
-   * * If need to encode a 1 make sure the pixel value is odd
+   * Gets new pixel data value, given a byte to encode and a bit to encode it with.
    *
    * @param pixelValue: The pixel value as a decimal integer (0 - 255).
    *
-   * @return The newly encoded pixel value.
+   * @return The encoded pixel value.
    */
   public getNewPixelValue = (pixelValue: number, bit: string) => {
     let newPixelValue = pixelValue;
