@@ -11,7 +11,24 @@ test.each(data)("Steganography DecodeLSB", ({ encoded, message }) => {
   expect(decodedMessage).toStrictEqual(message);
 });
 
-test.each(data)("Steganography EncodeDCT", ({ image, message, encoded }) => {
-  const encodedBase64 = new Steganography(image).encode(message, "DCT");
-  expect(encodedBase64).toStrictEqual(encoded.DCT.image);
+test.each(data)("Steganography EncodeJSTEG", ({ image, message, encoded }) => {
+  const encodedBase64 = new Steganography(image).encode(message, "JSTEG");
+  expect(encodedBase64).toStrictEqual(encoded.JSTEG.image);
+});
+
+test.each(data)("Steganography DecodeJSTEG", ({ encoded, message }) => {
+  const decodedMessage = new Steganography(encoded.JSTEG.image).decode();
+  expect(decodedMessage).toStrictEqual(message);
+});
+
+test.each(data)("Steganography EncodeF5", ({ image, message, encoded }) => {
+  const encodedBase64 = new Steganography(image).encode(message, "F5", {
+    password: encoded.F5.password
+  });
+  expect(encodedBase64).toStrictEqual(encoded.F5.image);
+});
+
+test.each(data)("Steganography DecodeF5", ({ encoded, message }) => {
+  const decodedMessage = new Steganography(encoded.F5.image).decode();
+  expect(decodedMessage).toStrictEqual(message);
 });

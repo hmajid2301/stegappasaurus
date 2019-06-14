@@ -9,18 +9,18 @@ export default class EncodeLSB {
    *
    * @param binaryMessage: The message to encode, in binary (0 or 1).
    *
-   * @param startByte: Byte to start encoding at.
+   * @param startEncodingAt: Index to start encoding at.
    *
    * @return The encoded image data array.
    */
   public encode = (
     imageData: Uint8ClampedArray,
     binaryMessage: string,
-    startByte = 0
+    startEncodingAt = 0
   ) => {
     const newPixelData = imageData;
 
-    let pixelIndex = startByte * 8 + startByte * 2;
+    let pixelIndex = startEncodingAt;
     for (const bit of binaryMessage) {
       const pixelValue = imageData[pixelIndex];
       const newPixelValue = this.getNewPixelValue(pixelValue, bit);

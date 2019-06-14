@@ -18,19 +18,9 @@ properly you may need to set these up.
 ### Prerequisites
 
 - yarn/npm
-- docker (optional)
 - Firebase Account
 
-### With :whale: Docker
-
-```bash
-git clone https://github.com/hmajid2301/stegappasaurus.git
-cd stegappasaurus
-touch .env
-docker-compose up --build -d
-```
-
-### Without :no_entry: :whale: Docker
+### Installation
 
 ```bash
 git clone https://github.com/hmajid2301/stegappasaurus.git
@@ -57,10 +47,6 @@ FIREBASE_API_KEY=xxx
 FIREBASE_API_URL=https://us-central1-stegappasaurus.cloudfunctions.net/api
 ```
 
-## Errors
-
-Any errors in your editor about paths not resolving take a look [here](https://github.com/tleunen/babel-plugin-module-resolver#eslint-plugin).
-
 ## Technologies
 
 - React Native
@@ -69,14 +55,13 @@ Any errors in your editor about paths not resolving take a look [here](https://g
 - Firebase
 - Express
 - Openapi
-- Docker
 
 ## Other
 
 ### Credit
 
 - Design inspired by: [PixelKnot](https://play.google.com/store/apps/details?id=info.guardianproject.pixelknot)
-- DCT code inspired by: [zeruniverse](https://github.com/zeruniverse/CryptoStego)
+- JSTEG code inspired by: [zeruniverse](https://github.com/zeruniverse/CryptoStego)
 - Cat photos from [thecatapi](https://thecatapi.com)
 
 ### Licenses

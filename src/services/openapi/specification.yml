@@ -101,18 +101,19 @@ components:
           default: LSB
           enum:
             - LSB
-            - DCT
+            - JSTEG
+            - F5
         message:
           type: string
           description: The message you wish to encode.
         metadata:
           type: object
-          description: Extra metadata such as limit for DCT.
+          description: Extra metadata such as limit for JSTEG.
         imageData:
           type: string
           description: The image encoded in base64.
       example:
-        algorithm: DCT
+        algorithm: JSTEG
         metadata: {
           limit: 100
         }
