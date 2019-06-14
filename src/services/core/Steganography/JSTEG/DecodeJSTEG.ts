@@ -2,14 +2,15 @@ import varint from "varint";
 
 import { convertImageDataToDCT } from "./DCT";
 
-export default class DecodeDCT {
+export default class DecodeJSTEG {
   /** The current index to get the next bit from to decode. */
-  private dctIndex = 0;
+  private dctIndex: number;
   /** The DCT limit used for decoding, the higher the limit the more resistant to compression. */
   private readonly limit: number;
 
   constructor(limit = 15) {
     this.limit = limit;
+    this.dctIndex = 0;
   }
 
   /**
@@ -27,17 +28,14 @@ export default class DecodeDCT {
    *
    * @param height: The height of the image, in pixels.
    *
-   * @param startByte: Byte to start encoding at.
-   *
    * @return The decoded message.
    */
   public decode = (
     imageData: Uint8ClampedArray,
     width: number,
-    height: number,
-    startByte = 0
+    height: number
   ) => {
-    this.dctIndex = startByte * 8 + startByte * 2;
+    this.dctIndex = 0;
     const dctData = convertImageDataToDCT(imageData, width, height);
     const messageLength = this.getMessageLength(dctData);
     const binaryMessage: string[] = [];
@@ -80,7 +78,7 @@ export default class DecodeDCT {
    *
    * @param dctData: The DCT coefficients (for all pixels).
    *
-   * @return Decodes the next byte from the image.
+   * @return The decoded (next) byte from the image.
    */
   private getNextByte = (data: number[][][]) => {
     let byte = "";
@@ -100,7 +98,7 @@ export default class DecodeDCT {
   /**
    * Gets the encoded bit from the data. Either "0" or "1".
    *
-   * @param data: The DCT coefficient to get the LSB from.
+   * @param data: The DCT coefficient to decode (retrieve LSB from).
    *
    * @return The encoded bit from the data ("0" or "1").
    */

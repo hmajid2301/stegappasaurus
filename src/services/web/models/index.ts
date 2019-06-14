@@ -4,7 +4,7 @@ export interface IAPIError {
 }
 
 export interface IEncode {
-  algorithm?: "LSB" | "DCT";
+  algorithm?: "LSB" | "JSTEG" | "F5";
   message: string;
   metadata?: {};
   imageData: string;

@@ -8,44 +8,44 @@ import {
   InvalidImageError,
   MessageTooLongError
 } from "../exceptions";
-import { DecodeDCT, EncodeDCT } from "./DCT";
+import { DecodeF5, EncodeF5 } from "./F5";
+import { DecodeJSTEG, EncodeJSTEG } from "./JSTEG";
 import { DecodeLSB, EncodeLSB } from "./LSB";
 
 type AlgorithmNames = IEncode["algorithm"];
 
 interface IMetaData {
-  [name: string]: number;
+  [name: string]: number | string;
 }
 
 interface IAlgorithms {
   [name: number]: AlgorithmNames;
 }
-const numToAlgorithmTypes: IAlgorithms = {
-  0: "LSB",
-  1: "DCT"
-};
-
-const algorithmsTypesToNum = (algorithm = "LSB") => {
-  const values = Object.values(numToAlgorithmTypes);
-  return values.find(item => item === algorithm);
-};
 
 export default class Steganography {
   /** Image pixel data as an array from (values of 0 - 255, or 1 byte) and as `RGBA`. */
   private readonly imageData: string;
   /** Image width in pixels. */
-  private width = 0;
+  private width: number;
   /** Image height in pixels. */
-  private height = 0;
+  private height: number;
+
+  private numToAlgorithmTypes: IAlgorithms = {
+    0: "LSB",
+    1: "JSTEG",
+    2: "F5"
+  };
 
   constructor(imageData: string) {
     this.imageData = imageData;
+    this.width = 0;
+    this.height = 0;
+
     const img = new Image();
     img.onload = () => {
       this.width = img.naturalWidth;
       this.height = img.naturalHeight;
     };
-
     img.src = this.imageData;
   }
 
@@ -72,16 +72,16 @@ export default class Steganography {
     metadata?: IMetaData
   ) => {
     try {
-      const pixelData = this.getImageData();
+      const imageData = this.getImageData();
       const binaryMessage = this.convertMessageToBits(message);
-      const newPixelData = this.encodeData(
-        pixelData,
+      const newImageData = this.encodeData(
+        imageData,
         binaryMessage,
         algorithm,
         metadata
       );
       const dataURL = this.getNewBase64Image(
-        new Uint8ClampedArray(newPixelData)
+        new Uint8ClampedArray(newImageData)
       );
       return dataURL;
     } catch (error) {
@@ -105,8 +105,8 @@ export default class Steganography {
    */
   public decode = () => {
     try {
-      const pixelData = this.getImageData();
-      const unicode = this.decodeData(pixelData);
+      const imageData = this.getImageData();
+      const unicode = this.decodeData(imageData);
       const message = arrayToString(unicode);
       return message;
     } catch (error) {
@@ -172,23 +172,6 @@ export default class Steganography {
   };
 
   /**
-   * Converts image data (Uint8ClampedArray) into a base64 string.
-   *
-   * @param data: The image data, to convert to base64.
-   *
-   * @return The new image as base64 string.
-   */
-  private getNewBase64Image = (data: Uint8ClampedArray) => {
-    const canvas = createCanvas(this.width, this.height);
-    const ctx = canvas.getContext("2d", { alpha: false });
-    const imageData = createImageData(data, this.width, this.height);
-    ctx.putImageData(imageData, 0, 0);
-
-    const base64Image = canvas.toDataURL("image/png");
-    return base64Image;
-  };
-
-  /**
    * Encodes the data based on the selected algorithm.
    *
    * @param imageData: An array where numbers range from 0 - 255 (1 byte). In the order of Red \
@@ -209,20 +192,100 @@ export default class Steganography {
     algorithm: AlgorithmNames,
     metadata?: IMetaData
   ) => {
-    const newPixelData = this.encodeMetadata(imageData, algorithm, metadata);
+    metadata = this.setDefaultMetaData(metadata ? metadata : {}, algorithm);
+    const { newImageData, startEncodingAt } = this.encodeMetadata(
+      imageData,
+      metadata
+    );
     let encodedData;
 
     switch (algorithm) {
-      case "DCT":
-        encodedData = new EncodeDCT(
-          metadata !== undefined ? metadata.limit : 15
-        ).encode(newPixelData, this.width, this.height, data, 1);
+      case "JSTEG": {
+        encodedData = new EncodeJSTEG().encode(
+          newImageData,
+          this.width,
+          this.height,
+          data,
+          startEncodingAt + 1
+        );
         break;
-      default:
-        encodedData = new EncodeLSB().encode(newPixelData, data, 1);
+      }
+
+      case "F5": {
+        encodedData = new EncodeF5(
+          metadata.limit as number,
+          metadata.password as string
+        ).encode(
+          newImageData,
+          this.width,
+          this.height,
+          data,
+          startEncodingAt + 1
+        );
+        break;
+      }
+
+      default: {
+        encodedData = new EncodeLSB().encode(
+          newImageData,
+          data,
+          startEncodingAt
+        );
+      }
     }
 
     return encodedData;
+  };
+
+  /**
+   * If metadata is not set defines some default values for the metadata i.e. 15 for limit.
+   *
+   * @param metadata: Metadata for the encoding algorithm i.e. limit for DCT.
+   *
+   * @param algorithm: The algorithm to encode the data with.
+   *
+   * @return The metadata filled in with default values (if required)
+   */
+  private setDefaultMetaData = (
+    metadata: IMetaData,
+    algorithm: AlgorithmNames
+  ) => {
+    const algorithmNum = this.algorithmsTypesToNum(algorithm);
+    metadata.algorithm = algorithmNum;
+
+    switch (algorithm) {
+      case "JSTEG": {
+        const limit = (metadata.limit ? metadata.limit : 15) as number;
+        metadata.limit = limit;
+        break;
+      }
+
+      case "F5": {
+        const limit = (metadata.limit ? metadata.limit : 15) as number;
+        const password = (metadata.password
+          ? metadata.password
+          : Math.random()
+              .toString(36)
+              .substring(2, 10)) as string;
+        metadata.limit = limit;
+        metadata.password = password;
+        break;
+      }
+    }
+
+    return metadata;
+  };
+
+  /**
+   * Converts an algorithm type to a decimal number representing that algorithm, i.e. 0 for LSB.
+   *
+   * @param algorithm: The algorithm to decode/encode the data with.
+   *
+   * @return The algorithm as a decimal integer.
+   */
+  private algorithmsTypesToNum = (algorithm = "LSB") => {
+    const values = Object.values(this.numToAlgorithmTypes);
+    return values.indexOf(algorithm);
   };
 
   /**
@@ -239,32 +302,61 @@ export default class Steganography {
    *
    * @return The image data with the metadata encoded in the image data.
    */
-  private encodeMetadata(
+  private encodeMetadata = (
     imageData: Uint8ClampedArray,
-    algorithm: AlgorithmNames,
-    metadata?: IMetaData
-  ) {
-    const algorithmNum = algorithmsTypesToNum(algorithm) || 0;
-    if (metadata === undefined) {
-      metadata = {};
-    }
-    metadata.algorithm = algorithmNum;
+    metadata: IMetaData
+  ) => {
     const metadataToEncode = [];
-    for (const data of Object.values(metadata)) {
-      const varintData = varint.encode(data);
-      metadataToEncode.push(...varintData);
+    const dataToEncode = ["algorithm", "limit", "password"];
+
+    for (const data of dataToEncode) {
+      const tempData = metadata[data];
+      if (!tempData && tempData !== 0) {
+        continue;
+      }
+
+      let decimalDataToEncode;
+      if (typeof tempData === "string") {
+        decimalDataToEncode = stringToArray(tempData) as number[];
+      } else {
+        decimalDataToEncode = varint.encode(tempData);
+      }
+      metadataToEncode.push(...decimalDataToEncode);
     }
 
     let binaryMetadata = "";
     for (const data of metadataToEncode) {
       binaryMetadata += this.convertDecimalToBytes(data);
     }
-    const pixelDataWithMetadata = new EncodeLSB().encode(
+    const imageDataWithMetadata = new EncodeLSB().encode(
       imageData,
       binaryMetadata
     );
-    return pixelDataWithMetadata;
-  }
+
+    let encodedPixels = binaryMetadata.length;
+    encodedPixels += Math.floor(encodedPixels / 4);
+    return {
+      newImageData: imageDataWithMetadata,
+      startEncodingAt: encodedPixels
+    };
+  };
+
+  /**
+   * Converts image data (Uint8ClampedArray) into a base64 string.
+   *
+   * @param data: The image data, to convert to base64.
+   *
+   * @return The new image as base64 string.
+   */
+  private getNewBase64Image = (data: Uint8ClampedArray) => {
+    const canvas = createCanvas(this.width, this.height);
+    const ctx = canvas.getContext("2d", { alpha: false });
+    const imageData = createImageData(data, this.width, this.height);
+    ctx.putImageData(imageData, 0, 0);
+
+    const base64Image = canvas.toDataURL("image/png");
+    return base64Image;
+  };
 
   /**
    * Decodes the a message, from image data based on the select algorithm.
@@ -275,21 +367,32 @@ export default class Steganography {
    * @return The decoded message, as a string.
    */
   private decodeData = (imageData: Uint8ClampedArray) => {
-    let decodedMessage;
-    const { algorithm, metadata } = this.decodeMetadata(imageData);
+    const { algorithm, metadata, startDecodingAt } = this.decodeMetadata(
+      imageData
+    );
 
+    let decodedMessage;
     switch (algorithm) {
-      case "DCT":
-        const starting = Math.ceil(Math.log2(metadata.limit) / 3);
-        decodedMessage = new DecodeDCT(metadata.limit).decode(
+      case "JSTEG": {
+        decodedMessage = new DecodeJSTEG(metadata.limit as number).decode(
           imageData,
           this.width,
-          this.height,
-          starting
+          this.height
         );
         break;
-      default:
-        decodedMessage = new DecodeLSB().decode(imageData, 1);
+      }
+
+      case "F5": {
+        decodedMessage = new DecodeF5(
+          metadata.limit as number,
+          metadata.password as string
+        ).decode(imageData, this.width, this.height);
+        break;
+      }
+
+      default: {
+        decodedMessage = new DecodeLSB().decode(imageData, startDecodingAt);
+      }
     }
 
     return decodedMessage;
@@ -304,18 +407,38 @@ export default class Steganography {
    * @return The encoding algorithm and metadata for that algorithm.
    */
   private decodeMetadata = (imageData: Uint8ClampedArray) => {
-    const binaryMetadata = new DecodeLSB().getNextLSBByte(imageData);
-    const algorithmNum = this.convertBytesToDecimal(binaryMetadata);
-    const algorithm = numToAlgorithmTypes[algorithmNum] || "LSB";
+    const decodeLSB = new DecodeLSB();
+    const algorithmTypeBinary = decodeLSB.getNextLSBByte(imageData);
+    const algorithmNum = this.convertBytesToDecimal(algorithmTypeBinary);
+    const algorithm = this.numToAlgorithmTypes[algorithmNum] || "LSB";
     const metadata: IMetaData = {};
 
     switch (algorithm) {
-      case "DCT":
-        const limit = new DecodeLSB().decodeVarint(imageData.subarray(0, 10));
+      case "JSTEG": {
+        const limit = decodeLSB.decodeVarint(imageData);
         metadata.limit = varint.decode(limit);
         break;
+      }
+
+      case "F5": {
+        const limit = decodeLSB.decodeVarint(imageData);
+        const password: string[] = [];
+        for (let i = 0; i < 8; i += 1) {
+          const asciiByte = decodeLSB.getNextLSBByte(imageData);
+          password.push(asciiByte);
+        }
+        metadata.limit = varint.decode(limit);
+        metadata.password = arrayToString(password);
+        break;
+      }
     }
-    return { algorithm, metadata };
+
+    const startDecodingAt = decodeLSB.getCurrentIndex();
+    return {
+      algorithm,
+      metadata,
+      startDecodingAt
+    };
   };
 
   /**

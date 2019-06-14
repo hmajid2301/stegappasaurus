@@ -1,4 +1,4 @@
-export type AlgorithmNames = "LSB" | "DCT";
+export type AlgorithmNames = "LSB" | "JSteg" | "F5";
 export type BackgroundColors = "000" | "#FFF";
 export type ThemeColors = "#17212D" | "#FFF";
 export type PrimaryColor = "#009CFF" | "#E88C0C";

@@ -4,7 +4,7 @@ import data from "../data";
 
 test.each(data)("EncodeLSB", ({ binaryMessage, image, encoded }) => {
   const imageData = (new Steganography(image) as any).getImageData();
-  const newImageData = new EncodeLSB().encode(imageData, binaryMessage);
+  const newImageData = new EncodeLSB().encode(imageData, binaryMessage, 10);
   const imageDataSubset = Array.from(
     newImageData.subarray(0, encoded.LSB.length)
   );

@@ -1,13 +1,14 @@
 import { convertDCTToImageData, convertImageDataToDCT } from "./DCT";
 
-export default class EncodeDCT {
+export default class EncodeJSTEG {
   /** The current index to get the next bit from to encode. */
-  private dctIndex = 0;
+  private dctIndex: number;
   /** The DCT limit used for encoding, the higher the limit the more resistant to compression. */
   private readonly limit: number;
 
   constructor(limit = 15) {
     this.limit = limit;
+    this.dctIndex = 0;
   }
 
   /**
@@ -26,7 +27,7 @@ export default class EncodeDCT {
    *
    * @param binaryMessage: The message to encode, in binary (0 or 1).
    *
-   * @param startByte: Byte to start encoding at.
+   * @param startEncodingAt: Index to start encoding at.
    *
    * @return The encoded image data (as a Uint8ClampedArray).
    */
@@ -35,15 +36,15 @@ export default class EncodeDCT {
     width: number,
     height: number,
     binaryMessage: string,
-    startByte = 0
+    startEncodingAt = 0
   ) => {
-    const start = startByte * 8 + startByte * 2;
+    this.dctIndex = 0;
     const dctData = convertImageDataToDCT(imageData, width, height);
     const encodedDCTData = this.encodeDCT(dctData, binaryMessage);
     const newImageData = convertDCTToImageData(encodedDCTData, width, height);
     return new Uint8ClampedArray([
-      ...imageData.slice(0, start),
-      ...newImageData.slice(start)
+      ...imageData.subarray(0, startEncodingAt),
+      ...newImageData.subarray(startEncodingAt)
     ]);
   };
 
@@ -86,9 +87,9 @@ export default class EncodeDCT {
     let newValue = tmp * this.limit;
 
     if (bit === "1" && tmp % 2 === 0) {
-      newValue = (tmp + 1) * this.limit;
+      newValue += this.limit;
     } else if (bit === "0" && tmp % 2 === 1) {
-      newValue = (tmp - 1) * this.limit;
+      newValue -= this.limit;
     }
 
     return newValue;

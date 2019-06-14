@@ -2,7 +2,11 @@ import varint from "varint";
 
 export default class DecodeLSB {
   /** The index to start decoding the next byte from. */
-  private pixelIndex = 0;
+  private pixelIndex: number;
+
+  constructor() {
+    this.pixelIndex = 0;
+  }
 
   /**
    * Acts a main function decodes binary message from image data. **Note**: alpha channel is
@@ -14,10 +18,12 @@ export default class DecodeLSB {
    * @param imageData: An array where numbers range from 0 - 255 (1 byte). In the order of Red \
    * Green Blue Alpha (repeating), like output from `canvas.getImageData()`.
    *
+   * @param startDecodingAt: Index to start decoding at.
+   *
    * @return The decoded binary message as a string.
    */
-  public decode = (imageData: Uint8ClampedArray, startByte = 0) => {
-    this.pixelIndex = startByte * 8 + startByte * 2;
+  public decode = (imageData: Uint8ClampedArray, startDecodingAt = 0) => {
+    this.pixelIndex = startDecodingAt;
     const messageLength = this.getMessageLength(imageData);
     const binaryMessage: string[] = [];
 
@@ -28,6 +34,20 @@ export default class DecodeLSB {
     return binaryMessage;
   };
 
+  public decodeVarint(imageData: Uint8ClampedArray) {
+    let completed = false;
+    const messageVarint: number[] = [];
+    while (!completed) {
+      const byte = this.getNextLSBByte(imageData);
+      const num = parseInt(byte, 2);
+      messageVarint.push(num);
+      if (messageVarint.slice(-1)[0] < 128) {
+        completed = true;
+      }
+    }
+    return messageVarint;
+  }
+
   /**
    * Gets the next byte of encoded data, since everything is encoded as ASCII strings. This will
    * be one character. So for example `u` would be `117` in decimal and the returned byte would
@@ -36,7 +56,7 @@ export default class DecodeLSB {
    * @param imageData: An array where numbers range from 0 - 255 (1 byte). In the order of Red \
    * Green Blue Alpha (repeating), like output from `canvas.getImageData()`.
    *
-   * @return The decoded byte.
+   * @return The decoded (next) byte.
    */
   public getNextLSBByte = (imageData: Uint8ClampedArray) => {
     let byte = "";
@@ -57,19 +77,14 @@ export default class DecodeLSB {
     return byte;
   };
 
-  public decodeVarint(imageData: Uint8ClampedArray) {
-    let completed = false;
-    const messageVarint: number[] = [];
-    while (!completed) {
-      const byte = this.getNextLSBByte(imageData);
-      const num = parseInt(byte, 2);
-      messageVarint.push(num);
-      if (messageVarint.slice(-1)[0] < 128) {
-        completed = true;
-      }
-    }
-    return messageVarint;
-  }
+  /**
+   * Gets the index of the next pixel we will decode.
+   *
+   * @return The index of the next pixel to decode.
+   */
+  public getCurrentIndex = () => {
+    return this.pixelIndex;
+  };
 
   /**
    * Gets the message length at the front of the image data (top left data). It will stop looking
