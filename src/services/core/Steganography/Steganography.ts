@@ -1,4 +1,5 @@
 import { createCanvas, createImageData, Image } from "canvas";
+import lz from "lzutf8";
 import { arrayToString, stringToArray } from "utf8-to-bytes";
 import varint from "varint";
 
@@ -106,8 +107,8 @@ export default class Steganography {
   public decode = () => {
     try {
       const imageData = this.getImageData();
-      const unicode = this.decodeData(imageData);
-      const message = arrayToString(unicode);
+      const decodedDecimalData = this.decodeData(imageData);
+      const message = lz.decompress(decodedDecimalData);
       return message;
     } catch (error) {
       if (error instanceof RangeError) {
@@ -134,9 +135,9 @@ export default class Steganography {
    * @return A binary string (the data to encode).
    */
   private convertMessageToBits = (message: string) => {
-    const arrayMessage = stringToArray(message) as number[];
-    const messageLength = varint.encode(arrayMessage.length);
-    const arrayToEncode = [...messageLength, ...arrayMessage];
+    const compressedMessage = lz.compress(message);
+    const messageLength = varint.encode(compressedMessage.length);
+    const arrayToEncode = [...messageLength, ...compressedMessage];
 
     let bitsToEncode: string = "";
     for (const element of arrayToEncode) {
@@ -364,7 +365,7 @@ export default class Steganography {
    * @param imageData: An array where numbers range from 0 - 255 (1 byte). In the order of Red \
    * Green Blue Alpha (repeating), like output from `canvas.getImageData()`.
    *
-   * @return The decoded message, as a string.
+   * @return The decoded message, as a uint8 array (utf8).
    */
   private decodeData = (imageData: Uint8ClampedArray) => {
     const { algorithm, metadata, startDecodingAt } = this.decodeMetadata(
@@ -395,7 +396,13 @@ export default class Steganography {
       }
     }
 
-    return decodedMessage;
+    const decodedDecimal: number[] = [];
+    for (const byte of decodedMessage) {
+      const decimal = this.convertBytesToDecimal(byte);
+      decodedDecimal.push(decimal);
+    }
+
+    return new Uint8Array(decodedDecimal);
   };
 
   /**
