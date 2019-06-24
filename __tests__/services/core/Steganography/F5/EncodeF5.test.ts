@@ -19,6 +19,5 @@ test.each(data)("EncodeF5", ({ binaryMessage, image, encoded }) => {
     newImageData.subarray(0, encoded.F5.length)
   );
 
-  // const d = steg.getNewBase64Image(newImageData);
   expect(imageDataSubset).toEqual(encoded.F5.data);
 });

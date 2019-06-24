@@ -1,5 +1,10 @@
 export interface IAPIError {
-  code: "MessageTooLong" | "InvalidImage" | "ImageNotEncoded" | "ServerError";
+  code:
+    | "MessageTooLong"
+    | "InvalidImage"
+    | "ImageNotEncoded"
+    | "ServerError"
+    | "ImageTooSmall";
   message: string;
 }
 

@@ -11,7 +11,9 @@
     "jsx-no-lambda": false,
     "jsx-boolean-value": false,
     "no-var-requires": false,
-    "no-console": ["error"]
+    "no-console": [
+      "error"
+    ]
   },
   "rulesDirectory": []
 }

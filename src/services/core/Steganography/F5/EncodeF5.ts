@@ -71,63 +71,97 @@ export default class EncodeF5 {
    */
   private encodeF5 = (dctData: number[][][], binaryMessage: string) => {
     const rng = generator.create(this.password);
-    const maxRandRange = dctData.length * 3;
+    const maxRandRange = dctData.length;
+    const encodedData = dctData;
 
-    for (const bit of binaryMessage) {
+    for (let i = 0; i < binaryMessage.length; i += 2) {
       let randomBit;
-      let index;
-      let component;
       let data;
 
       do {
-        do {
-          randomBit = rng(maxRandRange);
-        } while (this.encodedBits.includes(randomBit));
-
-        index = Math.floor(randomBit / 3);
-        component = randomBit % 3;
-        data = dctData[index][0][component];
-      } while (data === 0);
-
-      const pixelData = this.getNewPixelData(data, bit);
-      dctData[index][0][component] = pixelData;
+        randomBit = rng(maxRandRange);
+      } while (this.encodedBits.includes(randomBit));
       this.encodedBits.push(randomBit);
+
+      data = encodedData[randomBit][0];
+      const bits = binaryMessage.slice(i, i + 2);
+      const newData = this.getNewPixelData(data, bits);
+      encodedData[randomBit][0] = newData;
     }
 
-    return dctData;
+    return encodedData;
   };
 
   /**
    * Encodes a bit into a DCT coefficient, using the limit. The higher the limit the more resilient
    * the image will be to compression however the more compressed the image will look.
    *
-   * If DCT Coefficient > 0 then we use normal LSB to encode the coefficient. Else if it's < 0
-   * then we use reverse LSB, again as per the algorithm definition.
+   * This uses matrix encoding, we split the image into 3 (LSB) dct coefficients so essentially for
+   * each pixel (as each pixel has three components). Matrix encoding we XOR the first and last and
+   * the second and last value, so we have two bits. We then try to encode two bits at a time
+   *
+   * Example:
+   *
+   * DCT Limit: `15`
+   * DCT Coefficients: `[90 0 90]`
+   * LSB: `[90/15 % 2, 0/15 % 2, 90/15 % 2]` = `[0 0 0]`
+   * x1 = `0 XOR 0 = 0`
+   * x2 = `0 XOR 0 = 0`
+   *
+   * so x1,x2 = "00"
+   * Bits to encode: "10"
+   *
+   * So then we can change LSB to `[1 0 0]`, so we would add the limit,
+   * DCT Coefficients: `[105 15 90]`
+   *
+   *
+   * **Note:** http://www.computing.surrey.ac.uk/teaching/2006-07/csm25/Chapter6/jsteg-h.pdf
+   *
+   * @param data: The data to encode (one pixel), three DCT coefficients.
+   *
+   * @param bits: The (two) bits to encode.
+   *
+   * @return The encoded DCT coefficients.
+   */
+  private getNewPixelData = (data: number[], bits: string) => {
+    const lsbData = data.map(num => {
+      return "" + (Math.floor(num / this.limit) % 2);
+    });
+
+    const x1 = lsbData[0] === lsbData[2] ? "0" : "1";
+    const x2 = lsbData[1] === lsbData[2] ? "0" : "1";
+
+    if (x1 !== bits[0]) {
+      if (x2 === bits[1]) {
+        data[0] = this.encodeBit(data[0], lsbData[0]);
+      } else {
+        data[2] = this.encodeBit(data[2], lsbData[2]);
+      }
+    } else if (x2 !== bits[1]) {
+      data[1] = this.encodeBit(data[1], lsbData[1]);
+    }
+
+    return data;
+  };
+
+  /**
+   * Encodes the data depending on the bit value (changes LSB). If the (current) bit value is 0
+   * then we encode a 1 (by adding the limit). Else if the bit value is 1 then we subtract the
+   * limit.
    *
    * @param data: The data to encode.
    *
-   * @param bit: The bit to encode into the coefficient (1 or 0).
+   * @param bitValue: The bit to encode into the coefficient (1 or 0).
    *
-   * @return The encoded DCT coefficient.
+   * @return The encoded data.
    */
-  private getNewPixelData = (data: number, bit: string) => {
-    const tmp = Math.floor(data / this.limit);
-    let newValue = tmp * this.limit;
-
-    if (data >= 0) {
-      if (bit === "1" && tmp % 2 === 0) {
-        newValue += this.limit;
-      } else if (bit === "0" && tmp % 2 === 1) {
-        newValue -= this.limit;
-      }
+  private encodeBit = (data: number, bitValue: string) => {
+    if (bitValue === "0") {
+      data += this.limit;
     } else {
-      if (bit === "1" && tmp % 2 === 0) {
-        newValue -= this.limit;
-      } else if (bit === "0" && tmp % 2 === 1) {
-        newValue += this.limit;
-      }
+      data -= this.limit;
     }
 
-    return newValue;
+    return data;
   };
 }

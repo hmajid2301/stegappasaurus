@@ -1,7 +1,11 @@
 import * as express from "express";
 
 import { Steganography } from "../../core";
-import { InvalidImageError, MessageTooLongError } from "../../core/exceptions";
+import {
+  ImageTooSmall,
+  InvalidImageError,
+  MessageTooLongError
+} from "../../core/exceptions";
 import { IAPIError, IEncode, IEncodingSuccess } from "../../web/models";
 
 /**
@@ -37,9 +41,11 @@ export default async (request: express.Request, response: express.Response) => {
     let errorMessage = error.message;
     console.error(error, request);
 
-    if (error instanceof MessageTooLongError) {
-      status = 400;
-    } else if (error instanceof InvalidImageError) {
+    if (
+      error instanceof MessageTooLongError ||
+      error instanceof InvalidImageError ||
+      error instanceof ImageTooSmall
+    ) {
       status = 400;
     } else {
       status = 500;

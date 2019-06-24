@@ -54,7 +54,7 @@ export default class DecodeF5 {
     height: number
   ) => {
     const dctData = convertImageDataToDCT(imageData, width, height);
-    this.maximumIndex = dctData.length * 3;
+    this.maximumIndex = dctData.length;
     this.rng = generator.create(this.password);
     const messageLength = this.getMessageLength(dctData);
     const binaryMessage: string[] = [];
@@ -105,23 +105,16 @@ export default class DecodeF5 {
   private getNextByte = (dctData: number[][][]) => {
     let byte = "";
     let randomBit;
-    let index;
-    let component;
     let data;
 
-    for (let i = 0; i < 8; i += 1) {
+    for (let i = 0; i < 8; i += 2) {
       do {
-        do {
-          randomBit = this.rng(this.maximumIndex);
-        } while (this.decodedBits.includes(randomBit));
+        randomBit = this.rng(this.maximumIndex);
+      } while (this.decodedBits.includes(randomBit));
 
-        index = Math.floor(randomBit / 3);
-        component = randomBit % 3;
-        data = dctData[index][0][component];
-      } while (data === 0);
+      data = dctData[randomBit][0];
 
-      const bit = this.getBitValue(data);
-      byte += bit;
+      byte += this.getBits(data);
       this.decodedBits.push(randomBit);
     }
 
@@ -129,26 +122,33 @@ export default class DecodeF5 {
   };
 
   /**
-   * Gets the encoded bit from the data. Either "0" or "1". If the coefficient is > 0 use
-   * normal LSB, else if it's < 0 use reverse LSB, as per the definition of the algorithm.
+   * Gets the encoded bit from the data. Two bits are encoded per every three
+   * DCT Coefficients (for each pixel). Since they are encoded using matrix encoding.
+   * You can decode by getting the LSB of all three then XOR, 1st and 3rd element and
+   * 2nd and 3rd element to get the two bits.
+   *
+   * Example::
+   *
+   * DCT Coefficients: `[105 15 90]`
+   * LSB: `[105/15 % 2, 15/15 % 2, 90 % 2] = [1 0 0]`
+   * x1 = `0 XOR 1 = 1`
+   * x2 = `0 XOR 0 = 0`
+   *
+   * So we decoded bits are `10`.
    *
    * @param data: The DCT coefficient to decode (retrieve LSB from).
    *
-   * @return The encoded bit from the data ("0" or "1").
+   * @return The encoded bits from the data (binary).
    */
-  private getBitValue = (data: number) => {
-    const value = Math.round(data / this.limit);
-    let bitValue = "0";
-    if (value >= 0) {
-      if (value % 2 === 1) {
-        bitValue = "1";
-      }
-    } else {
-      if (value % 2 === 0) {
-        bitValue = "1";
-      }
-    }
+  private getBits = (data: number[]) => {
+    const limitedData = data.map(num => {
+      return Math.floor(num / this.limit) % 2;
+    });
 
-    return bitValue;
+    const x1 = limitedData[0] === limitedData[2] ? "0" : "1";
+    const x2 = limitedData[1] === limitedData[2] ? "0" : "1";
+    const bits = x1 + x2;
+
+    return bits;
   };
 }

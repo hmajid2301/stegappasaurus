@@ -1,7 +1,11 @@
 import * as express from "express";
 
 import { Steganography } from "../../core";
-import { ImageNotEncodedError, InvalidImageError } from "../../core/exceptions";
+import {
+  ImageNotEncodedError,
+  ImageTooSmall,
+  InvalidImageError
+} from "../../core/exceptions";
 import { IAPIError, IDecode, IDecodingSuccess } from "../../web/models";
 
 /**
@@ -27,9 +31,11 @@ export default (request: express.Request, response: express.Response) => {
     let errorMessage;
     console.error(error, request);
 
-    if (error instanceof ImageNotEncodedError) {
-      status = 400;
-    } else if (error instanceof InvalidImageError) {
+    if (
+      error instanceof ImageNotEncodedError ||
+      error instanceof InvalidImageError ||
+      error instanceof ImageTooSmall
+    ) {
       status = 400;
     } else {
       status = 500;
