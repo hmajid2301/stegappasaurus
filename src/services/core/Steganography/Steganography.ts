@@ -5,6 +5,7 @@ import varint from "varint";
 
 import { IEncode } from "../../web/models";
 import {
+  ImageTooSmall,
   ImageNotEncodedError,
   InvalidImageError,
   MessageTooLongError
@@ -48,6 +49,13 @@ export default class Steganography {
       this.height = img.naturalHeight;
     };
     img.src = this.imageData;
+
+    if (this.width < 64 || this.height < 64) {
+      throw new ImageTooSmall(
+        "Image too small to encode, image must be at least 64 by 64 pixels.",
+        imageData
+      );
+    }
   }
 
   /**
