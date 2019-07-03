@@ -4,8 +4,8 @@
 
 Three main ways to contribute to this project are;
 
-- **Adding a new feature:** Adding a new feature to the project i.e. encoding into audio files
-- **Improving a feature:** Extend/improve an existing feature, such as a new algorithm for image encoding
+- **Adding a new feature:** Adding a new feature to the project, such as allow encoding of audio files alongside images
+- **Improving a feature:** Extend/improve an existing feature, such as a small UI change
 - **Fix a bug:** We have a list of [issues](https://github.com/hmajid2301/Stegappasaurus/issues), or you can fix your own bug
 
 ## Commit Message

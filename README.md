@@ -7,63 +7,61 @@
 ![logo](src/assets/images/logo-dark.png)
 
 This is a mobile app made with React Native. The app allows user to encode and decode messages within images using
-Steganography. This is a rewrite of my dissertation project, written in my third year of university.
+Steganography.
 
-## Getting Started
+# Getting Started
 
 To setup the development environment on your own machine, you can the following instructions to get setup.
 To test the app you don't need to have an Firebase. But if you want to test the app
 properly you may need to set these up.
 
-### Prerequisites
+## Prerequisites
 
 - yarn/npm
 - Firebase Account
 
-### Installation
+## Installation
 
 ```bash
 git clone https://github.com/hmajid2301/stegappasaurus.git
 cd stegappasaurus
 touch .env
-yarn
-yarn android
+yarn install
+yarn run android
 ```
 
-#### Example `.env` file
+### Example `.env` file
 
 `.env` file should have the following variables defined
 
 ```bash
-# IP of Android Device
+# **Optional** IP of Android Device (only used in docker container)
 ADB_IP=192.168.112.101
-# IP of host device where react native is running
+# **Optional** IP of host device where react native is running (only used in docker container)
 REACT_NATIVE_PACKAGER_HOSTNAME=192.168.27.1
-# API to `thecatapi`, https://thecatapi.com/
+# API Key for the `thecatapi`
 CAT_API_KEY=xxx
-# Firebase API Key, https://stackoverflow.com/questions/13863297/firebase-what-is-the-api-key/37995239
-FIREBASE_API_KEY=xxx
-# Firebase URL to make API requests
-FIREBASE_API_URL=https://us-central1-stegappasaurus.cloudfunctions.net/api
 ```
 
-## Technologies
+# Technologies
 
-- React Native
-- TypeScript
-- Redux
-- Firebase
-- Express
-- Openapi
+Some different technologies/libraries/frameworks that were used in this project (in general order of important) include;
 
-## Other
+- [React Native]()
+- [TypeScript]()
+- [Redux]()
+- [Firebase]()
+- [Openapi]()
+- [Docker]()
 
-### Credit
+# Other
 
-- Design inspired by: [PixelKnot](https://play.google.com/store/apps/details?id=info.guardianproject.pixelknot)
-- JSTEG code inspired by: [zeruniverse](https://github.com/zeruniverse/CryptoStego)
+## Credit
+
+- Design inspired by [PixelKnot](https://play.google.com/store/apps/details?id=info.guardianproject.pixelknot)
+- JSTEG code inspired by [zeruniverse](https://github.com/zeruniverse/CryptoStego)
 - Cat photos from [thecatapi](https://thecatapi.com)
 
-### Licenses
+## Licenses
 
-- Purchased stegosaurus dinosaur logo from [here](https://www.iconfinder.com/icons/380124/animal_big_experience_dino_paleontology_reptile_stegosaurus_zababa_icon#size=512)
+- Purchased stegosaurus dinosaur logo from [iconfinder](https://www.iconfinder.com/icons/380124/animal_big_experience_dino_paleontology_reptile_stegosaurus_zababa_icon#size=512)

@@ -1,32 +1,20 @@
-import { ApiResponse, create } from "apisauce";
 import * as FileSystem from "expo-file-system";
 import * as React from "react";
-import { Image, View } from "react-native";
-import Config from "react-native-config";
+import { View } from "react-native";
+import firebase, { RNFirebase } from "react-native-firebase";
 import { NavigationScreenProp } from "react-navigation";
-import { connect } from "react-redux";
-import { Dispatch } from "redux";
 
-import { AlgorithmNames, ITheme, PrimaryColor } from "@types";
+import { ITheme, PrimaryColor } from "@types";
 import ImageProgress from "~/components/ImageProgress";
 import Snackbar from "~/components/Snackbar";
 import { colors } from "~/constants";
-import { selectAlgorithm } from "~/redux/actions";
-import { IReducerState as IReducerFireBase } from "~/redux/reducers/FirebaseToken";
-import { IReducerState as IReducerSelectAlgorithm } from "~/redux/reducers/SelectAlgorithm";
-import { IAPIError, IDecodingSuccess } from "~/services/web/models";
-
-type Decoding = IDecodingSuccess | IAPIError;
-
-interface IReducerState extends IReducerSelectAlgorithm, IReducerFireBase {}
+import { IDecodingSuccess } from "~/services/models";
 
 interface IProps {
-  algorithm: AlgorithmNames;
   navigation: NavigationScreenProp<any, any>;
   screenProps: {
     theme: ITheme;
   };
-  token: string;
 }
 
 interface IState {
@@ -35,7 +23,7 @@ interface IState {
   photo: string;
 }
 
-class Progress extends React.Component<IProps, IState> {
+export default class Progress extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     const { navigation } = props;
@@ -67,59 +55,39 @@ class Progress extends React.Component<IProps, IState> {
     let base64Image = await FileSystem.readAsStringAsync(this.state.photo, {
       encoding: FileSystem.EncodingType.Base64
     });
-    let mimeType = "image/jpeg";
-    if (this.props.algorithm === "LSB") {
-      mimeType = "image/png";
-    }
 
-    base64Image = `data:${mimeType};base64,${base64Image}`;
+    base64Image = `data:image/png;base64,${base64Image}`;
     await this.callDecodeAPI(base64Image);
   };
 
   private callDecodeAPI = async (base64Image: string) => {
-    await Image.getSize(
-      this.state.photo,
-      async (width, height) => {
-        const api = create({
-          baseURL: Config.FIREBASE_API_URL,
-          headers: { Authorization: `Bearer ${this.props.token}` }
-        });
-        const response = await api.post("/decode", {
-          imageData: {
-            base64Image,
-            height,
-            width
-          }
-        });
-        this.handleResponse(response);
-      },
-      () => null
-    );
-  };
+    const instance = firebase.functions().httpsCallable("decode");
 
-  private handleResponse = (response: ApiResponse<{}>) => {
-    if (response.data !== undefined) {
-      const data = response.data as Decoding;
-      const status = response.status;
-
-      if (status === 200 && this.isSuccess(data)) {
-        this.setState({ message: data.decoded, decoding: false });
-        this.decoded();
-      } else {
-        Snackbar.show({
-          text:
-            "Failed to decode photo, please check you have an internet connection."
-        });
-        this.props.navigation.goBack();
-      }
+    try {
+      const response = await instance({
+        imageData: `data:image/png;base64,${base64Image}`
+      });
+      await this.successfulResponse(response);
+    } catch (error) {
+      this.failedResponse();
+      console.error(error);
     }
   };
 
-  private isSuccess = (data: Decoding): data is IDecodingSuccess => {
-    if ((data as IDecodingSuccess).decoded) {
-      return true;
-    }
-    return false;
+  private successfulResponse = async (
+    response: RNFirebase.functions.HttpsCallableResult<IDecodingSuccess>
+  ) => {
+    const data = response.data;
+    this.setState({ message: data.decoded, decoding: false });
+    this.decoded();
+  };
+
+  private failedResponse = () => {
+    Snackbar.show({
+      text:
+        "Failed to decode photo, please check you have an internet connection."
+    });
+    this.props.navigation.goBack();
   };
 
   private decoded = () => {
@@ -129,18 +97,3 @@ class Progress extends React.Component<IProps, IState> {
     });
   };
 }
-
-const mapStateToProps = (state: IReducerState) => ({
-  algorithm: state.SelectAlgorithm.algorithm,
-  token: state.FirebaseToken.token
-});
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  selectAlgorithm: (algorithm: AlgorithmNames) =>
-    dispatch(selectAlgorithm({ algorithm }))
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Progress);

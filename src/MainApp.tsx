@@ -1,21 +1,15 @@
 import * as Location from "expo-location";
 import * as Permissions from "expo-permissions";
-import { auth, initializeApp } from "firebase";
 import moment from "moment";
 import * as React from "react";
 import { AppState, AsyncStorage, StatusBar } from "react-native";
-import Config from "react-native-config";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import { getSunrise, getSunset } from "sunrise-sunset-js";
 
 import { ITheme, PossibleAppStates } from "@types";
 import Snackbar from "~/components/Snackbar";
-import {
-  firebaseToken,
-  toggleAutomaticTheme,
-  toggleDarkTheme
-} from "~/redux/actions";
+import { toggleAutomaticTheme, toggleDarkTheme } from "~/redux/actions";
 import { IReducerState as IReducerAutomaticTheme } from "~/redux/reducers/ToggleAutomaticTheme";
 import { IReducerState as IReducerDarkTheme } from "~/redux/reducers/ToggleDarkTheme";
 import App from "./views/Routes";
@@ -24,7 +18,6 @@ interface IReducerState extends IReducerAutomaticTheme, IReducerDarkTheme {}
 
 interface IProps {
   isAutomatic: boolean;
-  firebaseToken: (token: string) => void;
   toggleAutomaticTheme: (isAutomatic: boolean) => void;
   toggleDarkTheme: (isDark: boolean) => void;
   theme: ITheme;
@@ -43,22 +36,6 @@ class MainApp extends React.Component<IProps, {}> {
 
   public componentWillMount = async () => {
     StatusBar.setHidden(true);
-    const firebaseConfig = {
-      apiKey: Config.FIREBASE_API_KEY,
-      authDomain: "stegappasaurus.firebaseapp.com",
-      databaseURL: "https://stegappasaurus.firebaseio.com",
-      storageBucket: "stegappasaurus.appspot.com"
-    };
-
-    initializeApp(firebaseConfig);
-    await auth().signInAnonymously();
-
-    let token;
-    auth().onAuthStateChanged(async user => {
-      if (user !== null) {
-        token = await user.getIdToken();
-      }
-    });
   };
 
   public componentDidMount = async () => {
@@ -167,7 +144,6 @@ const mapStateToProps = (state: IReducerState) => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  firebaseToken: (token: string) => dispatch(firebaseToken({ token })),
   toggleAutomaticTheme: (isAutomatic: boolean) =>
     dispatch(toggleAutomaticTheme({ isAutomatic })),
   toggleDarkTheme: (isDark: boolean) => dispatch(toggleDarkTheme({ isDark }))

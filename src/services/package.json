@@ -8,11 +8,9 @@
   },
   "dependencies": {
     "canvas": "2.4.1",
-    "express": "4.16.4",
-    "express-openapi-validator": "0.30.0",
-    "firebase-admin": "7.0.0",
-    "firebase-functions": "2.2.0",
-    "lzutf8": "^0.5.5",
+    "firebase-admin": "8.2.0",
+    "firebase-functions": "3.0.2",
+    "lzutf8": "0.5.5",
     "random-seed": "0.3.0",
     "utf8-to-bytes": "0.1.0-post1",
     "varint": "5.0.0"

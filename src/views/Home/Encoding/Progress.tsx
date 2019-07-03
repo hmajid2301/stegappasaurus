@@ -1,27 +1,18 @@
-import { ApiResponse, create } from "apisauce";
 import * as FileSystem from "expo-file-system";
 import * as MediaLibrary from "expo-media-library";
-import { storage } from "firebase";
-import { Base64 } from "js-base64";
 import * as React from "react";
-import { Image, Share, View } from "react-native";
-import Config from "react-native-config";
+import { View } from "react-native";
+import firebase, { RNFirebase } from "react-native-firebase";
+import Share from "react-native-share";
 import { NavigationScreenProp } from "react-navigation";
 import { connect } from "react-redux";
-import { Dispatch } from "redux";
 
 import { AlgorithmNames, ITheme, PrimaryColor } from "@types";
 import ImageProgress from "~/components/ImageProgress";
 import Snackbar from "~/components/Snackbar";
 import { colors } from "~/constants";
-import { selectAlgorithm } from "~/redux/actions";
-import { IReducerState as IReducerFireBase } from "~/redux/reducers/FirebaseToken";
-import { IReducerState as IReducerSelectAlgorithm } from "~/redux/reducers/SelectAlgorithm";
-import { IAPIError, IEncodingSuccess } from "~/services/web/models";
-
-type Encoding = IEncodingSuccess | IAPIError;
-
-interface IReducerState extends IReducerSelectAlgorithm, IReducerFireBase {}
+import { IReducerState } from "~/redux/reducers/SelectAlgorithm";
+import { IAPIError, IEncodingSuccess } from "~/services/models";
 
 interface IProps {
   algorithm: AlgorithmNames;
@@ -29,13 +20,13 @@ interface IProps {
   screenProps: {
     theme: ITheme;
   };
-  token: string;
 }
 
 interface IState {
   encoding: boolean;
   filename: string;
   message: string;
+  metadata: any;
   percentage: number;
   photo: string;
 }
@@ -44,19 +35,16 @@ class Progress extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     const { navigation } = props;
-    const uri = navigation.getParam("uri", "NO-ID");
+    const metadata = navigation.getParam("metadata", "NO-ID");
     const message = navigation.getParam("message", "NO-ID");
-
-    let imageExtension = "jpg";
-    if (this.props.algorithm === "LSB") {
-      imageExtension = "png";
-    }
-    const filename = `${new Date().toISOString()}.${imageExtension}`;
+    const uri = navigation.getParam("uri", "NO-ID");
+    const filename = `${new Date().toISOString()}.png`;
 
     this.state = {
       encoding: true,
       filename,
       message,
+      metadata,
       percentage: 0,
       photo: uri
     };
@@ -83,66 +71,55 @@ class Progress extends React.Component<IProps, IState> {
       encoding: FileSystem.EncodingType.Base64
     });
 
-    (global as any).btoa = Base64.btoa;
-    (global as any).atob = Base64.atob;
-    await this.callEncodeAPI(base64Image);
-  };
-
-  private callEncodeAPI = async (base64Image: string) => {
-    await Image.getSize(
-      this.state.photo,
-      async (width, height) => {
-        const api = create({
-          baseURL: Config.FIREBASE_API_URL,
-          headers: { Authorization: `Bearer ${this.props.token}` }
-        });
-        const response = await api.post("/encode", {
-          algorithm: this.props.algorithm,
-          imageData: {
-            base64Image: `data:image/png;base64,${base64Image}`,
-            height,
-            width
-          },
-          message: this.state.message
-        });
-        await this.handleResponse(response);
-      },
-      () => null
+    await this.callEncodeAPI(
+      this.props.algorithm,
+      base64Image,
+      this.state.metadata
     );
   };
 
-  private handleResponse = async (response: ApiResponse<{}>) => {
-    if (response.data !== undefined) {
-      const data = response.data as Encoding;
-      const status = response.status;
-      console.log(response.data);
+  private callEncodeAPI = async (
+    algorithm: AlgorithmNames,
+    base64Image: string,
+    metadata: any
+  ) => {
+    const instance = firebase.functions().httpsCallable("encode");
 
-      if (status === 200 && this.isSuccess(data)) {
-        await this.encoded(data.encoded);
-      } else if (
-        status === 500 &&
-        !this.isSuccess(data) &&
-        data.code === ("MessageTooLong" as IAPIError["code"])
-      ) {
-        Snackbar.show({
-          text: "Message too large to encode in image."
-        });
-        this.props.navigation.goBack();
-      } else {
-        Snackbar.show({
-          text:
-            "Failed to encode photo, please check you have an internet connection."
-        });
-        this.props.navigation.navigate("Main");
-      }
+    try {
+      const response = await instance({
+        algorithm,
+        imageData: `data:image/png;base64,${base64Image}`,
+        message: this.state.message,
+        metadata
+      });
+      await this.successfulResponse(response);
+    } catch (error) {
+      this.failedResponse(error);
+      console.error(error);
     }
   };
 
-  private isSuccess = (data: Encoding): data is IEncodingSuccess => {
-    if ((data as IEncodingSuccess).encoded) {
-      return true;
+  private successfulResponse = async (
+    response: RNFirebase.functions.HttpsCallableResult<IEncodingSuccess>
+  ) => {
+    const data = response.data;
+    console.log(response.data);
+    await this.encoded(data.encoded);
+  };
+
+  private failedResponse = (response: RNFirebase.functions.HttpsError) => {
+    if (response.message === ("MessageTooLong" as IAPIError["code"])) {
+      Snackbar.show({
+        text: "Message too large to encode in image."
+      });
+      this.props.navigation.goBack();
+    } else {
+      Snackbar.show({
+        text:
+          "Failed to encode photo, please check you have an internet connection."
+      });
+      this.props.navigation.navigate("Main");
     }
-    return false;
   };
 
   private encoded = async (base64Image: string) => {
@@ -152,55 +129,28 @@ class Progress extends React.Component<IProps, IState> {
     });
 
     await MediaLibrary.createAssetAsync(imagePath);
-    const blob = await this.uriToBlob(imagePath);
     await FileSystem.deleteAsync(imagePath);
-
-    const ref = storage()
-      .ref()
-      .child(`images/${this.state.filename}`);
-
-    ref.put(blob);
     this.setState({ encoding: false });
   };
 
-  private uriToBlob = async (uri: string) => {
-    return new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.onload = () => {
-        resolve(xhr.response);
-      };
-      xhr.onerror = () => {
-        reject(new TypeError("Network request failed"));
-      };
-      xhr.responseType = "blob";
-      xhr.open("GET", uri, true);
-      xhr.send(null);
-    });
-  };
-
   private shareImage = async () => {
-    const url = await storage()
-      .ref()
-      .child(`images/${this.state.filename}`)
-      .getDownloadURL();
-
-    await Share.share({
-      message: url
-    });
+    Share.open({
+      url: this.state.filename
+    })
+      .then(res => {
+        console.log(res);
+      })
+      .catch(err => {
+        err && console.log(err);
+      });
   };
 }
 
 const mapStateToProps = (state: IReducerState) => ({
-  algorithm: state.SelectAlgorithm.algorithm,
-  token: state.FirebaseToken.token
-});
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  selectAlgorithm: (algorithm: AlgorithmNames) =>
-    dispatch(selectAlgorithm({ algorithm }))
+  algorithm: state.SelectAlgorithm.algorithm
 });
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  null
 )(Progress);

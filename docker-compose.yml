@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  stegappasaurus:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file: .env
+    volumes:
+      - ${PWD}/src:/app/
+    ports:
+      - 8081:8081
