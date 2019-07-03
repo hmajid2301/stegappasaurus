@@ -39,6 +39,10 @@ target 'Stegappasaurus' do
 
   pod 'RNSnackbar', :path => '../node_modules/react-native-snackbar'
 
+  pod 'RNShare', :path => '../node_modules/react-native-share'
+
+
+
   target 'StegappasaurusTests' do
     inherit! :search_paths
   end

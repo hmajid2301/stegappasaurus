@@ -3,7 +3,7 @@ import lz from "lzutf8";
 import { arrayToString, stringToArray } from "utf8-to-bytes";
 import varint from "varint";
 
-import { IEncode } from "../../web/models";
+import { IEncode } from "../../models";
 import {
   ImageTooSmall,
   ImageNotEncodedError,

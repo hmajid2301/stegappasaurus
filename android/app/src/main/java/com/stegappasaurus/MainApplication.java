@@ -3,6 +3,12 @@ package com.stegappasaurus;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import io.invertase.firebase.RNFirebasePackage;
+import io.invertase.firebase.analytics.RNFirebaseAnalyticsPackage;
+import io.invertase.firebase.fabric.crashlytics.RNFirebaseCrashlyticsPackage;
+import io.invertase.firebase.functions.RNFirebaseFunctionsPackage;
+import io.invertase.firebase.perf.RNFirebasePerformancePackage;
+import cl.json.RNSharePackage;
 import com.azendoo.reactnativesnackbar.SnackbarPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
@@ -42,6 +48,12 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNFirebasePackage(),
+            new RNFirebaseAnalyticsPackage(),
+            new RNFirebaseCrashlyticsPackage(),
+            new RNFirebaseFunctionsPackage(),
+            new RNFirebasePerformancePackage(),
+            new RNSharePackage(),
             new SnackbarPackage(),
             new VectorIconsPackage(),
             new RNGestureHandlerPackage(),

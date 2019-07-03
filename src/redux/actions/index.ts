@@ -3,7 +3,6 @@ import actionCreatorFactory from "typescript-fsa";
 import { AlgorithmNames, PrimaryColorNames } from "@types";
 
 import {
-  FIREBASE_TOKEN,
   RESET_PREFERENCES,
   SELECT_ALGORITHM,
   TOGGLE_AUTOMATIC,
@@ -17,11 +16,6 @@ import {
  */
 
 const actionCreator = actionCreatorFactory();
-
-/** This action is used to store the firebase token. To auth when
- *  making API requests to Firebase for Encoding/Decoding.
- */
-export const firebaseToken = actionCreator<{ token: string }>(FIREBASE_TOKEN);
 
 /** This action is used to reset the user's preferences back to the
  * default values.

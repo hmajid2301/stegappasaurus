@@ -7,7 +7,7 @@ import {
 } from "react-native";
 
 import DismissKeyboard from "~/components/DismissKeyboard";
-
+import { colors } from "~/constants";
 import styles from "./styles";
 
 interface IProps {
@@ -55,8 +55,9 @@ export default class ImageMessage extends React.Component<IProps, IState> {
                 placeholder={
                   this.props.message
                     ? this.props.message
-                    : "Enter your message here ...."
+                    : "Enter your message here"
                 }
+                placeholderTextColor={colors.pureWhite}
                 style={styles.message}
                 underlineColorAndroid="transparent"
               />

@@ -13,7 +13,7 @@ import rootReducer from "../reducers";
  */
 
 const persistConfig = {
-  blacklist: ["FirebaseToken", "TogglePrimaryColor"],
+  blacklist: ["TogglePrimaryColor"],
   key: "root",
   stateReconciler: autoMergeLevel2,
   storage,

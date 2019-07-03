@@ -28,9 +28,9 @@ interface IProps {
 }
 
 interface IState {
-  photos: IPhoto[];
-  loading: boolean;
   lastPhoto: string;
+  loading: boolean;
+  photos: IPhoto[];
 }
 
 interface IPhoto {
