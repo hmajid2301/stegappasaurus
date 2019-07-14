@@ -2,28 +2,39 @@ import { Dimensions, StyleSheet } from "react-native";
 
 import { colors } from "~/constants";
 
-const pageHeight = Dimensions.get("window").height;
+const pageWidth = Dimensions.get("window").width;
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1
+  },
+
+  buttonsRow: {
     alignItems: "center",
-    flex: 1,
-    justifyContent: "center"
+    flexDirection: "row",
+    justifyContent: "center",
+    marginRight: 2,
+    marginTop: 2
   },
 
   button: {
     backgroundColor: colors.secondary,
-    borderRadius: 10,
-    height: pageHeight / 4,
+    flex: 1,
+    height: pageWidth / 3,
     justifyContent: "center",
-    margin: 5,
-    width: pageHeight / 4
+    marginLeft: 2,
+    marginTop: 2
   },
 
   icon: {
     color: colors.pureWhite,
-    fontSize: 75,
+    fontSize: 40,
     textAlign: "center"
+  },
+
+  photoListContainer: {
+    flex: 1,
+    marginRight: 2
   }
 });
 

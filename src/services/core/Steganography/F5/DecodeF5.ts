@@ -60,9 +60,10 @@ export default class DecodeF5 {
     const binaryMessage: string[] = [];
 
     for (let i = 0; i < messageLength; i++) {
-      const byte = this.getNextByte(dctData);
+      const byte = this.decodeNextByte(dctData);
       binaryMessage.push(byte);
     }
+    console.log("Decoded Bits", this.decodedBits);
     return binaryMessage;
   };
 
@@ -79,7 +80,7 @@ export default class DecodeF5 {
     const messageVarint: number[] = [];
 
     while (!completed) {
-      const byte = this.getNextByte(data);
+      const byte = this.decodeNextByte(data);
       const num = parseInt(byte, 2);
       messageVarint.push(num);
       if (messageVarint.slice(-1)[0] < 128) {
@@ -102,7 +103,7 @@ export default class DecodeF5 {
    *
    * @return The decoded (next) byte from the image.
    */
-  private getNextByte = (dctData: number[][][]) => {
+  private decodeNextByte = (dctData: number[][][]) => {
     let byte = "";
     let randomBit;
     let data;
@@ -113,8 +114,7 @@ export default class DecodeF5 {
       } while (this.decodedBits.includes(randomBit));
 
       data = dctData[randomBit][0];
-
-      byte += this.getBits(data);
+      byte += this.decodeNextTwoBits(data);
       this.decodedBits.push(randomBit);
     }
 
@@ -140,7 +140,7 @@ export default class DecodeF5 {
    *
    * @return The encoded bits from the data (binary).
    */
-  private getBits = (data: number[]) => {
+  private decodeNextTwoBits = (data: number[]) => {
     const limitedData = data.map(num => {
       return Math.floor(num / this.limit) % 2;
     });
@@ -149,6 +149,7 @@ export default class DecodeF5 {
     const x2 = limitedData[1] === limitedData[2] ? "0" : "1";
     const bits = x1 + x2;
 
+    console.log(data, limitedData, x1, x2);
     return bits;
   };
 }

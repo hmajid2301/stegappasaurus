@@ -7,9 +7,7 @@ import Logo from "~/components/Logo";
 import { colors } from "~/constants";
 import styles from "./styles";
 
-const CustomDrawerNavigator: React.FunctionComponent<
-  DrawerItemsProps
-> = props => {
+const DrawerNavigator: React.FunctionComponent<DrawerItemsProps> = props => {
   if (props.screenProps !== undefined) {
     const theme: ITheme = props.screenProps.theme;
 
@@ -38,4 +36,4 @@ const CustomDrawerNavigator: React.FunctionComponent<
   return <View />;
 };
 
-export default CustomDrawerNavigator;
+export default DrawerNavigator;

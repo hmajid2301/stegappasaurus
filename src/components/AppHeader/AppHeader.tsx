@@ -12,7 +12,7 @@ interface IProps {
   theme: ITheme;
 }
 
-const CustomHeader = ({ navigation, primaryColor, theme }: IProps) => (
+const AppHeader = ({ navigation, primaryColor, theme }: IProps) => (
   <Header
     leftComponent={
       <Icon
@@ -35,4 +35,4 @@ const CustomHeader = ({ navigation, primaryColor, theme }: IProps) => (
   />
 );
 
-export default CustomHeader;
+export default AppHeader;

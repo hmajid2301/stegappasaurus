@@ -1,14 +1,18 @@
+import { ApiResponse, create } from "apisauce";
 import * as FileSystem from "expo-file-system";
 import * as React from "react";
 import { View } from "react-native";
-import firebase, { RNFirebase } from "react-native-firebase";
+import Config from "react-native-config";
+import firebase from "react-native-firebase";
 import { NavigationScreenProp } from "react-navigation";
 
 import { ITheme, PrimaryColor } from "@types";
 import ImageProgress from "~/components/ImageProgress";
 import Snackbar from "~/components/Snackbar";
 import { colors } from "~/constants";
-import { IDecodingSuccess } from "~/services/models";
+import { IAPIError, IDecodingSuccess } from "~/services/models";
+
+type Decoding = IDecodingSuccess | IAPIError;
 
 interface IProps {
   navigation: NavigationScreenProp<any, any>;
@@ -19,7 +23,6 @@ interface IProps {
 
 interface IState {
   decoding: boolean;
-  message: string;
   photo: string;
 }
 
@@ -31,7 +34,6 @@ export default class Progress extends React.Component<IProps, IState> {
 
     this.state = {
       decoding: true,
-      message: "",
       photo: uri
     };
   }
@@ -52,34 +54,43 @@ export default class Progress extends React.Component<IProps, IState> {
   }
 
   public componentWillMount = async () => {
-    let base64Image = await FileSystem.readAsStringAsync(this.state.photo, {
+    const base64Image = await FileSystem.readAsStringAsync(this.state.photo, {
       encoding: FileSystem.EncodingType.Base64
     });
-
-    base64Image = `data:image/png;base64,${base64Image}`;
     await this.callDecodeAPI(base64Image);
   };
 
   private callDecodeAPI = async (base64Image: string) => {
-    const instance = firebase.functions().httpsCallable("decode");
-
-    try {
-      const response = await instance({
-        imageData: `data:image/png;base64,${base64Image}`
+    let token = "";
+    await firebase
+      .auth()
+      .signInAnonymously()
+      .then(async userCredentials => {
+        token = await userCredentials.user.getIdToken();
       });
-      await this.successfulResponse(response);
-    } catch (error) {
+
+    const api = create({
+      baseURL: Config.FIREBASE_API_URL,
+      headers: { Authorization: `Bearer ${token}` },
+      timeout: 120000
+    });
+    const response: ApiResponse<Decoding> = await api.post("/decode", {
+      imageData: `data:image/png;base64,${base64Image}`
+    });
+
+    const { data, ok } = response;
+    if (ok) {
+      this.decoded((data as IDecodingSuccess).decoded);
+    } else {
       this.failedResponse();
-      console.error(error);
     }
   };
 
-  private successfulResponse = async (
-    response: RNFirebase.functions.HttpsCallableResult<IDecodingSuccess>
-  ) => {
-    const data = response.data;
-    this.setState({ message: data.decoded, decoding: false });
-    this.decoded();
+  private decoded = (message: string) => {
+    this.props.navigation.navigate("Message", {
+      message,
+      uri: this.state.photo
+    });
   };
 
   private failedResponse = () => {
@@ -88,12 +99,5 @@ export default class Progress extends React.Component<IProps, IState> {
         "Failed to decode photo, please check you have an internet connection."
     });
     this.props.navigation.goBack();
-  };
-
-  private decoded = () => {
-    this.props.navigation.navigate("Message", {
-      message: this.state.message,
-      uri: this.state.photo
-    });
   };
 }

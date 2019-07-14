@@ -20,9 +20,9 @@
 export const convertImageDataToDCT = (
   imageData: Uint8ClampedArray,
   width: number,
-  height: number
+  height: number,
+  blockSize = 8
 ) => {
-  const blockSize = 8;
   const wMax = Math.floor(width / blockSize);
   const hMax = Math.floor(height / blockSize);
   const result: number[][][] = [];

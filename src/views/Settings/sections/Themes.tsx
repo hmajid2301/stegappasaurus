@@ -24,31 +24,43 @@ class Themes extends React.Component<IProps, {}> {
     return (
       <View>
         <ListItem
+          containerStyle={{
+            backgroundColor: theme.background
+          }}
           titleStyle={styles.itemHeader}
           title={<Text style={styles.itemHeaderText}>Themes</Text>}
         />
 
         {this.props.isAutomatic || (
           <ListItem
+            containerStyle={{
+              backgroundColor: theme.background
+            }}
             topDivider={true}
             bottomDivider={true}
             titleStyle={[styles.itemText, { color: theme.color }]}
             title="Dark Mode"
             checkBox={{
               checked: theme.isDark,
-              color: colors.primary,
+              checkedColor: colors.primary,
               onPress: () => this.props.toggleDarkTheme(theme.isDark)
             }}
           />
         )}
 
         <ListItem
+          containerStyle={{
+            backgroundColor: theme.background
+          }}
           titleStyle={[styles.itemText, { color: theme.color }]}
           switch={{
             onValueChange: (value: boolean) => {
               this.props.toggleAutomaticTheme(value);
             },
-
+            trackColor: {
+              false: "white",
+              true: theme.color
+            },
             value: this.props.isAutomatic
           }}
           title={

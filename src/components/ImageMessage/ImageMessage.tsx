@@ -5,12 +5,17 @@ import {
   TextInput,
   View
 } from "react-native";
+import {
+  NavigationEventSubscription,
+  NavigationScreenProp
+} from "react-navigation";
 
 import DismissKeyboard from "~/components/DismissKeyboard";
 import { colors } from "~/constants";
 import styles from "./styles";
 
 interface IProps {
+  navigation: NavigationScreenProp<any, any>;
   action: (message: string) => void;
   editable: boolean;
   message?: string;
@@ -27,13 +32,29 @@ export default class ImageMessage extends React.Component<IProps, IState> {
     message: ""
   };
 
+  private focusListener: NavigationEventSubscription;
+  private textInput: TextInput | null;
+
   constructor(props: IProps) {
     super(props);
 
     this.state = {
       message: ""
     };
+    this.textInput = null;
+
+    this.focusListener = this.props.navigation.addListener("didFocus", () => {
+      if (this.textInput !== null) {
+        this.textInput.focus();
+      }
+    });
   }
+
+  public componentWillUnmount = () => {
+    if (this.props.navigation) {
+      this.focusListener.remove();
+    }
+  };
 
   public render() {
     return (
@@ -58,6 +79,9 @@ export default class ImageMessage extends React.Component<IProps, IState> {
                     : "Enter your message here"
                 }
                 placeholderTextColor={colors.pureWhite}
+                ref={ref => {
+                  this.textInput = ref;
+                }}
                 style={styles.message}
                 underlineColorAndroid="transparent"
               />

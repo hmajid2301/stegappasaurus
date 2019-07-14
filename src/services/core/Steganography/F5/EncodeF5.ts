@@ -1,4 +1,4 @@
-import generator from "random-seed";
+import * as generator from "random-seed";
 
 import { convertDCTToImageData, convertImageDataToDCT } from "../JSTEG";
 
@@ -50,6 +50,7 @@ export default class EncodeF5 {
     const dctData = convertImageDataToDCT(imageData, width, height);
     const encodedDCTData = this.encodeF5(dctData, binaryMessage);
     const newImageData = convertDCTToImageData(encodedDCTData, width, height);
+    console.log("Encoded Bits", this.encodedBits);
     return new Uint8ClampedArray([
       ...imageData.subarray(0, startEncodingAt),
       ...newImageData.subarray(startEncodingAt)
@@ -83,7 +84,7 @@ export default class EncodeF5 {
       } while (this.encodedBits.includes(randomBit));
       this.encodedBits.push(randomBit);
 
-      data = encodedData[randomBit][0];
+      data = dctData[randomBit][0];
       const bits = binaryMessage.slice(i, i + 2);
       const newData = this.getNewPixelData(data, bits);
       encodedData[randomBit][0] = newData;
@@ -140,6 +141,13 @@ export default class EncodeF5 {
     } else if (x2 !== bits[1]) {
       data[1] = this.encodeBit(data[1], lsbData[1]);
     }
+    console.log(
+      data,
+      data.map(num => {
+        return "" + (Math.floor(num / this.limit) % 2);
+      }),
+      bits
+    );
 
     return data;
   };

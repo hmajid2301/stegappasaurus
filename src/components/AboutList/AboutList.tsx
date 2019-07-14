@@ -4,11 +4,12 @@ import { Text, TouchableOpacity, View } from "react-native";
 import { ListItem } from "react-native-elements";
 import Rate, { AndroidMarket } from "react-native-rate";
 
-import { ThemeColors } from "@types";
+import { BackgroundColors, ThemeColors } from "@types";
 import styles from "./styles";
 
 interface IProps {
   items: IAboutItem[];
+  backgroundColor: BackgroundColors;
   color: ThemeColors;
 }
 
@@ -35,12 +36,17 @@ export interface IAboutItem {
   url?: string;
 }
 
-const AboutList = ({ color, items }: IProps) => (
-  <View>{items.map(item => renderListItem(color, item))}</View>
+const AboutList = ({ backgroundColor, color, items }: IProps) => (
+  <View>{items.map(item => renderListItem(backgroundColor, color, item))}</View>
 );
 
-const renderListItem = (color: string, item: IAboutItem) => (
+const renderListItem = (
+  backgroundColor: BackgroundColors,
+  color: ThemeColors,
+  item: IAboutItem
+) => (
   <ListItem
+    containerStyle={{ backgroundColor }}
     key={item.title}
     leftIcon={{
       ...item.icon,

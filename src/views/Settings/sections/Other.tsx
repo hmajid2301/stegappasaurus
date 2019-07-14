@@ -20,11 +20,17 @@ class Other extends React.Component<IProps, {}> {
     return (
       <View>
         <ListItem
+          containerStyle={{
+            backgroundColor: theme.background
+          }}
           titleStyle={styles.itemHeader}
           title={<Text style={styles.itemHeaderText}>Other</Text>}
         />
 
         <ListItem
+          containerStyle={{
+            backgroundColor: theme.background
+          }}
           title={
             <View>
               <TouchableOpacity onPress={() => this.props.resetPreferences}>

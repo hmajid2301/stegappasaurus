@@ -2,7 +2,7 @@ import * as React from "react";
 import { Icon } from "react-native-elements";
 import { createAppContainer, createDrawerNavigator } from "react-navigation";
 
-import CustomDrawerNavigator from "~/components/CustomDrawerNavigator";
+import DrawerNavigator from "~/components/DrawerNavigator";
 
 import AboutUs from "./AboutUs";
 import FAQ from "./FAQ";
@@ -56,7 +56,7 @@ const MainNavigator = createDrawerNavigator(
     }
   },
   {
-    contentComponent: CustomDrawerNavigator
+    contentComponent: DrawerNavigator
   }
 );
 

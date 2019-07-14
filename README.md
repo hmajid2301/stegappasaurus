@@ -37,22 +37,24 @@ yarn run android
 ```bash
 # **Optional** IP of Android Device (only used in docker container)
 ADB_IP=192.168.112.101
-# **Optional** IP of host device where react native is running (only used in docker container)
-REACT_NATIVE_PACKAGER_HOSTNAME=192.168.27.1
 # API Key for the `thecatapi`
 CAT_API_KEY=xxx
+# Firebase API URL for FAAS
+FIREBASE_API_URL=https://us-central1-stegappasaurus.cloudfunctions.net
+# **Optional** IP of host device where react native is running (only used in docker container)
+REACT_NATIVE_PACKAGER_HOSTNAME=192.168.27.1
 ```
 
 # Technologies
 
 Some different technologies/libraries/frameworks that were used in this project (in general order of important) include;
 
-- [React Native]()
-- [TypeScript]()
-- [Redux]()
-- [Firebase]()
-- [Openapi]()
-- [Docker]()
+- [React Native](https://facebook.github.io/react-native/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Redux](https://redux.js.org/)
+- [Firebase](https://firebase.google.com/)
+- [Openapi](https://swagger.io/specification/)
+- [Docker](https://www.docker.com/)
 
 # Other
 
@@ -61,6 +63,7 @@ Some different technologies/libraries/frameworks that were used in this project 
 - Design inspired by [PixelKnot](https://play.google.com/store/apps/details?id=info.guardianproject.pixelknot)
 - JSTEG code inspired by [zeruniverse](https://github.com/zeruniverse/CryptoStego)
 - Cat photos from [thecatapi](https://thecatapi.com)
+- [Dinosaur Lottie animation](https://lottiefiles.com/2469-dino-dance), [edited using](https://editor.lottiefiles.com/) 
 
 ## Licenses
 

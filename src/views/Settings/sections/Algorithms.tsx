@@ -23,11 +23,17 @@ class Algorithms extends React.Component<IProps, {}> {
     return (
       <View>
         <ListItem
+          containerStyle={{
+            backgroundColor: theme.background
+          }}
           titleStyle={styles.itemHeader}
           title={<Text style={styles.itemHeaderText}>Algorithms</Text>}
         />
 
         <ListItem
+          containerStyle={{
+            backgroundColor: theme.background
+          }}
           title={
             <View>
               <Text style={[styles.itemText, { color: theme.color }]}>
@@ -39,7 +45,7 @@ class Algorithms extends React.Component<IProps, {}> {
             <Picker
               onValueChange={value => this.props.selectAlgorithm(value)}
               selectedValue={algorithm}
-              style={styles.picker}
+              style={[styles.picker]}
             >
               <Picker.Item label="LSB" value="LSB" />
               <Picker.Item label="JSTEG" value="JSTEG" />
