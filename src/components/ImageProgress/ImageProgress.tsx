@@ -1,13 +1,15 @@
 import LottieView from "lottie-react-native";
 import * as React from "react";
 import { ImageBackground, TouchableOpacity, View } from "react-native";
+import { Icon } from "react-native-elements";
 
-import { ITheme, PrimaryColor } from "@types";
+import { IIcon, ITheme, PrimaryColor } from "@types";
 import styles from "./styles";
 
 interface IProps {
   animating: boolean;
   onPress?: (...args: any) => void;
+  icon?: IIcon;
   photo: string;
   primaryColor: PrimaryColor;
   theme: ITheme;
@@ -42,7 +44,11 @@ export default class ImageProgress extends React.Component<IProps, {}> {
               ]}
               source={{ uri: this.props.photo }}
               style={styles.image}
-            />
+            >
+              <View style={styles.iconContainer}>
+                {this.props.icon && <Icon {...this.props.icon} />}
+              </View>
+            </ImageBackground>
           </TouchableOpacity>
         )}
       </View>

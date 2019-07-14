@@ -145,7 +145,7 @@ class Main extends React.Component<IProps, IState> {
   };
 
   private selectPhotoToEncode = (uri: string) => {
-    this.props.navigation.navigate("Message", { uri });
+    this.props.navigation.navigate("EncodingMessage", { uri });
   };
 }
 

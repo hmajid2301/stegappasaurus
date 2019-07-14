@@ -19,6 +19,12 @@ const styles = StyleSheet.create({
     height: pageWidth * 0.75,
     opacity: 0.65,
     width: pageWidth * 0.75
+  },
+
+  iconContainer: {
+    alignItems: "center",
+    flex: 1,
+    justifyContent: "center"
   }
 });
 

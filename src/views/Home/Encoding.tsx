@@ -15,14 +15,16 @@ const EncodeNavigator = createStackNavigator({
     },
     screen: Main
   },
-  Message: {
+
+  EncodingMessage: {
     navigationOptions: {
       header: null,
       tabBarVisible: false
     },
     screen: Message
   },
-  Progress: {
+
+  EncodingProgress: {
     navigationOptions: {
       header: null,
       tabBarVisible: false

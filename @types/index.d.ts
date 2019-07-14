@@ -10,3 +10,22 @@ export interface ITheme {
   color: ThemeColors;
   isDark: boolean;
 }
+
+export interface IIcon {
+  color: string;
+  name: string;
+  size?: number;
+  type:
+    | "material"
+    | "material-community"
+    | "font-awesome"
+    | "octicon"
+    | "ionicon"
+    | "foundation"
+    | "evilicon"
+    | "simple-line-icon"
+    | "zocial"
+    | "entypo"
+    | "feather"
+    | "antdesign";
+}

@@ -67,7 +67,7 @@ class Main extends React.Component<IProps, {}> {
   };
 
   private selectPhotoToEncode = (uri: string) => {
-    this.props.navigation.navigate("Progress", { uri });
+    this.props.navigation.navigate("DecodingProgress", { uri });
   };
 }
 

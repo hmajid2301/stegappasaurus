@@ -4,7 +4,7 @@ import { Text, TouchableOpacity, View } from "react-native";
 import { ListItem } from "react-native-elements";
 import Rate, { AndroidMarket } from "react-native-rate";
 
-import { BackgroundColors, ThemeColors } from "@types";
+import { BackgroundColors, IIcon, ThemeColors } from "@types";
 import styles from "./styles";
 
 interface IProps {
@@ -16,23 +16,7 @@ interface IProps {
 export interface IAboutItem {
   title: string;
   function_to_call?: "browser" | "store";
-  icon: {
-    color: string;
-    name: string;
-    type:
-      | "material"
-      | "material-community"
-      | "font-awesome"
-      | "octicon"
-      | "ionicon"
-      | "foundation"
-      | "evilicon"
-      | "simple-line-icon"
-      | "zocial"
-      | "entypo"
-      | "feather"
-      | "antdesign";
-  };
+  icon: IIcon;
   url?: string;
 }
 

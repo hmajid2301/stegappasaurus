@@ -59,7 +59,7 @@ class Message extends React.Component<IProps, IState> {
         text: "Message cannot be empty"
       });
     } else {
-      this.props.navigation.navigate("Progress", {
+      this.props.navigation.navigate("EncodingProgress", {
         message,
         uri: this.state.photo
       });

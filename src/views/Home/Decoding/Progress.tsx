@@ -87,7 +87,7 @@ export default class Progress extends React.Component<IProps, IState> {
   };
 
   private decoded = (message: string) => {
-    this.props.navigation.navigate("Message", {
+    this.props.navigation.navigate("DecodingMessage", {
       message,
       uri: this.state.photo
     });
