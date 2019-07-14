@@ -55,6 +55,12 @@ class Progress extends React.Component<IProps, IState> {
       <View style={{ flex: 1 }}>
         <ImageProgress
           animating={this.state.encoding}
+          icon={{
+            color: colors.pureWhite,
+            name: "share",
+            size: 130,
+            type: "font-awesome"
+          }}
           onPress={this.shareImage}
           photo={this.state.photo}
           primaryColor={colors.primary as PrimaryColor}
@@ -113,9 +119,9 @@ class Progress extends React.Component<IProps, IState> {
     await FileSystem.deleteAsync(imagePath);
     this.setState({ encoding: false });
     Snackbar.show({
-      buttonText: "PhotoAlbum",
+      buttonText: "Open Album",
       onButtonPress: this.openAlbum,
-      text: "Encoded image saved to photo album."
+      text: "Image saved to photo album."
     });
   };
 
@@ -136,7 +142,7 @@ class Progress extends React.Component<IProps, IState> {
         text:
           "Failed to encode photo, please check you have an internet connection."
       });
-      this.props.navigation.navigate("Main");
+      this.props.navigation.navigate("EncodingMain");
     }
   };
 

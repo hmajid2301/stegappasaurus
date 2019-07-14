@@ -15,14 +15,16 @@ const DecodeNavigator = createStackNavigator({
     },
     screen: Main
   },
-  Message: {
+
+  DecodingMessage: {
     navigationOptions: {
       header: null,
       tabBarVisible: false
     },
     screen: Message
   },
-  Progress: {
+
+  DecodingProgress: {
     navigationOptions: {
       header: null,
       tabBarVisible: false

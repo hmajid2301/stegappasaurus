@@ -1,4 +1,4 @@
-image: node:10.15.3
+image: node:8
 
 stages:
   - pre
@@ -11,6 +11,7 @@ cache:
   key: ${CI_COMMIT_REF_SLUG}
   paths:
     - node_modules/
+    - src/services/node_modules
 
 variables:
   DOCKER_DRIVER: overlay2
@@ -19,7 +20,9 @@ before_script:
   - chmod +x util/generateDotEnv.sh
   - ./util/generateDotEnv.sh > .env
   - yarn
-  - cd src/services && yarn --ignore-engines && cd ../..
+  - cd src/services
+  - yarn
+  - cd ../..
 
 open-merge-request:
   image: registry.gitlab.com/hmajid2301/gitlab-auto-mr
@@ -47,12 +50,12 @@ lint:
 lint:code-formatter:
   stage: test
   script:
-    - yarn code-formatter
+    - yarn code-formatter-check
 
 lint:compiler:
   stage: test
   script:
-    - yarn compiler-checker
+    - yarn compiler-check
 
 tests:unit:
   stage: test
