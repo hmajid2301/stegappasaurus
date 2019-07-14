@@ -38,22 +38,9 @@ const styles = StyleSheet.create({
     textAlign: "center"
   },
 
-  photoButton: {
-    flex: 1
-  },
-
   photoListContainer: {
+    flex: 1,
     marginRight: 2
-  },
-
-  photoContainer: {
-    marginTop: 2
-  },
-
-  photos: {
-    height: pageWidth / 3,
-    marginLeft: 2,
-    marginTop: 2
   }
 });
 

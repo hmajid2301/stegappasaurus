@@ -28,7 +28,7 @@ export default class DecodeLSB {
     const binaryMessage: string[] = [];
 
     for (let i = 0; i < messageLength; i += 1) {
-      const byte = this.getNextLSBByte(imageData);
+      const byte = this.decodeNextByte(imageData);
       binaryMessage.push(byte);
     }
     return binaryMessage;
@@ -38,7 +38,7 @@ export default class DecodeLSB {
     let completed = false;
     const messageVarint: number[] = [];
     while (!completed) {
-      const byte = this.getNextLSBByte(imageData);
+      const byte = this.decodeNextByte(imageData);
       const num = parseInt(byte, 2);
       messageVarint.push(num);
       if (messageVarint.slice(-1)[0] < 128) {
@@ -58,7 +58,7 @@ export default class DecodeLSB {
    *
    * @return The decoded (next) byte.
    */
-  public getNextLSBByte = (imageData: Uint8ClampedArray) => {
+  public decodeNextByte = (imageData: Uint8ClampedArray) => {
     let byte = "";
 
     for (let j = 0; j < 8; j += 1) {

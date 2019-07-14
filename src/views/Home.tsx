@@ -4,8 +4,8 @@ import { NavigationScreenProp } from "react-navigation";
 import { connect } from "react-redux";
 
 import { ITheme, PrimaryColor } from "@types";
-import CustomHeader from "~/components/CustomHeader";
-import CustomTabNavigator from "~/components/CustomTabNavigator";
+import AppHeader from "~/components/AppHeader";
+import TabNavigator from "~/components/TabNavigator";
 import { IReducerState } from "~/redux/reducers/TogglePrimaryColor";
 
 import styles from "./Home/styles";
@@ -19,19 +19,19 @@ interface IProps {
 }
 
 class Home extends React.Component<IProps, {}> {
-  public static router = CustomTabNavigator.router;
+  public static router = TabNavigator.router;
 
   public render() {
     const { theme } = this.props.screenProps;
 
     return (
       <View style={styles.container}>
-        <CustomHeader
+        <AppHeader
           primaryColor={this.props.primaryColor}
           navigation={this.props.navigation}
           theme={theme}
         />
-        <CustomTabNavigator
+        <TabNavigator
           navigation={this.props.navigation}
           screenProps={{ theme }}
         />

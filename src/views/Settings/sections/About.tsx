@@ -27,12 +27,25 @@ const sendEmail = async () => {
 const About = ({ theme }: IProps) => (
   <View>
     <ListItem
+      containerStyle={{
+        backgroundColor: theme.background
+      }}
       titleStyle={styles.itemHeader}
       title={<Text style={styles.itemHeaderText}>About</Text>}
     />
-    <ListItem title={<Changelog />} topDivider={true} bottomDivider={true} />
+    <ListItem
+      containerStyle={{
+        backgroundColor: theme.background
+      }}
+      title={<Changelog />}
+      topDivider={true}
+      bottomDivider={true}
+    />
 
     <ListItem
+      containerStyle={{
+        backgroundColor: theme.background
+      }}
       title={
         <View>
           <TouchableOpacity onPress={() => sendEmail()}>

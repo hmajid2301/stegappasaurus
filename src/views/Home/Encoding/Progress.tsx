@@ -1,8 +1,10 @@
+import { ApiResponse, create } from "apisauce";
 import * as FileSystem from "expo-file-system";
 import * as MediaLibrary from "expo-media-library";
 import * as React from "react";
-import { View } from "react-native";
-import firebase, { RNFirebase } from "react-native-firebase";
+import { Linking, View } from "react-native";
+import Config from "react-native-config";
+import firebase from "react-native-firebase";
 import Share from "react-native-share";
 import { NavigationScreenProp } from "react-navigation";
 import { connect } from "react-redux";
@@ -13,6 +15,8 @@ import Snackbar from "~/components/Snackbar";
 import { colors } from "~/constants";
 import { IReducerState } from "~/redux/reducers/SelectAlgorithm";
 import { IAPIError, IEncodingSuccess } from "~/services/models";
+
+type Encoding = IEncodingSuccess | IAPIError;
 
 interface IProps {
   algorithm: AlgorithmNames;
@@ -26,8 +30,6 @@ interface IState {
   encoding: boolean;
   filename: string;
   message: string;
-  metadata: any;
-  percentage: number;
   photo: string;
 }
 
@@ -35,7 +37,6 @@ class Progress extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     const { navigation } = props;
-    const metadata = navigation.getParam("metadata", "NO-ID");
     const message = navigation.getParam("message", "NO-ID");
     const uri = navigation.getParam("uri", "NO-ID");
     const filename = `${new Date().toISOString()}.png`;
@@ -44,8 +45,6 @@ class Progress extends React.Component<IProps, IState> {
       encoding: true,
       filename,
       message,
-      metadata,
-      percentage: 0,
       photo: uri
     };
   }
@@ -66,49 +65,68 @@ class Progress extends React.Component<IProps, IState> {
   }
 
   public componentWillMount = async () => {
-    console.log(this.props.screenProps);
     const base64Image = await FileSystem.readAsStringAsync(this.state.photo, {
       encoding: FileSystem.EncodingType.Base64
     });
 
-    await this.callEncodeAPI(
-      this.props.algorithm,
-      base64Image,
-      this.state.metadata
-    );
+    await this.callEncodeAPI(this.props.algorithm, base64Image);
   };
 
   private callEncodeAPI = async (
     algorithm: AlgorithmNames,
-    base64Image: string,
-    metadata: any
+    base64Image: string
   ) => {
-    const instance = firebase.functions().httpsCallable("encode");
-
-    try {
-      const response = await instance({
-        algorithm,
-        imageData: `data:image/png;base64,${base64Image}`,
-        message: this.state.message,
-        metadata
+    let token = "";
+    await firebase
+      .auth()
+      .signInAnonymously()
+      .then(async userCredentials => {
+        token = await userCredentials.user.getIdToken();
       });
-      await this.successfulResponse(response);
-    } catch (error) {
-      this.failedResponse(error);
-      console.error(error);
+
+    const api = create({
+      baseURL: Config.FIREBASE_API_URL,
+      headers: { Authorization: `Bearer ${token}` },
+      timeout: 120000
+    });
+    const response: ApiResponse<Encoding> = await api.post("/encode", {
+      algorithm,
+      imageData: `data:image/png;base64,${base64Image}`,
+      message: this.state.message
+    });
+
+    const { data, ok, status } = response;
+    if (ok) {
+      await this.encoded((data as IEncodingSuccess).encoded);
+    } else {
+      this.failedResponse(data as IAPIError, status ? status : 500);
     }
   };
 
-  private successfulResponse = async (
-    response: RNFirebase.functions.HttpsCallableResult<IEncodingSuccess>
-  ) => {
-    const data = response.data;
-    console.log(response.data);
-    await this.encoded(data.encoded);
+  private encoded = async (base64Image: string) => {
+    const imagePath = `${FileSystem.documentDirectory}${this.state.filename}`;
+    await FileSystem.writeAsStringAsync(imagePath, base64Image.substring(22), {
+      encoding: FileSystem.EncodingType.Base64
+    });
+
+    await MediaLibrary.createAssetAsync(imagePath);
+    await FileSystem.deleteAsync(imagePath);
+    this.setState({ encoding: false });
+    Snackbar.show({
+      buttonText: "PhotoAlbum",
+      onButtonPress: this.openAlbum,
+      text: "Encoded image saved to photo album."
+    });
   };
 
-  private failedResponse = (response: RNFirebase.functions.HttpsError) => {
-    if (response.message === ("MessageTooLong" as IAPIError["code"])) {
+  private openAlbum = async () => {
+    await Linking.openURL("content://media/internal/images/media");
+  };
+
+  private failedResponse = (error: IAPIError, status: number) => {
+    const { code } = error;
+
+    if (status === 500 && code === ("MessageTooLong" as IAPIError["code"])) {
       Snackbar.show({
         text: "Message too large to encode in image."
       });
@@ -122,27 +140,10 @@ class Progress extends React.Component<IProps, IState> {
     }
   };
 
-  private encoded = async (base64Image: string) => {
-    const imagePath = `${FileSystem.documentDirectory}${this.state.filename}`;
-    await FileSystem.writeAsStringAsync(imagePath, base64Image.substring(22), {
-      encoding: FileSystem.EncodingType.Base64
-    });
-
-    await MediaLibrary.createAssetAsync(imagePath);
-    await FileSystem.deleteAsync(imagePath);
-    this.setState({ encoding: false });
-  };
-
   private shareImage = async () => {
-    Share.open({
+    await Share.open({
       url: this.state.filename
-    })
-      .then(res => {
-        console.log(res);
-      })
-      .catch(err => {
-        err && console.log(err);
-      });
+    });
   };
 }
 

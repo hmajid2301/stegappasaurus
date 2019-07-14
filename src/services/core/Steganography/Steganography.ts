@@ -1,12 +1,13 @@
 import { createCanvas, createImageData, Image } from "canvas";
+import sizeOf from "image-size";
 import lz from "lzutf8";
 import { arrayToString, stringToArray } from "utf8-to-bytes";
 import varint from "varint";
 
 import { IEncode } from "../../models";
 import {
-  ImageTooSmall,
   ImageNotEncodedError,
+  ImageTooSmall,
   InvalidImageError,
   MessageTooLongError
 } from "../exceptions";
@@ -40,15 +41,11 @@ export default class Steganography {
 
   constructor(imageData: string) {
     this.imageData = imageData;
-    this.width = 0;
-    this.height = 0;
 
-    const img = new Image();
-    img.onload = () => {
-      this.width = img.naturalWidth;
-      this.height = img.naturalHeight;
-    };
-    img.src = this.imageData;
+    const img = Buffer.from(this.imageData.substr(22), "base64");
+    const dimensions = sizeOf(img);
+    this.width = dimensions.width;
+    this.height = dimensions.height;
 
     if (this.width < 64 || this.height < 64) {
       throw new ImageTooSmall(
@@ -201,7 +198,10 @@ export default class Steganography {
     algorithm: AlgorithmNames,
     metadata?: IMetaData
   ) => {
-    metadata = this.setDefaultMetaData(metadata ? metadata : {}, algorithm);
+    metadata = this.setDefaultMetaData(
+      metadata && algorithm !== "LSB" ? metadata : {},
+      algorithm
+    );
     const { newImageData, startEncodingAt } = this.encodeMetadata(
       imageData,
       metadata
@@ -423,7 +423,7 @@ export default class Steganography {
    */
   private decodeMetadata = (imageData: Uint8ClampedArray) => {
     const decodeLSB = new DecodeLSB();
-    const algorithmTypeBinary = decodeLSB.getNextLSBByte(imageData);
+    const algorithmTypeBinary = decodeLSB.decodeNextByte(imageData);
     const algorithmNum = this.convertBytesToDecimal(algorithmTypeBinary);
     const algorithm = this.numToAlgorithmTypes[algorithmNum] || "LSB";
     const metadata: IMetaData = {};
@@ -439,7 +439,7 @@ export default class Steganography {
         const limit = decodeLSB.decodeVarint(imageData);
         const password: string[] = [];
         for (let i = 0; i < 8; i += 1) {
-          const asciiByte = decodeLSB.getNextLSBByte(imageData);
+          const asciiByte = decodeLSB.decodeNextByte(imageData);
           password.push(asciiByte);
         }
         metadata.limit = varint.decode(limit);

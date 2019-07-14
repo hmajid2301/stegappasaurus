@@ -1,22 +1,25 @@
 import Snackbar from "react-native-snackbar";
 
+import { colors } from "~/constants";
+
 interface IShow {
   text: string;
   buttonText?: string;
-  action?: () => void;
+  onButtonPress?: () => void;
   duration?: number;
 }
 
 export default class CustomSnackbar {
   public static show = ({
-    action = () => null,
+    onButtonPress = () => null,
     buttonText = "Okay",
     duration = 5000,
     text
   }: IShow) => {
     Snackbar.show({
       action: {
-        onPress: action,
+        color: colors.primary,
+        onPress: onButtonPress,
         title: buttonText
       },
       duration,

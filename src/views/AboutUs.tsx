@@ -4,7 +4,7 @@ import { NavigationScreenProp } from "react-navigation";
 
 import { ITheme, PrimaryColor } from "@types";
 import AboutList from "~/components/AboutList";
-import CustomHeader from "~/components/CustomHeader";
+import AppHeader from "~/components/AppHeader";
 import { colors } from "~/constants";
 import AboutItems from "~/views/About/AboutItems";
 import styles from "~/views/About/styles";
@@ -23,7 +23,7 @@ export default class AboutUs extends React.Component<IProps, {}> {
     return (
       <View style={[styles.container, { backgroundColor: theme.background }]}>
         <ScrollView>
-          <CustomHeader
+          <AppHeader
             primaryColor={colors.primary as PrimaryColor}
             navigation={this.props.navigation}
             theme={theme}
@@ -43,7 +43,11 @@ export default class AboutUs extends React.Component<IProps, {}> {
           </View>
 
           <View>
-            <AboutList items={AboutItems} color={theme.color} />
+            <AboutList
+              items={AboutItems}
+              backgroundColor={theme.background}
+              color={theme.color}
+            />
           </View>
         </ScrollView>
       </View>

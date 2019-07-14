@@ -1,10 +1,7 @@
 import { create } from "apisauce";
 import * as ImagePicker from "expo-image-picker";
-import * as MediaLibrary from "expo-media-library";
-import * as Permissions from "expo-permissions";
-
 import * as React from "react";
-import { FlatList, Image, TouchableOpacity, View } from "react-native";
+import { Image, TouchableOpacity, View } from "react-native";
 import Config from "react-native-config";
 import { Icon } from "react-native-elements";
 import { NavigationScreenProp } from "react-navigation";
@@ -13,6 +10,7 @@ import { Dispatch } from "redux";
 
 import { ITheme, PrimaryColorNames } from "@types";
 import Loading from "~/components/Loading";
+import PhotoAlbumList from "~/components/PhotoAlbumList";
 import Snackbar from "~/components/Snackbar";
 import { PRIMARY_COLORS } from "~/constants";
 import { togglePrimaryColor } from "~/redux/actions";
@@ -28,13 +26,7 @@ interface IProps {
 }
 
 interface IState {
-  lastPhoto: string;
   loading: boolean;
-  photos: IPhoto[];
-}
-
-interface IPhoto {
-  uri: string;
 }
 
 interface ICatAPI {
@@ -49,9 +41,7 @@ class Main extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     this.state = {
-      lastPhoto: "",
-      loading: false,
-      photos: []
+      loading: false
     };
   }
 
@@ -91,13 +81,7 @@ class Main extends React.Component<IProps, IState> {
           </TouchableOpacity>
         </View>
         <View style={styles.photoListContainer}>
-          <FlatList
-            data={this.padData(this.state.photos)}
-            keyExtractor={(item, index) => item.uri + index}
-            numColumns={3}
-            onEndReached={this.morePhotosFromCameraRoll}
-            renderItem={this.renderPhotosFromCameraRoll}
-          />
+          <PhotoAlbumList onPhotoPress={this.selectPhotoToEncode} />
         </View>
       </View>
     );
@@ -107,35 +91,6 @@ class Main extends React.Component<IProps, IState> {
     this.props.navigation.addListener("willFocus", () => {
       this.props.togglePrimaryColor(PRIMARY_COLORS.ORANGE.name);
     });
-
-    const { status } = await Permissions.askAsync(
-      Permissions.CAMERA,
-      Permissions.CAMERA_ROLL
-    );
-    if (status === "granted") {
-      const { assets, endCursor } = await MediaLibrary.getAssetsAsync({
-        first: 15,
-        sortBy: [MediaLibrary.SortBy.creationTime]
-      });
-      this.setState({ photos: assets, lastPhoto: endCursor });
-    } else {
-      Snackbar.show({
-        text: "Grant permissions to access camera roll, to view photos here."
-      });
-    }
-  };
-
-  private padData = (data: IPhoto[]) => {
-    const numOfCols = 3;
-    const fullRows = Math.floor(data.length / numOfCols);
-    let numElementsInFinalRow = data.length - fullRows * numOfCols;
-
-    while (numElementsInFinalRow !== numOfCols && numElementsInFinalRow !== 0) {
-      data.push({ uri: "" });
-      numElementsInFinalRow += 1;
-    }
-
-    return data;
   };
 
   private getPhotoFromCamera = async () => {
@@ -153,7 +108,9 @@ class Main extends React.Component<IProps, IState> {
 
   private getPhotoFromCameraRoll = async () => {
     try {
-      const result = await ImagePicker.launchImageLibraryAsync();
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images
+      });
       if (!result.cancelled) {
         this.selectPhotoToEncode(result.uri);
       }
@@ -185,32 +142,6 @@ class Main extends React.Component<IProps, IState> {
     }
 
     this.setState({ loading: false });
-  };
-
-  private morePhotosFromCameraRoll = async () => {
-    const { assets } = await MediaLibrary.getAssetsAsync({
-      after: this.state.lastPhoto,
-      first: 9,
-      sortBy: ["creationTime"]
-    });
-
-    this.setState({
-      photos: [...this.state.photos, ...assets]
-    });
-  };
-
-  private renderPhotosFromCameraRoll = ({ item }: { item: IPhoto }) => {
-    if (item.uri === "") {
-      return <View />;
-    }
-    return (
-      <TouchableOpacity
-        onPress={() => this.selectPhotoToEncode(item.uri)}
-        style={styles.photoButton}
-      >
-        <Image source={{ uri: item.uri }} style={styles.photos} />
-      </TouchableOpacity>
-    );
   };
 
   private selectPhotoToEncode = (uri: string) => {

@@ -20,7 +20,7 @@ const commonTabOptions = (primaryColor: string) => ({
   }
 });
 
-const CustomTabNavigator = createMaterialTopTabNavigator(
+const TabNavigator = createMaterialTopTabNavigator(
   {
     Decoding: {
       navigationOptions: {
@@ -44,4 +44,4 @@ const CustomTabNavigator = createMaterialTopTabNavigator(
   }
 );
 
-export default CustomTabNavigator;
+export default TabNavigator;

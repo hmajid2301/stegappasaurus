@@ -31,6 +31,7 @@ class Progress extends React.Component<IProps, IState> {
     return (
       <ImageMessage
         editable={false}
+        navigation={this.props.navigation}
         message={this.state.message}
         photo={this.state.photo}
       />

@@ -1,6 +1,6 @@
+import LottieView from "lottie-react-native";
 import * as React from "react";
 import { ImageBackground, TouchableOpacity, View } from "react-native";
-import { PacmanIndicator } from "react-native-indicators";
 
 import { ITheme, PrimaryColor } from "@types";
 import styles from "./styles";
@@ -26,7 +26,12 @@ export default class ImageProgress extends React.Component<IProps, {}> {
       >
         {this.props.animating ? (
           <View style={{ flex: 1, justifyContent: "center" }}>
-            <PacmanIndicator color={this.props.primaryColor} size={300} />
+            <LottieView
+              style={{ width: 400, height: 400 }}
+              source={require("~/assets/animations/progress.json")}
+              autoPlay
+              loop
+            />
           </View>
         ) : (
           <TouchableOpacity activeOpacity={0.8} onPress={this.props.onPress}>

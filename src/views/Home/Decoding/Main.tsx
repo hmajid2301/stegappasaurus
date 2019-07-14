@@ -8,6 +8,7 @@ import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
 import { ITheme, PrimaryColorNames } from "@types";
+import PhotoAlbumList from "~/components/PhotoAlbumList";
 import Snackbar from "~/components/Snackbar";
 import { PRIMARY_COLORS } from "~/constants";
 import { togglePrimaryColor } from "~/redux/actions";
@@ -27,12 +28,18 @@ class Main extends React.Component<IProps, {}> {
     const { theme } = this.props.screenProps;
     return (
       <View style={[styles.container, { backgroundColor: theme.background }]}>
-        <TouchableOpacity
-          onPress={this.getPhotoFromCameraRoll}
-          style={styles.button}
-        >
-          <Icon name="photo" iconStyle={styles.icon} type="font-awesome" />
-        </TouchableOpacity>
+        <View style={styles.buttonsRow}>
+          <TouchableOpacity
+            onPress={this.getPhotoFromCameraRoll}
+            style={styles.button}
+          >
+            <Icon name="photo" iconStyle={styles.icon} type="font-awesome" />
+          </TouchableOpacity>
+        </View>
+
+        <View style={styles.photoListContainer}>
+          <PhotoAlbumList onPhotoPress={this.selectPhotoToEncode} />
+        </View>
       </View>
     );
   }
@@ -46,7 +53,9 @@ class Main extends React.Component<IProps, {}> {
   private getPhotoFromCameraRoll = async () => {
     const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
     if (status === "granted") {
-      const result = await ImagePicker.launchImageLibraryAsync();
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images
+      });
       if (!result.cancelled) {
         this.selectPhotoToEncode(result.uri);
       }

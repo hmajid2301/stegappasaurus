@@ -43,6 +43,8 @@ target 'Stegappasaurus' do
 
 
 
+  pod 'lottie-react-native', :path => '../node_modules/lottie-react-native'
+
   target 'StegappasaurusTests' do
     inherit! :search_paths
   end

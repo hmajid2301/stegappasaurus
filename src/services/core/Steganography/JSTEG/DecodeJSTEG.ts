@@ -41,7 +41,7 @@ export default class DecodeJSTEG {
     const binaryMessage: string[] = [];
 
     for (let i = 0; i < messageLength; i++) {
-      const byte = this.getNextByte(dctData);
+      const byte = this.decodeNextByte(dctData);
       binaryMessage.push(byte);
     }
     return binaryMessage;
@@ -61,7 +61,7 @@ export default class DecodeJSTEG {
     const messageVarint: number[] = [];
 
     while (!completed) {
-      const byte = this.getNextByte(data);
+      const byte = this.decodeNextByte(data);
       const num = parseInt(byte, 2);
       messageVarint.push(num);
       if (messageVarint.slice(-1)[0] < 128) {
@@ -80,7 +80,7 @@ export default class DecodeJSTEG {
    *
    * @return The decoded (next) byte from the image.
    */
-  private getNextByte = (data: number[][][]) => {
+  private decodeNextByte = (data: number[][][]) => {
     let byte = "";
     for (let i = 0; i < 8; i += 1) {
       const index = Math.floor(this.dctIndex / 3);
