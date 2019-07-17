@@ -38,12 +38,10 @@ export default class EncodeJSTEG {
     binaryMessage: string,
     startEncodingAt = 0
   ) => {
-    console.time("Start TS");
     this.dctIndex = 0;
     const dctData = convertImageDataToDCT(imageData, width, height);
     const encodedDCTData = this.encodeDCT(dctData, binaryMessage);
     const newImageData = convertDCTToImageData(encodedDCTData, width, height);
-    console.timeEnd("Start TS");
     return new Uint8ClampedArray([
       ...imageData.subarray(0, startEncodingAt),
       ...newImageData.subarray(startEncodingAt)
