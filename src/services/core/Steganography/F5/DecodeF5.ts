@@ -63,7 +63,6 @@ export default class DecodeF5 {
       const byte = this.decodeNextByte(dctData);
       binaryMessage.push(byte);
     }
-    console.log("Decoded Bits", this.decodedBits);
     return binaryMessage;
   };
 
@@ -149,7 +148,6 @@ export default class DecodeF5 {
     const x2 = limitedData[1] === limitedData[2] ? "0" : "1";
     const bits = x1 + x2;
 
-    console.log(data, limitedData, x1, x2);
     return bits;
   };
 }
