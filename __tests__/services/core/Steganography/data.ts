@@ -30,17 +30,6 @@ const TestData = [
     data: getImageData("images/black.png"),
     decoded: ["01000001"],
     encoded: {
-      JSTEG: {
-        image: convertToBase64("images/encoded/JSTEG/black.png"),
-        limit: 15
-      },
-
-      F5: {
-        image: convertToBase64("images/encoded/F5/black.png"),
-        limit: 15,
-        password: "abcd1234"
-      },
-
       LSB: {
         image: convertToBase64("images/encoded/LSB/black.png")
       }

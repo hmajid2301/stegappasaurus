@@ -64,13 +64,14 @@ export default class PhotoAlbumList extends React.Component<IProps, IState> {
   };
 
   private morePhotosFromCameraRoll = async () => {
-    const { assets } = await MediaLibrary.getAssetsAsync({
+    const { assets, endCursor } = await MediaLibrary.getAssetsAsync({
       after: this.state.lastPhoto,
       first: 9,
       sortBy: ["creationTime"]
     });
 
     this.setState({
+      lastPhoto: endCursor,
       photos: [...this.state.photos, ...assets]
     });
   };

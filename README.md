@@ -61,7 +61,6 @@ Some different technologies/libraries/frameworks that were used in this project 
 ## Credit
 
 - Design inspired by [PixelKnot](https://play.google.com/store/apps/details?id=info.guardianproject.pixelknot)
-- JSTEG code inspired by [zeruniverse](https://github.com/zeruniverse/CryptoStego)
 - Cat photos from [thecatapi](https://thecatapi.com)
 - [Dinosaur Lottie animation](https://lottiefiles.com/2469-dino-dance), [edited using](https://editor.lottiefiles.com/) 
 
