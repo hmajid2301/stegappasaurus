@@ -1,7 +1,7 @@
 import { createCanvas, createImageData, Image } from "canvas";
 import sizeOf from "image-size";
 import lz from "lzutf8";
-import { arrayToString, stringToArray } from "utf8-to-bytes";
+import { stringToArray } from "utf8-to-bytes";
 import varint from "varint";
 
 import { IEncode } from "../../models";
@@ -11,8 +11,6 @@ import {
   InvalidImageError,
   MessageTooLongError
 } from "../exceptions";
-import { DecodeF5, EncodeF5 } from "./F5";
-import { DecodeJSTEG, EncodeJSTEG } from "./JSTEG";
 import { DecodeLSB, EncodeLSB } from "./LSB";
 
 type AlgorithmNames = IEncode["algorithm"];
@@ -34,9 +32,7 @@ export default class Steganography {
   private height: number;
 
   private numToAlgorithmTypes: IAlgorithms = {
-    0: "LSB",
-    1: "JSTEG",
-    2: "F5"
+    0: "LSB"
   };
 
   constructor(imageData: string) {
@@ -209,31 +205,6 @@ export default class Steganography {
     let encodedData;
 
     switch (algorithm) {
-      case "JSTEG": {
-        encodedData = new EncodeJSTEG().encode(
-          newImageData,
-          this.width,
-          this.height,
-          data,
-          startEncodingAt + 1
-        );
-        break;
-      }
-
-      case "F5": {
-        encodedData = new EncodeF5(
-          metadata.limit as number,
-          metadata.password as string
-        ).encode(
-          newImageData,
-          this.width,
-          this.height,
-          data,
-          startEncodingAt + 1
-        );
-        break;
-      }
-
       default: {
         encodedData = new EncodeLSB().encode(
           newImageData,
@@ -261,26 +232,6 @@ export default class Steganography {
   ) => {
     const algorithmNum = this.algorithmsTypesToNum(algorithm);
     metadata.algorithm = algorithmNum;
-
-    switch (algorithm) {
-      case "JSTEG": {
-        const limit = (metadata.limit ? metadata.limit : 15) as number;
-        metadata.limit = limit;
-        break;
-      }
-
-      case "F5": {
-        const limit = (metadata.limit ? metadata.limit : 15) as number;
-        const password = (metadata.password
-          ? metadata.password
-          : Math.random()
-              .toString(36)
-              .substring(2, 10)) as string;
-        metadata.limit = limit;
-        metadata.password = password;
-        break;
-      }
-    }
 
     return metadata;
   };
@@ -376,29 +327,10 @@ export default class Steganography {
    * @return The decoded message, as a uint8 array (utf8).
    */
   private decodeData = (imageData: Uint8ClampedArray) => {
-    const { algorithm, metadata, startDecodingAt } = this.decodeMetadata(
-      imageData
-    );
-
+    const { algorithm, startDecodingAt } = this.decodeMetadata(imageData);
     let decodedMessage;
+
     switch (algorithm) {
-      case "JSTEG": {
-        decodedMessage = new DecodeJSTEG(metadata.limit as number).decode(
-          imageData,
-          this.width,
-          this.height
-        );
-        break;
-      }
-
-      case "F5": {
-        decodedMessage = new DecodeF5(
-          metadata.limit as number,
-          metadata.password as string
-        ).decode(imageData, this.width, this.height);
-        break;
-      }
-
       default: {
         decodedMessage = new DecodeLSB().decode(imageData, startDecodingAt);
       }
@@ -427,26 +359,6 @@ export default class Steganography {
     const algorithmNum = this.convertBytesToDecimal(algorithmTypeBinary);
     const algorithm = this.numToAlgorithmTypes[algorithmNum] || "LSB";
     const metadata: IMetaData = {};
-
-    switch (algorithm) {
-      case "JSTEG": {
-        const limit = decodeLSB.decodeVarint(imageData);
-        metadata.limit = varint.decode(limit);
-        break;
-      }
-
-      case "F5": {
-        const limit = decodeLSB.decodeVarint(imageData);
-        const password: string[] = [];
-        for (let i = 0; i < 8; i += 1) {
-          const asciiByte = decodeLSB.decodeNextByte(imageData);
-          password.push(asciiByte);
-        }
-        metadata.limit = varint.decode(limit);
-        metadata.password = arrayToString(password);
-        break;
-      }
-    }
 
     const startDecodingAt = decodeLSB.getCurrentIndex();
     return {

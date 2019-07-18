@@ -139,10 +139,9 @@ class Progress extends React.Component<IProps, IState> {
       this.props.navigation.goBack();
     } else {
       Snackbar.show({
-        text:
-          "Failed to encode photo, please check you have an internet connection."
+        text: "Failed to encode image, please try again."
       });
-      this.props.navigation.navigate("EncodingMain");
+      this.props.navigation.navigate("Main");
     }
   };
 

@@ -95,8 +95,7 @@ export default class Progress extends React.Component<IProps, IState> {
 
   private failedResponse = () => {
     Snackbar.show({
-      text:
-        "Failed to decode photo, please check you have an internet connection."
+      text: "Failed to decode image, please try again."
     });
     this.props.navigation.goBack();
   };

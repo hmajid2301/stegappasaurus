@@ -4,11 +4,13 @@
   "private": true,
   "scripts": {
     "android": "react-native run-android",
+    "emulator-android": "./util/startEmulator.sh TestDevice",
     "code-formatter": "prettier src/**/*.{tx,tsx}",
     "code-formatter-check": "prettier --check src/**/*.{tx,tsx}",
     "compiler-check": "tsc --project . --noEmit --pretty --skipLibCheck",
     "coverage": "jest --coverage",
     "deploy-services": "firebase deploy --only functions",
+    "firebase-emulator": "firebase emulators:start",
     "generate-service-models": "./util/servicesModelGenerator.sh",
     "ios": "react-native run-ios",
     "lint": "tslint src/**/*.{tx,tsx}",

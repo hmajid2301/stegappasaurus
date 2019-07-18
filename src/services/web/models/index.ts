@@ -9,7 +9,7 @@ export interface IAPIError {
 }
 
 export interface IEncode {
-  algorithm?: "LSB" | "JSTEG" | "F5";
+  algorithm?: "LSB";
   message: string;
   metadata?: {};
   imageData: string;

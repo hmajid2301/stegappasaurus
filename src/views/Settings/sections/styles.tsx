@@ -22,11 +22,6 @@ const styles = StyleSheet.create({
     color: "grey"
   },
 
-  picker: {
-    height: 30,
-    width: 150
-  },
-
   checkbox: {
     paddingRight: 20
   }
