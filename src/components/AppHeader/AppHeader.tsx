@@ -1,5 +1,4 @@
 import * as React from "react";
-import { View } from "react-native";
 import { Header, Icon } from "react-native-elements";
 import { NavigationScreenProp, NavigationState } from "react-navigation";
 
@@ -59,7 +58,6 @@ const showHomeIcon = (navigation: NavigationScreenProp<any, any>) => {
 const goToHome = (navigation: NavigationScreenProp<any, any>) => {
   const activeRoute = getActiveRouteState(navigation.state) as any;
   const routeName = activeRoute.routeName;
-  console.log(routeName);
 
   if (routeName.startsWith("Encoding") || routeName.startsWith("Decoding")) {
     navigation.navigate("Main");

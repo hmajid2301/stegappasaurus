@@ -3,6 +3,7 @@ package com.stegappasaurus;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.meedan.ShareMenuPackage;
 import com.airbnb.android.react.lottie.LottiePackage;
 import io.invertase.firebase.RNFirebasePackage;
 import io.invertase.firebase.analytics.RNFirebaseAnalyticsPackage;
@@ -50,6 +51,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new ShareMenuPackage(),
             new LottiePackage(),
             new RNFirebasePackage(),
             new RNFirebaseAnalyticsPackage(),

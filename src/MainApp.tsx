@@ -2,7 +2,7 @@ import * as Location from "expo-location";
 import * as Permissions from "expo-permissions";
 import moment from "moment";
 import * as React from "react";
-import { AppState, AsyncStorage, StatusBar } from "react-native";
+import { AppState, AsyncStorage, Image, StatusBar } from "react-native";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import { getSunrise, getSunset } from "sunrise-sunset-js";

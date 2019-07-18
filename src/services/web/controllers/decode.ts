@@ -29,7 +29,6 @@ export default (request: express.Request, response: express.Response) => {
   } catch (error) {
     let code = error.message;
     let errorMessage;
-    console.error(error, request);
 
     if (
       error instanceof ImageNotEncodedError ||
