@@ -29,3 +29,5 @@ export interface IIcon {
     | "feather"
     | "antdesign";
 }
+
+declare module "*.png";

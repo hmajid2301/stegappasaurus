@@ -7217,6 +7217,11 @@ react-native-safe-module@^1.1.0:
   dependencies:
     debounce "^1.2.0"
 
+react-native-share-menu@^2.2.2:
+  version "2.2.2"
+  resolved "https://registry.yarnpkg.com/react-native-share-menu/-/react-native-share-menu-2.2.2.tgz#7c332b83fc77739853c371517dd84199cb870e6a"
+  integrity sha512-WbtD85mzK8brOmLC9ZlYRR4JGk9R3ID67KnZ6F1vvuTcHePt2Nk7MJBfrKz0ReG0jyaJ13nyBY2Jwwmc9BsKfA==
+
 react-native-share@1.2.1:
   version "1.2.1"
   resolved "https://registry.yarnpkg.com/react-native-share/-/react-native-share-1.2.1.tgz#3756a3cf383c1489a6a0edf2b529ec025ee8f8f7"

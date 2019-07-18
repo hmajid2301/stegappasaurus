@@ -39,7 +39,6 @@ export default async (request: express.Request, response: express.Response) => {
   } catch (error) {
     let code = error.name;
     let errorMessage = error.message;
-    console.error(error, request);
 
     if (
       error instanceof MessageTooLongError ||

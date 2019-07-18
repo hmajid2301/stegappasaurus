@@ -3,6 +3,8 @@ import * as Permissions from "expo-permissions";
 import * as React from "react";
 import { TouchableOpacity, View } from "react-native";
 import { Icon } from "react-native-elements";
+// @ts-ignore
+import ShareMenu from "react-native-share-menu";
 import { NavigationScreenProp } from "react-navigation";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
@@ -47,6 +49,12 @@ class Main extends React.Component<IProps, {}> {
   public componentDidMount = () => {
     this.props.navigation.addListener("willFocus", () => {
       this.props.togglePrimaryColor(PRIMARY_COLORS.BLUE.name);
+    });
+
+    ShareMenu.getSharedText((data: string) => {
+      if (data.startsWith("content://media/")) {
+        this.selectPhotoToEncode(data);
+      }
     });
   };
 
