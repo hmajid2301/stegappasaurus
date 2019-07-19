@@ -1,3 +1,4 @@
+import NetInfo from "@react-native-community/netinfo";
 import { ApiResponse, create } from "apisauce";
 import * as FileSystem from "expo-file-system";
 import * as React from "react";
@@ -69,6 +70,8 @@ export default class Progress extends React.Component<IProps, IState> {
         token = await userCredentials.user.getIdToken();
       });
 
+    await this.checkNetworkStatus();
+
     const api = create({
       baseURL: Config.FIREBASE_API_URL,
       headers: { Authorization: `Bearer ${token}` },
@@ -84,6 +87,21 @@ export default class Progress extends React.Component<IProps, IState> {
     } else {
       this.failedResponse();
     }
+  };
+
+  private checkNetworkStatus = async () => {
+    await NetInfo.fetch().then(state => {
+      if (!state.isConnected) {
+        Snackbar.show({
+          text: "You need an internet connection to encode an image."
+        });
+        this.failedResponse();
+      } else if (state.type === "cellular") {
+        Snackbar.show({
+          text: "You are using mobile data."
+        });
+      }
+    });
   };
 
   private decoded = (message: string) => {

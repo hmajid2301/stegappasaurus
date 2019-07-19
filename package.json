@@ -18,6 +18,7 @@
     "tests": "jest"
   },
   "dependencies": {
+    "@react-native-community/netinfo": "3.3.0-reachability.4",
     "apisauce": "1.0.3",
     "expo-image-picker": "5.0.2",
     "expo-location": "5.0.1",
