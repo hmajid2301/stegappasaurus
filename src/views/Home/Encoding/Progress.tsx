@@ -1,3 +1,4 @@
+import NetInfo from "@react-native-community/netinfo";
 import { ApiResponse, create } from "apisauce";
 import * as FileSystem from "expo-file-system";
 import * as MediaLibrary from "expo-media-library";
@@ -90,6 +91,8 @@ class Progress extends React.Component<IProps, IState> {
         token = await userCredentials.user.getIdToken();
       });
 
+    await this.checkNetworkStatus();
+
     const api = create({
       baseURL: Config.FIREBASE_API_URL,
       headers: { Authorization: `Bearer ${token}` },
@@ -109,6 +112,21 @@ class Progress extends React.Component<IProps, IState> {
     }
   };
 
+  private checkNetworkStatus = async () => {
+    await NetInfo.fetch().then(state => {
+      if (!state.isConnected) {
+        Snackbar.show({
+          text: "You need an internet connection to encode an image."
+        });
+        this.sendUserBackToMain();
+      } else if (state.type === "cellular") {
+        Snackbar.show({
+          text: "You are using mobile data."
+        });
+      }
+    });
+  };
+
   private encoded = async (base64Image: string) => {
     const imagePath = `${FileSystem.documentDirectory}${this.state.filename}`;
     await FileSystem.writeAsStringAsync(imagePath, base64Image.substring(22), {
@@ -117,6 +135,7 @@ class Progress extends React.Component<IProps, IState> {
 
     await MediaLibrary.createAssetAsync(imagePath);
     await FileSystem.deleteAsync(imagePath);
+
     this.setState({ encoding: false });
     Snackbar.show({
       buttonText: "Open Album",
@@ -138,10 +157,7 @@ class Progress extends React.Component<IProps, IState> {
       });
       this.props.navigation.goBack();
     } else {
-      Snackbar.show({
-        text: "Failed to encode image, please try again."
-      });
-      this.props.navigation.navigate("Main");
+      this.sendUserBackToMain();
     }
   };
 
@@ -150,6 +166,13 @@ class Progress extends React.Component<IProps, IState> {
       url: this.state.filename
     });
   };
+
+  private sendUserBackToMain() {
+    Snackbar.show({
+      text: "Failed to encode image, please try again."
+    });
+    this.props.navigation.navigate("Main");
+  }
 }
 
 const mapStateToProps = (state: IReducerState) => ({
