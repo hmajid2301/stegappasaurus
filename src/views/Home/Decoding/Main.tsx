@@ -3,7 +3,6 @@ import * as Permissions from "expo-permissions";
 import * as React from "react";
 import { TouchableOpacity, View } from "react-native";
 import { Icon } from "react-native-elements";
-// @ts-ignore
 import ShareMenu from "react-native-share-menu";
 import { NavigationScreenProp } from "react-navigation";
 import { connect } from "react-redux";
