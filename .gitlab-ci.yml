@@ -5,7 +5,6 @@ stages:
   - test
   - build
   - publish
-  - post
 
 cache:
   key: ${CI_COMMIT_REF_SLUG}
@@ -20,9 +19,6 @@ before_script:
   - chmod +x util/generateDotEnv.sh
   - ./util/generateDotEnv.sh > .env
   - yarn
-  - cd src/services
-  - yarn
-  - cd ../..
 
 open-merge-request:
   image: registry.gitlab.com/hmajid2301/gitlab-auto-mr
@@ -45,21 +41,25 @@ open-merge-request:
 lint:
   stage: test
   script:
+    - yarn --cwd src/services
     - yarn lint
 
 lint:code-formatter:
   stage: test
   script:
+    - yarn --cwd src/services
     - yarn code-formatter-check
 
 lint:compiler:
   stage: test
   script:
+    - yarn --cwd src/services
     - yarn compiler-check
 
 tests:unit:
   stage: test
   script:
+    - yarn --cwd src/services
     - yarn tests
 
 test:coverage:
@@ -67,12 +67,59 @@ test:coverage:
   only:
     - master
   script:
+    - yarn --cwd src/services
     - yarn coverage
   coverage: '/^All files\s+\|\s+\d+\.*\d*\s+\|\s*(\d+\.*\d*)/'
 
-publish:firebase-functions:
+test:android:lint:
+  stage: test
+  image: reactnativecommunity/react-native-android
+  only:
+    - /^release/.*$/
+  before_script:
+    - cd android
+    - mv $FIREBASE_GOOGLE_SERVICES app/google-services.json
+  script:
+    - yarn android-lint
+
+test:android:assemble:
+  stage: test
+  image: reactnativecommunity/react-native-android
+  only:
+    - /^release/.*$/
+  before_script:
+    - cd android
+    - mv $FIREBASE_GOOGLE_SERVICES app/google-services.json
+  script:
+    - yarn android-debug 
+
+build:android:package:
+  stage: build
+  image: reactnativecommunity/react-native-android
+  only:
+    - /^release/.*$/
+  script:
+    - rm -r src/services
+    - cd android
+    - mv $FIREBASE_GOOGLE_SERVICES app/google-services.json
+    - base64 -d $ANDROID_KEYSTORE > app/stegappasaurus.keystore
+    - echo "MYAPP_RELEASE_STORE_FILE=stegappasaurus.keystore" > gradle.properties
+    - echo "MYAPP_RELEASE_STORE_PASSWORD=$ANDROID_KEYSTORE_PASSWORD" >> gradle.properties
+    - echo "MYAPP_RELEASE_KEY_ALIAS=$ANDROID_KEYSTORE_ALIAS" >> gradle.properties
+    - echo "MYAPP_RELEASE_KEY_PASSWORD=$ANDROID_KEYSTORE_KEY_PASSWORD" >> gradle.properties
+    - yarn react-native link
+    - mv $PLAY_STORE_JSON /tmp/play-store-key.json
+    - yarn android-bundle
+    - cp react.gradle ../node_modules/react-native/
+    - yarn android-build-apk
+  artifacts:
+    paths:
+    - ./android/app/build/outputs/
+
+publish:firebase:functions:
   stage: publish
   only:
     - master
   script:
+    - yarn --cwd src/services
     - yarn run deploy-services -m "Pipeline $CI_PIPELINE_ID, build $CI_BUILD_ID" --non-interactive --token $FIREBASE_DEPLOY_TOKEN

@@ -1,4 +1,5 @@
 apply plugin: "com.android.application"
+apply plugin: "com.github.triplet.play"
 apply plugin: "io.fabric"
 apply plugin: "com.google.firebase.firebase-perf"
 
@@ -122,10 +123,21 @@ android {
             include "armeabi-v7a", "x86", "arm64-v8a", "x86_64"
         }
     }
+    signingConfigs {
+        release {
+            if (project.hasProperty('MYAPP_RELEASE_STORE_FILE')) {
+                storeFile file(MYAPP_RELEASE_STORE_FILE)
+                storePassword MYAPP_RELEASE_STORE_PASSWORD
+                keyAlias MYAPP_RELEASE_KEY_ALIAS
+                keyPassword MYAPP_RELEASE_KEY_PASSWORD
+            }
+        }
+    }
     buildTypes {
         release {
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+            signingConfig signingConfigs.release
         }
     }
     // applicationVariants are e.g. debug, release
@@ -173,6 +185,12 @@ dependencies {
 task copyDownloadableDepsToLibs(type: Copy) {
     from configurations.compile
     into 'libs'
+}
+
+play {
+    track = 'production'
+    serviceAccountEmail = 'stegappaurus@api-9183890227894373747-808396.iam.gserviceaccount.com'
+    jsonFile = file('/tmp/play-store-key.json')
 }
 
 apply plugin: 'com.google.gms.google-services'

@@ -1224,6 +1224,11 @@
   resolved "https://registry.yarnpkg.com/@types/prop-types/-/prop-types-15.7.1.tgz#f1a11e7babb0c3cad68100be381d1e064c68f1f6"
   integrity sha512-CFzn9idOEpHrgdw8JsoTkaDDyRWk1jrzIV8djzcgpq0y9tG4B4lFT+Nxh52DVpDXV+n4+NPNv7M1Dj5uMp6XFg==
 
+"@types/react-native-share-menu@^2.2.0":
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/@types/react-native-share-menu/-/react-native-share-menu-2.2.0.tgz#17d9f50d22e6fcec3dfcd2d96203ef7e6bbb4fa9"
+  integrity sha512-f4WxVURXESn4wSJSorSyDMHYrAktWuz9kJtP0L3d23N6LVOnnbZW8K7CkdhylVsoWFBvFbeb1VDMX70gpa7sFg==
+
 "@types/react-native-share@1.1.2":
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@types/react-native-share/-/react-native-share-1.1.2.tgz#8ba7b9a17da2c4ecba0cd38d7c752ca503726908"
