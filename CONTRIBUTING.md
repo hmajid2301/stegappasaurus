@@ -23,4 +23,4 @@ Please note that the examples are all made available under the
 
 ## Getting help
 
-If you need any help please free feel to get into contact with me.
+If you need any help please free feel to get in contact with me.
