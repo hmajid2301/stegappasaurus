@@ -8,7 +8,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [Unreleased]
 
 ### Added
-- One encoding algorithms LSB.
-- Steganography algorithms as FAAS on firebase.
-- Firebase integration into the application.
-- Initial React Native application version 1.0.0.
+- Encode and decode using LSB.
+- Share save encoded images (as png files).
+- FAAS on Firebase for steganography encoding.
+- Firebase for application management.
+- Initial Rrelease.

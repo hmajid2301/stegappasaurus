@@ -5,7 +5,7 @@ import { https } from "firebase-functions";
 import { resolve } from "path";
 
 import { decode, encode } from "./web/controllers";
-// import { ValidateToken } from "./web/middleware";
+import { ValidateToken } from "./web/middleware";
 
 initializeApp();
 const app = express();
@@ -14,7 +14,7 @@ new OpenApiValidator({
 }).install(app);
 
 app.use(express.json());
-// app.use(ValidateToken);
+app.use(ValidateToken);
 
 app.post("/encode", encode);
 app.post("/decode", decode);
