@@ -18,7 +18,7 @@ properly you may need to set these up.
 ## Prerequisites
 
 - yarn/npm
-- Firebase Account
+- adb
 
 ## Installation
 
@@ -27,12 +27,15 @@ git clone https://github.com/hmajid2301/stegappasaurus.git
 cd stegappasaurus
 touch .env
 yarn install
-yarn run android
+adb connect <device_ip>
+yarn run start
+# Then in another terminal
+yarn run android 
 ```
 
 ### Example `.env` file
 
-`.env` file should have the following variables defined
+`.env` file should have the following variables defined (you can look at `util/generateDotEnv.sh` for an example template).
 
 ```bash
 # **Optional** IP of Android Device (only used in docker container)
@@ -47,12 +50,12 @@ REACT_NATIVE_PACKAGER_HOSTNAME=192.168.27.1
 
 # Technologies
 
-Some different technologies/libraries/frameworks that were used in this project (in general order of important) include;
+Some different technologies/libraries/frameworks that were used in this project include;
 
 - [React Native](https://facebook.github.io/react-native/)
 - [TypeScript](https://www.typescriptlang.org/)
-- [Redux](https://redux.js.org/)
 - [Firebase](https://firebase.google.com/)
+- [Redux](https://redux.js.org/)
 - [Openapi](https://swagger.io/specification/)
 - [Docker](https://www.docker.com/)
 
