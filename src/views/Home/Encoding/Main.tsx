@@ -4,7 +4,10 @@ import * as React from "react";
 import { Image, TouchableOpacity, View } from "react-native";
 import Config from "react-native-config";
 import { Icon } from "react-native-elements";
-import { NavigationScreenProp } from "react-navigation";
+import {
+  NavigationEventSubscription,
+  NavigationScreenProp
+} from "react-navigation";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
@@ -38,11 +41,15 @@ interface ICatAPI {
 }
 
 class Main extends React.Component<IProps, IState> {
+  private focusListener: NavigationEventSubscription | null;
+
   constructor(props: IProps) {
     super(props);
     this.state = {
       loading: false
     };
+
+    this.focusListener = null;
   }
 
   public render() {
@@ -81,16 +88,25 @@ class Main extends React.Component<IProps, IState> {
           </TouchableOpacity>
         </View>
         <View style={styles.photoListContainer}>
-          <PhotoAlbumList onPhotoPress={this.selectPhotoToEncode} />
+          <PhotoAlbumList
+            onPhotoPress={this.selectPhotoToEncode}
+            navigation={this.props.navigation}
+          />
         </View>
       </View>
     );
   }
 
   public componentDidMount = async () => {
-    this.props.navigation.addListener("willFocus", () => {
+    this.focusListener = this.props.navigation.addListener("willFocus", () => {
       this.props.togglePrimaryColor(PRIMARY_COLORS.ORANGE.name);
     });
+  };
+
+  public componentWillUnmount = () => {
+    if (this.focusListener !== null) {
+      this.focusListener.remove();
+    }
   };
 
   private getPhotoFromCamera = async () => {

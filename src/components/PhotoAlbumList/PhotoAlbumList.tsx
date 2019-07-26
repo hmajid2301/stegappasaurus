@@ -3,12 +3,17 @@ import * as Permissions from "expo-permissions";
 
 import * as React from "react";
 import { FlatList, Image, TouchableOpacity, View } from "react-native";
+import {
+  NavigationEventSubscription,
+  NavigationScreenProp
+} from "react-navigation";
 
 import Snackbar from "~/components/Snackbar";
 
 import styles from "./styles";
 
 interface IProps {
+  navigation: NavigationScreenProp<any, any>;
   onPhotoPress: (uri: string) => any;
 }
 
@@ -23,6 +28,8 @@ interface IPhoto {
 }
 
 export default class PhotoAlbumList extends React.Component<IProps, IState> {
+  private focusListener: NavigationEventSubscription | null;
+
   constructor(props: IProps) {
     super(props);
     this.state = {
@@ -30,6 +37,7 @@ export default class PhotoAlbumList extends React.Component<IProps, IState> {
       photos: [],
       refreshing: false
     };
+    this.focusListener = null;
   }
 
   public render() {
@@ -47,7 +55,18 @@ export default class PhotoAlbumList extends React.Component<IProps, IState> {
   }
 
   public componentDidMount = async () => {
-    await this.getPhotosListFromAlbum();
+    this.focusListener = this.props.navigation.addListener(
+      "didFocus",
+      async () => {
+        await this.handleRefresh();
+      }
+    );
+  };
+
+  public componentWillUnmount = () => {
+    if (this.focusListener !== null) {
+      this.focusListener.remove();
+    }
   };
 
   private padData = (data: IPhoto[]) => {

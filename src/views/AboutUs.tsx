@@ -6,7 +6,7 @@ import { ITheme, PrimaryColor } from "@types";
 import AboutList from "~/components/AboutList";
 import AppHeader from "~/components/AppHeader";
 import { colors } from "~/constants";
-import AboutItems from "~/views/About/AboutItems";
+import { about } from "~/data";
 import styles from "~/views/About/styles";
 
 interface IProps {
@@ -44,7 +44,7 @@ export default class AboutUs extends React.Component<IProps, {}> {
 
           <View>
             <AboutList
-              items={AboutItems}
+              items={about}
               backgroundColor={theme.background}
               color={theme.color}
             />

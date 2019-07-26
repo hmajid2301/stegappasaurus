@@ -2,13 +2,15 @@ import * as Location from "expo-location";
 import * as Permissions from "expo-permissions";
 import moment from "moment";
 import * as React from "react";
-import { AppState, AsyncStorage, Image, StatusBar } from "react-native";
+import { AppState, AsyncStorage, StatusBar } from "react-native";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 import { getSunrise, getSunset } from "sunrise-sunset-js";
 
 import { ITheme, PossibleAppStates } from "@types";
+import IntroSlider from "~/components/IntroSlider";
 import Snackbar from "~/components/Snackbar";
+import { slides } from "~/data";
 import { toggleAutomaticTheme, toggleDarkTheme } from "~/redux/actions";
 import { IReducerState as IReducerAutomaticTheme } from "~/redux/reducers/ToggleAutomaticTheme";
 import { IReducerState as IReducerDarkTheme } from "~/redux/reducers/ToggleDarkTheme";
@@ -23,15 +25,30 @@ interface IProps {
   theme: ITheme;
 }
 
-class MainApp extends React.Component<IProps, {}> {
+interface IState {
+  introShown: boolean;
+}
+
+class MainApp extends React.Component<IProps, IState> {
+  constructor(props: IProps) {
+    super(props);
+    this.state = {
+      introShown: true
+    };
+  }
+
   public render() {
-    return (
-      <App
-        screenProps={{
-          theme: this.props.theme
-        }}
-      />
-    );
+    if (this.state.introShown) {
+      return (
+        <App
+          screenProps={{
+            theme: this.props.theme
+          }}
+        />
+      );
+    }
+
+    return <IntroSlider slides={slides} onDone={this.introShownToUser} />;
   }
 
   public componentWillMount = async () => {
@@ -40,10 +57,19 @@ class MainApp extends React.Component<IProps, {}> {
 
   public componentDidMount = async () => {
     AppState.addEventListener("change", this.appInFocus);
+    const wasIntroShown = await AsyncStorage.getItem("introShown");
+    if (wasIntroShown === null) {
+      this.setState({ introShown: false });
+    }
   };
 
   public componentWillUnmount = () => {
     AppState.removeEventListener("change", this.appInFocus);
+  };
+
+  private introShownToUser = async () => {
+    await AsyncStorage.setItem("introShown", "true");
+    this.setState({ introShown: true });
   };
 
   private appInFocus = async (nextAppState: PossibleAppStates) => {
