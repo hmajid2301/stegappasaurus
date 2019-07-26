@@ -1,15 +1,11 @@
-import * as Location from "expo-location";
-import * as Permissions from "expo-permissions";
-import moment from "moment";
 import * as React from "react";
 import { AppState, AsyncStorage, StatusBar } from "react-native";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
-import { getSunrise, getSunset } from "sunrise-sunset-js";
 
 import { ITheme, PossibleAppStates } from "@types";
+import AutoToggleTheme from "~/components/AutoToggleTheme";
 import IntroSlider from "~/components/IntroSlider";
-import Snackbar from "~/components/Snackbar";
 import { slides } from "~/data";
 import { toggleAutomaticTheme, toggleDarkTheme } from "~/redux/actions";
 import { IReducerState as IReducerAutomaticTheme } from "~/redux/reducers/ToggleAutomaticTheme";
@@ -30,11 +26,15 @@ interface IState {
 }
 
 class MainApp extends React.Component<IProps, IState> {
+  private toggleTheme: AutoToggleTheme;
+
   constructor(props: IProps) {
     super(props);
     this.state = {
       introShown: true
     };
+
+    this.toggleTheme = new AutoToggleTheme();
   }
 
   public render() {
@@ -75,93 +75,11 @@ class MainApp extends React.Component<IProps, IState> {
   private appInFocus = async (nextAppState: PossibleAppStates) => {
     if (nextAppState === "active") {
       if (this.props.isAutomatic) {
-        await this.toggleTheme();
+        const toggle = await this.toggleTheme.shouldToggleTheme();
+        this.props.toggleAutomaticTheme(toggle);
       }
     }
   };
-
-  private toggleTheme = async () => {
-    const { sunrise, sunset } = await this.getSunriseAndSunsetTime();
-    if (sunrise !== null && sunset !== null) {
-      const currentTime = new Date();
-
-      if (currentTime > sunrise && currentTime < sunset) {
-        this.props.toggleDarkTheme(true);
-      } else {
-        this.props.toggleDarkTheme(false);
-      }
-    }
-  };
-
-  private getSunriseAndSunsetTime = async () => {
-    const { latitude, longitude } = await this.getLatitudeLongitude();
-
-    if (isNaN(latitude)) {
-      this.props.toggleAutomaticTheme(false);
-      Snackbar.show({
-        text:
-          "To use the automatic theme feature, location services must be turned on. Turning off automatic theme."
-      });
-      return { sunset: null, sunrise: null };
-    }
-
-    const sunset = getSunset(latitude, longitude);
-    const sunrise = getSunrise(latitude, longitude);
-    return { sunset, sunrise };
-  };
-
-  private async getLatitudeLongitude() {
-    const currentDate = moment().toISOString();
-    const lastQueried = await AsyncStorage.getItem("@LastQueriedLocation");
-    let lastQueriedDate = currentDate;
-
-    if (lastQueried !== null) {
-      lastQueriedDate = moment(lastQueried)
-        .add(7, "days")
-        .toISOString();
-    }
-
-    let latitude = parseInt(
-      (await AsyncStorage.getItem("@Latitude")) || "0",
-      10
-    );
-    let longitude = parseInt(
-      (await AsyncStorage.getItem("@Longitude")) || "0",
-      10
-    );
-
-    if (lastQueriedDate > currentDate) {
-      ({ latitude, longitude } = await this.getNewLatitudeLongitude(
-        currentDate,
-        latitude,
-        longitude
-      ));
-    }
-    return { latitude, longitude };
-  }
-
-  private async getNewLatitudeLongitude(
-    currentDate: string,
-    latitude: number,
-    longitude: number
-  ) {
-    const { status } = await Permissions.askAsync(Permissions.LOCATION);
-    if (status === "granted") {
-      const locationOn = await Location.hasServicesEnabledAsync();
-      if (locationOn) {
-        const location = await Location.getCurrentPositionAsync({
-          accuracy: Location.Accuracy.Lowest
-        });
-
-        latitude = location.coords.latitude;
-        longitude = location.coords.longitude;
-        await AsyncStorage.setItem("@Latitude", JSON.stringify(latitude));
-        await AsyncStorage.setItem("@Longitude", JSON.stringify(longitude));
-        await AsyncStorage.setItem("@LastQueriedLocation", currentDate);
-      }
-    }
-    return { latitude, longitude };
-  }
 }
 
 const mapStateToProps = (state: IReducerState) => ({
