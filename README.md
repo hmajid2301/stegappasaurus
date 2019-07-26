@@ -64,9 +64,9 @@ Some different technologies/libraries/frameworks that were used in this project 
 ## Credit
 
 - Design inspired by [PixelKnot](https://play.google.com/store/apps/details?id=info.guardianproject.pixelknot)
+
+### Images
 - Cat photos from [thecatapi](https://thecatapi.com)
-- [Dinosaur Lottie animation](https://lottiefiles.com/2469-dino-dance), [edited using](https://editor.lottiefiles.com/) 
-
-## Licenses
-
+- [Dinosaur Lottie animation](https://lottiefiles.com/2469-dino-dance), and [edited using](https://editor.lottiefiles.com/) 
 - Purchased stegosaurus dinosaur logo from [iconfinder](https://www.iconfinder.com/icons/380124/animal_big_experience_dino_paleontology_reptile_stegosaurus_zababa_icon#size=512)
+- Purchased [Intro Slider Images](https://www.dreamstime.com/vladwel_info)

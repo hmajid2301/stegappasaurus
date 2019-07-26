@@ -4,7 +4,10 @@ import * as React from "react";
 import { TouchableOpacity, View } from "react-native";
 import { Icon } from "react-native-elements";
 import ShareMenu from "react-native-share-menu";
-import { NavigationScreenProp } from "react-navigation";
+import {
+  NavigationEventSubscription,
+  NavigationScreenProp
+} from "react-navigation";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
@@ -25,6 +28,13 @@ interface IProps {
 }
 
 class Main extends React.Component<IProps, {}> {
+  private focusListener: NavigationEventSubscription | null;
+
+  constructor(props: IProps) {
+    super(props);
+    this.focusListener = null;
+  }
+
   public render() {
     const { theme } = this.props.screenProps;
     return (
@@ -39,14 +49,17 @@ class Main extends React.Component<IProps, {}> {
         </View>
 
         <View style={styles.photoListContainer}>
-          <PhotoAlbumList onPhotoPress={this.selectPhotoToEncode} />
+          <PhotoAlbumList
+            onPhotoPress={this.selectPhotoToEncode}
+            navigation={this.props.navigation}
+          />
         </View>
       </View>
     );
   }
 
   public componentDidMount = () => {
-    this.props.navigation.addListener("willFocus", () => {
+    this.focusListener = this.props.navigation.addListener("willFocus", () => {
       this.props.togglePrimaryColor(PRIMARY_COLORS.BLUE.name);
     });
 
@@ -55,6 +68,12 @@ class Main extends React.Component<IProps, {}> {
         this.selectPhotoToEncode(data);
       }
     });
+  };
+
+  public componentWillUnmount = () => {
+    if (this.focusListener !== null) {
+      this.focusListener.remove();
+    }
   };
 
   private getPhotoFromCameraRoll = async () => {

@@ -1,6 +1,6 @@
 import { IFAQ } from "~/components/FAQList";
 
-const faq: IFAQ[] = [
+const quetions: IFAQ[] = [
   {
     content:
       "Steganography is the art/science of hiding data in plain sight. In the context of this app, it allows " +
@@ -62,4 +62,4 @@ const faq: IFAQ[] = [
   }
 ];
 
-export default faq;
+export default quetions;

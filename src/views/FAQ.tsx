@@ -7,7 +7,7 @@ import AppHeader from "~/components/AppHeader";
 import FAQList from "~/components/FAQList";
 import { colors } from "~/constants";
 
-import faq from "./FAQ/questions";
+import { questions } from "~/data";
 import styles from "./FAQ/styles";
 
 interface IProps {
@@ -31,7 +31,7 @@ export default class FAQ extends React.Component<IProps, {}> {
           />
 
           <View style={styles.faqListContainer}>
-            <FAQList items={faq} theme={theme} />
+            <FAQList items={questions} theme={theme} />
           </View>
         </ScrollView>
       </View>

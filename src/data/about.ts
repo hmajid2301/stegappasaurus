@@ -1,7 +1,7 @@
 import { IAboutItem } from "~/components/AboutList";
 import { colors } from "~/constants";
 
-const AboutItems: IAboutItem[] = [
+const about: IAboutItem[] = [
   {
     icon: {
       color: colors.iconOrange,
@@ -49,4 +49,4 @@ const AboutItems: IAboutItem[] = [
   }
 ];
 
-export default AboutItems;
+export default about;

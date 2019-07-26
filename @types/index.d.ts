@@ -1,3 +1,5 @@
+import { ImageSourcePropType } from "react-native";
+
 export type AlgorithmNames = "LSB";
 export type BackgroundColors = "000" | "#FFF";
 export type ThemeColors = "#17212D" | "#FFF";
@@ -30,4 +32,12 @@ export interface IIcon {
     | "antdesign";
 }
 
-declare module "*.png";
+interface ISlide {
+  color: string;
+  height?: number;
+  image: ImageSourcePropType;
+  key: string;
+  text: string;
+  title: string;
+  width?: number;
+}

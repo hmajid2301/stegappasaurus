@@ -51,9 +51,7 @@ export default class ImageMessage extends React.Component<IProps, IState> {
   }
 
   public componentWillUnmount = () => {
-    if (this.props.navigation) {
-      this.focusListener.remove();
-    }
+    this.focusListener.remove();
   };
 
   public render() {
