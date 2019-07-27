@@ -1,31 +1,23 @@
-# Introduction
+# Stegappasaurus Mobile Application
 
-[![pipeline status](https://gitlab.com/hmajid2301/stegappasaurus/badges/master/pipeline.svg)](https://gitlab.com/hmajid2301/stegappasaurus/commits/master)
+[![pipeline status](https://gitlab.com/stegappasaurus/stegappasaurus-app/badges/master/pipeline.svg)](https://gitlab.com/stegappasaurus/stegappasaurus-app/commits/master)
 
-[![coverage report](https://gitlab.com/hmajid2301/stegappasaurus/badges/master/coverage.svg)](https://gitlab.com/hmajid2301/stegappasaurus/commits/master)
+[![coverage report](https://gitlab.com/stegappasaurus/stegappasaurus-app/badges/master/coverage.svg)](https://gitlab.com/stegappasaurus/stegappasaurus-app/commits/master)
 
 ![logo](src/assets/images/logo-dark.png)
 
-This is a mobile app made with React Native. The app allows user to encode and decode messages within images using
-Steganography.
+This is a mobile app made with React Native. The app allows user to encode and decode messages within images using Steganography.
 
 # Getting Started
 
 To setup the development environment on your own machine, you can the following instructions to get setup.
-To test the app you don't need to have an Firebase. But if you want to test the app
-properly you may need to set these up.
-
-## Prerequisites
-
-- yarn/npm
-- adb
 
 ## Installation
 
 To setup the app
 
 ```bash
-git clone https://github.com/hmajid2301/stegappasaurus.git
+git clone https://github.com/stegappasaurus/stegappasaurus-app.git
 cd stegappasaurus
 touch .env
 yarn install
@@ -38,7 +30,7 @@ yarn run android
 To setup firebase
 
 ```bash
-cd src/service
+git clone https://github.com/stegappasaurus/stegappasaurus-api.git
 yarn
 vim .runtimeconfig.json
 {
@@ -46,7 +38,6 @@ vim .runtimeconfig.json
         "production": "false"
     }
 }
-cd ../..
 yarn run firebase-emulator
 ```
 
@@ -72,17 +63,6 @@ FIREBASE_API_URL=https://xxxx.net/api
 REACT_NATIVE_PACKAGER_HOSTNAME=192.168.27.1
 ```
 
-# Technologies
-
-Some different technologies/libraries/frameworks that were used in this project include;
-
-- [React Native](https://facebook.github.io/react-native/)
-- [TypeScript](https://www.typescriptlang.org/)
-- [Firebase](https://firebase.google.com/)
-- [Redux](https://redux.js.org/)
-- [Openapi](https://swagger.io/specification/)
-- [Docker](https://www.docker.com/)
-
 # Other
 
 ## Credit
@@ -94,3 +74,4 @@ Some different technologies/libraries/frameworks that were used in this project 
 - [Dinosaur Lottie animation](https://lottiefiles.com/2469-dino-dance), and [edited using](https://editor.lottiefiles.com/) 
 - Purchased stegosaurus dinosaur logo from [iconfinder](https://www.iconfinder.com/icons/380124/animal_big_experience_dino_paleontology_reptile_stegosaurus_zababa_icon#size=512)
 - Purchased [Intro Slider Images](https://www.dreamstime.com/vladwel_info)
+- [GitLab Project Logo](https://www.flaticon.com/authors/smashicon)

@@ -10,12 +10,17 @@ import Share from "react-native-share";
 import { NavigationScreenProp } from "react-navigation";
 import { connect } from "react-redux";
 
-import { AlgorithmNames, ITheme, PrimaryColor } from "@types";
+import {
+  AlgorithmNames,
+  IAPIError,
+  IEncodingSuccess,
+  ITheme,
+  PrimaryColor
+} from "@types";
 import ImageProgress from "~/components/ImageProgress";
 import Snackbar from "~/components/Snackbar";
 import { colors } from "~/constants";
 import { IReducerState } from "~/redux/reducers/SelectAlgorithm";
-import { IAPIError, IEncodingSuccess } from "~/services/models";
 
 type Encoding = IEncodingSuccess | IAPIError;
 

@@ -10,16 +10,13 @@
     "android-emulator": "./util/startEmulator.sh TestDevice",
     "android-lint": "cd android && ./gradlew -Pci --console=plain :app:lintDebug -PbuildDir=lint",
     "android-run": "react-native run-android",
-    "code-formatter": "prettier src/**/*.{tx,tsx}",
-    "code-formatter-check": "prettier --check src/**/*.{tx,tsx}",
+    "code-formatter": "prettier src/**/*.{ts,tx,tsx}",
+    "code-formatter-check": "prettier --check src/**/*.{ts,tx,tsx}",
     "compiler-check": "tsc --project . --noEmit --pretty --skipLibCheck",
     "coverage": "jest --coverage",
-    "deploy-services": "firebase deploy --only functions",
-    "firebase-build": "yarn --cwd src/services run build",
-    "firebase-emulator": "yarn --cwd src/services run emulator",
     "generate-service-models": "./util/servicesModelGenerator.sh",
     "ios": "react-native run-ios",
-    "lint": "tslint src/**/*.{tx,tsx}",
+    "lint": "tslint src/**/*.{ts,tx,tsx}",
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "tests": "jest"
   },
@@ -31,7 +28,6 @@
     "expo-mail-composer": "5.0.1",
     "expo-media-library": "5.0.1",
     "expo-web-browser": "5.0.3",
-    "firebase": "6.3.1",
     "lottie-react-native": "2.6.1",
     "moment": "2.24.0",
     "react": "16.8.6",
@@ -59,7 +55,6 @@
   "devDependencies": {
     "@babel/core": "7.5.4",
     "@babel/runtime": "7.5.4",
-    "@types/image-size": "0.7.0",
     "@types/jest": "24.0.15",
     "@types/react": "16.8.23",
     "@types/react-native": "0.60.0",
@@ -72,9 +67,6 @@
     "@types/sunrise-sunset-js": "2.0.0",
     "babel-jest": "24.1.0",
     "babel-plugin-module-resolver": "3.2.0",
-    "canvas": "2.5.0",
-    "firebase-tools": "6.7.1",
-    "image-size": "0.7.4",
     "jest": "24.3.0",
     "jest-react-native": "18.0.0",
     "metro-react-native-babel-preset": "0.54.0",
@@ -113,9 +105,7 @@
       "js",
       "jsx",
       "ts",
-      "tsx",
-      "json",
-      "node"
+      "tsx"
     ],
     "globals": {
       "ts-jest": {

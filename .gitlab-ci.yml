@@ -11,7 +11,6 @@ cache:
   key: ${CI_COMMIT_REF_SLUG}
   paths:
     - node_modules/
-    - src/services/node_modules
 
 variables:
   DOCKER_DRIVER: overlay2
@@ -20,7 +19,6 @@ before_script:
   - chmod +x util/generateDotEnv.sh
   - ./util/generateDotEnv.sh > .env
   - yarn
-
 
 create:merge-request:
   image: registry.gitlab.com/hmajid2301/gitlab-auto-mr
@@ -44,33 +42,29 @@ create:merge-request:
 lint:
   stage: test
   script:
-    - cd src/services && yarn && cd ../..
     - yarn lint
 
 lint:code-formatter:
   stage: test
   script:
-    - cd src/services && yarn && cd ../..
     - yarn code-formatter-check
 
 lint:compiler:
   stage: test
   script:
-    - cd src/services && yarn && cd ../..
     - yarn compiler-check
 
 tests:unit:
   stage: test
+  allow_failure: true
   script:
-    - cd src/services && yarn && cd ../..
-    - yarn tests
+    - yarn tests 
 
 test:coverage:
   stage: test
   only:
     - master
   script:
-    - cd src/services && yarn && cd ../..
     - yarn coverage
   coverage: '/^All files\s+\|\s+\d+\.*\d*\s+\|\s*(\d+\.*\d*)/'
 
@@ -102,7 +96,6 @@ build:android:package:
   only:
     - /^release/.*$/
   script:
-    - rm -r src/services
     - cd android
     - mv $FIREBASE_GOOGLE_SERVICES app/google-services.json
     - base64 -d $ANDROID_KEYSTORE > app/stegappasaurus.keystore
@@ -118,23 +111,6 @@ build:android:package:
   artifacts:
     paths:
     - ./android/app/build/outputs/
-
-publish:firebase:functions:
-  stage: publish
-  only:
-    - master
-    - tags
-  script:
-    - cd src/services && yarn && cd ../..
-    - yarn run deploy-services -m "Pipeline $CI_PIPELINE_ID, build $CI_BUILD_ID" --non-interactive --token $FIREBASE_DEPLOY_TOKEN
-
-publish:firebase:env:
-  stage: publish
-  only:
-    - master
-    - tags
-  script:
-    - yarn run firebase functions:config:set env.production=true
 
 publish:release:
   image: registry.gitlab.com/hmajid2301/gitlab-auto-release

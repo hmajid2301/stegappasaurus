@@ -7,13 +7,12 @@ import Config from "react-native-config";
 import firebase from "react-native-firebase";
 import { NavigationScreenProp } from "react-navigation";
 
-import { ITheme, PrimaryColor } from "@types";
+import { IAPIError, IDecodingSuccess, ITheme, PrimaryColor } from "@types";
 import ImageProgress from "~/components/ImageProgress";
 import Snackbar from "~/components/Snackbar";
 import { colors } from "~/constants";
-import { IAPIError, IDecodingSuccess } from "~/services/models";
 
-type Decoding = IDecodingSuccess | IAPIError;
+export type Decoding = IDecodingSuccess | IAPIError;
 
 interface IProps {
   navigation: NavigationScreenProp<any, any>;

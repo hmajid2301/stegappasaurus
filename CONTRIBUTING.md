@@ -6,7 +6,7 @@ Three main ways to contribute to this project are;
 
 - **Adding a new feature:** Adding a new feature to the project, such as allow encoding of audio files alongside images
 - **Improving a feature:** Extend/improve an existing feature, such as a small UI change
-- **Fix a bug:** We have a list of [issues](https://github.com/hmajid2301/Stegappasaurus/issues), or you can fix your own bug
+- **Fix a bug:** We have a list of [issues](https://github.com/stegappasaurus/stegappasaurus-app/issues), or you can fix your own bug
 
 ## Commit Message
 
@@ -19,7 +19,7 @@ We use the squash rebase workflow, [Workflow](https://blog.carbonfive.com/2017/0
 ## Licensing
 
 Please note that the examples are all made available under the
-[Apache License 2.0](https://github.com/hmajid2301/Stegappasaurus/blob/master/LICENSE),
+[Apache License 2.0](https://github.com/stegappasaurus/stegappasaurus-app/blob/production/LICENSE),
 
 ## Getting help
 
