@@ -1,7 +1,7 @@
 import express from "express";
 import { OpenApiValidator } from "express-openapi-validator";
 import { initializeApp } from "firebase-admin";
-import { https } from "firebase-functions";
+import { config, https } from "firebase-functions";
 import { resolve } from "path";
 
 import { decode, encode } from "./web/controllers";
@@ -13,8 +13,11 @@ new OpenApiValidator({
   apiSpecPath: resolve(__dirname, "./openapi/specification.yml")
 }).install(app);
 
+const isProduction = config().env.production;
 app.use(express.json());
-app.use(ValidateToken);
+if (isProduction === "true") {
+  app.use(ValidateToken);
+}
 
 app.post("/encode", encode);
 app.post("/decode", decode);

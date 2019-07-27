@@ -3,6 +3,7 @@
   "scripts": {
     "build": "tsc -p . --skipLibCheck && yarn run copy-static",
     "copy-static": "cp -r ./openapi ./lib/",
+    "emulator": "firebase emulators:start",
     "generate-models": "../../util/servicesModelGenerator.sh",
     "lint": "tslint -p ."
   },
@@ -24,6 +25,7 @@
     "@types/js-yaml": "3.12.1",
     "@types/random-seed": "0.3.3",
     "@types/varint": "5.0.0",
+    "firebase-tools": "^7.2.1",
     "module-alias": "2.2.0",
     "openapi3-typescript-codegen": "0.0.13",
     "tslint": "5.13.0"
