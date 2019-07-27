@@ -22,6 +22,8 @@ properly you may need to set these up.
 
 ## Installation
 
+To setup the app
+
 ```bash
 git clone https://github.com/hmajid2301/stegappasaurus.git
 cd stegappasaurus
@@ -33,6 +35,28 @@ yarn run start
 yarn run android 
 ```
 
+To setup firebase
+
+```bash
+cd src/service
+yarn
+vim .runtimeconfig.json
+{
+    "env": {
+        "production": "false"
+    }
+}
+cd ../..
+yarn run firebase-emulator
+```
+
+This should give a url like `http://localhost:5001/stegappasaurus/us-central1/api` use this as
+`FIREBASE_API_URL` in the `.env`.
+
+**NOTE:** To test your changes makes sure you compile your code into Javascript.
+You can run `yarn run firebase-build` from the root directory, or you can setup 
+some sort of compile on save.
+
 ### Example `.env` file
 
 `.env` file should have the following variables defined (you can look at `util/generateDotEnv.sh` for an example template).
@@ -43,7 +67,7 @@ ADB_IP=192.168.112.101
 # API Key for the `thecatapi`
 CAT_API_KEY=xxx
 # Firebase API URL for FAAS
-FIREBASE_API_URL=https://us-central1-stegappasaurus.cloudfunctions.net
+FIREBASE_API_URL=https://xxxx.net/api
 # **Optional** IP of host device where react native is running (only used in docker container)
 REACT_NATIVE_PACKAGER_HOSTNAME=192.168.27.1
 ```

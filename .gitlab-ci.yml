@@ -123,9 +123,18 @@ publish:firebase:functions:
   stage: publish
   only:
     - master
+    - tags
   script:
     - cd src/services && yarn && cd ../..
     - yarn run deploy-services -m "Pipeline $CI_PIPELINE_ID, build $CI_BUILD_ID" --non-interactive --token $FIREBASE_DEPLOY_TOKEN
+
+publish:firebase:env:
+  stage: publish
+  only:
+    - master
+    - tags
+  script:
+    - yarn run firebase functions:config:set env.production=true
 
 publish:release:
   image: registry.gitlab.com/hmajid2301/gitlab-auto-release
