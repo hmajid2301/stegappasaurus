@@ -1,4 +1,3 @@
-import DrawerNavigator from './DrawerNavigator';
-
+import DrawerNavigator from "./DrawerNavigator";
 
 export default DrawerNavigator;

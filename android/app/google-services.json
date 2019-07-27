@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "517312837863",
+    "firebase_url": "https://stegappasaurus.firebaseio.com",
+    "project_id": "stegappasaurus",
+    "storage_bucket": "stegappasaurus.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:517312837863:android:40b2937fa6ea53e2",
+        "android_client_info": {
+          "package_name": "com.stegappasaurus"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "517312837863-il26h2olb3cas29e4qsg2gifb30apjv6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.stegappasaurus",
+            "certificate_hash": "75dca39b86947fd6aa74413fd95226142dbb5595"
+          }
+        },
+        {
+          "client_id": "517312837863-gctdsh27ij6e1fou2vfjuvt8qlqphutv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC_XZ9Sj60XGn3nfbaGBa8eAL5CXvTFcCU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "517312837863-gctdsh27ij6e1fou2vfjuvt8qlqphutv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

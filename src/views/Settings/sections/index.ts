@@ -4,4 +4,4 @@ import Other from "./Other";
 import Support from "./Support";
 import Themes from "./Themes";
 
-export { About as About, Algorithms, Other, Support, Themes };
+export { About, Algorithms, Other, Support, Themes };

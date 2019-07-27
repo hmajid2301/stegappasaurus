@@ -32,7 +32,26 @@ export interface IIcon {
     | "antdesign";
 }
 
-interface ISlide {
+export interface IAPIError {
+  code:
+    | "MessageTooLong"
+    | "InvalidImage"
+    | "ImageNotEncoded"
+    | "ServerError"
+    | "ImageTooSmall";
+  message: string;
+}
+
+export interface IEncodingSuccess {
+  encoded: string;
+}
+
+export interface IDecodingSuccess {
+  decoded: string;
+}
+
+
+export interface ISlide {
   color: string;
   height?: number;
   image: ImageSourcePropType;
