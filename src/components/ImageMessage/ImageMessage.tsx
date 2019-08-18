@@ -11,7 +11,7 @@ import {
 } from "react-navigation";
 
 import DismissKeyboard from "~/components/DismissKeyboard";
-import { colors } from "~/constants";
+import { colors } from "~/modules";
 import styles from "./styles";
 
 interface IProps {
@@ -37,7 +37,6 @@ export default class ImageMessage extends React.Component<IProps, IState> {
 
   constructor(props: IProps) {
     super(props);
-
     this.state = {
       message: ""
     };
@@ -50,9 +49,9 @@ export default class ImageMessage extends React.Component<IProps, IState> {
     });
   }
 
-  public componentWillUnmount = () => {
+  public componentWillUnmount() {
     this.focusListener.remove();
-  };
+  }
 
   public render() {
     return (

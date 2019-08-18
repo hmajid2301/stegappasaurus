@@ -1,3 +1,4 @@
+import { ITheme, PrimaryColorNames } from "@types";
 import * as ImagePicker from "expo-image-picker";
 import * as Permissions from "expo-permissions";
 import * as React from "react";
@@ -11,12 +12,10 @@ import {
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
-import { ITheme, PrimaryColorNames } from "@types";
 import PhotoAlbumList from "~/components/PhotoAlbumList";
 import Snackbar from "~/components/Snackbar";
-import { PRIMARY_COLORS } from "~/constants";
+import { SECONDARY_COLOR } from "~/modules";
 import { togglePrimaryColor } from "~/redux/actions";
-
 import styles from "./Main/styles";
 
 interface IProps {
@@ -27,7 +26,7 @@ interface IProps {
   togglePrimaryColor: (primaryColor: PrimaryColorNames) => void;
 }
 
-class Main extends React.Component<IProps, {}> {
+export class Main extends React.Component<IProps, {}> {
   private focusListener: NavigationEventSubscription | null;
 
   constructor(props: IProps) {
@@ -49,18 +48,15 @@ class Main extends React.Component<IProps, {}> {
         </View>
 
         <View style={styles.photoListContainer}>
-          <PhotoAlbumList
-            onPhotoPress={this.selectPhotoToEncode}
-            navigation={this.props.navigation}
-          />
+          <PhotoAlbumList onPhotoPress={this.selectPhotoToEncode} />
         </View>
       </View>
     );
   }
 
-  public componentDidMount = () => {
+  public componentDidMount() {
     this.focusListener = this.props.navigation.addListener("willFocus", () => {
-      this.props.togglePrimaryColor(PRIMARY_COLORS.BLUE.name);
+      this.props.togglePrimaryColor(SECONDARY_COLOR.name);
     });
 
     ShareMenu.getSharedText((data: string) => {
@@ -68,15 +64,15 @@ class Main extends React.Component<IProps, {}> {
         this.selectPhotoToEncode(data);
       }
     });
-  };
+  }
 
-  public componentWillUnmount = () => {
+  public componentWillUnmount() {
     if (this.focusListener !== null) {
       this.focusListener.remove();
     }
-  };
+  }
 
-  private getPhotoFromCameraRoll = async () => {
+  private async getPhotoFromCameraRoll() {
     const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
     if (status === "granted") {
       const result = await ImagePicker.launchImageLibraryAsync({
@@ -90,11 +86,11 @@ class Main extends React.Component<IProps, {}> {
         text: "This app does not have permission to access the camera roll."
       });
     }
-  };
+  }
 
-  private selectPhotoToEncode = (uri: string) => {
+  private selectPhotoToEncode(uri: string) {
     this.props.navigation.navigate("DecodingProgress", { uri });
-  };
+  }
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

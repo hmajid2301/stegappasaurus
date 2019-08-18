@@ -1,0 +1,91 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Settings: Match Snapshots 1 1`] = `
+<ScrollViewMock
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <AppHeader
+    navigation={[MockFunction]}
+    primaryColor="#009CFF"
+    theme={
+      Object {
+        "background": "#FFF",
+        "color": "#17212D",
+        "isDark": false,
+      }
+    }
+  />
+  <View>
+    <Connect(Themes)
+      theme={
+        Object {
+          "background": "#FFF",
+          "color": "#17212D",
+          "isDark": false,
+        }
+      }
+    />
+    <Support
+      background="#FFF"
+      color="#17212D"
+    />
+    <Connect(Other)
+      background="#FFF"
+      color="#17212D"
+    />
+    <About
+      background="#FFF"
+      color="#17212D"
+    />
+  </View>
+</ScrollViewMock>
+`;
+
+exports[`Settings: Match Snapshots 2 1`] = `
+<ScrollViewMock
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <AppHeader
+    navigation={[MockFunction]}
+    primaryColor="#009CFF"
+    theme={
+      Object {
+        "background": "#17212D",
+        "color": "#FFF",
+        "isDark": true,
+      }
+    }
+  />
+  <View>
+    <Connect(Themes)
+      theme={
+        Object {
+          "background": "#17212D",
+          "color": "#FFF",
+          "isDark": true,
+        }
+      }
+    />
+    <Support
+      background="#17212D"
+      color="#FFF"
+    />
+    <Connect(Other)
+      background="#17212D"
+      color="#FFF"
+    />
+    <About
+      background="#17212D"
+      color="#FFF"
+    />
+  </View>
+</ScrollViewMock>
+`;

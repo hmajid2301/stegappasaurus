@@ -5,7 +5,8 @@ import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
 import { ITheme } from "@types";
-import { colors } from "~/constants";
+import AutoToggleTheme from "~/actions/AutoToggleTheme";
+import { colors } from "~/modules";
 import { toggleAutomaticTheme, toggleDarkTheme } from "~/redux/actions";
 import { IReducerState } from "~/redux/reducers/ToggleAutomaticTheme";
 import styles from "./styles";
@@ -17,7 +18,14 @@ interface IProps {
   theme: ITheme;
 }
 
-class Themes extends React.Component<IProps, {}> {
+export class Themes extends React.Component<IProps, {}> {
+  private toggleTheme: AutoToggleTheme;
+
+  constructor(props: IProps) {
+    super(props);
+    this.toggleTheme = new AutoToggleTheme();
+  }
+
   public render() {
     const { theme } = this.props;
 
@@ -43,7 +51,7 @@ class Themes extends React.Component<IProps, {}> {
             checkBox={{
               checked: theme.isDark,
               checkedColor: colors.primary,
-              onPress: () => this.props.toggleDarkTheme(theme.isDark)
+              onPress: () => this.props.toggleDarkTheme(!theme.isDark)
             }}
           />
         )}
@@ -53,15 +61,17 @@ class Themes extends React.Component<IProps, {}> {
             backgroundColor: theme.background
           }}
           titleStyle={[styles.itemText, { color: theme.color }]}
-          switch={{
-            onValueChange: (value: boolean) => {
-              this.props.toggleAutomaticTheme(value);
-            },
-            trackColor: {
-              false: "white",
-              true: theme.color
-            },
-            value: this.props.isAutomatic
+          checkBox={{
+            checked: this.props.isAutomatic,
+            checkedColor: colors.primary,
+            onPress: async () => {
+              this.props.toggleAutomaticTheme(!this.props.isAutomatic);
+              let toggle = false;
+              if (this.props.isAutomatic) {
+                toggle = await this.toggleTheme.shouldToggleDarkTheme();
+              }
+              this.props.toggleDarkTheme(toggle);
+            }
           }}
           title={
             <Text style={[styles.itemText, styles.itemTextUnder]}>

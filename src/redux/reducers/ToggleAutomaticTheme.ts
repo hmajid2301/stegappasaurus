@@ -2,12 +2,6 @@ import { isType } from "typescript-fsa";
 
 import { toggleAutomaticTheme } from "~/redux/actions";
 
-/**
- * This reducer toggles whether to use an automatic dark/light theme.
- * This reducer takes in true/false and sets that whether to use an
- * automatic theme or not.
- */
-
 const initialState = {
   isAutomatic: false
 };

@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Decoding: Match Snapshots 1 1`] = `
+<Navigator
+  onGestureBegin={[Function]}
+  onGestureCanceled={[Function]}
+  onGestureEnd={[Function]}
+  onTransitionStart={[Function]}
+/>
+`;

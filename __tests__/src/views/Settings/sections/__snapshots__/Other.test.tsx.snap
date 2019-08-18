@@ -1,0 +1,136 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Other: Match Snapshots 1 1`] = `
+<View>
+  <Themed.ListItem
+    containerStyle={
+      Object {
+        "backgroundColor": "#FFF",
+      }
+    }
+    title={
+      <Text
+        style={
+          Object {
+            "color": "#009CFF",
+            "fontFamily": "Roboto",
+            "fontSize": 12,
+          }
+        }
+      >
+        Other
+      </Text>
+    }
+    titleStyle={
+      Object {
+        "paddingBottom": 5,
+        "paddingTop": 20,
+      }
+    }
+  />
+  <Themed.ListItem
+    bottomDivider={true}
+    containerStyle={
+      Object {
+        "backgroundColor": "#FFF",
+      }
+    }
+    title={
+      <View>
+        <TouchableOpacity
+          activeOpacity={0.2}
+          onPress={[Function]}
+        >
+          <Text
+            style={
+              Array [
+                Object {
+                  "fontFamily": "Roboto-Light",
+                },
+                Object {
+                  "color": "#17212D",
+                },
+              ]
+            }
+          >
+            Reset Preferences
+          </Text>
+        </TouchableOpacity>
+      </View>
+    }
+    topDivider={true}
+  />
+</View>
+`;
+
+exports[`Other: Match Snapshots 2 1`] = `
+<View>
+  <Themed.ListItem
+    containerStyle={
+      Object {
+        "backgroundColor": "#17212D",
+      }
+    }
+    title={
+      <Text
+        style={
+          Object {
+            "color": "#009CFF",
+            "fontFamily": "Roboto",
+            "fontSize": 12,
+          }
+        }
+      >
+        Other
+      </Text>
+    }
+    titleStyle={
+      Object {
+        "paddingBottom": 5,
+        "paddingTop": 20,
+      }
+    }
+  />
+  <Themed.ListItem
+    bottomDivider={true}
+    containerStyle={
+      Object {
+        "backgroundColor": "#17212D",
+      }
+    }
+    title={
+      <View>
+        <TouchableOpacity
+          activeOpacity={0.2}
+          onPress={[Function]}
+        >
+          <Text
+            style={
+              Array [
+                Object {
+                  "fontFamily": "Roboto-Light",
+                },
+                Object {
+                  "color": "#FFF",
+                },
+              ]
+            }
+          >
+            Reset Preferences
+          </Text>
+        </TouchableOpacity>
+      </View>
+    }
+    topDivider={true}
+  />
+</View>
+`;
+
+exports[`Other: Redux mapDispatchToProps 1`] = `
+Array [
+  Object {
+    "payload": Object {},
+    "type": "RESET_PREFERENCES",
+  },
+]
+`;

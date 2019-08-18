@@ -3,55 +3,48 @@ import * as React from "react";
 import { Text, TouchableOpacity, View } from "react-native";
 import { ListItem } from "react-native-elements";
 
-import { ITheme } from "@types";
-
+import { ThemeColors } from "@types";
 import MarkdownModal from "~/components/MarkdownModal";
-import changelog from "~/views/Settings/content/changelog";
-
-const Changelog = () => (
-  <MarkdownModal name="Changelog">{changelog}</MarkdownModal>
-);
+import changelog from "~/data/changelog";
 import styles from "./styles";
 
 interface IProps {
-  theme: ITheme;
+  background: ThemeColors;
+  color: ThemeColors;
 }
 
-const sendEmail = async () => {
-  await MailComposer.composeAsync({
-    recipients: ["me@haseebmajid.com"],
-    subject: "Stegappasaurus"
-  });
-};
-
-const About = ({ theme }: IProps) => (
+const About = ({ background, color }: IProps) => (
   <View>
     <ListItem
       containerStyle={{
-        backgroundColor: theme.background
+        backgroundColor: background
       }}
       titleStyle={styles.itemHeader}
       title={<Text style={styles.itemHeaderText}>About</Text>}
     />
     <ListItem
       containerStyle={{
-        backgroundColor: theme.background
+        backgroundColor: background
       }}
-      title={<Changelog />}
+      title={
+        <MarkdownModal background={background} color={color} name="Changelog">
+          {changelog}
+        </MarkdownModal>
+      }
       topDivider={true}
       bottomDivider={true}
     />
 
     <ListItem
       containerStyle={{
-        backgroundColor: theme.background
+        backgroundColor: background
       }}
       title={
         <View>
           <TouchableOpacity onPress={() => sendEmail()}>
-            <Text style={[styles.itemText, { color: theme.color }]}>Email</Text>
+            <Text style={[styles.itemText, { color }]}>Email</Text>
             <Text style={[styles.itemText, styles.itemTextUnder]}>
-              me@haseebmajid.com
+              me@haseebmajid.dev
             </Text>
           </TouchableOpacity>
         </View>
@@ -60,5 +53,12 @@ const About = ({ theme }: IProps) => (
     />
   </View>
 );
+
+const sendEmail = async () => {
+  await MailComposer.composeAsync({
+    recipients: ["me@haseebmajid.dev"],
+    subject: "Stegappasaurus"
+  });
+};
 
 export default About;

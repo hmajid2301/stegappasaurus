@@ -1,10 +1,10 @@
-import * as React from "react";
+import React from "react";
 import { View } from "react-native";
 import { DrawerItems, DrawerItemsProps } from "react-navigation";
 
 import { ITheme } from "@types";
 import Logo from "~/components/Logo";
-import { colors } from "~/constants";
+import { colors } from "~/modules";
 import styles from "./styles";
 
 const DrawerNavigator: React.FunctionComponent<DrawerItemsProps> = props => {
@@ -19,15 +19,6 @@ const DrawerNavigator: React.FunctionComponent<DrawerItemsProps> = props => {
         <DrawerItems
           activeBackgroundColor={colors.primary}
           activeTintColor={colors.pureWhite}
-          drawerPosition={props.drawerPosition}
-          getLabel={props.getLabel}
-          iconContainerStyle={styles.icons}
-          inactiveTintColor={theme.color}
-          items={props.items}
-          labelStyle={styles.text}
-          onItemPress={props.onItemPress}
-          navigation={props.navigation}
-          renderIcon={props.renderIcon}
           {...props}
         />
       </View>

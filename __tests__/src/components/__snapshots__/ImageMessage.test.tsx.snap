@@ -1,0 +1,121 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ImageMessage: Match snapshots 1 1`] = `
+<KeyboardAvoidingView
+  behavior="padding"
+  enabled={true}
+  keyboardVerticalOffset={0}
+>
+  <DismissKeyboard>
+    <ImageBackground
+      source={
+        Object {
+          "uri": "images.png",
+        }
+      }
+      style={
+        Object {
+          "backgroundColor": "rgba(0, 0, 0, 0.7)",
+          "height": "100%",
+          "width": "100%",
+        }
+      }
+    >
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "flex": 1,
+            "justifyContent": "center",
+          }
+        }
+      >
+        <TextInput
+          allowFontScaling={true}
+          autoFocus={true}
+          blurOnSubmit={true}
+          editable={true}
+          enablesReturnKeyAutomatically={true}
+          multiline={true}
+          onChangeText={[Function]}
+          onSubmitEditing={[Function]}
+          placeholder="Enter your message here"
+          placeholderTextColor="#FFF"
+          rejectResponderTermination={true}
+          style={
+            Object {
+              "backgroundColor": "rgba(0, 0, 0, 0.3)",
+              "color": "#ffffff",
+              "fontFamily": "Roboto-Light",
+              "fontSize": 22,
+              "paddingHorizontal": 20,
+              "paddingVertical": 20,
+            }
+          }
+          underlineColorAndroid="transparent"
+        />
+      </View>
+    </ImageBackground>
+  </DismissKeyboard>
+</KeyboardAvoidingView>
+`;
+
+exports[`ImageMessage: Match snapshots 2 1`] = `
+<KeyboardAvoidingView
+  behavior="padding"
+  enabled={true}
+  keyboardVerticalOffset={0}
+>
+  <DismissKeyboard>
+    <ImageBackground
+      source={
+        Object {
+          "uri": "images.png",
+        }
+      }
+      style={
+        Object {
+          "backgroundColor": "rgba(0, 0, 0, 0.7)",
+          "height": "100%",
+          "width": "100%",
+        }
+      }
+    >
+      <View
+        style={
+          Object {
+            "alignItems": "center",
+            "flex": 1,
+            "justifyContent": "center",
+          }
+        }
+      >
+        <TextInput
+          allowFontScaling={true}
+          autoFocus={true}
+          blurOnSubmit={true}
+          editable={true}
+          enablesReturnKeyAutomatically={true}
+          multiline={true}
+          onChangeText={[Function]}
+          onSubmitEditing={[Function]}
+          placeholder="Hello"
+          placeholderTextColor="#FFF"
+          rejectResponderTermination={true}
+          style={
+            Object {
+              "backgroundColor": "rgba(0, 0, 0, 0.3)",
+              "color": "#ffffff",
+              "fontFamily": "Roboto-Light",
+              "fontSize": 22,
+              "paddingHorizontal": 20,
+              "paddingVertical": 20,
+            }
+          }
+          underlineColorAndroid="transparent"
+        />
+      </View>
+    </ImageBackground>
+  </DismissKeyboard>
+</KeyboardAvoidingView>
+`;

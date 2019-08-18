@@ -1,0 +1,69 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Home: Match Snapshots 1 1`] = `
+<View
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <AppHeader
+    navigation={[MockFunction]}
+    primaryColor="#009CFF"
+    theme={
+      Object {
+        "background": "#FFF",
+        "color": "#17212D",
+        "isDark": false,
+      }
+    }
+  />
+  <Navigator
+    navigation={[MockFunction]}
+    screenProps={
+      Object {
+        "theme": Object {
+          "background": "#FFF",
+          "color": "#17212D",
+          "isDark": false,
+        },
+      }
+    }
+  />
+</View>
+`;
+
+exports[`Home: Match Snapshots 2 1`] = `
+<View
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <AppHeader
+    navigation={[MockFunction]}
+    primaryColor="#009CFF"
+    theme={
+      Object {
+        "background": "#17212D",
+        "color": "#FFF",
+        "isDark": false,
+      }
+    }
+  />
+  <Navigator
+    navigation={[MockFunction]}
+    screenProps={
+      Object {
+        "theme": Object {
+          "background": "#17212D",
+          "color": "#FFF",
+          "isDark": false,
+        },
+      }
+    }
+  />
+</View>
+`;

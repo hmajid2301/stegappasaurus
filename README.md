@@ -1,20 +1,28 @@
+<a href="https://gitlab.com/stegappasaurus/stegappasaurus-app">
+    <img src="src/assets/images/logo-dark.png" alt="Stegappasaurus Logo" title="Stegappasaurus" align="right" height="60" />
+</a>
+
 # Stegappasaurus Mobile Application
 
 [![pipeline status](https://gitlab.com/stegappasaurus/stegappasaurus-app/badges/master/pipeline.svg)](https://gitlab.com/stegappasaurus/stegappasaurus-app/commits/master)
-
 [![coverage report](https://gitlab.com/stegappasaurus/stegappasaurus-app/badges/master/coverage.svg)](https://gitlab.com/stegappasaurus/stegappasaurus-app/commits/master)
 
-![logo](src/assets/images/logo-dark.png)
+Stegappasaurus is a free mobile application fully open source, built using React Native. This application uses steganography algorithms to hide your (text) data within images.
+This project was originally created as third year project for University. However this version is a complete rewrite of the application.
 
-This is a mobile app made with React Native. The app allows user to encode and decode messages within images using Steganography.
+Steganography is the practice of concealing a file, message, image, or video within another file, message, image, or video. The word Steganography combines the Greek words  steganos  (στεγανός), meaning "covered, concealed, or protected", and  graphein (γράφειν) meaning "writing".
+
+You use the app to select an image, enter your message and wait for it to encode your image. After the image has been encoded you can then share it with others. They can then use the app to decode the image and retrieve the original encoded message. You can share images using any platform you like, such as Whatsapp, Facebook, Email etc.
+The encoded images look identical to normal images to the naked eye you cannot tell the difference between them.
+
+This app relies on using a RESTful API which runs on Google Firebase to do the encoding and decoding.
+The project which contains the code for this API exists [here](https://github.com/stegappasaurus/stegappasaurus-api.git).
 
 # Getting Started
 
-To setup the development environment on your own machine, you can the following instructions to get setup.
-
 ## Installation
 
-To setup the app
+To setup this project on your own development machine, do the following. 
 
 ```bash
 git clone https://github.com/stegappasaurus/stegappasaurus-app.git
@@ -27,7 +35,7 @@ yarn run start
 yarn run android 
 ```
 
-To setup firebase
+To setup Firebase (Firebase Cloud Functions) component which runs the RESTful API which applies the Steganography algorithms. For more information about this project click [here](https://github.com/stegappasaurus/stegappasaurus-api.git)
 
 ```bash
 git clone https://github.com/stegappasaurus/stegappasaurus-api.git
@@ -62,6 +70,10 @@ FIREBASE_API_URL=https://xxxx.net/api
 # **Optional** IP of host device where react native is running (only used in docker container)
 REACT_NATIVE_PACKAGER_HOSTNAME=192.168.27.1
 ```
+
+# Changelog
+
+You can find the changelog for this project [here](https://gitlab.com/stegappasaurus/stegappasaurus-app/blob/production/CHANGELOG.md).
 
 # Other
 

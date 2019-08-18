@@ -4,9 +4,9 @@ import { NavigationScreenProp } from "react-navigation";
 
 import { ITheme, PrimaryColor } from "@types";
 import AppHeader from "~/components/AppHeader";
-import { colors } from "~/constants";
+import { colors } from "~/modules";
 
-import { About, Algorithms, Other, Support, Themes } from "./Settings/sections";
+import { About, Other, Support, Themes } from "./Settings/sections";
 import styles from "./Settings/styles";
 
 interface IProps {
@@ -28,11 +28,10 @@ export default class Settings extends React.Component<IProps, {}> {
           theme={theme}
         />
         <View>
-          <Algorithms theme={theme} />
           <Themes theme={theme} />
-          <Support theme={theme} />
-          <Other theme={theme} />
-          <About theme={theme} />
+          <Support background={theme.background} color={theme.color} />
+          <Other background={theme.background} color={theme.color} />
+          <About background={theme.background} color={theme.color} />
         </View>
       </ScrollView>
     );

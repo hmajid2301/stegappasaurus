@@ -49,6 +49,8 @@ target 'Stegappasaurus' do
   pod 'react-native-netinfo', :path => '../node_modules/@react-native-community/netinfo'
 
 
+  pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-community/async-storage'
+
   target 'StegappasaurusTests' do
     inherit! :search_paths
   end

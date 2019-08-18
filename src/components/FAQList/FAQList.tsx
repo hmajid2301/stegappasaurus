@@ -3,22 +3,18 @@ import { Text, TouchableOpacity, View } from "react-native";
 import Accordion from "react-native-collapsible/Accordion";
 import { Icon } from "react-native-elements";
 
-import { ITheme } from "@types";
+import { IFAQ, ThemeColors } from "@types";
 import styles from "./styles";
 
 interface IProps {
+  backgroundColor: ThemeColors;
+  color: ThemeColors;
   items: IFAQ[];
-  theme: ITheme;
 }
 
 interface IState {
   activeSections: number[];
   collapsed: boolean;
-}
-
-export interface IFAQ {
-  content: string;
-  title: string;
 }
 
 export default class FAQList extends React.Component<IProps, IState> {
@@ -44,9 +40,15 @@ export default class FAQList extends React.Component<IProps, IState> {
     );
   }
 
+  private setSections = (sections: number[]) => {
+    this.setState({
+      activeSections: sections
+    });
+  };
+
   private renderContent = (item: IFAQ) => (
     <View style={styles.contentContainer}>
-      <Text style={[styles.content, { color: this.props.theme.color }]}>
+      <Text style={[styles.content, { color: this.props.color }]}>
         {item.content}
       </Text>
     </View>
@@ -57,7 +59,7 @@ export default class FAQList extends React.Component<IProps, IState> {
       style={[
         styles.headerContainer,
         isActive ? styles.inactive : styles.active,
-        { borderBottomColor: this.props.theme.background }
+        { borderBottomColor: this.props.backgroundColor }
       ]}
     >
       <Text style={styles.header}>{item.title}</Text>
@@ -74,10 +76,4 @@ export default class FAQList extends React.Component<IProps, IState> {
       </View>
     </View>
   );
-
-  private setSections = (sections: number[]) => {
-    this.setState({
-      activeSections: sections
-    });
-  };
 }

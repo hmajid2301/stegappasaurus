@@ -1,5 +1,5 @@
 import { IAboutItem } from "~/components/AboutList";
-import { colors } from "~/constants";
+import { colors } from "~/modules";
 
 const about: IAboutItem[] = [
   {

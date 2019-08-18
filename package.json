@@ -1,26 +1,25 @@
 {
   "name": "stegappasaurus",
   "version": "0.1.0",
-  "private": true,
   "scripts": {
+    "android": "react-native run-android",
     "android-build-apk": "cd android && ./gradlew assembleRelease --no-daemon",
     "android-bundle": "react-native bundle --platform android --dev false --entry-file ./index.js --bundle-output ./android/app/src/main/assets/index.bundle --sourcemap-output ./android/app/src/main/assets/index.map --assets-dest ./android/app/src/main/res/",
     "android-clean": "cd android && ./gradlew clean",
     "android-debug": "cd android && ./gradlew assembleDebug",
-    "android-emulator": "./util/startEmulator.sh TestDevice",
     "android-lint": "cd android && ./gradlew -Pci --console=plain :app:lintDebug -PbuildDir=lint",
-    "android-run": "react-native run-android",
+    "clean-tests": "yarn tests -u",
     "code-formatter": "prettier src/**/*.{ts,tx,tsx}",
     "code-formatter-check": "prettier --check src/**/*.{ts,tx,tsx}",
     "compiler-check": "tsc --project . --noEmit --pretty --skipLibCheck",
     "coverage": "jest --coverage",
-    "generate-service-models": "./util/servicesModelGenerator.sh",
-    "ios": "react-native run-ios",
-    "lint": "tslint src/**/*.{ts,tx,tsx}",
+    "lint": "tslint src/**/*.{ts,tx,tsx} -c tslint.json",
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "tests": "jest"
+    "tests": "jest",
+    "watch-tests": " jest --watch"
   },
   "dependencies": {
+    "@react-native-community/async-storage": "1.6.1",
     "@react-native-community/netinfo": "3.3.0-reachability.4",
     "apisauce": "1.0.3",
     "expo-image-picker": "5.0.2",
@@ -29,7 +28,6 @@
     "expo-media-library": "5.0.1",
     "expo-web-browser": "5.0.3",
     "lottie-react-native": "2.6.1",
-    "moment": "2.24.0",
     "react": "16.8.6",
     "react-native": "0.59.9",
     "react-native-app-intro-slider": "3.0.0",
@@ -54,9 +52,16 @@
   },
   "devDependencies": {
     "@babel/core": "7.5.4",
+    "@babel/preset-typescript": "^7.3.3",
     "@babel/runtime": "7.5.4",
+    "@types/enzyme": "3.10.3",
+    "@types/enzyme-adapter-react-16": "1.0.5",
+    "@types/image-size": "0.7.0",
     "@types/jest": "24.0.15",
+    "@types/jsdom": "12.2.4",
+    "@types/node": "12.7.1",
     "@types/react": "16.8.23",
+    "@types/react-dom": "16.8.5",
     "@types/react-native": "0.60.0",
     "@types/react-native-app-intro-slider": "3.0.0",
     "@types/react-native-share": "1.1.2",
@@ -64,16 +69,25 @@
     "@types/react-navigation": "3.0.5",
     "@types/react-redux": "7.1.1",
     "@types/react-test-renderer": "16.8.2",
+    "@types/redux-mock-store": "1.0.1",
     "@types/sunrise-sunset-js": "2.0.0",
-    "babel-jest": "24.1.0",
     "babel-plugin-module-resolver": "3.2.0",
+    "enzyme": "3.10.0",
+    "enzyme-adapter-react-16": "1.14.0",
+    "enzyme-to-json": "3.4.0",
     "jest": "24.3.0",
+    "jest-expo": "34.0.0",
     "jest-react-native": "18.0.0",
+    "jsdom": "15.1.1",
     "metro-react-native-babel-preset": "0.54.0",
+    "mock-async-storage": "2.2.0",
     "prettier": "1.16.4",
+    "react-dom": "16.8.6",
     "react-native-cli": "2.0.1",
+    "react-native-mock-render": "0.1.5",
     "react-test-renderer": "16.8.3",
-    "ts-jest": "24.0.0",
+    "redux-mock-store": "1.5.3",
+    "ts-jest": "24.0.2",
     "tslib": "1.9.3",
     "tslint": "5.13.0",
     "tslint-config-prettier": "1.18.0",
@@ -87,32 +101,8 @@
       "src/assets/fonts/"
     ]
   },
-  "jest": {
-    "preset": "react-native",
-    "transform": {
-      "^.+\\.js$": "<rootDir>/node_modules/react-native/jest/preprocessor.js",
-      "^.+\\.tsx?$": "ts-jest"
-    },
-    "testMatch": [
-      "**/__tests__/**/*.ts?(x)",
-      "**/?(*.)+(spec|test).ts?(x)"
-    ],
-    "modulePathIgnorePatterns": [
-      ".history",
-      "data.ts"
-    ],
-    "moduleFileExtensions": [
-      "js",
-      "jsx",
-      "ts",
-      "tsx"
-    ],
-    "globals": {
-      "ts-jest": {
-        "tsConfig": {
-          "jsx": "react"
-        }
-      }
-    }
+  "author": {
+    "name": "Haseeb Majid",
+    "email": "me@haseebmajid.dev"
   }
 }

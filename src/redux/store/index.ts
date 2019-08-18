@@ -5,19 +5,11 @@ import storage from "redux-persist/es/storage";
 
 import rootReducer from "../reducers";
 
-/**
- * Set up the redux store. Also sets up redux-persist which saves
- * state onto the users mobile app and reads it once the app opens.
- * Used for storing preferences such as whether to use dark theme
- * or which algorithms to use.
- */
-
 const persistConfig = {
   blacklist: ["TogglePrimaryColor"],
   key: "root",
   stateReconciler: autoMergeLevel2,
-  storage,
-  whitelist: ["SelectAlgorithm", "ToggleAutomaticTheme", "ToggleDarkTheme"]
+  storage
 };
 
 const pReducer = persistReducer(persistConfig, rootReducer);

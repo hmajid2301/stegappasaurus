@@ -1,11 +1,10 @@
-import { isType } from "typescript-fsa";
-
 import { ITheme } from "@types";
-import { THEMES } from "~/constants";
+import { isType } from "typescript-fsa";
+import { DARK_THEME, PRIMARY_THEME } from "~/modules";
 import { toggleDarkTheme } from "~/redux/actions";
 
 const initialState = {
-  theme: THEMES.LIGHT_THEME
+  theme: PRIMARY_THEME
 };
 
 interface IAction {
@@ -24,7 +23,7 @@ export interface IReducerState {
 const ToggleDarkTheme = (state = initialState, action: IAction) => {
   if (isType(action, toggleDarkTheme)) {
     const { isDark } = action.payload;
-    const theme = isDark ? THEMES.LIGHT_THEME : THEMES.DARK_THEME;
+    const theme = isDark ? DARK_THEME : PRIMARY_THEME;
     return { theme };
   }
   return state;

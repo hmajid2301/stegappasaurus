@@ -3,13 +3,11 @@ import storage from "redux-persist/es/storage";
 import { isType } from "typescript-fsa";
 
 import { resetPreferences } from "../actions";
-import SelectAlgorithm from "./SelectAlgorithm";
 import ToggleAutomaticTheme from "./ToggleAutomaticTheme";
 import ToggleDarkTheme from "./ToggleDarkTheme";
 import TogglePrimaryColor from "./TogglePrimaryColor";
 
 const AppReducers = combineReducers({
-  SelectAlgorithm,
   ToggleAutomaticTheme,
   ToggleDarkTheme,
   TogglePrimaryColor

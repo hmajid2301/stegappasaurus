@@ -1,16 +1,10 @@
-import { isType } from "typescript-fsa";
-
 import { PrimaryColor, PrimaryColorNames } from "@types";
-import { PRIMARY_COLORS } from "~/constants";
+import { isType } from "typescript-fsa";
+import { PRIMARY_COLOR, SECONDARY_COLOR } from "~/modules";
 import { togglePrimaryColor } from "~/redux/actions";
 
-/**
- * This reducer toggles which primary colour to use.
- * Swaps the primary colour between blue and orange.
- */
-
 const initialState = {
-  colorData: PRIMARY_COLORS.BLUE
+  colorData: PRIMARY_COLOR
 };
 
 interface IAction {
@@ -32,8 +26,7 @@ export interface IReducerState {
 const TogglePrimaryColor = (state = initialState, action: IAction) => {
   if (isType(action, togglePrimaryColor)) {
     const { color } = action.payload;
-    const colorData =
-      color === "ORANGE" ? PRIMARY_COLORS.BLUE : PRIMARY_COLORS.ORANGE;
+    const colorData = color === "ORANGE" ? SECONDARY_COLOR : PRIMARY_COLOR;
     return { colorData };
   }
   return state;
