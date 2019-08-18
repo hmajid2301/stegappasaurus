@@ -1,26 +1,21 @@
 import * as React from "react";
 import { View } from "react-native";
 import { NavigationScreenProp } from "react-navigation";
-import { connect } from "react-redux";
 
-import { AlgorithmNames } from "@types";
 import ImageMessage from "~/components/ImageMessage";
 import Snackbar from "~/components/Snackbar";
-import { IReducerState } from "~/redux/reducers/SelectAlgorithm";
 
 interface IProps {
-  algorithm: AlgorithmNames;
   navigation: NavigationScreenProp<any, any>;
 }
 
 interface IState {
   limit: number;
-  modalVisible: boolean;
   password: string;
   photo: string;
 }
 
-class Message extends React.Component<IProps, IState> {
+export default class Message extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     const { navigation } = props;
@@ -28,17 +23,10 @@ class Message extends React.Component<IProps, IState> {
 
     this.state = {
       limit: 15,
-      modalVisible: false,
       password: "",
       photo: uri
     };
   }
-
-  public componentDidMount = () => {
-    if (this.props.algorithm !== "LSB") {
-      this.setState({ modalVisible: true });
-    }
-  };
 
   public render() {
     return (
@@ -66,12 +54,3 @@ class Message extends React.Component<IProps, IState> {
     }
   };
 }
-
-const mapStateToProps = (state: IReducerState) => ({
-  algorithm: state.SelectAlgorithm.algorithm
-});
-
-export default connect(
-  mapStateToProps,
-  null
-)(Message);

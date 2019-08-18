@@ -1,0 +1,36 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Decoding Message: Match Snapshots 1 1`] = `
+<ImageMessage
+  action={null}
+  editable={false}
+  message=""
+  navigation={
+    Object {
+      "getParam": [MockFunction] {
+        "calls": Array [
+          Array [
+            "uri",
+            "NO-ID",
+          ],
+          Array [
+            "message",
+            "NO-ID",
+          ],
+        ],
+        "results": Array [
+          Object {
+            "type": "return",
+            "value": undefined,
+          },
+          Object {
+            "type": "return",
+            "value": undefined,
+          },
+        ],
+      },
+      "navigate": [MockFunction],
+    }
+  }
+/>
+`;

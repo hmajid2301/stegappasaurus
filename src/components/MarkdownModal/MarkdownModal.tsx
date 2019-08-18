@@ -2,55 +2,52 @@ import * as React from "react";
 import { Modal, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { Icon } from "react-native-elements";
 import Markdown from "react-native-markdown-renderer";
-import { connect } from "react-redux";
 
-import { ITheme } from "@types";
-import { IReducerState } from "~/redux/reducers/ToggleDarkTheme";
+import { ThemeColors } from "@types";
 
 import styles, { markdown } from "./styles";
 
 interface IProps {
+  background: ThemeColors;
+  color: ThemeColors;
   children: React.ReactNode;
   name: string;
-  theme: ITheme;
 }
 
 interface IState {
-  modalVisible: boolean;
+  isVisible: boolean;
 }
 
-class MarkdownModal extends React.Component<IProps, IState> {
+export default class MarkdownModal extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     this.state = {
-      modalVisible: false
+      isVisible: false
     };
   }
 
   public render() {
-    const { theme } = this.props;
-
     return (
       <View>
         <Modal
           animationType="slide"
           onRequestClose={() => this.setModalVisible(false)}
           transparent={false}
-          visible={this.state.modalVisible}
+          visible={this.state.isVisible}
         >
           <View
             style={[
               styles.modalContainer,
-              { backgroundColor: theme.background }
+              { backgroundColor: this.props.background }
             ]}
           >
             <TouchableOpacity
               onPress={() => {
-                this.setModalVisible(!this.state.modalVisible);
+                this.setModalVisible(!this.state.isVisible);
               }}
             >
               <Icon
-                iconStyle={[styles.icons, { color: theme.color }]}
+                iconStyle={[styles.icons, { color: this.props.color }]}
                 name="close"
                 type="evil-icons"
               />
@@ -61,7 +58,7 @@ class MarkdownModal extends React.Component<IProps, IState> {
                 <Markdown
                   style={{
                     ...markdown,
-                    ...{ text: { color: theme.color } }
+                    ...{ text: { color: this.props.color } }
                   }}
                 >
                   {this.props.children}
@@ -76,7 +73,7 @@ class MarkdownModal extends React.Component<IProps, IState> {
             this.setModalVisible(true);
           }}
         >
-          <Text style={[styles.buttonText, { color: theme.color }]}>
+          <Text style={[styles.buttonText, { color: this.props.color }]}>
             {this.props.name}
           </Text>
         </TouchableOpacity>
@@ -85,15 +82,6 @@ class MarkdownModal extends React.Component<IProps, IState> {
   }
 
   private setModalVisible(visible: boolean) {
-    this.setState({ modalVisible: visible });
+    this.setState({ isVisible: visible });
   }
 }
-
-const mapStateToProps = (state: IReducerState) => ({
-  theme: state.ToggleDarkTheme.theme
-});
-
-export default connect(
-  mapStateToProps,
-  null
-)(MarkdownModal);

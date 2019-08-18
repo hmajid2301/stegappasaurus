@@ -17,7 +17,7 @@ export default class App extends React.Component<{}, {}> {
     );
   }
 
-  public componentDidMount = () => {
+  public componentDidMount() {
     SplashScreen.hide();
-  };
+  }
 }

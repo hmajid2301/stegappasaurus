@@ -1,0 +1,162 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Themes: Match Snapshots 1 1`] = `
+<View>
+  <Themed.ListItem
+    containerStyle={
+      Object {
+        "backgroundColor": "#FFF",
+      }
+    }
+    title={
+      <Text
+        style={
+          Object {
+            "color": "#009CFF",
+            "fontFamily": "Roboto",
+            "fontSize": 12,
+          }
+        }
+      >
+        Themes
+      </Text>
+    }
+    titleStyle={
+      Object {
+        "paddingBottom": 5,
+        "paddingTop": 20,
+      }
+    }
+  />
+  <Component />
+  <Themed.ListItem
+    checkBox={
+      Object {
+        "checked": true,
+        "checkedColor": "#009CFF",
+        "onPress": [Function],
+      }
+    }
+    containerStyle={
+      Object {
+        "backgroundColor": "#FFF",
+      }
+    }
+    title={
+      <Text
+        style={
+          Array [
+            Object {
+              "fontFamily": "Roboto-Light",
+            },
+            Object {
+              "color": "grey",
+            },
+          ]
+        }
+      >
+        Automatically changes to dark mode at sunset and light mode at sunrise.
+      </Text>
+    }
+    titleStyle={
+      Array [
+        Object {
+          "fontFamily": "Roboto-Light",
+        },
+        Object {
+          "color": "#17212D",
+        },
+      ]
+    }
+  />
+</View>
+`;
+
+exports[`Themes: Match Snapshots 2 1`] = `
+<View>
+  <Themed.ListItem
+    containerStyle={
+      Object {
+        "backgroundColor": "#17212D",
+      }
+    }
+    title={
+      <Text
+        style={
+          Object {
+            "color": "#009CFF",
+            "fontFamily": "Roboto",
+            "fontSize": 12,
+          }
+        }
+      >
+        Themes
+      </Text>
+    }
+    titleStyle={
+      Object {
+        "paddingBottom": 5,
+        "paddingTop": 20,
+      }
+    }
+  />
+  <Component />
+  <Themed.ListItem
+    checkBox={
+      Object {
+        "checked": true,
+        "checkedColor": "#009CFF",
+        "onPress": [Function],
+      }
+    }
+    containerStyle={
+      Object {
+        "backgroundColor": "#17212D",
+      }
+    }
+    title={
+      <Text
+        style={
+          Array [
+            Object {
+              "fontFamily": "Roboto-Light",
+            },
+            Object {
+              "color": "grey",
+            },
+          ]
+        }
+      >
+        Automatically changes to dark mode at sunset and light mode at sunrise.
+      </Text>
+    }
+    titleStyle={
+      Array [
+        Object {
+          "fontFamily": "Roboto-Light",
+        },
+        Object {
+          "color": "#FFF",
+        },
+      ]
+    }
+  />
+</View>
+`;
+
+exports[`Themes: Redux mapDispatchToProps 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "isAutomatic": true,
+    },
+    "type": "TOGGLE_AUTOMATIC_THEME",
+  },
+  Object {
+    "payload": Object {
+      "isDark": true,
+    },
+    "type": "TOGGLE_DARK_THEME",
+  },
+]
+`;

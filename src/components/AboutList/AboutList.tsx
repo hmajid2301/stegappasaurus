@@ -4,13 +4,13 @@ import { Text, TouchableOpacity, View } from "react-native";
 import { ListItem } from "react-native-elements";
 import Rate, { AndroidMarket } from "react-native-rate";
 
-import { BackgroundColors, IIcon, ThemeColors } from "@types";
+import { IIcon, ThemeColors } from "@types";
 import styles from "./styles";
 
 interface IProps {
-  items: IAboutItem[];
-  backgroundColor: BackgroundColors;
+  backgroundColor: ThemeColors;
   color: ThemeColors;
+  items: IAboutItem[];
 }
 
 export interface IAboutItem {
@@ -25,7 +25,7 @@ const AboutList = ({ backgroundColor, color, items }: IProps) => (
 );
 
 const renderListItem = (
-  backgroundColor: BackgroundColors,
+  backgroundColor: ThemeColors,
   color: ThemeColors,
   item: IAboutItem
 ) => (

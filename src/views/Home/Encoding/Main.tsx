@@ -1,7 +1,8 @@
+import { ITheme, PrimaryColorNames } from "@types";
 import { create } from "apisauce";
 import * as ImagePicker from "expo-image-picker";
-import * as React from "react";
-import { Image, TouchableOpacity, View } from "react-native";
+import React from "react";
+import { ActivityIndicator, Image, TouchableOpacity, View } from "react-native";
 import Config from "react-native-config";
 import { Icon } from "react-native-elements";
 import {
@@ -11,13 +12,10 @@ import {
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
-import { ITheme, PrimaryColorNames } from "@types";
-import Loading from "~/components/Loading";
 import PhotoAlbumList from "~/components/PhotoAlbumList";
 import Snackbar from "~/components/Snackbar";
-import { PRIMARY_COLORS } from "~/constants";
+import { PRIMARY_COLOR } from "~/modules";
 import { togglePrimaryColor } from "~/redux/actions";
-
 import styles from "./Main/styles";
 
 interface IProps {
@@ -40,7 +38,7 @@ interface ICatAPI {
   height: number;
 }
 
-class Main extends React.Component<IProps, IState> {
+export class Main extends React.Component<IProps, IState> {
   private focusListener: NavigationEventSubscription | null;
 
   constructor(props: IProps) {
@@ -56,7 +54,7 @@ class Main extends React.Component<IProps, IState> {
     const { theme } = this.props.screenProps;
 
     if (this.state.loading) {
-      return <Loading hide={this.state.loading} />;
+      return <ActivityIndicator />;
     }
 
     return (
@@ -88,28 +86,25 @@ class Main extends React.Component<IProps, IState> {
           </TouchableOpacity>
         </View>
         <View style={styles.photoListContainer}>
-          <PhotoAlbumList
-            onPhotoPress={this.selectPhotoToEncode}
-            navigation={this.props.navigation}
-          />
+          <PhotoAlbumList onPhotoPress={this.selectPhotoToEncode} />
         </View>
       </View>
     );
   }
 
-  public componentDidMount = async () => {
+  public async componentDidMount() {
     this.focusListener = this.props.navigation.addListener("willFocus", () => {
-      this.props.togglePrimaryColor(PRIMARY_COLORS.ORANGE.name);
+      this.props.togglePrimaryColor(PRIMARY_COLOR.name);
     });
-  };
+  }
 
-  public componentWillUnmount = () => {
+  public componentWillUnmount() {
     if (this.focusListener !== null) {
       this.focusListener.remove();
     }
-  };
+  }
 
-  private getPhotoFromCamera = async () => {
+  private async getPhotoFromCamera() {
     try {
       const result = await ImagePicker.launchCameraAsync();
       if (!result.cancelled) {
@@ -120,9 +115,9 @@ class Main extends React.Component<IProps, IState> {
         text: "This app does not have permission to access the camera."
       });
     }
-  };
+  }
 
-  private getPhotoFromCameraRoll = async () => {
+  private async getPhotoFromCameraRoll() {
     try {
       const result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images
@@ -135,9 +130,9 @@ class Main extends React.Component<IProps, IState> {
         text: "This app does not have permission to access the camera roll."
       });
     }
-  };
+  }
 
-  private getPhotoFromCatAPI = async () => {
+  private async getPhotoFromCatAPI() {
     this.setState({ loading: true });
 
     const api = create({
@@ -158,11 +153,11 @@ class Main extends React.Component<IProps, IState> {
     }
 
     this.setState({ loading: false });
-  };
+  }
 
-  private selectPhotoToEncode = (uri: string) => {
+  private selectPhotoToEncode(uri: string) {
     this.props.navigation.navigate("EncodingMessage", { uri });
-  };
+  }
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

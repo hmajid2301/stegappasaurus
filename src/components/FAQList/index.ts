@@ -1,4 +1,3 @@
-import FAQList, { IFAQ } from "./FAQList";
+import FAQList from "./FAQList";
 
-export { IFAQ };
 export default FAQList;

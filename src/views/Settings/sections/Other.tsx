@@ -4,24 +4,23 @@ import { ListItem } from "react-native-elements";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
-import { ITheme } from "@types";
+import { ThemeColors } from "@types";
 import { resetPreferences } from "~/redux/actions";
 import styles from "./styles";
 
 interface IProps {
-  theme: ITheme;
+  background: ThemeColors;
+  color: ThemeColors;
   resetPreferences: () => void;
 }
 
-class Other extends React.Component<IProps, {}> {
+export class Other extends React.Component<IProps, {}> {
   public render() {
-    const { theme } = this.props;
-
     return (
       <View>
         <ListItem
           containerStyle={{
-            backgroundColor: theme.background
+            backgroundColor: this.props.background
           }}
           titleStyle={styles.itemHeader}
           title={<Text style={styles.itemHeaderText}>Other</Text>}
@@ -29,12 +28,12 @@ class Other extends React.Component<IProps, {}> {
 
         <ListItem
           containerStyle={{
-            backgroundColor: theme.background
+            backgroundColor: this.props.background
           }}
           title={
             <View>
               <TouchableOpacity onPress={() => this.props.resetPreferences}>
-                <Text style={[styles.itemText, { color: theme.color }]}>
+                <Text style={[styles.itemText, { color: this.props.color }]}>
                   Reset Preferences
                 </Text>
               </TouchableOpacity>

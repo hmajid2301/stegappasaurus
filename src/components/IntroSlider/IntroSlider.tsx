@@ -16,10 +16,9 @@ interface IRenderProps {
     width: number;
   };
   item: ISlide;
-  index: number;
 }
 
-export default class App extends React.Component<IProps, {}> {
+export default class IntroSlider extends React.Component<IProps, {}> {
   public render() {
     return (
       <AppIntroSlider

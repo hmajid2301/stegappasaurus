@@ -1,6 +1,6 @@
 import Snackbar from "react-native-snackbar";
 
-import { colors } from "~/constants";
+import { colors } from "~/modules";
 
 interface IShow {
   text: string;

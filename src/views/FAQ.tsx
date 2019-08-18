@@ -5,7 +5,7 @@ import { NavigationScreenProp } from "react-navigation";
 import { ITheme, PrimaryColor } from "@types";
 import AppHeader from "~/components/AppHeader";
 import FAQList from "~/components/FAQList";
-import { colors } from "~/constants";
+import { colors } from "~/modules";
 
 import { questions } from "~/data";
 import styles from "./FAQ/styles";
@@ -31,7 +31,11 @@ export default class FAQ extends React.Component<IProps, {}> {
           />
 
           <View style={styles.faqListContainer}>
-            <FAQList items={questions} theme={theme} />
+            <FAQList
+              backgroundColor={theme.background}
+              color={theme.color}
+              items={questions}
+            />
           </View>
         </ScrollView>
       </View>

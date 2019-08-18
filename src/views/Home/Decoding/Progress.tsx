@@ -10,7 +10,7 @@ import { NavigationScreenProp } from "react-navigation";
 import { IAPIError, IDecodingSuccess, ITheme, PrimaryColor } from "@types";
 import ImageProgress from "~/components/ImageProgress";
 import Snackbar from "~/components/Snackbar";
-import { colors } from "~/constants";
+import { colors } from "~/modules";
 
 export type Decoding = IDecodingSuccess | IAPIError;
 
@@ -45,36 +45,30 @@ export default class Progress extends React.Component<IProps, IState> {
       <View style={{ flex: 1 }}>
         <ImageProgress
           animating={this.state.decoding}
+          background={theme.background}
           photo={this.state.photo}
           primaryColor={colors.secondary as PrimaryColor}
-          theme={theme}
         />
       </View>
     );
   }
 
-  public componentWillMount = async () => {
+  public async componentDidMount() {
     const base64Image = await FileSystem.readAsStringAsync(this.state.photo, {
       encoding: FileSystem.EncodingType.Base64
     });
     await this.callDecodeAPI(base64Image);
-  };
+  }
 
-  private callDecodeAPI = async (base64Image: string) => {
-    let token = "";
-    await firebase
-      .auth()
-      .signInAnonymously()
-      .then(async userCredentials => {
-        token = await userCredentials.user.getIdToken();
-      });
-
+  private async callDecodeAPI(base64Image: string) {
+    const userCredentials = await firebase.auth().signInAnonymously();
+    const token = await userCredentials.user.getIdToken();
     await this.checkNetworkStatus();
 
     const api = create({
       baseURL: Config.FIREBASE_API_URL,
       headers: { Authorization: `Bearer ${token}` },
-      timeout: 120000
+      timeout: 60000
     });
     const response: ApiResponse<Decoding> = await api.post("/decode", {
       imageData: `data:image/png;base64,${base64Image}`
@@ -86,34 +80,33 @@ export default class Progress extends React.Component<IProps, IState> {
     } else {
       this.failedResponse();
     }
-  };
+  }
 
-  private checkNetworkStatus = async () => {
-    await NetInfo.fetch().then(state => {
-      if (!state.isConnected) {
-        Snackbar.show({
-          text: "You need an internet connection to encode an image."
-        });
-        this.failedResponse();
-      } else if (state.type === "cellular") {
-        Snackbar.show({
-          text: "You are using mobile data."
-        });
-      }
-    });
-  };
+  private async checkNetworkStatus() {
+    const state = await NetInfo.fetch();
+    if (!state.isConnected) {
+      Snackbar.show({
+        text: "You need an internet connection to decode an image."
+      });
+      this.failedResponse();
+    } else if (state.type === "cellular") {
+      Snackbar.show({
+        text: "You are using mobile data."
+      });
+    }
+  }
 
-  private decoded = (message: string) => {
+  private decoded(message: string) {
     this.props.navigation.navigate("DecodingMessage", {
       message,
       uri: this.state.photo
     });
-  };
+  }
 
-  private failedResponse = () => {
+  private failedResponse() {
     Snackbar.show({
       text: "Failed to decode image, please try again."
     });
     this.props.navigation.goBack();
-  };
+  }
 }

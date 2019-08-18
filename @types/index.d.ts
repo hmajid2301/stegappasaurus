@@ -1,16 +1,19 @@
 import { ImageSourcePropType } from "react-native";
 
-export type AlgorithmNames = "LSB";
-export type BackgroundColors = "000" | "#FFF";
 export type ThemeColors = "#17212D" | "#FFF";
 export type PrimaryColor = "#009CFF" | "#E88C0C";
 export type PrimaryColorNames = "ORANGE" | "BLUE";
 export type PossibleAppStates = "inactive" | "background" | "active";
 
 export interface ITheme {
-  background: BackgroundColors;
+  background: ThemeColors;
   color: ThemeColors;
   isDark: boolean;
+}
+
+export interface IFAQ {
+  content: string;
+  title: string;
 }
 
 export interface IIcon {
@@ -49,7 +52,6 @@ export interface IEncodingSuccess {
 export interface IDecodingSuccess {
   decoded: string;
 }
-
 
 export interface ISlide {
   color: string;

@@ -1,13 +1,13 @@
-import * as React from "react";
+import React from "react";
 import { ScrollView, Text, View } from "react-native";
 import { NavigationScreenProp } from "react-navigation";
 
 import { ITheme, PrimaryColor } from "@types";
 import AboutList from "~/components/AboutList";
 import AppHeader from "~/components/AppHeader";
-import { colors } from "~/constants";
 import { about } from "~/data";
-import styles from "~/views/About/styles";
+import { colors } from "~/modules";
+import styles from "~/views/AboutUs/styles";
 
 interface IProps {
   navigation: NavigationScreenProp<any, any>;

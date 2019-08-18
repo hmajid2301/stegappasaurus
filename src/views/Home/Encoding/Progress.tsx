@@ -8,24 +8,15 @@ import Config from "react-native-config";
 import firebase from "react-native-firebase";
 import Share from "react-native-share";
 import { NavigationScreenProp } from "react-navigation";
-import { connect } from "react-redux";
 
-import {
-  AlgorithmNames,
-  IAPIError,
-  IEncodingSuccess,
-  ITheme,
-  PrimaryColor
-} from "@types";
+import { IAPIError, IEncodingSuccess, ITheme, PrimaryColor } from "@types";
 import ImageProgress from "~/components/ImageProgress";
 import Snackbar from "~/components/Snackbar";
-import { colors } from "~/constants";
-import { IReducerState } from "~/redux/reducers/SelectAlgorithm";
+import { colors } from "~/modules";
 
 type Encoding = IEncodingSuccess | IAPIError;
 
 interface IProps {
-  algorithm: AlgorithmNames;
   navigation: NavigationScreenProp<any, any>;
   screenProps: {
     theme: ITheme;
@@ -39,7 +30,7 @@ interface IState {
   photo: string;
 }
 
-class Progress extends React.Component<IProps, IState> {
+export default class Progress extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     const { navigation } = props;
@@ -61,6 +52,7 @@ class Progress extends React.Component<IProps, IState> {
       <View style={{ flex: 1 }}>
         <ImageProgress
           animating={this.state.encoding}
+          background={theme.background}
           icon={{
             color: colors.pureWhite,
             name: "share",
@@ -70,32 +62,22 @@ class Progress extends React.Component<IProps, IState> {
           onPress={this.shareImage}
           photo={this.state.photo}
           primaryColor={colors.primary as PrimaryColor}
-          theme={theme}
         />
       </View>
     );
   }
 
-  public componentWillMount = async () => {
+  public async componentDidMount() {
     const base64Image = await FileSystem.readAsStringAsync(this.state.photo, {
       encoding: FileSystem.EncodingType.Base64
     });
 
-    await this.callEncodeAPI(this.props.algorithm, base64Image);
-  };
+    await this.callEncodeAPI(base64Image);
+  }
 
-  private callEncodeAPI = async (
-    algorithm: AlgorithmNames,
-    base64Image: string
-  ) => {
-    let token = "";
-    await firebase
-      .auth()
-      .signInAnonymously()
-      .then(async userCredentials => {
-        token = await userCredentials.user.getIdToken();
-      });
-
+  private async callEncodeAPI(base64Image: string) {
+    const userCredentials = await firebase.auth().signInAnonymously();
+    const token = await userCredentials.user.getIdToken();
     await this.checkNetworkStatus();
 
     const api = create({
@@ -104,7 +86,7 @@ class Progress extends React.Component<IProps, IState> {
       timeout: 120000
     });
     const response: ApiResponse<Encoding> = await api.post("/encode", {
-      algorithm,
+      algorithm: "LSB",
       imageData: `data:image/png;base64,${base64Image}`,
       message: this.state.message
     });
@@ -115,24 +97,24 @@ class Progress extends React.Component<IProps, IState> {
     } else {
       this.failedResponse(data as IAPIError, status ? status : 500);
     }
-  };
+  }
 
-  private checkNetworkStatus = async () => {
-    await NetInfo.fetch().then(state => {
-      if (!state.isConnected) {
-        Snackbar.show({
-          text: "You need an internet connection to encode an image."
-        });
-        this.sendUserBackToMain();
-      } else if (state.type === "cellular") {
-        Snackbar.show({
-          text: "You are using mobile data."
-        });
-      }
-    });
-  };
+  private async checkNetworkStatus() {
+    const state = await NetInfo.fetch();
+    await NetInfo.fetch();
+    if (!state.isConnected) {
+      Snackbar.show({
+        text: "You need an internet connection to encode an image."
+      });
+      this.sendUserBackToMain();
+    } else if (state.type === "cellular") {
+      Snackbar.show({
+        text: "You are using mobile data."
+      });
+    }
+  }
 
-  private encoded = async (base64Image: string) => {
+  private async encoded(base64Image: string) {
     const imagePath = `${FileSystem.documentDirectory}${this.state.filename}`;
     await FileSystem.writeAsStringAsync(imagePath, base64Image.substring(22), {
       encoding: FileSystem.EncodingType.Base64
@@ -147,13 +129,13 @@ class Progress extends React.Component<IProps, IState> {
       onButtonPress: this.openAlbum,
       text: "Image saved to photo album."
     });
-  };
+  }
 
-  private openAlbum = async () => {
+  private async openAlbum() {
     await Linking.openURL("content://media/internal/images/media");
-  };
+  }
 
-  private failedResponse = (error: IAPIError, status: number) => {
+  private failedResponse(error: IAPIError, status: number) {
     const { code } = error;
 
     if (status === 500 && code === ("MessageTooLong" as IAPIError["code"])) {
@@ -164,13 +146,13 @@ class Progress extends React.Component<IProps, IState> {
     } else {
       this.sendUserBackToMain();
     }
-  };
+  }
 
-  private shareImage = async () => {
+  private async shareImage() {
     await Share.open({
       url: this.state.filename
     });
-  };
+  }
 
   private sendUserBackToMain() {
     Snackbar.show({
@@ -179,12 +161,3 @@ class Progress extends React.Component<IProps, IState> {
     this.props.navigation.navigate("Main");
   }
 }
-
-const mapStateToProps = (state: IReducerState) => ({
-  algorithm: state.SelectAlgorithm.algorithm
-});
-
-export default connect(
-  mapStateToProps,
-  null
-)(Progress);

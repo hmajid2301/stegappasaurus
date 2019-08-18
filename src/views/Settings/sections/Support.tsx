@@ -2,36 +2,27 @@ import * as React from "react";
 import { Text, View } from "react-native";
 import { ListItem } from "react-native-elements";
 
-import { ITheme } from "@types";
+import { ThemeColors } from "@types";
 import MarkdownModal from "~/components/MarkdownModal";
-import license from "~/views/Settings/content/license";
-import privatePolicy from "~/views/Settings/content/privatePolicy";
-import termsOfUse from "~/views/Settings/content/termsOfUse";
+import license from "~/data/license";
+import privatePolicy from "~/data/privatePolicy";
+import termsOfUse from "~/data/termsOfUse";
 
 import styles from "./styles";
 
 interface IProps {
-  theme: ITheme;
+  background: ThemeColors;
+  color: ThemeColors;
 }
-
-const PrivatePolicy = () => (
-  <MarkdownModal name="Private Policy">{privatePolicy}</MarkdownModal>
-);
-
-const TermsOfUse = () => (
-  <MarkdownModal name="Terms of Use">{termsOfUse}</MarkdownModal>
-);
-
-const License = () => <MarkdownModal name="License">{license}</MarkdownModal>;
 
 export default class Support extends React.Component<IProps, {}> {
   public render() {
-    const { theme } = this.props;
+    const { background } = this.props;
     return (
       <View>
         <ListItem
           containerStyle={{
-            backgroundColor: theme.background
+            backgroundColor: background
           }}
           title={<Text style={styles.itemHeaderText}>Support</Text>}
           titleStyle={styles.itemHeader}
@@ -39,27 +30,57 @@ export default class Support extends React.Component<IProps, {}> {
 
         <ListItem
           containerStyle={{
-            backgroundColor: theme.background
+            backgroundColor: background
           }}
-          title={<PrivatePolicy />}
+          title={this.PrivatePolicy()}
           topDivider={true}
           bottomDivider={true}
         />
         <ListItem
           containerStyle={{
-            backgroundColor: theme.background
+            backgroundColor: background
           }}
-          title={<TermsOfUse />}
+          title={this.TermsOfUse()}
           bottomDivider={true}
         />
         <ListItem
           containerStyle={{
-            backgroundColor: theme.background
+            backgroundColor: background
           }}
-          title={<License />}
+          title={this.License()}
           bottomDivider={true}
         />
       </View>
     );
   }
+
+  private PrivatePolicy = () => (
+    <MarkdownModal
+      background={this.props.background}
+      color={this.props.color}
+      name="Private Policy"
+    >
+      {privatePolicy}
+    </MarkdownModal>
+  );
+
+  private TermsOfUse = () => (
+    <MarkdownModal
+      background={this.props.background}
+      color={this.props.color}
+      name="Terms of Use"
+    >
+      {termsOfUse}
+    </MarkdownModal>
+  );
+
+  private License = () => (
+    <MarkdownModal
+      background={this.props.background}
+      color={this.props.color}
+      name="License"
+    >
+      {license}
+    </MarkdownModal>
+  );
 }
