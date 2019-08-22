@@ -6,7 +6,7 @@ import { ITheme, PrimaryColor } from "@types";
 import AppHeader from "~/components/AppHeader";
 import { colors } from "~/modules";
 
-import { About, Other, Support, Themes } from "./Settings/sections";
+import { About, Support, Themes } from "./Settings/sections";
 import styles from "./Settings/styles";
 
 interface IProps {
@@ -21,7 +21,9 @@ export default class Settings extends React.Component<IProps, {}> {
     const { theme } = this.props.screenProps;
 
     return (
-      <ScrollView style={styles.container}>
+      <ScrollView
+        style={[styles.container, { backgroundColor: theme.background }]}
+      >
         <AppHeader
           primaryColor={colors.primary as PrimaryColor}
           navigation={this.props.navigation}
@@ -30,7 +32,6 @@ export default class Settings extends React.Component<IProps, {}> {
         <View>
           <Themes theme={theme} />
           <Support background={theme.background} color={theme.color} />
-          <Other background={theme.background} color={theme.color} />
           <About background={theme.background} color={theme.color} />
         </View>
       </ScrollView>

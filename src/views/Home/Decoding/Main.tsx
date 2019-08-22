@@ -48,7 +48,7 @@ export class Main extends React.Component<IProps, {}> {
         </View>
 
         <View style={styles.photoListContainer}>
-          <PhotoAlbumList onPhotoPress={this.selectPhotoToEncode} />
+          <PhotoAlbumList onPhotoPress={this.selectPhotoToDecode} />
         </View>
       </View>
     );
@@ -61,7 +61,7 @@ export class Main extends React.Component<IProps, {}> {
 
     ShareMenu.getSharedText((data: string) => {
       if (data.startsWith("content://media/")) {
-        this.selectPhotoToEncode(data);
+        this.selectPhotoToDecode(data);
       }
     });
   }
@@ -72,25 +72,25 @@ export class Main extends React.Component<IProps, {}> {
     }
   }
 
-  private async getPhotoFromCameraRoll() {
+  private getPhotoFromCameraRoll = async () => {
     const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
     if (status === "granted") {
       const result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images
       });
       if (!result.cancelled) {
-        this.selectPhotoToEncode(result.uri);
+        this.selectPhotoToDecode(result.uri);
       }
     } else {
       Snackbar.show({
         text: "This app does not have permission to access the camera roll."
       });
     }
-  }
+  };
 
-  private selectPhotoToEncode(uri: string) {
+  private selectPhotoToDecode = (uri: string) => {
     this.props.navigation.navigate("DecodingProgress", { uri });
-  }
+  };
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

@@ -75,7 +75,7 @@ describe("Encoding Main: Functions", () => {
     (ImagePicker.launchCameraAsync as jest.Mock).mockResolvedValue({
       cancelled: false
     });
-    const spy = jest.spyOn(Main.prototype as any, "selectPhotoToEncode");
+    const spy = jest.spyOn(instance as any, "selectPhotoToEncode");
     await (instance as any).getPhotoFromCamera();
     expect(spy).toHaveBeenCalled();
   });
@@ -93,7 +93,7 @@ describe("Encoding Main: Functions", () => {
     (ImagePicker.launchImageLibraryAsync as jest.Mock).mockResolvedValue({
       cancelled: false
     });
-    const spy = jest.spyOn(Main.prototype as any, "selectPhotoToEncode");
+    const spy = jest.spyOn(instance as any, "selectPhotoToEncode");
     await (instance as any).getPhotoFromCameraRoll();
     expect(spy).toHaveBeenCalled();
   });
@@ -124,7 +124,7 @@ describe("Encoding Main: Functions", () => {
         ]
       })
     });
-    const spy = jest.spyOn(Main.prototype as any, "selectPhotoToEncode");
+    const spy = jest.spyOn(instance as any, "selectPhotoToEncode");
     await (instance as any).getPhotoFromCatAPI();
     expect(spy).toHaveBeenCalled();
   });

@@ -4,7 +4,7 @@ import { colors } from "~/modules";
 const about: IAboutItem[] = [
   {
     icon: {
-      color: colors.iconOrange,
+      color: colors.primary,
       name: "versions",
       type: "octicon"
     },
@@ -13,7 +13,7 @@ const about: IAboutItem[] = [
   },
   {
     icon: {
-      color: colors.iconBlue,
+      color: colors.pink,
       name: "code-fork",
       type: "font-awesome"
     },
@@ -22,16 +22,16 @@ const about: IAboutItem[] = [
   },
   {
     icon: {
-      color: colors.iconBlack,
-      name: "github",
+      color: colors.orange,
+      name: "gitlab",
       type: "font-awesome"
     },
-    title: "Personal GitHub",
-    url: "https://github.com/hmajid2301"
+    title: "Personal GitLab",
+    url: "https://gitlab.com/hmajid2301"
   },
   {
     icon: {
-      color: colors.iconGreen,
+      color: colors.green,
       name: "web",
       type: "material-community"
     },
@@ -41,7 +41,7 @@ const about: IAboutItem[] = [
   {
     function_to_call: "store",
     icon: {
-      color: colors.iconRed,
+      color: colors.red,
       name: "rate-review",
       type: "material"
     },

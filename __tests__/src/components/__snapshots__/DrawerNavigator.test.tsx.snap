@@ -40,8 +40,13 @@ exports[`DrawerNavigator: Match snapshots 1 1`] = `
     activeItemKey="Home"
     activeTintColor="#FFF"
     drawerPosition="left"
+    iconContainerStyle={
+      Object {
+        "width": 30,
+      }
+    }
     inactiveBackgroundColor="transparent"
-    inactiveTintColor="rgba(0, 0, 0, .87)"
+    inactiveTintColor="#000"
     items={
       Array [
         Object {
@@ -67,6 +72,12 @@ exports[`DrawerNavigator: Match snapshots 1 1`] = `
           ],
         },
       ]
+    }
+    labelStyle={
+      Object {
+        "fontFamily": "Roboto",
+        "fontWeight": "normal",
+      }
     }
     navigation={
       Object {

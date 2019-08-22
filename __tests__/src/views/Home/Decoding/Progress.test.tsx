@@ -135,6 +135,7 @@ describe("Decoding Progress: API", () => {
       .spyOn(Progress.prototype as any, "decoded")
       .mockResolvedValue(true);
 
+    instance.setState({ source: { token: "hello" } });
     (create as jest.Mock).mockReturnValue({
       post: jest.fn().mockReturnValue({
         ok: true,

@@ -32,20 +32,24 @@ export default class PhotoAlbumList extends React.Component<IProps, IState> {
 
   public render() {
     return (
-      <FlatList
-        data={this.padData(this.state.photos)}
-        keyExtractor={(item, index) => item.uri + index}
-        numColumns={3}
-        onEndReached={this.morePhotosFromCameraRoll}
-        onRefresh={this.handleRefresh}
-        renderItem={this.renderPhotosFromCameraRoll}
-        refreshing={this.state.refreshing}
-      />
+      <View>
+        <FlatList
+          data={this.padData(this.state.photos)}
+          keyExtractor={(item, index) => item.uri + index}
+          numColumns={3}
+          onEndReached={this.morePhotosFromCameraRoll}
+          onRefresh={this.handleRefresh}
+          renderItem={this.renderPhotosFromCameraRoll}
+          refreshing={this.state.refreshing}
+        />
+      </View>
     );
   }
 
   public async componentDidMount() {
-    await this.handleRefresh();
+    setTimeout(async () => {
+      await this.getPhotosFromCameraRoll();
+    }, 1000);
   }
 
   private padData(data: IPhoto[]) {
@@ -60,7 +64,12 @@ export default class PhotoAlbumList extends React.Component<IProps, IState> {
     return data;
   }
 
-  private async morePhotosFromCameraRoll() {
+  private handleRefresh = async () => {
+    this.setState({ refreshing: true });
+    await this.getPhotosFromCameraRoll();
+  };
+
+  private morePhotosFromCameraRoll = async () => {
     const { assets, endCursor } = await MediaLibrary.getAssetsAsync({
       after: this.state.lastPhoto,
       first: 9,
@@ -71,14 +80,9 @@ export default class PhotoAlbumList extends React.Component<IProps, IState> {
       lastPhoto: endCursor,
       photos: [...this.state.photos, ...assets]
     });
-  }
+  };
 
-  private async handleRefresh() {
-    this.setState({ refreshing: true });
-    await this.getPhotosFromCameraRoll();
-  }
-
-  private renderPhotosFromCameraRoll({ item }: { item: IPhoto }) {
+  private renderPhotosFromCameraRoll = ({ item }: { item: IPhoto }) => {
     if (item.uri === "") {
       return <View />;
     }
@@ -91,27 +95,35 @@ export default class PhotoAlbumList extends React.Component<IProps, IState> {
         <Image source={{ uri: item.uri }} style={styles.photos} />
       </TouchableOpacity>
     );
-  }
+  };
 
-  private async getPhotosFromCameraRoll() {
-    const { status } = await Permissions.askAsync(
+  private getPhotosFromCameraRoll = async () => {
+    const asked = await Permissions.getAsync(
       Permissions.CAMERA,
       Permissions.CAMERA_ROLL
     );
-    if (status === "granted") {
-      const { assets, endCursor } = await MediaLibrary.getAssetsAsync({
-        first: 15,
-        sortBy: [MediaLibrary.SortBy.creationTime]
-      });
-      this.setState({
-        lastPhoto: endCursor,
-        photos: assets,
-        refreshing: false
-      });
-    } else {
-      Snackbar.show({
-        text: "Permission required to access camera roll, to view photos here."
-      });
+
+    if (asked.status !== "denied") {
+      const { status } = await Permissions.askAsync(
+        Permissions.CAMERA,
+        Permissions.CAMERA_ROLL
+      );
+      if (status === "granted") {
+        const { assets, endCursor } = await MediaLibrary.getAssetsAsync({
+          first: 15,
+          sortBy: [MediaLibrary.SortBy.creationTime]
+        });
+
+        this.setState({
+          lastPhoto: endCursor,
+          photos: assets,
+          refreshing: false
+        });
+      } else {
+        Snackbar.show({
+          text: "Grant permissions to access camera roll, to view photos here."
+        });
+      }
     }
-  }
+  };
 }

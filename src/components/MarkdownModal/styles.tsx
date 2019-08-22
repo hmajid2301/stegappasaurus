@@ -8,9 +8,9 @@ const styles = StyleSheet.create({
   },
 
   icons: {
+    alignSelf: "flex-end",
     paddingHorizontal: 10,
-    paddingVertical: 10,
-    textAlign: "right"
+    paddingVertical: 10
   },
 
   container: {

@@ -2,7 +2,7 @@ import { ITheme, PrimaryColorNames } from "@types";
 import { create } from "apisauce";
 import * as ImagePicker from "expo-image-picker";
 import React from "react";
-import { ActivityIndicator, Image, TouchableOpacity, View } from "react-native";
+import { Image, TouchableOpacity, View } from "react-native";
 import Config from "react-native-config";
 import { Icon } from "react-native-elements";
 import {
@@ -12,6 +12,7 @@ import {
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
+import Loader from "~/components/Loader";
 import PhotoAlbumList from "~/components/PhotoAlbumList";
 import Snackbar from "~/components/Snackbar";
 import { PRIMARY_COLOR } from "~/modules";
@@ -53,12 +54,9 @@ export class Main extends React.Component<IProps, IState> {
   public render() {
     const { theme } = this.props.screenProps;
 
-    if (this.state.loading) {
-      return <ActivityIndicator />;
-    }
-
     return (
       <View style={[styles.container, { backgroundColor: theme.background }]}>
+        <Loader loading={this.state.loading} />
         <View style={styles.buttonsRow}>
           <TouchableOpacity
             onPress={this.getPhotoFromCamera}
@@ -66,14 +64,12 @@ export class Main extends React.Component<IProps, IState> {
           >
             <Icon name="camera" iconStyle={styles.icon} type="font-awesome" />
           </TouchableOpacity>
-
           <TouchableOpacity
             onPress={this.getPhotoFromCameraRoll}
             style={styles.button}
           >
             <Icon name="photo" iconStyle={styles.icon} type="font-awesome" />
           </TouchableOpacity>
-
           <TouchableOpacity
             onPress={this.getPhotoFromCatAPI}
             style={styles.button}
@@ -104,7 +100,7 @@ export class Main extends React.Component<IProps, IState> {
     }
   }
 
-  private async getPhotoFromCamera() {
+  private getPhotoFromCamera = async () => {
     try {
       const result = await ImagePicker.launchCameraAsync();
       if (!result.cancelled) {
@@ -115,9 +111,9 @@ export class Main extends React.Component<IProps, IState> {
         text: "This app does not have permission to access the camera."
       });
     }
-  }
+  };
 
-  private async getPhotoFromCameraRoll() {
+  private getPhotoFromCameraRoll = async () => {
     try {
       const result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images
@@ -130,9 +126,9 @@ export class Main extends React.Component<IProps, IState> {
         text: "This app does not have permission to access the camera roll."
       });
     }
-  }
+  };
 
-  private async getPhotoFromCatAPI() {
+  private getPhotoFromCatAPI = async () => {
     this.setState({ loading: true });
 
     const api = create({
@@ -153,11 +149,11 @@ export class Main extends React.Component<IProps, IState> {
     }
 
     this.setState({ loading: false });
-  }
+  };
 
-  private selectPhotoToEncode(uri: string) {
+  private selectPhotoToEncode = (uri: string) => {
     this.props.navigation.navigate("EncodingMessage", { uri });
-  }
+  };
 }
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({

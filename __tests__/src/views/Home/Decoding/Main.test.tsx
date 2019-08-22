@@ -81,7 +81,7 @@ describe("Decoding Main: Functions", () => {
       cancelled: false,
       uri: "test.png"
     });
-    const spy = jest.spyOn(Main.prototype as any, "selectPhotoToEncode");
+    const spy = jest.spyOn(instance as any, "selectPhotoToDecode");
     await (instance as any).getPhotoFromCameraRoll();
     expect(spy).toHaveBeenCalled();
   });

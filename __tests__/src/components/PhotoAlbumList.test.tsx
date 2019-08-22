@@ -207,6 +207,9 @@ describe("PhotoAlbumList: Functions", () => {
   });
 
   test("getPhotosListFromAlbum: granted", async () => {
+    (Permissions.getAsync as jest.Mock).mockResolvedValue({
+      status: "undetermined"
+    });
     (Permissions.askAsync as jest.Mock).mockResolvedValue({
       status: "granted"
     });

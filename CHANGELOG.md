@@ -10,5 +10,5 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Encode and decode using LSB.
 - Share save encoded images (as png files).
-- Firebase for application management.
-- Initial Rrelease.
+- Share encoded images with app to decode them.
+- Initial Release.

@@ -5,6 +5,7 @@ import { ListItem } from "react-native-elements";
 
 import { ThemeColors } from "@types";
 import MarkdownModal from "~/components/MarkdownModal";
+import Snackbar from "~/components/Snackbar";
 import changelog from "~/data/changelog";
 import styles from "./styles";
 
@@ -55,10 +56,16 @@ const About = ({ background, color }: IProps) => (
 );
 
 const sendEmail = async () => {
-  await MailComposer.composeAsync({
-    recipients: ["me@haseebmajid.dev"],
-    subject: "Stegappasaurus"
-  });
+  try {
+    await MailComposer.composeAsync({
+      recipients: ["me@haseebmajid.dev"],
+      subject: "Stegappasaurus"
+    });
+  } catch {
+    Snackbar.show({
+      text: "No email client installed on your device, failed to send email."
+    });
+  }
 };
 
 export default About;

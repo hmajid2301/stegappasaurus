@@ -43,20 +43,36 @@ exports[`Themes: Match Snapshots 1 1`] = `
       }
     }
     title={
-      <Text
-        style={
-          Array [
-            Object {
-              "fontFamily": "Roboto-Light",
-            },
-            Object {
-              "color": "grey",
-            },
-          ]
-        }
-      >
-        Automatically changes to dark mode at sunset and light mode at sunrise.
-      </Text>
+      <View>
+        <Text
+          style={
+            Array [
+              Object {
+                "fontFamily": "Roboto-Light",
+              },
+              Object {
+                "color": "#17212D",
+              },
+            ]
+          }
+        >
+          Automatic Theme
+        </Text>
+        <Text
+          style={
+            Array [
+              Object {
+                "fontFamily": "Roboto-Light",
+              },
+              Object {
+                "color": "grey",
+              },
+            ]
+          }
+        >
+          Automatically changes to dark mode at sunset and light mode at sunrise.
+        </Text>
+      </View>
     }
     titleStyle={
       Array [
@@ -115,20 +131,36 @@ exports[`Themes: Match Snapshots 2 1`] = `
       }
     }
     title={
-      <Text
-        style={
-          Array [
-            Object {
-              "fontFamily": "Roboto-Light",
-            },
-            Object {
-              "color": "grey",
-            },
-          ]
-        }
-      >
-        Automatically changes to dark mode at sunset and light mode at sunrise.
-      </Text>
+      <View>
+        <Text
+          style={
+            Array [
+              Object {
+                "fontFamily": "Roboto-Light",
+              },
+              Object {
+                "color": "#FFF",
+              },
+            ]
+          }
+        >
+          Automatic Theme
+        </Text>
+        <Text
+          style={
+            Array [
+              Object {
+                "fontFamily": "Roboto-Light",
+              },
+              Object {
+                "color": "grey",
+              },
+            ]
+          }
+        >
+          Automatically changes to dark mode at sunset and light mode at sunrise.
+        </Text>
+      </View>
     }
     titleStyle={
       Array [

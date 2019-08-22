@@ -19,6 +19,9 @@ const DrawerNavigator: React.FunctionComponent<DrawerItemsProps> = props => {
         <DrawerItems
           activeBackgroundColor={colors.primary}
           activeTintColor={colors.pureWhite}
+          iconContainerStyle={styles.icons}
+          inactiveTintColor={theme.color}
+          labelStyle={styles.text}
           {...props}
         />
       </View>

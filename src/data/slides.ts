@@ -5,8 +5,7 @@ const slides: ISlide[] = [
     color: "#06C49C",
     image: require("~/assets/images/slider/1.jpg"),
     key: "encoding",
-    text:
-      "Hide your data within images, no one will be able to spot the difference between the images.",
+    text: "Hide your data within images.",
     title: "Hide data. "
   },
   {

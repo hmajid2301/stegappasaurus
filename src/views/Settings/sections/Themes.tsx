@@ -64,25 +64,36 @@ export class Themes extends React.Component<IProps, {}> {
           checkBox={{
             checked: this.props.isAutomatic,
             checkedColor: colors.primary,
-            onPress: async () => {
-              this.props.toggleAutomaticTheme(!this.props.isAutomatic);
-              let toggle = false;
-              if (this.props.isAutomatic) {
-                toggle = await this.toggleTheme.shouldToggleDarkTheme();
-              }
-              this.props.toggleDarkTheme(toggle);
-            }
+            onPress: () => this.toggleAutomatic
           }}
           title={
-            <Text style={[styles.itemText, styles.itemTextUnder]}>
-              Automatically changes to dark mode at sunset and light mode at
-              sunrise.
-            </Text>
+            <View>
+              <Text style={[styles.itemText, { color: theme.color }]}>
+                Automatic Theme
+              </Text>
+              <Text style={[styles.itemText, styles.itemTextUnder]}>
+                Automatically changes to dark mode at sunset and light mode at
+                sunrise.
+              </Text>
+            </View>
           }
         />
       </View>
     );
   }
+
+  private toggleAutomatic = async () => {
+    this.props.toggleAutomaticTheme(!this.props.isAutomatic);
+    let toggle = false;
+    try {
+      if (!this.props.isAutomatic) {
+        toggle = await this.toggleTheme.shouldToggleDarkTheme();
+      }
+      this.props.toggleDarkTheme(toggle);
+    } catch {
+      this.props.toggleAutomaticTheme(false);
+    }
+  };
 }
 
 const mapStateToProps = (state: IReducerState) => ({

@@ -31,30 +31,22 @@ describe("Themes: Match Snapshots", () => {
   });
 });
 
-describe("Themes: Props", () => {
-  test("OnPress: Automatic", async () => {
-    const toggle = jest.fn();
+describe("Themes: Functions", () => {
+  test("toggleAutomatic", async () => {
     const component = mount(
       <Themes
-        isAutomatic={true}
+        isAutomatic={false}
         theme={{ color: "#FFF", background: "#17212D", isDark: false }}
         toggleAutomaticTheme={(isAutomatic: boolean) => null}
-        toggleDarkTheme={() => toggle()}
+        toggleDarkTheme={() => jest.fn()}
       />
     );
 
     const spy = jest
       .spyOn(AutoToggleTheme.prototype, "shouldToggleDarkTheme")
       .mockResolvedValue(true);
-
-    const prop = component
-      .find("TouchableOpacity")
-      .last()
-      .props() as any;
-    await prop.onPress();
-
+    (component.instance() as any).toggleAutomatic();
     expect(spy).toHaveBeenCalled();
-    expect(toggle).toHaveBeenCalled();
   });
 });
 

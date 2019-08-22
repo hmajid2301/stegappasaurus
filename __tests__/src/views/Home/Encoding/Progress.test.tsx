@@ -1,5 +1,6 @@
 import { create } from "apisauce";
 import NetInfo from "@react-native-community/netinfo";
+import * as MediaLibrary from "expo-media-library";
 import { mount, shallow } from "enzyme";
 import React from "react";
 import { Linking } from "react-native";
@@ -125,6 +126,9 @@ describe("Encoding Progress: Functions", () => {
 
   test("encoded", async () => {
     const spy = jest.spyOn(Snackbar, "show");
+    (MediaLibrary.createAssetAsync as jest.Mock).mockResolvedValue({
+      uri: "encodedImage.png"
+    });
     await (instance as any).encoded(
       "data:image/jpeg;base64,/BAMNBAHGDJSGUGvJVAD/2"
     );
@@ -176,6 +180,7 @@ describe("Encoding Progress: API", () => {
     const spy = jest
       .spyOn(Progress.prototype as any, "encoded")
       .mockResolvedValue(true);
+    instance.setState({ source: { token: "hello" } });
     (create as jest.Mock).mockReturnValue({
       post: jest.fn().mockReturnValue({
         ok: true,

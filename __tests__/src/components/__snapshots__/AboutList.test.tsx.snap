@@ -12,7 +12,7 @@ exports[`AboutList: Match snapshots 1 1`] = `
     key="Version 0.1.0"
     leftIcon={
       Object {
-        "color": "#FF9501",
+        "color": "#009CFF",
         "name": "versions",
         "onPress": [Function],
         "type": "octicon",
@@ -51,7 +51,7 @@ exports[`AboutList: Match snapshots 1 1`] = `
     key="Fork this Project on GitHub"
     leftIcon={
       Object {
-        "color": "#007CFE",
+        "color": "#F50AE1",
         "name": "code-fork",
         "onPress": [Function],
         "type": "font-awesome",
@@ -87,11 +87,11 @@ exports[`AboutList: Match snapshots 1 1`] = `
         "backgroundColor": "#FFF",
       }
     }
-    key="Personal GitHub"
+    key="Personal GitLab"
     leftIcon={
       Object {
-        "color": "#222",
-        "name": "github",
+        "color": "#FF9501",
+        "name": "gitlab",
         "onPress": [Function],
         "type": "font-awesome",
       }
@@ -113,7 +113,7 @@ exports[`AboutList: Match snapshots 1 1`] = `
             ]
           }
         >
-          Personal GitHub
+          Personal GitLab
         </Text>
       </TouchableOpacity>
     }
@@ -212,7 +212,7 @@ exports[`AboutList: Match snapshots 2 1`] = `
     key="Version 0.1.0"
     leftIcon={
       Object {
-        "color": "#FF9501",
+        "color": "#009CFF",
         "name": "versions",
         "onPress": [Function],
         "type": "octicon",
@@ -251,7 +251,7 @@ exports[`AboutList: Match snapshots 2 1`] = `
     key="Fork this Project on GitHub"
     leftIcon={
       Object {
-        "color": "#007CFE",
+        "color": "#F50AE1",
         "name": "code-fork",
         "onPress": [Function],
         "type": "font-awesome",
@@ -287,11 +287,11 @@ exports[`AboutList: Match snapshots 2 1`] = `
         "backgroundColor": "#17212D",
       }
     }
-    key="Personal GitHub"
+    key="Personal GitLab"
     leftIcon={
       Object {
-        "color": "#222",
-        "name": "github",
+        "color": "#FF9501",
+        "name": "gitlab",
         "onPress": [Function],
         "type": "font-awesome",
       }
@@ -313,7 +313,7 @@ exports[`AboutList: Match snapshots 2 1`] = `
             ]
           }
         >
-          Personal GitHub
+          Personal GitLab
         </Text>
       </TouchableOpacity>
     }

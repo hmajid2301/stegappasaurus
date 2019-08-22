@@ -1,14 +1,15 @@
 import AsyncStorage from "@react-native-community/async-storage";
 import * as React from "react";
-import { ActivityIndicator, AppState, StatusBar } from "react-native";
+import { AppState, StatusBar, View } from "react-native";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
 import { ITheme, PossibleAppStates } from "@types";
 import AutoToggleTheme from "~/actions/AutoToggleTheme";
 import IntroSlider from "~/components/IntroSlider";
+import Loader from "~/components/Loader";
 import { slides } from "~/data";
-import { toggleDarkTheme } from "~/redux/actions";
+import { toggleAutomaticTheme, toggleDarkTheme } from "~/redux/actions";
 import { IReducerState as IReducerAutomaticTheme } from "~/redux/reducers/ToggleAutomaticTheme";
 import { IReducerState as IReducerDarkTheme } from "~/redux/reducers/ToggleDarkTheme";
 import App from "./views/Routes";
@@ -17,6 +18,7 @@ interface IReducerState extends IReducerAutomaticTheme, IReducerDarkTheme {}
 
 interface IProps {
   isAutomatic: boolean;
+  toggleAutomaticTheme: (isAutomatic: boolean) => void;
   toggleDarkTheme: (isDark: boolean) => void;
   theme: ITheme;
 }
@@ -41,16 +43,19 @@ export class MainApp extends React.Component<IProps, IState> {
 
   public render() {
     if (this.state.loading) {
-      return <ActivityIndicator />;
+      return <Loader loading={this.state.loading} />;
     } else if (!this.state.introShown) {
       return <IntroSlider slides={slides} onDone={this.introShownToUser} />;
     }
     return (
-      <App
-        screenProps={{
-          theme: this.props.theme
-        }}
-      />
+      <View style={{ flex: 1 }}>
+        <StatusBar hidden />
+        <App
+          screenProps={{
+            theme: this.props.theme
+          }}
+        />
+      </View>
     );
   }
 
@@ -69,19 +74,23 @@ export class MainApp extends React.Component<IProps, IState> {
     AppState.removeEventListener("change", this.appInFocus);
   }
 
-  private async introShownToUser() {
+  private introShownToUser = async () => {
     await AsyncStorage.setItem("@IntroShown", "true");
     this.setState({ introShown: true });
-  }
+  };
 
-  private async appInFocus(nextAppState: PossibleAppStates) {
+  private appInFocus = async (nextAppState: PossibleAppStates) => {
     if (nextAppState === "active") {
       if (this.props.isAutomatic) {
-        const shouldToggle = await this.toggleTheme.shouldToggleDarkTheme();
-        this.props.toggleDarkTheme(shouldToggle);
+        try {
+          const shouldToggle = await this.toggleTheme.shouldToggleDarkTheme();
+          this.props.toggleDarkTheme(shouldToggle);
+        } catch {
+          this.props.toggleAutomaticTheme(false);
+        }
       }
     }
-  }
+  };
 }
 
 const mapStateToProps = (state: IReducerState) => ({
@@ -90,6 +99,8 @@ const mapStateToProps = (state: IReducerState) => ({
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
+  toggleAutomaticTheme: (isAutomatic: boolean) =>
+    dispatch(toggleAutomaticTheme({ isAutomatic })),
   toggleDarkTheme: (isDark: boolean) => dispatch(toggleDarkTheme({ isDark }))
 });
 
