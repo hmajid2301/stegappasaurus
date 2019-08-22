@@ -24,8 +24,6 @@ create:merge-request:
   image: registry.gitlab.com/gitlab-automation-toolkit/gitlab-auto-mr
   stage: pre
   before_script: []
-  only:
-    - merge_request
   except:
     - production
     - master
@@ -67,7 +65,7 @@ test:coverage:
     - master
   script:
     - yarn coverage --silent
-  coverage: '/^All files\s+\|\s+\d+\.*\d*\s+\|\s*(\d+\.*\d*)/'
+  coverage: /All\sfiles.*?\s+(\d+.\d+)/
 
 test:android:lint:
   stage: test
@@ -98,7 +96,7 @@ build:android:package:
     - /^release/.*$/
   script:
     - export CHANGELOG = $("cat CHANGELOG.md")
-    - const changelog = `$CHANGELOG`;\n export default change;
+    - const changelog = `$CHANGELOG`;\n export default changelog;
     - cd android
     - mv $FIREBASE_GOOGLE_SERVICES app/google-services.json
     - base64 -d $ANDROID_KEYSTORE > app/stegappasaurus.keystore

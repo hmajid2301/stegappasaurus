@@ -3,9 +3,14 @@
 exports[`Settings: Match Snapshots 1 1`] = `
 <ScrollViewMock
   style={
-    Object {
-      "flex": 1,
-    }
+    Array [
+      Object {
+        "flex": 1,
+      },
+      Object {
+        "backgroundColor": "#FFF",
+      },
+    ]
   }
 >
   <AppHeader
@@ -33,10 +38,6 @@ exports[`Settings: Match Snapshots 1 1`] = `
       background="#FFF"
       color="#17212D"
     />
-    <Connect(Other)
-      background="#FFF"
-      color="#17212D"
-    />
     <About
       background="#FFF"
       color="#17212D"
@@ -48,9 +49,14 @@ exports[`Settings: Match Snapshots 1 1`] = `
 exports[`Settings: Match Snapshots 2 1`] = `
 <ScrollViewMock
   style={
-    Object {
-      "flex": 1,
-    }
+    Array [
+      Object {
+        "flex": 1,
+      },
+      Object {
+        "backgroundColor": "#17212D",
+      },
+    ]
   }
 >
   <AppHeader
@@ -75,10 +81,6 @@ exports[`Settings: Match Snapshots 2 1`] = `
       }
     />
     <Support
-      background="#17212D"
-      color="#FFF"
-    />
-    <Connect(Other)
       background="#17212D"
       color="#FFF"
     />

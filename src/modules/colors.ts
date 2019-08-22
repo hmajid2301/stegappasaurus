@@ -1,13 +1,14 @@
 export const colors = {
+  blue: "#007CFE",
   darkColor: "#17212D",
-  iconBlack: "#222",
-  iconBlue: "#007CFE",
-  iconGreen: "#4CDA64",
-  iconLightGreen: "#25AE88",
-  iconOrange: "#FF9501",
-  iconRed: "#FD3C2D",
+  green: "#4CDA64",
+  lightBlack: "#222",
+  lightGreen: "#25AE88",
+  orange: "#FF9501",
+  pink: "#F50AE1",
   primary: "#009CFF",
   pureBlack: "#000",
   pureWhite: "#FFF",
+  red: "#FD3C2D",
   secondary: "#E88C0C"
 };

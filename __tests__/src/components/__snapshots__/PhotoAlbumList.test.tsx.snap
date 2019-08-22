@@ -30,43 +30,47 @@ exports[`PhotoAlbumList: Functions renderPhotosFromCameraRoll 1`] = `
 exports[`PhotoAlbumList: Functions renderPhotosFromCameraRoll 2`] = `<View />`;
 
 exports[`PhotoAlbumList: Match snapshots 1 1`] = `
-<FlatList
-  data={Array []}
-  disableVirtualization={false}
-  horizontal={false}
-  initialNumToRender={10}
-  keyExtractor={[Function]}
-  maxToRenderPerBatch={10}
-  numColumns={3}
-  onEndReached={[Function]}
-  onEndReachedThreshold={2}
-  onRefresh={[Function]}
-  refreshing={true}
-  removeClippedSubviews={false}
-  renderItem={[Function]}
-  scrollEventThrottle={50}
-  updateCellsBatchingPeriod={50}
-  windowSize={21}
-/>
+<View>
+  <FlatList
+    data={Array []}
+    disableVirtualization={false}
+    horizontal={false}
+    initialNumToRender={10}
+    keyExtractor={[Function]}
+    maxToRenderPerBatch={10}
+    numColumns={3}
+    onEndReached={[Function]}
+    onEndReachedThreshold={2}
+    onRefresh={[Function]}
+    refreshing={false}
+    removeClippedSubviews={false}
+    renderItem={[Function]}
+    scrollEventThrottle={50}
+    updateCellsBatchingPeriod={50}
+    windowSize={21}
+  />
+</View>
 `;
 
 exports[`PhotoAlbumList: Match snapshots 2 1`] = `
-<FlatList
-  data={Array []}
-  disableVirtualization={false}
-  horizontal={false}
-  initialNumToRender={10}
-  keyExtractor={[Function]}
-  maxToRenderPerBatch={10}
-  numColumns={3}
-  onEndReached={[Function]}
-  onEndReachedThreshold={2}
-  onRefresh={[Function]}
-  refreshing={true}
-  removeClippedSubviews={false}
-  renderItem={[Function]}
-  scrollEventThrottle={50}
-  updateCellsBatchingPeriod={50}
-  windowSize={21}
-/>
+<View>
+  <FlatList
+    data={Array []}
+    disableVirtualization={false}
+    horizontal={false}
+    initialNumToRender={10}
+    keyExtractor={[Function]}
+    maxToRenderPerBatch={10}
+    numColumns={3}
+    onEndReached={[Function]}
+    onEndReachedThreshold={2}
+    onRefresh={[Function]}
+    refreshing={false}
+    removeClippedSubviews={false}
+    renderItem={[Function]}
+    scrollEventThrottle={50}
+    updateCellsBatchingPeriod={50}
+    windowSize={21}
+  />
+</View>
 `;

@@ -12,8 +12,13 @@ const toggleDarkTheme = (isDark: boolean) => {
   isDark = !isDark;
 };
 
+const toggleAutomaticTheme = (isAutomatic: boolean) => {
+  isAutomatic = !isAutomatic;
+};
+
 const props = {
   isAutomatic: true,
+  toggleAutomaticTheme: (isAutomatic: boolean) => toggleAutomaticTheme(true),
   toggleDarkTheme: (isDark: boolean) => toggleDarkTheme(true),
   theme: {
     background: colors.darkColor as ThemeColors,
@@ -89,9 +94,7 @@ describe("MainApp: Functions", () => {
   });
 
   test("introShownToUser", async () => {
-    const introSpy = jest.spyOn(MainApp.prototype as any, "introShownToUser");
     await (instance as any).introShownToUser();
-    expect(introSpy).toHaveBeenCalled();
     expect(component.state("introShown")).toBe(true);
   });
 
@@ -106,13 +109,11 @@ describe("MainApp: Functions", () => {
     }
   ];
   test.each(appData)("appInFocus", async ({ appInFocus, timesCalled }) => {
-    const focusSpy = jest.spyOn(MainApp.prototype as any, "appInFocus");
     const toggleSpy = jest
       .spyOn(AutoToggleTheme.prototype, "shouldToggleDarkTheme")
       .mockResolvedValue(true);
     await (instance as any).appInFocus(appInFocus);
 
-    expect(focusSpy).toHaveBeenCalled();
     expect(toggleSpy).toHaveBeenCalledTimes(timesCalled);
     toggleSpy.mockClear();
   });
@@ -151,5 +152,4 @@ describe("MainApp Redux", () => {
     const actions = store.getActions();
     expect(actions).toMatchSnapshot();
   });
-
 });

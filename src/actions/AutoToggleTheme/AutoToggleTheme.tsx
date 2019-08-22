@@ -40,7 +40,7 @@ export default class AutoToggleTheme {
 
   private async getLatitudeLongitude() {
     const currentDate = new Date(Date.now());
-    const lastQueried = await AsyncStorage.getItem("@LastQueriedLocationAt");
+    const lastQueried = await AsyncStorage.getItem("@LastQueriedLocation");
     let latitude: number;
     let longitude: number;
     let lastQueriedDate: Date;
@@ -61,8 +61,8 @@ export default class AutoToggleTheme {
         currentDate
       ));
     } else {
-      latitude = Number((await AsyncStorage.getItem("@Latitude")) || "0");
-      longitude = Number((await AsyncStorage.getItem("@Longitude")) || "0");
+      latitude = Number((await AsyncStorage.getItem("@Latitude")) || "51.5");
+      longitude = Number((await AsyncStorage.getItem("@Longitude")) || "-0.12");
     }
 
     return { latitude, longitude };
@@ -93,11 +93,9 @@ export default class AutoToggleTheme {
 
     if (latitude === undefined || longitude === undefined) {
       Snackbar.show({
-        text:
-          "To use the automatic theme feature, location services must be turned on. Defaulting to London as location."
+        text: "To use the automatic theme, location services must be turned on."
       });
-      latitude = 51.5;
-      longitude = -0.12;
+      throw Error("No location found");
     }
 
     return { latitude, longitude };

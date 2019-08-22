@@ -31,7 +31,7 @@ exports[`IntroSlider: Match snapshots 1 1`] = `
         "color": "#06C49C",
         "image": 1,
         "key": "encoding",
-        "text": "Hide your data within images, no one will be able to spot the difference between the images.",
+        "text": "Hide your data within images.",
         "title": "Hide data. ",
       },
       Object {

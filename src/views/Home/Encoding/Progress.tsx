@@ -1,10 +1,17 @@
 import NetInfo from "@react-native-community/netinfo";
-import { ApiResponse, create } from "apisauce";
+import { ApiResponse, CancelToken, create } from "apisauce";
+import { CancelTokenSource } from "axios";
 import * as FileSystem from "expo-file-system";
 import * as MediaLibrary from "expo-media-library";
 import * as React from "react";
-import { Linking, View } from "react-native";
+import {
+  BackHandler,
+  Linking,
+  NativeEventSubscription,
+  View
+} from "react-native";
 import Config from "react-native-config";
+import "react-native-console-time-polyfill";
 import firebase from "react-native-firebase";
 import Share from "react-native-share";
 import { NavigationScreenProp } from "react-navigation";
@@ -24,25 +31,36 @@ interface IProps {
 }
 
 interface IState {
+  encodedUri: string;
   encoding: boolean;
   filename: string;
   message: string;
   photo: string;
+  source: CancelTokenSource;
 }
 
 export default class Progress extends React.Component<IProps, IState> {
+  private backHandler: NativeEventSubscription;
+
   constructor(props: IProps) {
     super(props);
     const { navigation } = props;
     const message = navigation.getParam("message", "NO-ID");
     const uri = navigation.getParam("uri", "NO-ID");
     const filename = `${new Date().toISOString()}.png`;
+    const source = CancelToken.source();
+    this.backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      this.cancelRequest
+    );
 
     this.state = {
+      encodedUri: "",
       encoding: true,
       filename,
       message,
-      photo: uri
+      photo: uri,
+      source
     };
   }
 
@@ -75,6 +93,10 @@ export default class Progress extends React.Component<IProps, IState> {
     await this.callEncodeAPI(base64Image);
   }
 
+  public componentWillUnmount() {
+    this.backHandler.remove();
+  }
+
   private async callEncodeAPI(base64Image: string) {
     const userCredentials = await firebase.auth().signInAnonymously();
     const token = await userCredentials.user.getIdToken();
@@ -83,13 +105,28 @@ export default class Progress extends React.Component<IProps, IState> {
     const api = create({
       baseURL: Config.FIREBASE_API_URL,
       headers: { Authorization: `Bearer ${token}` },
-      timeout: 120000
+      timeout: 60000
     });
-    const response: ApiResponse<Encoding> = await api.post("/encode", {
-      algorithm: "LSB",
-      imageData: `data:image/png;base64,${base64Image}`,
-      message: this.state.message
-    });
+
+    let response: ApiResponse<Encoding>;
+    try {
+      response = await api.post(
+        "/encode",
+        {
+          algorithm: "LSB",
+          imageData: `data:image/png;base64,${base64Image}`,
+          message: this.state.message
+        },
+        {
+          cancelToken: this.state.source.token
+        }
+      );
+    } catch {
+      response = {
+        data: { code: "ServerError", message: "Server unreachable" },
+        ok: false
+      } as any;
+    }
 
     const { data, ok, status } = response;
     if (ok) {
@@ -98,6 +135,10 @@ export default class Progress extends React.Component<IProps, IState> {
       this.failedResponse(data as IAPIError, status ? status : 500);
     }
   }
+
+  private cancelRequest = () => {
+    this.state.source.cancel();
+  };
 
   private async checkNetworkStatus() {
     const state = await NetInfo.fetch();
@@ -123,7 +164,7 @@ export default class Progress extends React.Component<IProps, IState> {
     await MediaLibrary.createAssetAsync(imagePath);
     await FileSystem.deleteAsync(imagePath);
 
-    this.setState({ encoding: false });
+    this.setState({ encoding: false, encodedUri: base64Image });
     Snackbar.show({
       buttonText: "Open Album",
       onButtonPress: this.openAlbum,
@@ -148,11 +189,13 @@ export default class Progress extends React.Component<IProps, IState> {
     }
   }
 
-  private async shareImage() {
+  private shareImage = async () => {
     await Share.open({
-      url: this.state.filename
+      failOnCancel: false,
+      message: "Encoded image shared from stegappasaurus app.",
+      url: this.state.encodedUri
     });
-  }
+  };
 
   private sendUserBackToMain() {
     Snackbar.show({

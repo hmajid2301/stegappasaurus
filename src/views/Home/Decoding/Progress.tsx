@@ -1,8 +1,9 @@
 import NetInfo from "@react-native-community/netinfo";
-import { ApiResponse, create } from "apisauce";
+import { ApiResponse, CancelToken, create } from "apisauce";
+import { CancelTokenSource } from "axios";
 import * as FileSystem from "expo-file-system";
 import * as React from "react";
-import { View } from "react-native";
+import { BackHandler, NativeEventSubscription, View } from "react-native";
 import Config from "react-native-config";
 import firebase from "react-native-firebase";
 import { NavigationScreenProp } from "react-navigation";
@@ -24,17 +25,26 @@ interface IProps {
 interface IState {
   decoding: boolean;
   photo: string;
+  source: CancelTokenSource;
 }
 
 export default class Progress extends React.Component<IProps, IState> {
+  private backHandler: NativeEventSubscription;
+
   constructor(props: IProps) {
     super(props);
     const { navigation } = props;
     const uri = navigation.getParam("uri", "NO-ID");
+    const source = CancelToken.source();
+    this.backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      this.cancelRequest
+    );
 
     this.state = {
       decoding: true,
-      photo: uri
+      photo: uri,
+      source
     };
   }
 
@@ -60,6 +70,10 @@ export default class Progress extends React.Component<IProps, IState> {
     await this.callDecodeAPI(base64Image);
   }
 
+  public componentWillUnmount() {
+    this.backHandler.remove();
+  }
+
   private async callDecodeAPI(base64Image: string) {
     const userCredentials = await firebase.auth().signInAnonymously();
     const token = await userCredentials.user.getIdToken();
@@ -70,9 +84,15 @@ export default class Progress extends React.Component<IProps, IState> {
       headers: { Authorization: `Bearer ${token}` },
       timeout: 60000
     });
-    const response: ApiResponse<Decoding> = await api.post("/decode", {
-      imageData: `data:image/png;base64,${base64Image}`
-    });
+    const response: ApiResponse<Decoding> = await api.post(
+      "/decode",
+      {
+        imageData: `data:image/png;base64,${base64Image}`
+      },
+      {
+        cancelToken: this.state.source.token
+      }
+    );
 
     const { data, ok } = response;
     if (ok) {
@@ -81,6 +101,10 @@ export default class Progress extends React.Component<IProps, IState> {
       this.failedResponse();
     }
   }
+
+  private cancelRequest = () => {
+    this.state.source.cancel();
+  };
 
   private async checkNetworkStatus() {
     const state = await NetInfo.fetch();

@@ -47,7 +47,7 @@ exports[`AboutUs: Match Snapshots 1 1`] = `
           ]
         }
       >
-        This project involves implementing steganography algorithms. It allows users to hide messages within image files, using these algorithms. It was originally developed using the Ionic/Apache Cordova framework. This app is a rewrite of my third year dissertation project. This new app is written using Expo/React Native. There are numerous improvements that were made during the rewrite. For example the new app has a much better UI/UX and has some new features such as sharing the encoded images.
+        This project was developed by me as a way to learn React Native. It is a complete rewrite of the my university project, which was written in Ionic (Apache Cordova). This mobile application allow you, the user, to encode image with text using steganography algorithms.
       </Text>
     </View>
     <View>
@@ -58,7 +58,7 @@ exports[`AboutUs: Match Snapshots 1 1`] = `
           Array [
             Object {
               "icon": Object {
-                "color": "#FF9501",
+                "color": "#009CFF",
                 "name": "versions",
                 "type": "octicon",
               },
@@ -67,7 +67,7 @@ exports[`AboutUs: Match Snapshots 1 1`] = `
             },
             Object {
               "icon": Object {
-                "color": "#007CFE",
+                "color": "#F50AE1",
                 "name": "code-fork",
                 "type": "font-awesome",
               },
@@ -76,12 +76,12 @@ exports[`AboutUs: Match Snapshots 1 1`] = `
             },
             Object {
               "icon": Object {
-                "color": "#222",
-                "name": "github",
+                "color": "#FF9501",
+                "name": "gitlab",
                 "type": "font-awesome",
               },
-              "title": "Personal GitHub",
-              "url": "https://github.com/hmajid2301",
+              "title": "Personal GitLab",
+              "url": "https://gitlab.com/hmajid2301",
             },
             Object {
               "icon": Object {
@@ -156,7 +156,7 @@ exports[`AboutUs: Match Snapshots 2 1`] = `
           ]
         }
       >
-        This project involves implementing steganography algorithms. It allows users to hide messages within image files, using these algorithms. It was originally developed using the Ionic/Apache Cordova framework. This app is a rewrite of my third year dissertation project. This new app is written using Expo/React Native. There are numerous improvements that were made during the rewrite. For example the new app has a much better UI/UX and has some new features such as sharing the encoded images.
+        This project was developed by me as a way to learn React Native. It is a complete rewrite of the my university project, which was written in Ionic (Apache Cordova). This mobile application allow you, the user, to encode image with text using steganography algorithms.
       </Text>
     </View>
     <View>
@@ -167,7 +167,7 @@ exports[`AboutUs: Match Snapshots 2 1`] = `
           Array [
             Object {
               "icon": Object {
-                "color": "#FF9501",
+                "color": "#009CFF",
                 "name": "versions",
                 "type": "octicon",
               },
@@ -176,7 +176,7 @@ exports[`AboutUs: Match Snapshots 2 1`] = `
             },
             Object {
               "icon": Object {
-                "color": "#007CFE",
+                "color": "#F50AE1",
                 "name": "code-fork",
                 "type": "font-awesome",
               },
@@ -185,12 +185,12 @@ exports[`AboutUs: Match Snapshots 2 1`] = `
             },
             Object {
               "icon": Object {
-                "color": "#222",
-                "name": "github",
+                "color": "#FF9501",
+                "name": "gitlab",
                 "type": "font-awesome",
               },
-              "title": "Personal GitHub",
-              "url": "https://github.com/hmajid2301",
+              "title": "Personal GitLab",
+              "url": "https://gitlab.com/hmajid2301",
             },
             Object {
               "icon": Object {

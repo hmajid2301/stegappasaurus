@@ -31,14 +31,11 @@ export default class AboutUs extends React.Component<IProps, {}> {
 
           <View style={styles.textContainer}>
             <Text style={[styles.about, { color: theme.color }]}>
-              This project involves implementing steganography algorithms. It
-              allows users to hide messages within image files, using these
-              algorithms. It was originally developed using the Ionic/Apache
-              Cordova framework. This app is a rewrite of my third year
-              dissertation project. This new app is written using Expo/React
-              Native. There are numerous improvements that were made during the
-              rewrite. For example the new app has a much better UI/UX and has
-              some new features such as sharing the encoded images.
+              This project was developed by me as a way to learn React Native.
+              It is a complete rewrite of the my university project, which was
+              written in Ionic (Apache Cordova). This mobile application allow
+              you, the user, to encode image with text using steganography
+              algorithms.
             </Text>
           </View>
 

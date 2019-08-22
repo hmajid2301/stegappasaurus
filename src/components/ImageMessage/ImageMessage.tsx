@@ -32,7 +32,7 @@ export default class ImageMessage extends React.Component<IProps, IState> {
     message: ""
   };
 
-  private focusListener: NavigationEventSubscription;
+  private focusListener: NavigationEventSubscription | null;
   private textInput: TextInput | null;
 
   constructor(props: IProps) {
@@ -41,7 +41,10 @@ export default class ImageMessage extends React.Component<IProps, IState> {
       message: ""
     };
     this.textInput = null;
+    this.focusListener = null;
+  }
 
+  public componentDidMount() {
     this.focusListener = this.props.navigation.addListener("didFocus", () => {
       if (this.textInput !== null) {
         this.textInput.focus();
@@ -50,12 +53,14 @@ export default class ImageMessage extends React.Component<IProps, IState> {
   }
 
   public componentWillUnmount() {
-    this.focusListener.remove();
+    if (this.focusListener) {
+      this.focusListener.remove();
+    }
   }
 
   public render() {
     return (
-      <KeyboardAvoidingView behavior="padding" enabled>
+      <KeyboardAvoidingView behavior="padding">
         <DismissKeyboard>
           <ImageBackground
             source={{ uri: this.props.photo }}
@@ -63,7 +68,6 @@ export default class ImageMessage extends React.Component<IProps, IState> {
           >
             <View style={styles.textInputContainer}>
               <TextInput
-                autoFocus={true}
                 blurOnSubmit={true}
                 editable={this.props.editable}
                 enablesReturnKeyAutomatically={true}
