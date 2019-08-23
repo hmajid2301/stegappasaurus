@@ -18,6 +18,10 @@ The encoded images look identical to normal images to the naked eye you cannot t
 This app relies on using a RESTful API which runs on Google Firebase to do the encoding and decoding.
 The project which contains the code for this API exists [here](https://github.com/stegappasaurus/stegappasaurus-api.git).
 
+# App Demo
+
+[![App Demo](http://img.youtube.com/vi/ui-dl0SVVc4/0.jpg)](http://www.youtube.com/watch?v=ui-dl0SVVc4 "App Demo")
+
 # Getting Started
 
 ## Installation
@@ -73,13 +77,13 @@ REACT_NATIVE_PACKAGER_HOSTNAME=192.168.27.1
 
 # Changelog
 
-You can find the changelog for this project [here](https://gitlab.com/stegappasaurus/stegappasaurus-app/blob/production/CHANGELOG.md).
+You can find the changelog for this project [here](https://gitlab.com/stegappasaurus/stegappasaurus-app/blob/master/CHANGELOG.md).
 
 # Other
 
 ## Credit
 
-- Design inspired by [PixelKnot](https://play.google.com/store/apps/details?id=info.guardianproject.pixelknot)
+- App design inspired by [PixelKnot](https://play.google.com/store/apps/details?id=info.guardianproject.pixelknot)
 
 ### Images
 - Cat photos from [thecatapi](https://thecatapi.com)

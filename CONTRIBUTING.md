@@ -18,24 +18,9 @@ Three main ways to contribute to this project are;
 
 If you can try to a detailed commit message about what the change is doing. Don't worry about multiple commits they will be squashed (and rebased) into a single commit. Use GitMoji, https://gitmoji.carloscuesta.me/, in the commit header message.
 
-## Styling and Linting
+## Beginners Guide
 
-We use a combination of prettier and tslint to do the code formatting and code linting for us.
-Make sure the `yarn run code-formatter-check` and `yarn run lint` both pass before submitting an
-MR.
-
-### imports
-
-Leave a single blank line between third party and our own imports.
-
-```typescript
-import * as React from "react";
-import { View } from "react-native";
-import { NavigationScreenProp } from "react-navigation";
-
-import ImageMessage from "~/components/ImageMessage";
-import Snackbar from "~/components/Snackbar";
-```
+Read the getting started guide [here](https://gitlab.com/stegappasaurus/stegappasaurus-app/blob/master/docs/getting-started.md)
 
 ## Workflow
 
