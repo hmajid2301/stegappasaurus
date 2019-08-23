@@ -14,7 +14,13 @@ name: "🐛 Bug"
 
 ## How to reproduce the bug
 
-<!-- Write down the steps required to reproduce this bug -->
+<!-- Write down the steps required to reproduce this bug 
+
+- [ ] step 1
+- [ ] step 2
+- [ ] step 3
+
+-->
 
 ## Environment
 

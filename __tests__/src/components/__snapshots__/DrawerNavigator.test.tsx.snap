@@ -1,0 +1,132 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`DrawerNavigator: Match snapshots 1 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "flex": 1,
+      },
+      Object {
+        "backgroundColor": "#FFF",
+      },
+    ]
+  }
+>
+  <View
+    style={
+      Array [
+        Object {
+          "alignItems": "center",
+          "borderBottomColor": "#009CFF",
+          "borderBottomWidth": 2,
+          "height": 70,
+          "justifyContent": "center",
+          "paddingTop": 15,
+        },
+        Object {
+          "backgroundColor": "#FFF",
+        },
+      ]
+    }
+  >
+    <Logo
+      color="#000"
+      isDark={false}
+    />
+  </View>
+  <DrawerNavigatorItems
+    activeBackgroundColor="#009CFF"
+    activeItemKey="Home"
+    activeTintColor="#FFF"
+    drawerPosition="left"
+    iconContainerStyle={
+      Object {
+        "width": 30,
+      }
+    }
+    inactiveBackgroundColor="transparent"
+    inactiveTintColor="#000"
+    items={
+      Array [
+        Object {
+          "index": 0,
+          "isTransitioning": false,
+          "key": "Home",
+          "routeName": "Home",
+          "routes": Array [
+            Object {
+              "index": 0,
+              "isTransitioning": false,
+              "key": "Encoding",
+              "routeName": "Encoding",
+              "routes": Array [],
+            },
+            Object {
+              "index": 0,
+              "isTransitioning": false,
+              "key": "Decoding",
+              "routeName": "Decoding",
+              "routes": Array [],
+            },
+          ],
+        },
+      ]
+    }
+    labelStyle={
+      Object {
+        "fontFamily": "Roboto",
+        "fontWeight": "normal",
+      }
+    }
+    navigation={
+      Object {
+        "state": Object {
+          "index": 0,
+          "isDrawerOpen": false,
+          "isTransitioning": false,
+          "key": "Hello",
+          "params": Object {
+            "car_id": 123,
+          },
+          "routes": Array [
+            Object {
+              "index": 0,
+              "isTransitioning": false,
+              "key": "Home",
+              "routeName": "Home",
+              "routes": Array [
+                Object {
+                  "index": 0,
+                  "isTransitioning": false,
+                  "key": "Encoding",
+                  "routeName": "Encoding",
+                  "routes": Array [],
+                },
+                Object {
+                  "index": 0,
+                  "isTransitioning": false,
+                  "key": "Decoding",
+                  "routeName": "Decoding",
+                  "routes": Array [],
+                },
+              ],
+            },
+          ],
+        },
+      }
+    }
+    screenProps={
+      Object {
+        "theme": Object {
+          "background": "#FFF",
+          "color": "#000",
+          "isDark": false,
+        },
+      }
+    }
+  />
+</View>
+`;
+
+exports[`DrawerNavigator: Match snapshots 2 1`] = `<View />`;

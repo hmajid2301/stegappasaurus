@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  stegappasaurus_android:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file: .env
+    volumes:
+      - ${PWD}/src/:/app/src
+    ports:
+      - 8081:8081

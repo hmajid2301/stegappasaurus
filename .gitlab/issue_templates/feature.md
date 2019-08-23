@@ -14,11 +14,13 @@ name: "🚀 Feature Request"
 
 ## How to implement
 
-<!-- List how the feature could be implemented -->
+<!-- List how the feature could be implemented 
 
 - [ ] step 1
 - [ ] step 2
 - [ ] step 3
+
+-->
 
 ## Other Information
 

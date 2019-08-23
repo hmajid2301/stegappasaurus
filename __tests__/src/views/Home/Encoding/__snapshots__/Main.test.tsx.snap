@@ -1,0 +1,254 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Encoding Main: Match Snapshots 1 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "flex": 1,
+      },
+      Object {
+        "backgroundColor": "#FFF",
+      },
+    ]
+  }
+>
+  <Loader
+    loading={false}
+  />
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "center",
+        "marginRight": 2,
+        "marginTop": 2,
+      }
+    }
+  >
+    <TouchableOpacity
+      activeOpacity={0.2}
+      onPress={[Function]}
+      style={
+        Object {
+          "backgroundColor": "#009CFF",
+          "flex": 1,
+          "height": 250,
+          "justifyContent": "center",
+          "marginLeft": 2,
+          "marginTop": 2,
+        }
+      }
+    >
+      <Themed.Icon
+        iconStyle={
+          Object {
+            "color": "#FFF",
+            "fontSize": 40,
+            "textAlign": "center",
+          }
+        }
+        name="camera"
+        type="font-awesome"
+      />
+    </TouchableOpacity>
+    <TouchableOpacity
+      activeOpacity={0.2}
+      onPress={[Function]}
+      style={
+        Object {
+          "backgroundColor": "#009CFF",
+          "flex": 1,
+          "height": 250,
+          "justifyContent": "center",
+          "marginLeft": 2,
+          "marginTop": 2,
+        }
+      }
+    >
+      <Themed.Icon
+        iconStyle={
+          Object {
+            "color": "#FFF",
+            "fontSize": 40,
+            "textAlign": "center",
+          }
+        }
+        name="photo"
+        type="font-awesome"
+      />
+    </TouchableOpacity>
+    <TouchableOpacity
+      activeOpacity={0.2}
+      onPress={[Function]}
+      style={
+        Object {
+          "backgroundColor": "#009CFF",
+          "flex": 1,
+          "height": 250,
+          "justifyContent": "center",
+          "marginLeft": 2,
+          "marginTop": 2,
+        }
+      }
+    >
+      <Themed.Icon
+        iconStyle={
+          Object {
+            "color": "#FFF",
+            "fontSize": 40,
+            "textAlign": "center",
+          }
+        }
+        name="cat"
+        type="material-community"
+      />
+    </TouchableOpacity>
+  </View>
+  <View
+    style={
+      Object {
+        "flex": 1,
+        "marginRight": 2,
+      }
+    }
+  >
+    <PhotoAlbumList
+      onPhotoPress={[Function]}
+    />
+  </View>
+</View>
+`;
+
+exports[`Encoding Main: Match Snapshots 2 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "flex": 1,
+      },
+      Object {
+        "backgroundColor": "#17212D",
+      },
+    ]
+  }
+>
+  <Loader
+    loading={false}
+  />
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "flexDirection": "row",
+        "justifyContent": "center",
+        "marginRight": 2,
+        "marginTop": 2,
+      }
+    }
+  >
+    <TouchableOpacity
+      activeOpacity={0.2}
+      onPress={[Function]}
+      style={
+        Object {
+          "backgroundColor": "#009CFF",
+          "flex": 1,
+          "height": 250,
+          "justifyContent": "center",
+          "marginLeft": 2,
+          "marginTop": 2,
+        }
+      }
+    >
+      <Themed.Icon
+        iconStyle={
+          Object {
+            "color": "#FFF",
+            "fontSize": 40,
+            "textAlign": "center",
+          }
+        }
+        name="camera"
+        type="font-awesome"
+      />
+    </TouchableOpacity>
+    <TouchableOpacity
+      activeOpacity={0.2}
+      onPress={[Function]}
+      style={
+        Object {
+          "backgroundColor": "#009CFF",
+          "flex": 1,
+          "height": 250,
+          "justifyContent": "center",
+          "marginLeft": 2,
+          "marginTop": 2,
+        }
+      }
+    >
+      <Themed.Icon
+        iconStyle={
+          Object {
+            "color": "#FFF",
+            "fontSize": 40,
+            "textAlign": "center",
+          }
+        }
+        name="photo"
+        type="font-awesome"
+      />
+    </TouchableOpacity>
+    <TouchableOpacity
+      activeOpacity={0.2}
+      onPress={[Function]}
+      style={
+        Object {
+          "backgroundColor": "#009CFF",
+          "flex": 1,
+          "height": 250,
+          "justifyContent": "center",
+          "marginLeft": 2,
+          "marginTop": 2,
+        }
+      }
+    >
+      <Themed.Icon
+        iconStyle={
+          Object {
+            "color": "#FFF",
+            "fontSize": 40,
+            "textAlign": "center",
+          }
+        }
+        name="cat"
+        type="material-community"
+      />
+    </TouchableOpacity>
+  </View>
+  <View
+    style={
+      Object {
+        "flex": 1,
+        "marginRight": 2,
+      }
+    }
+  >
+    <PhotoAlbumList
+      onPhotoPress={[Function]}
+    />
+  </View>
+</View>
+`;
+
+exports[`Encoding Main: Redux mapDispatchToProps 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "color": "ORANGE",
+    },
+    "type": "TOGGLE_PRIMARY_COLOR",
+  },
+]
+`;

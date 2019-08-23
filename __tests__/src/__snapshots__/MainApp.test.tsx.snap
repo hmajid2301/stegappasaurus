@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MainApp Redux mapDispatchToProps 1`] = `
+Array [
+  Object {
+    "payload": Object {
+      "isDark": true,
+    },
+    "type": "TOGGLE_DARK_THEME",
+  },
+]
+`;
+
+exports[`MainApp: Match snapshots 1: Normal 1`] = `
+<Loader
+  loading={true}
+/>
+`;
+
+exports[`MainApp: Match snapshots 2: Loading 1`] = `
+<Loader
+  loading={true}
+/>
+`;
+
+exports[`MainApp: Match snapshots 3: No Intro Slides 1`] = `
+<Loader
+  loading={true}
+/>
+`;

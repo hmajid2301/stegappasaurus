@@ -1,0 +1,76 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`PhotoAlbumList: Functions renderPhotosFromCameraRoll 1`] = `
+<TouchableOpacity
+  activeOpacity={0.2}
+  onPress={[Function]}
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <Image
+    source={
+      Object {
+        "uri": "file:///storage/emulated/0/DCIM/Camera/IMG_20190628_163909.jpg",
+      }
+    }
+    style={
+      Object {
+        "height": 250,
+        "marginLeft": 2,
+        "marginTop": 2,
+      }
+    }
+  />
+</TouchableOpacity>
+`;
+
+exports[`PhotoAlbumList: Functions renderPhotosFromCameraRoll 2`] = `<View />`;
+
+exports[`PhotoAlbumList: Match snapshots 1 1`] = `
+<View>
+  <FlatList
+    data={Array []}
+    disableVirtualization={false}
+    horizontal={false}
+    initialNumToRender={10}
+    keyExtractor={[Function]}
+    maxToRenderPerBatch={10}
+    numColumns={3}
+    onEndReached={[Function]}
+    onEndReachedThreshold={2}
+    onRefresh={[Function]}
+    refreshing={false}
+    removeClippedSubviews={false}
+    renderItem={[Function]}
+    scrollEventThrottle={50}
+    updateCellsBatchingPeriod={50}
+    windowSize={21}
+  />
+</View>
+`;
+
+exports[`PhotoAlbumList: Match snapshots 2 1`] = `
+<View>
+  <FlatList
+    data={Array []}
+    disableVirtualization={false}
+    horizontal={false}
+    initialNumToRender={10}
+    keyExtractor={[Function]}
+    maxToRenderPerBatch={10}
+    numColumns={3}
+    onEndReached={[Function]}
+    onEndReachedThreshold={2}
+    onRefresh={[Function]}
+    refreshing={false}
+    removeClippedSubviews={false}
+    renderItem={[Function]}
+    scrollEventThrottle={50}
+    updateCellsBatchingPeriod={50}
+    windowSize={21}
+  />
+</View>
+`;
