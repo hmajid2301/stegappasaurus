@@ -32,37 +32,28 @@ create:merge-request:
 
 lint:
   stage: test
-  only:
-    - merge_request
   script:
     - yarn lint
 
 lint:code-formatter:
   stage: test
-  only:
-    - merge_request
   script:
     - yarn code-formatter-check
 
 lint:compiler:
   stage: test
-  only:
-    - merge_request
   script:
     - yarn compiler-check
 
 tests:unit:
   stage: test
-  only:
-    - merge_request
   script:
     - yarn tests --silent
 
 test:coverage:
   stage: test
-  only:
-    - merge_request
-    - master
+  except:
+    - production
   script:
     - yarn coverage --silent
   coverage: /All\sfiles.*?\s+(\d+.\d+)/
@@ -70,8 +61,8 @@ test:coverage:
 test:android:lint:
   stage: test
   image: reactnativecommunity/react-native-android
-  # only:
-  #   - /^release/.*$/
+  only:
+    - master
   before_script:
     - cd android
     - mv $FIREBASE_GOOGLE_SERVICES app/google-services.json
@@ -81,8 +72,8 @@ test:android:lint:
 test:android:assemble:
   stage: test
   image: reactnativecommunity/react-native-android
-  # only:
-  #   - /^release/.*$/
+  only:
+    - master
   before_script:
     - cd android
     - mv $FIREBASE_GOOGLE_SERVICES app/google-services.json
