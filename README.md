@@ -7,6 +7,7 @@
 [![pipeline status](https://gitlab.com/stegappasaurus/stegappasaurus-app/badges/master/pipeline.svg)](https://gitlab.com/stegappasaurus/stegappasaurus-app/commits/master)
 [![coverage report](https://gitlab.com/stegappasaurus/stegappasaurus-app/badges/master/coverage.svg)](https://gitlab.com/stegappasaurus/stegappasaurus-app/commits/master)
 
+
 Stegappasaurus is a free mobile application fully open source, built using React Native. This application uses steganography algorithms to hide your (text) data within images.
 This project was originally created as third year project for University. However this version is a complete rewrite of the application.
 
@@ -17,6 +18,8 @@ The encoded images look identical to normal images to the naked eye you cannot t
 
 This app relies on using a RESTful API which runs on Google Firebase to do the encoding and decoding.
 The project which contains the code for this API exists [here](https://github.com/stegappasaurus/stegappasaurus-api.git).
+
+[![android play store](https://play.google.com/intl/en_gb/badges/images/generic/en_badge_web_generic.png)](https://play.google.com/store/apps/details?id=com.stegappasaurus&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1)
 
 # App Demo
 

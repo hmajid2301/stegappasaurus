@@ -1,6 +1,6 @@
 import AsyncStorage from "@react-native-community/async-storage";
 import * as React from "react";
-import { AppState, StatusBar, View } from "react-native";
+import { AppState, SafeAreaView, StatusBar } from "react-native";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
@@ -48,14 +48,14 @@ export class MainApp extends React.Component<IProps, IState> {
       return <IntroSlider slides={slides} onDone={this.introShownToUser} />;
     }
     return (
-      <View style={{ flex: 1 }}>
+      <SafeAreaView style={{ flex: 1 }}>
         <StatusBar hidden />
         <App
           screenProps={{
             theme: this.props.theme
           }}
         />
-      </View>
+      </SafeAreaView>
     );
   }
 

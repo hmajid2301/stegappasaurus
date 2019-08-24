@@ -103,4 +103,16 @@ export default class RNFirebase {
       })
     };
   }
+
+  static analytics() {
+    return {
+      logEvent: jest.fn()
+    };
+  }
+
+  static crashlytics() {
+    return {
+      log: jest.fn()
+    };
+  }
 }
