@@ -10,8 +10,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ## [1.0.0-alpha.2] - 2019-08-24
 ### Added
 - The AAB (Android App Bundle), to reduce app size.
+- Extra logging to check why firebase is not working.
 
-[1.0.0-alpha.2]: https://gitlab.com/stegappasaurus/stegappasaurus-app/-/tags/release%2F1.0.0-alpha.2
+### Fixed
+- Fixed missing app icons.
 
 ## [1.0.0-alpha.1] - 2019-08-24
 ### Added
@@ -20,4 +22,5 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Share encoded images with app to decode them.
 - Initial Release.
 
+[1.0.0-alpha.2]: https://gitlab.com/stegappasaurus/stegappasaurus-app/-/tags/release%2F1.0.0-alpha.2
 [1.0.0-alpha.1]: https://gitlab.com/stegappasaurus/stegappasaurus-app/-/tags/release%2F1.0.0-alpha.1
