@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-alpha.2] - 2019-08-24
+### Added
+- The AAB (Android App Bundle), to reduce app size.
+
+[1.0.0-alpha.2]: https://gitlab.com/stegappasaurus/stegappasaurus-app/-/tags/release%2F1.0.0-alpha.2
+
 ## [1.0.0-alpha.1] - 2019-08-24
 ### Added
 - Encode and decode using LSB.

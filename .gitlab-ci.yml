@@ -87,7 +87,6 @@ build:android:package:
   only:
     - /^release/.*$/
   script:
-    - cat src/data/changelog.ts
     - cd android
     - mv $FIREBASE_GOOGLE_SERVICES app/google-services.json
     - base64 -d $ANDROID_KEYSTORE > app/stegappasaurus.keystore
@@ -100,6 +99,28 @@ build:android:package:
     - yarn android-bundle
     - cp react.gradle ../node_modules/react-native/
     - yarn android-build-apk
+  artifacts:
+    paths:
+      - ./android/app/build/outputs/
+
+build:android:aab:
+  stage: build
+  image: reactnativecommunity/react-native-android
+  only:
+    - /^release/.*$/
+  script:
+    - cd android
+    - mv $FIREBASE_GOOGLE_SERVICES app/google-services.json
+    - base64 -d $ANDROID_KEYSTORE > app/stegappasaurus.keystore
+    - echo "MYAPP_RELEASE_STORE_FILE=stegappasaurus.keystore" > gradle.properties
+    - echo "MYAPP_RELEASE_STORE_PASSWORD=$ANDROID_KEYSTORE_PASSWORD" >> gradle.properties
+    - echo "MYAPP_RELEASE_KEY_ALIAS=$ANDROID_KEYSTORE_ALIAS" >> gradle.properties
+    - echo "MYAPP_RELEASE_KEY_PASSWORD=$ANDROID_KEYSTORE_KEY_PASSWORD" >> gradle.properties
+    - yarn react-native link
+    - mv $PLAY_STORE_JSON /tmp/play-store-key.json
+    - yarn android-bundle
+    - cp react.gradle ../node_modules/react-native/
+    - yarn android-build-aab
   artifacts:
     paths:
       - ./android/app/build/outputs/
