@@ -4,6 +4,7 @@
   "scripts": {
     "android": "react-native run-android",
     "android-build-apk": "cd android && ./gradlew assembleRelease --no-daemon",
+    "android-build-aab": "cd android && ./gradlew bundleRelease --no-daemon",
     "android-bundle": "react-native bundle --platform android --dev false --entry-file ./index.js --bundle-output ./android/app/src/main/assets/index.bundle --sourcemap-output ./android/app/src/main/assets/index.map --assets-dest ./android/app/src/main/res/",
     "android-clean": "cd android && ./gradlew clean",
     "android-debug": "cd android && ./gradlew assembleDebug",
