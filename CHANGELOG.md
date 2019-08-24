@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
-## [1.0.0-alpha.1] - 2019-08-23
+## [1.0.0-alpha.1] - 2019-08-24
 ### Added
 - Encode and decode using LSB.
 - Share save encoded images (as png files).
