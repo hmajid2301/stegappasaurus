@@ -70,17 +70,6 @@ test:android:lint:
   script:
     - yarn android-lint
 
-test:android:assemble:
-  stage: test
-  image: reactnativecommunity/react-native-android
-  only:
-    - master
-  before_script:
-    - cd android
-    - mv $FIREBASE_GOOGLE_SERVICES app/google-services.json
-  script:
-    - yarn android-debug
-
 build:android:package:
   stage: build
   image: reactnativecommunity/react-native-android

@@ -8,7 +8,7 @@ const about: IAboutItem[] = [
       name: "versions",
       type: "octicon"
     },
-    title: "Version 0.1.0",
+    title: "Version 1.0.0-beta.2",
     url: "https://github.com/hmajid2301/Stegappasaurus"
   },
   {
