@@ -16,6 +16,7 @@ import {
 } from "react-navigation";
 
 import { IAPIError, IEncodingSuccess, ITheme, PrimaryColor } from "@types";
+import Logging from "~/actions/Timber";
 import ImageProgress from "~/components/ImageProgress";
 import Snackbar from "~/components/Snackbar";
 import { colors } from "~/modules";

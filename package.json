@@ -1,11 +1,11 @@
 {
   "name": "stegappasaurus",
-  "version": "0.1.0",
+  "version": "1.0.0-beta.2",
   "scripts": {
     "android": "react-native run-android",
     "android-build-apk": "cd android && ./gradlew assembleRelease --no-daemon",
     "android-build-aab": "cd android && ./gradlew bundleRelease --no-daemon",
-    "android-bundle": "react-native bundle --platform android --dev false --entry-file ./index.js --bundle-output ./android/app/src/main/assets/index.bundle --sourcemap-output ./android/app/src/main/assets/index.map --assets-dest ./android/app/src/main/res/",
+    "android-bundle": "react-native bundle --platform android --dev false --entry-file ./index.js --bundle-output ./index.bundle --sourcemap-output ./index.map ",
     "android-clean": "cd android && ./gradlew clean",
     "android-lint": "cd android && ./gradlew -Pci --console=plain :app:lintDebug -PbuildDir=lint",
     "clean-tests": "yarn tests -u",
@@ -22,7 +22,9 @@
   "dependencies": {
     "@react-native-community/async-storage": "1.6.1",
     "@react-native-community/netinfo": "3.3.0-reachability.4",
+    "@timberio/node": "^0.35.0",
     "apisauce": "1.0.3",
+    "bugsnag-react-native": "2.22.6",
     "expo-image-picker": "5.0.2",
     "expo-location": "5.0.1",
     "expo-mail-composer": "5.0.1",
@@ -55,6 +57,7 @@
   "devDependencies": {
     "@babel/core": "7.5.4",
     "@babel/runtime": "7.5.4",
+    "@timberio/types": "^0.35.0",
     "@types/enzyme": "3.10.3",
     "@types/enzyme-adapter-react-16": "1.0.5",
     "@types/image-size": "0.7.0",
@@ -103,9 +106,5 @@
     "assets": [
       "src/assets/fonts/"
     ]
-  },
-  "author": {
-    "name": "Haseeb Majid",
-    "email": "me@haseebmajid.dev"
   }
 }

@@ -111,8 +111,8 @@ android {
         applicationId "com.stegappasaurus"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 4
-        versionName "4.0"
+        versionCode 5
+        versionName "5.0"
         multiDexEnabled true
     }
     splits {
@@ -157,6 +157,7 @@ android {
 
 dependencies {
     implementation project(':react-native-notifications')
+    implementation project(':bugsnag-react-native')
     implementation project(':@react-native-community_async-storage')
     implementation project(':@react-native-community_netinfo')
     implementation project(':react-native-share-menu')

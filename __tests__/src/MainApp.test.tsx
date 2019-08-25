@@ -80,6 +80,7 @@ describe("MainApp: Functions", () => {
         MainApp.prototype,
         "componentDidMount"
       );
+
       await (instance as any).componentDidMount();
       expect(component.state("loading")).toBe(false);
       expect(component.state("introShown")).toBe(expectedResult);

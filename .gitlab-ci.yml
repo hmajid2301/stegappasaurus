@@ -114,7 +114,16 @@ build:android:aab:
     paths:
       - ./android/app/build/outputs/
 
-publish:release:
+publish:source-maps:
+  stage: publish
+  only:
+    - /^release/.*$/
+  script:
+    - yarn run android-bundle
+    - export VERSION=$(cat package.json | jq .version)
+    - curl https://upload.bugsnag.com/react-native-source-map -F apiKey=${BUGSNAG_API_KEY} -F appVersion=${VERSION} -F dev=false -F platform=android -F sourceMap=@index.map -F bundle=@index.bundle -F projectRoot=`pwd`
+
+create:release:
   image: registry.gitlab.com/gitlab-automation-toolkit/gitlab-auto-release
   stage: post
   only:

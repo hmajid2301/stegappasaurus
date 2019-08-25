@@ -62,6 +62,7 @@ export class MainApp extends React.Component<IProps, IState> {
   public async componentDidMount() {
     StatusBar.setHidden(true);
     AppState.addEventListener("change", this.appInFocus);
+
     const storedIntroShown = await AsyncStorage.getItem("@IntroShown");
     if (storedIntroShown) {
       const introShown = storedIntroShown === "true" ? true : false;

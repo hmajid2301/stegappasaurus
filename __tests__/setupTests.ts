@@ -46,4 +46,5 @@ jest.mock(
   () => new MockAsyncStorage()
 );
 
+jest.mock("@timberio/node");
 Enzyme.configure({ adapter: new Adapter() });

@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.facebook.react.ReactApplication;
 import com.wix.reactnativenotifications.RNNotificationsPackage;
+import com.bugsnag.BugsnagReactNative;
 import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 import com.reactnativecommunity.netinfo.NetInfoPackage;
 import com.meedan.ShareMenuPackage;
@@ -55,6 +56,7 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
             new RNNotificationsPackage(MainApplication.this),
+            BugsnagReactNative.getPackage(),
             new AsyncStoragePackage(),
             new NetInfoPackage(),
             new ShareMenuPackage(),

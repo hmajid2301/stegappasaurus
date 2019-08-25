@@ -70,12 +70,19 @@ some sort of compile on save.
 ```bash
 # **Optional** IP of Android Device (only used in docker container)
 ADB_IP=192.168.112.101
+# BUGSNAG API KEY, used for error tracking
+BUGSNAG_API_KEY=xxxxx
 # API Key for the `thecatapi`
 CAT_API_KEY=xxx
-# Firebase API URL for FAAS
+# Firebase API URL, used for FAAS
 FIREBASE_API_URL=https://xxxx.net/api
 # **Optional** IP of host device where react native is running (only used in docker container)
 REACT_NATIVE_PACKAGER_HOSTNAME=192.168.27.1
+# Timber API Key, used for logging
+TIMBER_API_KEY=xxx
+# Timber Source ID, used for logging
+TIMBER_SOURCE_ID=xxx
+
 ```
 
 # Changelog

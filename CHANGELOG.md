@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.2] - 2019-08-26
+### Added
+- Timber and Bugsnag for extra error checking.
+
 ## [1.0.0-beta.1] - 2019-08-25
 ### Fixed
 - Fixed missing app icons.
@@ -26,6 +30,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Share encoded images with app to decode them.
 - Initial Release.
 
+[1.0.0-beta.2]: https://gitlab.com/stegappasaurus/stegappasaurus-app/-/tags/release%2F1.0.0-beta.2
 [1.0.0-beta.1]: https://gitlab.com/stegappasaurus/stegappasaurus-app/-/tags/release%2F1.0.0-beta.1
 [1.0.0-alpha.2]: https://gitlab.com/stegappasaurus/stegappasaurus-app/-/tags/release%2F1.0.0-alpha.2
 [1.0.0-alpha.1]: https://gitlab.com/stegappasaurus/stegappasaurus-app/-/tags/release%2F1.0.0-alpha.1
