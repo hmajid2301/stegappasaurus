@@ -1,8 +1,8 @@
 {
   "name": "stegappasaurus",
-  "version": "1.0.0-beta.3",
+  "version": "1.0.0-beta.4",
   "scripts": {
-    "android": "react-native run-android",
+    "app": "react-native run-android",
     "android-build-apk": "cd android && ./gradlew assembleRelease --no-daemon",
     "android-build-aab": "cd android && ./gradlew bundleRelease --no-daemon",
     "android-bundle": "react-native bundle --platform android --dev false --entry-file ./index.js --bundle-output ./index.bundle --sourcemap-output ./index.map ",
@@ -17,12 +17,13 @@
     "lint": "tslint src/**/*.{ts,tx,tsx} -c tslint.json",
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "tests": "jest",
+    "visualise-bundle": "yarn run react-native-bundle-visualizer",
     "watch-tests": " jest --watch"
   },
   "dependencies": {
     "@react-native-community/async-storage": "1.6.1",
     "@react-native-community/netinfo": "3.3.0-reachability.4",
-    "@timberio/node": "^0.35.0",
+    "@timberio/node": "0.35.0",
     "apisauce": "1.0.3",
     "bugsnag-react-native": "2.22.6",
     "expo-image-picker": "5.0.2",
@@ -57,7 +58,6 @@
   "devDependencies": {
     "@babel/core": "7.5.4",
     "@babel/runtime": "7.5.4",
-    "@timberio/types": "^0.35.0",
     "@types/enzyme": "3.10.3",
     "@types/enzyme-adapter-react-16": "1.0.5",
     "@types/image-size": "0.7.0",
@@ -87,6 +87,7 @@
     "mock-async-storage": "2.2.0",
     "prettier": "1.16.4",
     "react-dom": "16.8.6",
+    "react-native-bundle-visualizer": "1.4.2",
     "react-native-cli": "2.0.1",
     "react-native-console-time-polyfill": "1.2.1",
     "react-native-mock-render": "0.1.5",

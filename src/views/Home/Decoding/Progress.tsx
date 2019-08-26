@@ -14,6 +14,7 @@ import {
 } from "react-navigation";
 
 import { IAPIError, IDecodingSuccess, ITheme, PrimaryColor } from "@types";
+import Logging from "~/actions/Timber";
 import ImageProgress from "~/components/ImageProgress";
 import Snackbar from "~/components/Snackbar";
 import { colors } from "~/modules";
@@ -86,6 +87,7 @@ export default class Progress extends React.Component<IProps, IState> {
   private async callDecodeAPI(base64Image: string) {
     const userCredentials = await firebase.auth().signInAnonymously();
     const token = await userCredentials.user.getIdToken();
+    await Logging.info(`Decoding user Authed ${token}`);
     await this.checkNetworkStatus();
 
     const api = create({
@@ -93,17 +95,27 @@ export default class Progress extends React.Component<IProps, IState> {
       headers: { Authorization: `Bearer ${token}` },
       timeout: 60000
     });
-    const response: ApiResponse<Decoding> = await api.post(
-      "/decode",
-      {
-        imageData: `data:image/png;base64,${base64Image}`
-      },
-      {
-        cancelToken: this.state.source.token
-      }
-    );
+    let response: ApiResponse<Decoding>;
+    try {
+      await Logging.info(`Request Made`);
+      response = await api.post(
+        "/decode",
+        {
+          imageData: `data:image/png;base64,${base64Image}`
+        },
+        {
+          cancelToken: this.state.source.token
+        }
+      );
+    } catch {
+      response = {
+        data: { code: "ServerError", message: "Server unreachable" },
+        ok: false
+      } as any;
+    }
 
     const { data, ok } = response;
+    await Logging.info(`Decoding API Status ${ok}`);
     if (ok) {
       this.decoded((data as IDecodingSuccess).decoded);
     } else {

@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.4] - 2019-08-26
+### Added
+- Extra logging in `Progress.tsx` (for decoding).
+
 ## [1.0.0-beta.3] - 2019-08-26
 ### Changed
 - PhotoAlbumList componentDidMount function to mount differently.
@@ -34,6 +38,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Share encoded images with app to decode them.
 - Initial Release.
 
+[1.0.0-beta.4]: https://gitlab.com/stegappasaurus/stegappasaurus-app/-/tags/release%2F1.0.0-beta.4
 [1.0.0-beta.3]: https://gitlab.com/stegappasaurus/stegappasaurus-app/-/tags/release%2F1.0.0-beta.3
 [1.0.0-beta.2]: https://gitlab.com/stegappasaurus/stegappasaurus-app/-/tags/release%2F1.0.0-beta.2
 [1.0.0-beta.1]: https://gitlab.com/stegappasaurus/stegappasaurus-app/-/tags/release%2F1.0.0-beta.1

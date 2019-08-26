@@ -98,6 +98,7 @@ export default class Progress extends React.Component<IProps, IState> {
   private async callEncodeAPI(base64Image: string, message: string) {
     const userCredentials = await firebase.auth().signInAnonymously();
     const token = await userCredentials.user.getIdToken();
+    await Logging.info(`Encoding user Authed ${token}`);
     await this.checkNetworkStatus();
 
     const api = create({
@@ -127,6 +128,7 @@ export default class Progress extends React.Component<IProps, IState> {
     }
 
     const { data, ok, status } = response;
+    await Logging.info(`Encoding API Status ${ok}`);
     if (ok) {
       await this.encoded((data as IEncodingSuccess).encoded);
     } else {
