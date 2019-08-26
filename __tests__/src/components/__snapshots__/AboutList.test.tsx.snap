@@ -9,7 +9,11 @@ exports[`AboutList: Match snapshots 1 1`] = `
         "backgroundColor": "#FFF",
       }
     }
+<<<<<<< HEAD
     key="Version 1.0.0-beta.6"
+=======
+    key="Version 1.0.0-beta.4"
+>>>>>>> 8111df8... Added extra logging
     leftIcon={
       Object {
         "color": "#009CFF",
@@ -35,7 +39,11 @@ exports[`AboutList: Match snapshots 1 1`] = `
             ]
           }
         >
+<<<<<<< HEAD
           Version 1.0.0-beta.6
+=======
+          Version 1.0.0-beta.4
+>>>>>>> 8111df8... Added extra logging
         </Text>
       </TouchableOpacity>
     }
@@ -209,7 +217,11 @@ exports[`AboutList: Match snapshots 2 1`] = `
         "backgroundColor": "#17212D",
       }
     }
+<<<<<<< HEAD
     key="Version 1.0.0-beta.6"
+=======
+    key="Version 1.0.0-beta.4"
+>>>>>>> 8111df8... Added extra logging
     leftIcon={
       Object {
         "color": "#009CFF",
@@ -235,7 +247,11 @@ exports[`AboutList: Match snapshots 2 1`] = `
             ]
           }
         >
+<<<<<<< HEAD
           Version 1.0.0-beta.6
+=======
+          Version 1.0.0-beta.4
+>>>>>>> 8111df8... Added extra logging
         </Text>
       </TouchableOpacity>
     }
@@ -419,7 +435,11 @@ exports[`AboutList: Match snapshots Title 1`] = `
       ]
     }
   >
+<<<<<<< HEAD
     Version 1.0.0-beta.6
+=======
+    Version 1.0.0-beta.4
+>>>>>>> 8111df8... Added extra logging
   </Text>
 </TouchableOpacity>
 `;
