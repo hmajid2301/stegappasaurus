@@ -31,6 +31,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Extra logging in `Progress.tsx` (for decoding).
 
+## [1.0.0-beta.5] - 2019-08-27
+### Fixed
+- Notch being ignore by app, makes the app look ugly in dark mode.
+
 ## [1.0.0-beta.4] - 2019-08-26
 ### Added
 - Extra logging in `Progress.tsx` (for decoding).

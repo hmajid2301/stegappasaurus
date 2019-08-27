@@ -5,7 +5,10 @@ exports[`AppHeader: Match snapshots 1 1`] = `
   <StatusBar
     animated={false}
     backgroundColor="#17212D"
+<<<<<<< HEAD
     barStyle="dark-content"
+=======
+>>>>>>> 172e2a2... :bug: Fixed Notch in Android
     hidden={false}
     showHideTransition="fade"
   />
@@ -52,7 +55,10 @@ exports[`AppHeader: Match snapshots 2 1`] = `
   <StatusBar
     animated={false}
     backgroundColor="#FFF"
+<<<<<<< HEAD
     barStyle="light-content"
+=======
+>>>>>>> 172e2a2... :bug: Fixed Notch in Android
     hidden={false}
     showHideTransition="fade"
   />

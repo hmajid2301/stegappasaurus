@@ -12,6 +12,7 @@ exports[`AboutList: Match snapshots 1 1`] = `
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     key="Version 1.0.0-beta.6"
 =======
     key="Version 1.0.0-beta.4"
@@ -20,11 +21,19 @@ exports[`AboutList: Match snapshots 1 1`] = `
     key="Version 1.0.0-beta.5"
 >>>>>>> cbb2597... :bug: Fixed Notch in Android
 =======
+=======
+>>>>>>> 72da32f... :bug: Fixed Notch in Android
     key="Version 1.0.0-beta.5"
 =======
     key="Version 1.0.0-beta.4"
 >>>>>>> 7a75f16... Added extra logging
+<<<<<<< HEAD
 >>>>>>> f94da09... Added extra logging
+=======
+=======
+    key="Version 1.0.0-beta.5"
+>>>>>>> 172e2a2... :bug: Fixed Notch in Android
+>>>>>>> 72da32f... :bug: Fixed Notch in Android
     leftIcon={
       Object {
         "color": "#009CFF",
@@ -53,6 +62,7 @@ exports[`AboutList: Match snapshots 1 1`] = `
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
           Version 1.0.0-beta.6
 =======
           Version 1.0.0-beta.4
@@ -61,11 +71,19 @@ exports[`AboutList: Match snapshots 1 1`] = `
           Version 1.0.0-beta.5
 >>>>>>> cbb2597... :bug: Fixed Notch in Android
 =======
+=======
+>>>>>>> 72da32f... :bug: Fixed Notch in Android
           Version 1.0.0-beta.5
 =======
           Version 1.0.0-beta.4
 >>>>>>> 7a75f16... Added extra logging
+<<<<<<< HEAD
 >>>>>>> f94da09... Added extra logging
+=======
+=======
+          Version 1.0.0-beta.5
+>>>>>>> 172e2a2... :bug: Fixed Notch in Android
+>>>>>>> 72da32f... :bug: Fixed Notch in Android
         </Text>
       </TouchableOpacity>
     }
@@ -242,6 +260,7 @@ exports[`AboutList: Match snapshots 2 1`] = `
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     key="Version 1.0.0-beta.6"
 =======
     key="Version 1.0.0-beta.4"
@@ -250,11 +269,19 @@ exports[`AboutList: Match snapshots 2 1`] = `
     key="Version 1.0.0-beta.5"
 >>>>>>> cbb2597... :bug: Fixed Notch in Android
 =======
+=======
+>>>>>>> 72da32f... :bug: Fixed Notch in Android
     key="Version 1.0.0-beta.5"
 =======
     key="Version 1.0.0-beta.4"
 >>>>>>> 7a75f16... Added extra logging
+<<<<<<< HEAD
 >>>>>>> f94da09... Added extra logging
+=======
+=======
+    key="Version 1.0.0-beta.5"
+>>>>>>> 172e2a2... :bug: Fixed Notch in Android
+>>>>>>> 72da32f... :bug: Fixed Notch in Android
     leftIcon={
       Object {
         "color": "#009CFF",
@@ -283,6 +310,7 @@ exports[`AboutList: Match snapshots 2 1`] = `
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
           Version 1.0.0-beta.6
 =======
           Version 1.0.0-beta.4
@@ -291,11 +319,19 @@ exports[`AboutList: Match snapshots 2 1`] = `
           Version 1.0.0-beta.5
 >>>>>>> cbb2597... :bug: Fixed Notch in Android
 =======
+=======
+>>>>>>> 72da32f... :bug: Fixed Notch in Android
           Version 1.0.0-beta.5
 =======
           Version 1.0.0-beta.4
 >>>>>>> 7a75f16... Added extra logging
+<<<<<<< HEAD
 >>>>>>> f94da09... Added extra logging
+=======
+=======
+          Version 1.0.0-beta.5
+>>>>>>> 172e2a2... :bug: Fixed Notch in Android
+>>>>>>> 72da32f... :bug: Fixed Notch in Android
         </Text>
       </TouchableOpacity>
     }
@@ -482,6 +518,7 @@ exports[`AboutList: Match snapshots Title 1`] = `
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     Version 1.0.0-beta.6
 =======
     Version 1.0.0-beta.4
@@ -490,11 +527,19 @@ exports[`AboutList: Match snapshots Title 1`] = `
     Version 1.0.0-beta.5
 >>>>>>> cbb2597... :bug: Fixed Notch in Android
 =======
+=======
+>>>>>>> 72da32f... :bug: Fixed Notch in Android
     Version 1.0.0-beta.5
 =======
     Version 1.0.0-beta.4
 >>>>>>> 7a75f16... Added extra logging
+<<<<<<< HEAD
 >>>>>>> f94da09... Added extra logging
+=======
+=======
+    Version 1.0.0-beta.5
+>>>>>>> 172e2a2... :bug: Fixed Notch in Android
+>>>>>>> 72da32f... :bug: Fixed Notch in Android
   </Text>
 </TouchableOpacity>
 `;
