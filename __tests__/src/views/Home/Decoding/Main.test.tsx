@@ -2,11 +2,9 @@ import * as Permissions from "expo-permissions";
 import * as ImagePicker from "expo-image-picker";
 import { mount, shallow } from "enzyme";
 import React from "react";
-import configureStore, { MockStoreEnhanced } from "redux-mock-store";
 
-import { PrimaryColorNames } from "@types";
 import Snackbar from "~/components/Snackbar";
-import MainConnected, { Main } from "~/views/Home/Decoding/Main";
+import Main from "~/views/Home/Decoding/Main";
 
 jest.mock("react-native-share-menu");
 const navigate = {
@@ -30,7 +28,6 @@ describe("Decoding Main: Match Snapshots", () => {
             isDark: false
           }
         }}
-        togglePrimaryColor={(primaryColor: PrimaryColorNames) => null}
       />
     );
     expect(component).toMatchSnapshot();
@@ -47,7 +44,6 @@ describe("Decoding Main: Match Snapshots", () => {
             isDark: false
           }
         }}
-        togglePrimaryColor={(primaryColor: PrimaryColorNames) => null}
       />
     );
     expect(component).toMatchSnapshot();
@@ -67,7 +63,6 @@ describe("Decoding Main: Functions", () => {
             isDark: false
           }
         }}
-        togglePrimaryColor={(primaryColor: PrimaryColorNames) => null}
       />
     );
     instance = component.instance();
@@ -97,34 +92,5 @@ describe("Decoding Main: Functions", () => {
     const spy = jest.spyOn(Snackbar, "show");
     await (instance as any).getPhotoFromCameraRoll();
     expect(spy).toHaveBeenCalled();
-  });
-});
-
-describe("Decoding Main: Redux", () => {
-  let store: MockStoreEnhanced<unknown, {}>;
-  beforeAll(() => {
-    const mockStore = configureStore();
-    const initialState = {};
-    store = mockStore(initialState);
-  });
-
-  test("mapDispatchToProps", () => {
-    const component = shallow(
-      //@ts-ignore
-      <MainConnected
-        navigation={navigate as any}
-        screenProps={{
-          theme: {
-            background: "#17212D",
-            color: "#FFF",
-            isDark: false
-          }
-        }}
-        store={store}
-      />
-    );
-    (component.props() as any).togglePrimaryColor("BLUE");
-    const actions = store.getActions();
-    expect(actions).toMatchSnapshot();
   });
 });

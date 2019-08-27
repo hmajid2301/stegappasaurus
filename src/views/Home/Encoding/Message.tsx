@@ -1,5 +1,5 @@
 import * as React from "react";
-import { View } from "react-native";
+import { Keyboard, View } from "react-native";
 import { NavigationScreenProp } from "react-navigation";
 
 import ImageMessage from "~/components/ImageMessage";
@@ -47,10 +47,13 @@ export default class Message extends React.Component<IProps, IState> {
         text: "Message cannot be empty"
       });
     } else {
-      this.props.navigation.navigate("EncodingProgress", {
-        message,
-        uri: this.state.photo
-      });
+      Keyboard.dismiss();
+      setTimeout(() => {
+        this.props.navigation.navigate("EncodingProgress", {
+          message,
+          uri: this.state.photo
+        });
+      }, 100);
     }
   };
 }

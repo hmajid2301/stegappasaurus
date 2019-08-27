@@ -117,7 +117,8 @@ export default class Progress extends React.Component<IProps, IState> {
     const { data, ok } = response;
     await Logging.info(`Decoding API Status ${ok}`);
     if (ok) {
-      this.decoded((data as IDecodingSuccess).decoded);
+      const message = (data as IDecodingSuccess).decoded;
+      this.decoded(message);
     } else {
       this.failedResponse();
     }
@@ -128,16 +129,20 @@ export default class Progress extends React.Component<IProps, IState> {
   };
 
   private async checkNetworkStatus() {
-    const state = await NetInfo.fetch();
-    if (!state.isConnected) {
+    try {
+      const state = await NetInfo.fetch();
+      if (!state.isConnected) {
+        throw Error("No Internet");
+      } else if (state.type === "cellular") {
+        Snackbar.show({
+          text: "You are using mobile data."
+        });
+      }
+    } catch {
       Snackbar.show({
         text: "You need an internet connection to decode an image."
       });
       this.failedResponse();
-    } else if (state.type === "cellular") {
-      Snackbar.show({
-        text: "You are using mobile data."
-      });
     }
   }
 

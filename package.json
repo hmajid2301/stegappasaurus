@@ -4,7 +4,7 @@
   "scripts": {
     "android": "react-native run-android",
     "android-build-aab": "cd android && ./gradlew bundleRelease --no-daemon",
-    "android-bundle": "react-native bundle --platform android --dev false --entry-file ./index.js --bundle-output ./index.bundle --sourcemap-output ./index.map ",
+    "android-bundle": "react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.bundle --sourcemap-output android/app/src/main/assets/index.map --assets-dest android/app/src/main/res",
     "android-clean": "cd android && ./gradlew clean",
     "android-lint": "cd android && ./gradlew -Pci --console=plain :app:lintDebug -PbuildDir=lint",
     "clean-tests": "yarn tests -u",

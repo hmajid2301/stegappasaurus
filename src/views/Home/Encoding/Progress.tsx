@@ -141,16 +141,20 @@ export default class Progress extends React.Component<IProps, IState> {
   }
 
   private async checkNetworkStatus() {
-    const state = await NetInfo.fetch();
-    if (!state.isConnected) {
+    try {
+      const state = await NetInfo.fetch();
+      if (!state.isConnected) {
+        throw Error("No Internet");
+      } else if (state.type === "cellular") {
+        Snackbar.show({
+          text: "You are using mobile data."
+        });
+      }
+    } catch {
       Snackbar.show({
         text: "You need an internet connection to encode an image."
       });
       this.sendUserBackToMain();
-    } else if (state.type === "cellular") {
-      Snackbar.show({
-        text: "You are using mobile data."
-      });
     }
   }
 
@@ -209,6 +213,6 @@ export default class Progress extends React.Component<IProps, IState> {
     Snackbar.show({
       text: "Failed to encode image, please try again."
     });
-    this.props.navigation.navigate("Main");
+    this.props.navigation.navigate("EncodingMain");
   }
 }

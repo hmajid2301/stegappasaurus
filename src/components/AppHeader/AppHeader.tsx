@@ -3,17 +3,17 @@ import { StatusBar, View } from "react-native";
 import { Header, Icon } from "react-native-elements";
 import { NavigationScreenProp, NavigationState } from "react-navigation";
 
-import { ITheme, PrimaryColor } from "@types";
+import { ITheme } from "@types";
 import Logo from "~/components/Logo";
+import { colors } from "~/modules";
 import styles from "./styles";
 
 interface IProps {
   navigation: NavigationScreenProp<any, any>;
-  primaryColor: PrimaryColor;
   theme: ITheme;
 }
 
-const AppHeader = ({ navigation, primaryColor, theme }: IProps) => (
+const AppHeader = ({ navigation, theme }: IProps) => (
   <View>
     <StatusBar
       backgroundColor={theme.background}
@@ -36,7 +36,9 @@ const AppHeader = ({ navigation, primaryColor, theme }: IProps) => (
         styles.container,
         {
           backgroundColor: theme.background as string,
-          borderBottomColor: primaryColor as string
+          borderBottomColor: showPrimaryColor(navigation)
+            ? colors.primary
+            : colors.secondary
         }
       ]}
       rightComponent={
@@ -50,6 +52,18 @@ const AppHeader = ({ navigation, primaryColor, theme }: IProps) => (
     />
   </View>
 );
+
+const showPrimaryColor = (navigation: NavigationScreenProp<any, any>) => {
+  const activeRoute = getActiveRouteState(navigation.state) as any;
+  const routeName = activeRoute.routeName;
+  let showPrimary = true;
+
+  if (routeName.startsWith("Decoding")) {
+    showPrimary = false;
+  }
+
+  return showPrimary;
+};
 
 const showHomeIcon = (navigation: NavigationScreenProp<any, any>) => {
   const activeRoute = getActiveRouteState(navigation.state) as any;
@@ -67,8 +81,10 @@ const goToHome = (navigation: NavigationScreenProp<any, any>) => {
   const activeRoute = getActiveRouteState(navigation.state) as any;
   const routeName = activeRoute.routeName;
 
-  if (routeName.startsWith("Encoding") || routeName.startsWith("Decoding")) {
-    navigation.navigate("Main");
+  if (routeName.startsWith("Encoding")) {
+    navigation.navigate("EncodingMain");
+  } else if (routeName.startsWith("Decoding")) {
+    navigation.navigate("DecodingMain");
   }
 };
 

@@ -7,7 +7,6 @@
 [![pipeline status](https://gitlab.com/stegappasaurus/stegappasaurus-app/badges/master/pipeline.svg)](https://gitlab.com/stegappasaurus/stegappasaurus-app/commits/master)
 [![coverage report](https://gitlab.com/stegappasaurus/stegappasaurus-app/badges/master/coverage.svg)](https://gitlab.com/stegappasaurus/stegappasaurus-app/commits/master)
 
-
 Stegappasaurus is a free mobile application fully open source, built using React Native. This application uses steganography algorithms to hide your (text) data within images.
 This project was originally created as third year project for University. However this version is a complete rewrite of the application.
 
@@ -17,7 +16,7 @@ You use the app to select an image, enter your message and wait for it to encode
 The encoded images look identical to normal images to the naked eye you cannot tell the difference between them.
 
 This app relies on using a RESTful API which runs on Google Firebase to do the encoding and decoding.
-The project which contains the code for this API exists [here](https://github.com/stegappasaurus/stegappasaurus-api.git).
+The project which contains the code for this [API exists here](https://github.com/stegappasaurus/stegappasaurus-api.git).
 
 [![android play store](https://play.google.com/intl/en_gb/badges/images/generic/en_badge_web_generic.png)](https://play.google.com/store/apps/details?id=com.stegappasaurus&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1)
 
@@ -44,7 +43,7 @@ yarn run start
 yarn run android 
 ```
 
-To setup Firebase (Firebase Cloud Functions) component which runs the RESTful API which applies the Steganography algorithms. For more information about this project click [here](https://github.com/stegappasaurus/stegappasaurus-api.git)
+To setup Firebase (Firebase Cloud Functions) component which runs the RESTful API which applies the Steganography algorithms. For more information about this [project click here](https://github.com/stegappasaurus/stegappasaurus-api.git)
 
 ```bash
 git clone https://github.com/stegappasaurus/stegappasaurus-api.git
@@ -99,7 +98,6 @@ You can find the changelog for this project [here](https://gitlab.com/stegappasa
 
 ### Images
 - Cat photos from [thecatapi](https://thecatapi.com)
-- [Dinosaur Lottie animation](https://lottiefiles.com/2469-dino-dance), and [edited using](https://editor.lottiefiles.com/) 
+- [Dinosaur Lottie animation](https://lottiefiles.com/2469-dino-dance)
 - Purchased stegosaurus dinosaur logo from [iconfinder](https://www.iconfinder.com/icons/380124/animal_big_experience_dino_paleontology_reptile_stegosaurus_zababa_icon#size=512)
 - Purchased [Intro Slider Images](https://www.dreamstime.com/vladwel_info)
-- [GitLab Project Logo](https://www.flaticon.com/authors/smashicon)

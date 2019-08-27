@@ -29,7 +29,7 @@ interface IState {
 export default class ImageMessage extends React.Component<IProps, IState> {
   public static defaultProps = {
     action: null,
-    message: ""
+    message: "Enter your message here"
   };
 
   private focusListener: NavigationEventSubscription | null;
@@ -74,11 +74,7 @@ export default class ImageMessage extends React.Component<IProps, IState> {
                 multiline={true}
                 onChangeText={message => this.setState({ message })}
                 onSubmitEditing={() => this.props.action(this.state.message)}
-                placeholder={
-                  this.props.message
-                    ? this.props.message
-                    : "Enter your message here"
-                }
+                placeholder={this.props.message}
                 placeholderTextColor={colors.pureWhite}
                 ref={ref => {
                   this.textInput = ref;

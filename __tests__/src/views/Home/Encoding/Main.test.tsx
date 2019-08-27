@@ -2,10 +2,8 @@ import { create } from "apisauce";
 import { mount, shallow } from "enzyme";
 import * as ImagePicker from "expo-image-picker";
 import * as React from "react";
-import configureStore, { MockStoreEnhanced } from "redux-mock-store";
 
-import { PrimaryColorNames } from "@types";
-import MainConnected, { Main } from "~/views/Home/Encoding/Main";
+import Main from "~/views/Home/Encoding/Main";
 import Snackbar from "~/components/Snackbar";
 
 jest.mock("apisauce");
@@ -28,7 +26,6 @@ describe("Encoding Main: Match Snapshots", () => {
             isDark: false
           }
         }}
-        togglePrimaryColor={(primaryColor: PrimaryColorNames) => null}
       />
     );
     expect(component).toMatchSnapshot();
@@ -45,7 +42,6 @@ describe("Encoding Main: Match Snapshots", () => {
             isDark: false
           }
         }}
-        togglePrimaryColor={(primaryColor: PrimaryColorNames) => null}
       />
     );
     expect(component).toMatchSnapshot();
@@ -65,7 +61,6 @@ describe("Encoding Main: Functions", () => {
             isDark: false
           }
         }}
-        togglePrimaryColor={(primaryColor: PrimaryColorNames) => null}
       />
     );
     instance = component.instance();
@@ -145,34 +140,5 @@ describe("Encoding Main: Functions", () => {
     navigate["navigate"] = spy;
     (instance as any).selectPhotoToEncode();
     expect(spy).toHaveBeenCalled();
-  });
-});
-
-describe("Encoding Main: Redux", () => {
-  let store: MockStoreEnhanced<unknown, {}>;
-  beforeAll(() => {
-    const mockStore = configureStore();
-    const initialState = {};
-    store = mockStore(initialState);
-  });
-
-  test("mapDispatchToProps", () => {
-    const component = shallow(
-      //@ts-ignore
-      <MainConnected
-        navigation={navigate as any}
-        screenProps={{
-          theme: {
-            background: "#17212D",
-            color: "#FFF",
-            isDark: false
-          }
-        }}
-        store={store}
-      />
-    );
-    (component.props() as any).togglePrimaryColor("ORANGE");
-    const actions = store.getActions();
-    expect(actions).toMatchSnapshot();
   });
 });

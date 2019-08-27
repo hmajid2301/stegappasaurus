@@ -5,14 +5,7 @@ exports[`AppHeader: Match snapshots 1 1`] = `
   <StatusBar
     animated={false}
     backgroundColor="#17212D"
-<<<<<<< HEAD
-<<<<<<< HEAD
     barStyle="dark-content"
-=======
->>>>>>> 172e2a2... :bug: Fixed Notch in Android
-=======
-    barStyle="dark-content"
->>>>>>> f2e7a32... :bug: Fixed Various Issues
     hidden={false}
     showHideTransition="fade"
   />
@@ -59,14 +52,7 @@ exports[`AppHeader: Match snapshots 2 1`] = `
   <StatusBar
     animated={false}
     backgroundColor="#FFF"
-<<<<<<< HEAD
-<<<<<<< HEAD
     barStyle="light-content"
-=======
->>>>>>> 172e2a2... :bug: Fixed Notch in Android
-=======
-    barStyle="light-content"
->>>>>>> f2e7a32... :bug: Fixed Various Issues
     hidden={false}
     showHideTransition="fade"
   />
@@ -84,7 +70,7 @@ exports[`AppHeader: Match snapshots 2 1`] = `
         },
         Object {
           "backgroundColor": "#FFF",
-          "borderBottomColor": "#E88C0C",
+          "borderBottomColor": "#009CFF",
         },
       ]
     }

@@ -61,7 +61,7 @@ test:coverage:
 
 test:android:lint:
   stage: test
-  image: reactnativecommunity/react-native-android
+  image: entria/react-native-android
   only:
     - master
   before_script:
@@ -72,10 +72,11 @@ test:android:lint:
 
 build:android:package:
   stage: build
-  image: reactnativecommunity/react-native-android
-  # only:
-  #   - /^release/.*$/
+  image: entria/react-native-android
+  only:
+    - /^release/.*$/
   script:
+    - echo fs.inotify.max_user_watches=524288 | tee -a /etc/sysctl.conf && sysctl -p
     - cd android
     - mv $FIREBASE_GOOGLE_SERVICES app/google-services.json
     - base64 -d $ANDROID_KEYSTORE > app/stegappasaurus.keystore
@@ -96,10 +97,13 @@ publish:source-maps:
   stage: publish
   only:
     - /^release/.*$/
+  image: entria/react-native-android
   script:
+    - echo fs.inotify.max_user_watches=524288 | tee -a /etc/sysctl.conf && sysctl -p
     - yarn android-bundle
+    - apt-get install jq
     - export VERSION=$(cat package.json | jq .version)
-    - curl https://upload.bugsnag.com/react-native-source-map -F apiKey=${BUGSNAG_API_KEY} -F appVersion=${VERSION} -F dev=false -F platform=android -F sourceMap=@index.map -F bundle=@index.bundle -F projectRoot=`pwd`
+    - curl https://upload.bugsnag.com/react-native-source-map -F apiKey=${BUGSNAG_API_KEY} -F appVersion=${VERSION} -F dev=false -F platform=android -F sourceMap=@android/app/src/main/assets/index.map -F bundle=@android/app/src/main/assets/index.bundle -F projectRoot=`pwd`
 
 create:release:
   image: registry.gitlab.com/gitlab-automation-toolkit/gitlab-auto-release

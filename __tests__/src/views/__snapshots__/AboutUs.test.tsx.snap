@@ -17,7 +17,6 @@ exports[`FAQ: Match Snapshots 1 1`] = `
   <ScrollViewMock>
     <AppHeader
       navigation={[MockFunction]}
-      primaryColor="#009CFF"
       theme={
         Object {
           "background": "#FFF",
@@ -94,7 +93,6 @@ exports[`FAQ: Match Snapshots 2 1`] = `
   <ScrollViewMock>
     <AppHeader
       navigation={[MockFunction]}
-      primaryColor="#009CFF"
       theme={
         Object {
           "background": "#17212D",

@@ -1,21 +1,14 @@
-import { ITheme, PrimaryColorNames } from "@types";
+import { ITheme } from "@types";
 import * as ImagePicker from "expo-image-picker";
 import * as Permissions from "expo-permissions";
 import * as React from "react";
 import { TouchableOpacity, View } from "react-native";
 import { Icon } from "react-native-elements";
 import ShareMenu from "react-native-share-menu";
-import {
-  NavigationEventSubscription,
-  NavigationScreenProp
-} from "react-navigation";
-import { connect } from "react-redux";
-import { Dispatch } from "redux";
+import { NavigationScreenProp } from "react-navigation";
 
 import PhotoAlbumList from "~/components/PhotoAlbumList";
 import Snackbar from "~/components/Snackbar";
-import { SECONDARY_COLOR } from "~/modules";
-import { togglePrimaryColor } from "~/redux/actions";
 import styles from "./Main/styles";
 
 interface IProps {
@@ -23,17 +16,9 @@ interface IProps {
   screenProps: {
     theme: ITheme;
   };
-  togglePrimaryColor: (primaryColor: PrimaryColorNames) => void;
 }
 
-export class Main extends React.Component<IProps, {}> {
-  private focusListener: NavigationEventSubscription | null;
-
-  constructor(props: IProps) {
-    super(props);
-    this.focusListener = null;
-  }
-
+export default class Main extends React.Component<IProps, {}> {
   public render() {
     const { theme } = this.props.screenProps;
     return (
@@ -55,21 +40,11 @@ export class Main extends React.Component<IProps, {}> {
   }
 
   public componentDidMount() {
-    this.focusListener = this.props.navigation.addListener("willFocus", () => {
-      this.props.togglePrimaryColor(SECONDARY_COLOR.name);
-    });
-
     ShareMenu.getSharedText((data: string) => {
       if (data.startsWith("content://media/")) {
         this.selectPhotoToDecode(data);
       }
     });
-  }
-
-  public componentWillUnmount() {
-    if (this.focusListener !== null) {
-      this.focusListener.remove();
-    }
   }
 
   private getPhotoFromCameraRoll = async () => {
@@ -92,13 +67,3 @@ export class Main extends React.Component<IProps, {}> {
     this.props.navigation.navigate("DecodingProgress", { uri });
   };
 }
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  togglePrimaryColor: (colorName: PrimaryColorNames) =>
-    dispatch(togglePrimaryColor({ color: colorName }))
-});
-
-export default connect(
-  null,
-  mapDispatchToProps
-)(Main);

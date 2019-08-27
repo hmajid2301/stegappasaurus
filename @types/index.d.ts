@@ -2,8 +2,6 @@ import { ImageSourcePropType } from "react-native";
 
 export type ThemeColors = "#17212D" | "#FFF";
 export type PrimaryColor = "#009CFF" | "#E88C0C";
-export type PrimaryColorNames = "ORANGE" | "BLUE";
-export type PossibleAppStates = "inactive" | "background" | "active";
 
 export interface ITheme {
   background: ThemeColors;

@@ -6,13 +6,6 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
-### Fixed
-- Photo album list not rendering
-- Image message page showing white background.
-
-## [1.0.0-beta.5] - 2019-08-27
-### Fixed
-- Notch being ignore by app, makes the app look ugly in dark mode.
 
 ## [1.0.0-beta.6] - 2019-08-27
 ### Fixed
@@ -31,14 +24,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### Added
 - Extra logging in `Progress.tsx` (for decoding).
 
-## [1.0.0-beta.6] - 2019-08-27
 ### Fixed
 - Photo album list not rendering.
 - Image message page showing white background.
 - Automatic theme button not working in `Themes.tsx`.
+- If empty message sent to decoding, shouldn't show a message.
+- Hide keyboard after submit button pressed(Encoding), removing weird half white screen.
+- `checkNetworkStatus` if no network promise fails, added try catch.
 
 ### Removed
 - Logs from photo album list.
+- PrimaryColor reducer changed implementation to use view name instead to determine what colour should be used.
 
 ## [1.0.0-beta.5] - 2019-08-27
 ### Fixed
@@ -75,6 +71,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Share encoded images with app to decode them.
 - Initial Release.
 
+[1.0.0-beta.6]: https://gitlab.com/stegappasaurus/stegappasaurus-app/-/tags/release%2F1.0.0-beta.6
 [1.0.0-beta.5]: https://gitlab.com/stegappasaurus/stegappasaurus-app/-/tags/release%2F1.0.0-beta.5
 [1.0.0-beta.4]: https://gitlab.com/stegappasaurus/stegappasaurus-app/-/tags/release%2F1.0.0-beta.4
 [1.0.0-beta.3]: https://gitlab.com/stegappasaurus/stegappasaurus-app/-/tags/release%2F1.0.0-beta.3
