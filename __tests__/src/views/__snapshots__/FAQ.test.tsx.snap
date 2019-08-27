@@ -62,7 +62,7 @@ exports[`AboutUs: Match Snapshots 1 1`] = `
                 "name": "versions",
                 "type": "octicon",
               },
-              "title": "Version 1.0.0-beta.5",
+              "title": "Version 1.0.0-beta.6",
               "url": "https://github.com/hmajid2301/Stegappasaurus",
             },
             Object {
@@ -171,7 +171,7 @@ exports[`AboutUs: Match Snapshots 2 1`] = `
                 "name": "versions",
                 "type": "octicon",
               },
-              "title": "Version 1.0.0-beta.5",
+              "title": "Version 1.0.0-beta.6",
               "url": "https://github.com/hmajid2301/Stegappasaurus",
             },
             Object {

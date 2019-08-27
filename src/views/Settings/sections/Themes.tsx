@@ -6,6 +6,7 @@ import { Dispatch } from "redux";
 
 import { ITheme } from "@types";
 import AutoToggleTheme from "~/actions/AutoToggleTheme";
+import Snackbar from "~/components/Snackbar";
 import { colors } from "~/modules";
 import { toggleAutomaticTheme, toggleDarkTheme } from "~/redux/actions";
 import { IReducerState } from "~/redux/reducers/ToggleAutomaticTheme";
@@ -64,7 +65,9 @@ export class Themes extends React.Component<IProps, {}> {
           checkBox={{
             checked: this.props.isAutomatic,
             checkedColor: colors.primary,
-            onPress: () => this.toggleAutomatic
+            onPress: async () => {
+              await this.toggleAutomatic();
+            }
           }}
           title={
             <View>
@@ -81,7 +84,6 @@ export class Themes extends React.Component<IProps, {}> {
       </View>
     );
   }
-
   private toggleAutomatic = async () => {
     this.props.toggleAutomaticTheme(!this.props.isAutomatic);
     let toggle = false;
@@ -90,8 +92,11 @@ export class Themes extends React.Component<IProps, {}> {
         toggle = await this.toggleTheme.shouldToggleDarkTheme();
       }
       this.props.toggleDarkTheme(toggle);
-    } catch {
+    } catch (err) {
       this.props.toggleAutomaticTheme(false);
+      Snackbar.show({
+        text: "To use the automatic theme, location services must be turned on."
+      });
     }
   };
 }

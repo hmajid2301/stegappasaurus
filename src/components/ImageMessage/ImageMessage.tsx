@@ -60,7 +60,7 @@ export default class ImageMessage extends React.Component<IProps, IState> {
 
   public render() {
     return (
-      <KeyboardAvoidingView behavior="padding">
+      <KeyboardAvoidingView behavior="height">
         <DismissKeyboard>
           <ImageBackground
             source={{ uri: this.props.photo }}

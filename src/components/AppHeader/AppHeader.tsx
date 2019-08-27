@@ -15,7 +15,11 @@ interface IProps {
 
 const AppHeader = ({ navigation, primaryColor, theme }: IProps) => (
   <View>
-    <StatusBar backgroundColor={theme.background} hidden={false} />
+    <StatusBar
+      backgroundColor={theme.background}
+      hidden={false}
+      barStyle={theme.isDark ? "light-content" : "dark-content"}
+    />
     <Header
       leftComponent={
         <Icon

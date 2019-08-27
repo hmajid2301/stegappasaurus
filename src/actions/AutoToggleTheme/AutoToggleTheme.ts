@@ -92,9 +92,6 @@ export default class AutoToggleTheme {
     }
 
     if (latitude === undefined || longitude === undefined) {
-      Snackbar.show({
-        text: "To use the automatic theme, location services must be turned on."
-      });
       throw Error("No location found");
     }
 

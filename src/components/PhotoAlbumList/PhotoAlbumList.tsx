@@ -3,7 +3,6 @@ import * as Permissions from "expo-permissions";
 import React from "react";
 import { FlatList, Image, TouchableOpacity, View } from "react-native";
 
-import Logging from "~/actions/Timber";
 import Snackbar from "~/components/Snackbar";
 import styles from "./styles";
 
@@ -60,7 +59,6 @@ export default class PhotoAlbumList extends React.Component<IProps, IState> {
           Permissions.CAMERA_ROLL
         );
         if (status === "granted") {
-          await Logging.info("Render PhotoAlbumList");
           await this.getPhotosFromCameraRoll();
         } else {
           Snackbar.show({
@@ -68,9 +66,8 @@ export default class PhotoAlbumList extends React.Component<IProps, IState> {
               "Grant permissions to access camera roll, to view photos here."
           });
         }
-      }, 2500);
+      }, 500);
     } else if (asked.status === "granted") {
-      await Logging.info("Render PhotoAlbumList");
       await this.getPhotosFromCameraRoll();
     }
   }

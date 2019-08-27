@@ -73,8 +73,8 @@ test:android:lint:
 build:android:package:
   stage: build
   image: reactnativecommunity/react-native-android
-  only:
-    - /^release/.*$/
+  # only:
+  #   - /^release/.*$/
   script:
     - cd android
     - mv $FIREBASE_GOOGLE_SERVICES app/google-services.json
@@ -85,8 +85,8 @@ build:android:package:
     - echo "MYAPP_RELEASE_KEY_PASSWORD=$ANDROID_KEYSTORE_KEY_PASSWORD" >> gradle.properties
     - yarn react-native link
     - mv $PLAY_STORE_JSON /tmp/play-store-key.json
-    - yarn android-bundle
     - cp react.gradle ../node_modules/react-native/
+    - yarn android-bundle
     - yarn android-build-aab
   artifacts:
     paths:
@@ -97,7 +97,7 @@ publish:source-maps:
   only:
     - /^release/.*$/
   script:
-    - yarn run android-bundle
+    - yarn android-bundle
     - export VERSION=$(cat package.json | jq .version)
     - curl https://upload.bugsnag.com/react-native-source-map -F apiKey=${BUGSNAG_API_KEY} -F appVersion=${VERSION} -F dev=false -F platform=android -F sourceMap=@index.map -F bundle=@index.bundle -F projectRoot=`pwd`
 

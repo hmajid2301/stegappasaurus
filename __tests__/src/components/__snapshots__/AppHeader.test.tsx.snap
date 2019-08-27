@@ -5,6 +5,7 @@ exports[`AppHeader: Match snapshots 1 1`] = `
   <StatusBar
     animated={false}
     backgroundColor="#17212D"
+    barStyle="dark-content"
     hidden={false}
     showHideTransition="fade"
   />
@@ -51,6 +52,7 @@ exports[`AppHeader: Match snapshots 2 1`] = `
   <StatusBar
     animated={false}
     backgroundColor="#FFF"
+    barStyle="light-content"
     hidden={false}
     showHideTransition="fade"
   />

@@ -37,6 +37,8 @@ cd stegappasaurus
 touch .env
 yarn install
 adb connect <device_ip>
+vim android/gradle.properties
+# org.gradle.jvmargs=-Xmx2048m
 yarn run start
 # Then in another terminal
 yarn run android 
@@ -48,11 +50,11 @@ To setup Firebase (Firebase Cloud Functions) component which runs the RESTful AP
 git clone https://github.com/stegappasaurus/stegappasaurus-api.git
 yarn
 vim .runtimeconfig.json
-{
-    "env": {
-        "production": "false"
-    }
-}
+#{
+#    "env": {
+#        "production": "false"
+#    }
+#}
 yarn run firebase-emulator
 ```
 

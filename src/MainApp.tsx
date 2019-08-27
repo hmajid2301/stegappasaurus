@@ -8,6 +8,7 @@ import { ITheme, PossibleAppStates } from "@types";
 import AutoToggleTheme from "~/actions/AutoToggleTheme";
 import IntroSlider from "~/components/IntroSlider";
 import Loader from "~/components/Loader";
+import Snackbar from "~/components/Snackbar";
 import { slides } from "~/data";
 import { toggleAutomaticTheme, toggleDarkTheme } from "~/redux/actions";
 import { IReducerState as IReducerAutomaticTheme } from "~/redux/reducers/ToggleAutomaticTheme";
@@ -83,6 +84,10 @@ export class MainApp extends React.Component<IProps, IState> {
           this.props.toggleDarkTheme(shouldToggle);
         } catch {
           this.props.toggleAutomaticTheme(false);
+          Snackbar.show({
+            text:
+              "To use the automatic theme, location services must be turned on."
+          });
         }
       }
     }
