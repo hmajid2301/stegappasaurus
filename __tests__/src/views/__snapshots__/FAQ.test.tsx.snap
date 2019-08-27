@@ -63,10 +63,14 @@ exports[`AboutUs: Match Snapshots 1 1`] = `
                 "type": "octicon",
               },
 <<<<<<< HEAD
+<<<<<<< HEAD
               "title": "Version 1.0.0-beta.6",
 =======
               "title": "Version 1.0.0-beta.4",
 >>>>>>> 8111df8... Added extra logging
+=======
+              "title": "Version 1.0.0-beta.5",
+>>>>>>> cbb2597... :bug: Fixed Notch in Android
               "url": "https://github.com/hmajid2301/Stegappasaurus",
             },
             Object {
@@ -176,10 +180,14 @@ exports[`AboutUs: Match Snapshots 2 1`] = `
                 "type": "octicon",
               },
 <<<<<<< HEAD
+<<<<<<< HEAD
               "title": "Version 1.0.0-beta.6",
 =======
               "title": "Version 1.0.0-beta.4",
 >>>>>>> 8111df8... Added extra logging
+=======
+              "title": "Version 1.0.0-beta.5",
+>>>>>>> cbb2597... :bug: Fixed Notch in Android
               "url": "https://github.com/hmajid2301/Stegappasaurus",
             },
             Object {
