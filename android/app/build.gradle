@@ -107,12 +107,15 @@ android {
     }
 
 
+    dexOptions {
+        javaMaxHeapSize "4g"
+    } 
     defaultConfig {
         applicationId "com.stegappasaurus"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 7
-        versionName "7.0"
+        versionCode 8
+        versionName "1.0.0-beta.5"
         multiDexEnabled true
     }
     splits {

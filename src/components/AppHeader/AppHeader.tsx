@@ -1,4 +1,5 @@
 import * as React from "react";
+import { StatusBar, View } from "react-native";
 import { Header, Icon } from "react-native-elements";
 import { NavigationScreenProp, NavigationState } from "react-navigation";
 
@@ -13,34 +14,37 @@ interface IProps {
 }
 
 const AppHeader = ({ navigation, primaryColor, theme }: IProps) => (
-  <Header
-    leftComponent={
-      <Icon
-        color={theme.color}
-        name="menu"
-        onPress={() => {
-          navigation.openDrawer();
-        }}
-        type="simple-line-icon"
-      />
-    }
-    centerComponent={<Logo color={theme.color} isDark={theme.isDark} />}
-    containerStyle={[
-      styles.container,
-      {
-        backgroundColor: theme.background as string,
-        borderBottomColor: primaryColor as string
+  <View>
+    <StatusBar backgroundColor={theme.background} hidden={false} />
+    <Header
+      leftComponent={
+        <Icon
+          color={theme.color}
+          name="menu"
+          onPress={() => {
+            navigation.openDrawer();
+          }}
+          type="simple-line-icon"
+        />
       }
-    ]}
-    rightComponent={
-      <Icon
-        color={showHomeIcon(navigation) ? theme.color : theme.background}
-        name="home"
-        type="antdesign"
-        onPress={() => goToHome(navigation)}
-      />
-    }
-  />
+      centerComponent={<Logo color={theme.color} isDark={theme.isDark} />}
+      containerStyle={[
+        styles.container,
+        {
+          backgroundColor: theme.background as string,
+          borderBottomColor: primaryColor as string
+        }
+      ]}
+      rightComponent={
+        <Icon
+          color={showHomeIcon(navigation) ? theme.color : theme.background}
+          name="home"
+          type="antdesign"
+          onPress={() => goToHome(navigation)}
+        />
+      }
+    />
+  </View>
 );
 
 const showHomeIcon = (navigation: NavigationScreenProp<any, any>) => {

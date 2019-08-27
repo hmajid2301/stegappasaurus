@@ -1,5 +1,5 @@
 import React from "react";
-import { Image, Text, View } from "react-native";
+import { Image, StatusBar, Text, View } from "react-native";
 import AppIntroSlider from "react-native-app-intro-slider";
 
 import { ISlide } from "@types";
@@ -21,13 +21,16 @@ interface IRenderProps {
 export default class IntroSlider extends React.Component<IProps, {}> {
   public render() {
     return (
-      <AppIntroSlider
-        onDone={this.props.onDone}
-        onSkip={this.props.onDone}
-        renderItem={this.renderSlide}
-        showSkipButton
-        slides={this.props.slides}
-      />
+      <View style={styles.contentContainer}>
+        <StatusBar hidden />
+        <AppIntroSlider
+          onDone={this.props.onDone}
+          onSkip={this.props.onDone}
+          renderItem={this.renderSlide}
+          showSkipButton
+          slides={this.props.slides}
+        />
+      </View>
     );
   }
 

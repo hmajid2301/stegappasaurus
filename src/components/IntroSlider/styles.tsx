@@ -3,6 +3,10 @@ import { StyleSheet } from "react-native";
 import { fonts } from "~/modules";
 
 const styles = StyleSheet.create({
+  contentContainer: {
+    flex: 1
+  },
+
   container: {
     alignItems: "center",
     flex: 1,
