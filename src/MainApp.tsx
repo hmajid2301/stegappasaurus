@@ -1,13 +1,11 @@
 import AsyncStorage from "@react-native-community/async-storage";
 import * as React from "react";
 import { AppState, AppStateStatus } from "react-native";
-import Config from "react-native-config";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
 import { ITheme } from "@types";
 import AutoToggleTheme from "~/actions/AutoToggleTheme";
-import Logging from "~/actions/Timber";
 import IntroSlider from "~/components/IntroSlider";
 import Loader from "~/components/Loader";
 import Snackbar from "~/components/Snackbar";
@@ -60,8 +58,6 @@ export class MainApp extends React.Component<IProps, IState> {
   }
 
   public async componentDidMount() {
-    await Logging.info(Config.BUGSNAG_API_KEY);
-    await Logging.info(Config.TIMBER_API_KEY);
     AppState.addEventListener("change", this.appInFocus);
     const storedIntroShown = await AsyncStorage.getItem("@IntroShown");
     if (storedIntroShown) {

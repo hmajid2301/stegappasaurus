@@ -79,11 +79,6 @@ CAT_API_KEY=xxx
 FIREBASE_API_URL=https://xxxx.net/api
 # **Optional** IP of host device where react native is running (only used in docker container)
 REACT_NATIVE_PACKAGER_HOSTNAME=192.168.27.1
-# Timber API Key, used for logging
-TIMBER_API_KEY=xxx
-# Timber Source ID, used for logging
-TIMBER_SOURCE_ID=xxx
-
 ```
 
 # Changelog

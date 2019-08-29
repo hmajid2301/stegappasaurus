@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.8] - 2019-08-29
+### Fixed
+- Not asking permissions from user.
+
+### Removed
+- Timber for logging.
+- Proguard to shrink app.
+
 ## [1.0.0-beta.7] - 2019-08-29
 ### Added
 - Native crashing support for bugsnag.
@@ -82,6 +90,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Share encoded images with app to decode them.
 - Initial Release.
 
+[1.0.0-beta.8]: https://gitlab.com/stegappasaurus/stegappasaurus-app/-/tags/release%2F1.0.0-beta.8
 [1.0.0-beta.7]: https://gitlab.com/stegappasaurus/stegappasaurus-app/-/tags/release%2F1.0.0-beta.7
 [1.0.0-alpha.3]: https://gitlab.com/stegappasaurus/stegappasaurus-app/-/tags/release%2F1.0.0-alpha.3
 [1.0.0-beta.6]: https://gitlab.com/stegappasaurus/stegappasaurus-app/-/tags/release%2F1.0.0-beta.6

@@ -3,7 +3,6 @@ import SplashScreen from "react-native-splash-screen";
 import { Provider } from "react-redux";
 import { PersistGate } from "redux-persist/integration/react";
 
-import "~/actions/Bugsnag";
 import MainApp from "~/MainApp";
 import { persistor, store } from "~/redux/store";
 

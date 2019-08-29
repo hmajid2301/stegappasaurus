@@ -1,6 +1,6 @@
 {
   "name": "stegappasaurus",
-  "version": "1.0.0-beta.7",
+  "version": "1.0.0-closed.5",
   "scripts": {
     "android": "react-native run-android",
     "android-build-aab": "cd android && ./gradlew bundleRelease --no-daemon",
