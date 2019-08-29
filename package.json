@@ -1,6 +1,6 @@
 {
   "name": "stegappasaurus",
-  "version": "1.0.0-alpha.3",
+  "version": "1.0.0-beta.7",
   "scripts": {
     "android": "react-native run-android",
     "android-build-aab": "cd android && ./gradlew bundleRelease --no-daemon",
@@ -24,7 +24,7 @@
     "@react-native-community/netinfo": "3.3.0-reachability.4",
     "@timberio/node": "0.35.0",
     "apisauce": "1.0.3",
-    "bugsnag-react-native": "2.22.6",
+    "bugsnag-react-native": "2.23.0",
     "expo-image-picker": "5.0.2",
     "expo-location": "5.0.1",
     "expo-mail-composer": "5.0.1",

@@ -114,8 +114,8 @@ android {
         applicationId "com.stegappasaurus"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 10
-        versionName "1.0.0-alpha.3"
+        versionCode 13
+        versionName "1.0.0-beta.7"
         multiDexEnabled true
     }
     splits {

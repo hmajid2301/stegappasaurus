@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.7] - 2019-08-29
+### Added
+- Native crashing support for bugsnag.
+
+### Fixed
+- Fixed crashing problem.
+
 ## [1.0.0-alpha.3] - 2019-08-28
 ### Fixed
 - Added BUGSNAG API in the `AndroidManifest.xml`.
@@ -75,6 +82,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Share encoded images with app to decode them.
 - Initial Release.
 
+[1.0.0-beta.7]: https://gitlab.com/stegappasaurus/stegappasaurus-app/-/tags/release%2F1.0.0-beta.7
 [1.0.0-alpha.3]: https://gitlab.com/stegappasaurus/stegappasaurus-app/-/tags/release%2F1.0.0-alpha.3
 [1.0.0-beta.6]: https://gitlab.com/stegappasaurus/stegappasaurus-app/-/tags/release%2F1.0.0-beta.6
 [1.0.0-beta.5]: https://gitlab.com/stegappasaurus/stegappasaurus-app/-/tags/release%2F1.0.0-beta.5

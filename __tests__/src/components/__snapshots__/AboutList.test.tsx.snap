@@ -9,7 +9,7 @@ exports[`AboutList: Match snapshots 1 1`] = `
         "backgroundColor": "#FFF",
       }
     }
-    key="Version 1.0.0-alpha.3"
+    key="Version 1.0.0-beta.7"
     leftIcon={
       Object {
         "color": "#009CFF",
@@ -35,7 +35,7 @@ exports[`AboutList: Match snapshots 1 1`] = `
             ]
           }
         >
-          Version 1.0.0-alpha.3
+          Version 1.0.0-beta.7
         </Text>
       </TouchableOpacity>
     }
@@ -209,7 +209,7 @@ exports[`AboutList: Match snapshots 2 1`] = `
         "backgroundColor": "#17212D",
       }
     }
-    key="Version 1.0.0-alpha.3"
+    key="Version 1.0.0-beta.7"
     leftIcon={
       Object {
         "color": "#009CFF",
@@ -235,7 +235,7 @@ exports[`AboutList: Match snapshots 2 1`] = `
             ]
           }
         >
-          Version 1.0.0-alpha.3
+          Version 1.0.0-beta.7
         </Text>
       </TouchableOpacity>
     }
@@ -419,7 +419,7 @@ exports[`AboutList: Match snapshots Title 1`] = `
       ]
     }
   >
-    Version 1.0.0-alpha.3
+    Version 1.0.0-beta.7
   </Text>
 </TouchableOpacity>
 `;
