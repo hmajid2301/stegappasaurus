@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-alpha.3] - 2019-08-28
+### Fixed
+- Added BUGSNAG API in the `AndroidManifest.xml`.
+
 ## [1.0.0-beta.6] - 2019-08-27
 ### Fixed
 - Photo album list not rendering.
@@ -71,6 +75,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Share encoded images with app to decode them.
 - Initial Release.
 
+[1.0.0-alpha.3]: https://gitlab.com/stegappasaurus/stegappasaurus-app/-/tags/release%2F1.0.0-alpha.3
 [1.0.0-beta.6]: https://gitlab.com/stegappasaurus/stegappasaurus-app/-/tags/release%2F1.0.0-beta.6
 [1.0.0-beta.5]: https://gitlab.com/stegappasaurus/stegappasaurus-app/-/tags/release%2F1.0.0-beta.5
 [1.0.0-beta.4]: https://gitlab.com/stegappasaurus/stegappasaurus-app/-/tags/release%2F1.0.0-beta.4
