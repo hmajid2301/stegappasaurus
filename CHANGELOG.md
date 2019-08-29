@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.9] - 2019-08-30
+### Added
+- Padding to FAQ list.
+
+### Changed
+- Colours in about list to all blue.
+- Loader to include optional overlay.
+
+### Fixed
+- Hide status bar during loading indicator on MainApp.
+
 ## [1.0.0-beta.8] - 2019-08-29
 ### Fixed
 - Not asking permissions from user.

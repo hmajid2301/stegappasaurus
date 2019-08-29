@@ -29,7 +29,7 @@ exports[`FAQ: Match Snapshots 1 1`] = `
       style={
         Object {
           "alignItems": "stretch",
-          "paddingTop": 5,
+          "padding": 10,
         }
       }
     >
@@ -105,7 +105,7 @@ exports[`FAQ: Match Snapshots 2 1`] = `
       style={
         Object {
           "alignItems": "stretch",
-          "paddingTop": 5,
+          "padding": 10,
         }
       }
     >

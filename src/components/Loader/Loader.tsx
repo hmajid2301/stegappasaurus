@@ -6,12 +6,20 @@ import styles from "./styles";
 
 interface IProps {
   loading: boolean;
+  overlay?: string;
 }
 
-const Loader = ({ loading }: IProps) => {
+const Loader = ({ loading, overlay }: IProps) => {
   if (loading) {
     return (
-      <View style={styles.loaderContainer}>
+      <View
+        style={[
+          styles.loaderContainer,
+          {
+            backgroundColor: overlay
+          }
+        ]}
+      >
         <ActivityIndicator color={colors.primary} size={"large"} />
       </View>
     );

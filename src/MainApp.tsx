@@ -1,6 +1,6 @@
 import AsyncStorage from "@react-native-community/async-storage";
 import * as React from "react";
-import { AppState, AppStateStatus } from "react-native";
+import { AppState, AppStateStatus, StatusBar } from "react-native";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
@@ -44,7 +44,11 @@ export class MainApp extends React.Component<IProps, IState> {
 
   public render() {
     if (this.state.loading) {
-      return <Loader loading={this.state.loading} />;
+      return (
+        <StatusBar hidden>
+          <Loader loading={this.state.loading} />
+        </StatusBar>
+      );
     } else if (!this.state.introShown) {
       return <IntroSlider slides={slides} onDone={this.introShownToUser} />;
     }

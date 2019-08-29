@@ -124,7 +124,6 @@ export default class Progress extends React.Component<IProps, IState> {
         ok: false
       } as any;
     }
-
     const { data, ok, status } = response;
     if (ok) {
       await this.encoded((data as IEncodingSuccess).encoded);

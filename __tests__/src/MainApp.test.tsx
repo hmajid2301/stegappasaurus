@@ -21,7 +21,7 @@ const props = {
   toggleAutomaticTheme: (isAutomatic: boolean) => toggleAutomaticTheme(true),
   toggleDarkTheme: (isDark: boolean) => toggleDarkTheme(true),
   theme: {
-    background: colors.darkColor as ThemeColors,
+    background: colors.darkBlue as ThemeColors,
     color: colors.pureWhite as ThemeColors,
     isDark: true
   }

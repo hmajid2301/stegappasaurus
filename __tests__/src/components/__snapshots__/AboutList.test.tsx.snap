@@ -9,7 +9,7 @@ exports[`AboutList: Match snapshots 1 1`] = `
         "backgroundColor": "#FFF",
       }
     }
-    key="Version 1.0.0-closed.5"
+    key="Version 1.0.0-beta.9"
     leftIcon={
       Object {
         "color": "#009CFF",
@@ -35,7 +35,7 @@ exports[`AboutList: Match snapshots 1 1`] = `
             ]
           }
         >
-          Version 1.0.0-closed.5
+          Version 1.0.0-beta.9
         </Text>
       </TouchableOpacity>
     }
@@ -51,7 +51,7 @@ exports[`AboutList: Match snapshots 1 1`] = `
     key="Fork this Project on GitHub"
     leftIcon={
       Object {
-        "color": "#F50AE1",
+        "color": "#009CFF",
         "name": "code-fork",
         "onPress": [Function],
         "type": "font-awesome",
@@ -90,7 +90,7 @@ exports[`AboutList: Match snapshots 1 1`] = `
     key="Personal GitLab"
     leftIcon={
       Object {
-        "color": "#FF9501",
+        "color": "#009CFF",
         "name": "gitlab",
         "onPress": [Function],
         "type": "font-awesome",
@@ -129,7 +129,7 @@ exports[`AboutList: Match snapshots 1 1`] = `
     key="Personal Website"
     leftIcon={
       Object {
-        "color": "#4CDA64",
+        "color": "#009CFF",
         "name": "web",
         "onPress": [Function],
         "type": "material-community",
@@ -168,7 +168,7 @@ exports[`AboutList: Match snapshots 1 1`] = `
     key="Rate the App"
     leftIcon={
       Object {
-        "color": "#FD3C2D",
+        "color": "#009CFF",
         "name": "rate-review",
         "onPress": [Function],
         "type": "material",
@@ -209,7 +209,7 @@ exports[`AboutList: Match snapshots 2 1`] = `
         "backgroundColor": "#17212D",
       }
     }
-    key="Version 1.0.0-closed.5"
+    key="Version 1.0.0-beta.9"
     leftIcon={
       Object {
         "color": "#009CFF",
@@ -235,7 +235,7 @@ exports[`AboutList: Match snapshots 2 1`] = `
             ]
           }
         >
-          Version 1.0.0-closed.5
+          Version 1.0.0-beta.9
         </Text>
       </TouchableOpacity>
     }
@@ -251,7 +251,7 @@ exports[`AboutList: Match snapshots 2 1`] = `
     key="Fork this Project on GitHub"
     leftIcon={
       Object {
-        "color": "#F50AE1",
+        "color": "#009CFF",
         "name": "code-fork",
         "onPress": [Function],
         "type": "font-awesome",
@@ -290,7 +290,7 @@ exports[`AboutList: Match snapshots 2 1`] = `
     key="Personal GitLab"
     leftIcon={
       Object {
-        "color": "#FF9501",
+        "color": "#009CFF",
         "name": "gitlab",
         "onPress": [Function],
         "type": "font-awesome",
@@ -329,7 +329,7 @@ exports[`AboutList: Match snapshots 2 1`] = `
     key="Personal Website"
     leftIcon={
       Object {
-        "color": "#4CDA64",
+        "color": "#009CFF",
         "name": "web",
         "onPress": [Function],
         "type": "material-community",
@@ -368,7 +368,7 @@ exports[`AboutList: Match snapshots 2 1`] = `
     key="Rate the App"
     leftIcon={
       Object {
-        "color": "#FD3C2D",
+        "color": "#009CFF",
         "name": "rate-review",
         "onPress": [Function],
         "type": "material",
@@ -419,7 +419,7 @@ exports[`AboutList: Match snapshots Title 1`] = `
       ]
     }
   >
-    Version 1.0.0-closed.5
+    Version 1.0.0-beta.9
   </Text>
 </TouchableOpacity>
 `;

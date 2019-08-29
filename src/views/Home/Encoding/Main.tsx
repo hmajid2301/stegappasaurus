@@ -44,7 +44,7 @@ export default class Main extends React.Component<IProps, IState> {
 
     return (
       <View style={[styles.container, { backgroundColor: theme.background }]}>
-        <Loader loading={this.state.loading} />
+        <Loader loading={this.state.loading} overlay="#333" />
         <View style={styles.buttonsRow}>
           <TouchableOpacity
             onPress={this.getPhotoFromCamera}
