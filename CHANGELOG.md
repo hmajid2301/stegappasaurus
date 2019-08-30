@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.10] - 2019-08-30
+### Changed
+- Try Catch around Progress (Encoding and Decoding).
+
 ## [1.0.0-beta.9] - 2019-08-30
 ### Added
 - Padding to FAQ list.

@@ -14,6 +14,7 @@ import {
 } from "react-navigation";
 
 import { IAPIError, IDecodingSuccess, ITheme, PrimaryColor } from "@types";
+import bugsnag from "~/actions/Bugsnag/Bugsnag";
 import ImageProgress from "~/components/ImageProgress";
 import Snackbar from "~/components/Snackbar";
 import { colors } from "~/modules";
@@ -84,39 +85,43 @@ export default class Progress extends React.Component<IProps, IState> {
   }
 
   private async callDecodeAPI(base64Image: string) {
-    const userCredentials = await firebase.auth().signInAnonymously();
-    const token = await userCredentials.user.getIdToken();
-    await this.checkNetworkStatus();
-
-    const api = create({
-      baseURL: Config.FIREBASE_API_URL,
-      headers: { Authorization: `Bearer ${token}` },
-      timeout: 60000
-    });
-    let response: ApiResponse<Decoding>;
     try {
-      response = await api.post(
-        "/decode",
-        {
-          imageData: `data:image/png;base64,${base64Image}`
-        },
-        {
-          cancelToken: this.state.source.token
-        }
-      );
-    } catch {
-      response = {
-        data: { code: "ServerError", message: "Server unreachable" },
-        ok: false
-      } as any;
-    }
+      const userCredentials = await firebase.auth().signInAnonymously();
+      const token = await userCredentials.user.getIdToken();
+      await this.checkNetworkStatus();
 
-    const { data, ok } = response;
-    if (ok) {
-      const message = (data as IDecodingSuccess).decoded;
-      this.decoded(message);
-    } else {
-      this.failedResponse();
+      const api = create({
+        baseURL: Config.FIREBASE_API_URL,
+        headers: { Authorization: `Bearer ${token}` },
+        timeout: 60000
+      });
+      let response: ApiResponse<Decoding>;
+      try {
+        response = await api.post(
+          "/decode",
+          {
+            imageData: `data:image/png;base64,${base64Image}`
+          },
+          {
+            cancelToken: this.state.source.token
+          }
+        );
+      } catch {
+        response = {
+          data: { code: "ServerError", message: "Server unreachable" },
+          ok: false
+        } as any;
+      }
+
+      const { data, ok } = response;
+      if (ok) {
+        const message = (data as IDecodingSuccess).decoded;
+        this.decoded(message);
+      } else {
+        this.failedResponse();
+      }
+    } catch (err) {
+      bugsnag.notify(err);
     }
   }
 
