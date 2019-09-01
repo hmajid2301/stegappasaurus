@@ -4,7 +4,7 @@ import * as ImagePicker from "expo-image-picker";
 import * as React from "react";
 
 import Main from "~/views/Home/Encoding/Main";
-import Snackbar from "~/components/Snackbar";
+import Snackbar from "~/actions/Snackbar";
 
 jest.mock("apisauce");
 jest.mock("expo-image-picker");

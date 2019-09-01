@@ -6,7 +6,7 @@ import { Dispatch } from "redux";
 
 import { ITheme } from "@types";
 import AutoToggleTheme from "~/actions/AutoToggleTheme";
-import Snackbar from "~/components/Snackbar";
+import Snackbar from "~/actions/Snackbar";
 import { colors } from "~/modules";
 import { toggleAutomaticTheme, toggleDarkTheme } from "~/redux/actions";
 import { IReducerState } from "~/redux/reducers/ToggleAutomaticTheme";

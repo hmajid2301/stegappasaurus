@@ -7,9 +7,9 @@ import Config from "react-native-config";
 import { Icon } from "react-native-elements";
 import { NavigationScreenProp } from "react-navigation";
 
+import Snackbar from "~/actions/Snackbar";
 import Loader from "~/components/Loader";
 import PhotoAlbumList from "~/components/PhotoAlbumList";
-import Snackbar from "~/components/Snackbar";
 import styles from "./Main/styles";
 
 interface IProps {

@@ -7,8 +7,8 @@ import { Icon } from "react-native-elements";
 import ShareMenu from "react-native-share-menu";
 import { NavigationScreenProp } from "react-navigation";
 
+import Snackbar from "~/actions/Snackbar";
 import PhotoAlbumList from "~/components/PhotoAlbumList";
-import Snackbar from "~/components/Snackbar";
 import styles from "./Main/styles";
 
 interface IProps {

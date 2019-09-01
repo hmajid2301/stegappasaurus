@@ -3,7 +3,7 @@ package com.stegappasaurus;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
-import com.wix.reactnativenotifications.RNNotificationsPackage;
+import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
 import com.bugsnag.BugsnagReactNative;
 import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 import com.reactnativecommunity.netinfo.NetInfoPackage;
@@ -11,6 +11,7 @@ import com.meedan.ShareMenuPackage;
 import com.airbnb.android.react.lottie.LottiePackage;
 import io.invertase.firebase.RNFirebasePackage;
 import io.invertase.firebase.auth.RNFirebaseAuthPackage;
+import io.invertase.firebase.analytics.RNFirebaseAnalyticsPackage;
 import io.invertase.firebase.functions.RNFirebaseFunctionsPackage;
 import io.invertase.firebase.perf.RNFirebasePerformancePackage;
 import cl.json.RNSharePackage;
@@ -49,13 +50,25 @@ public class MainApplication extends Application implements ReactApplication {
 
     @Override
     protected List<ReactPackage> getPackages() {
-      return Arrays.<ReactPackage>asList(new MainReactPackage(), BugsnagReactNative.getPackage(),
-          new RNNotificationsPackage(MainApplication.this), new AsyncStoragePackage(), new NetInfoPackage(),
-          new ShareMenuPackage(), new LottiePackage(), new RNFirebasePackage(), new RNFirebaseAuthPackage(),
-          new RNFirebaseFunctionsPackage(), new RNFirebasePerformancePackage(), new RNSharePackage(),
-          new SnackbarPackage(), new VectorIconsPackage(), new RNGestureHandlerPackage(),
-          new ReactNativeConfigPackage(), new SplashScreenReactPackage(),
-          new ModuleRegistryAdapter(mModuleRegistryProvider));
+      return Arrays.<ReactPackage>asList(new MainReactPackage(),
+        new ReactNativePushNotificationPackage(),
+        BugsnagReactNative.getPackage(),
+        new AsyncStoragePackage(),
+        new NetInfoPackage(),
+        new ShareMenuPackage(),
+        new LottiePackage(),
+        new RNFirebasePackage(),
+        new RNFirebaseAnalyticsPackage(),
+        new RNFirebaseAuthPackage(),
+        new RNFirebaseFunctionsPackage(),
+        new RNFirebasePerformancePackage(),
+        new RNSharePackage(),
+        new SnackbarPackage(),
+        new VectorIconsPackage(),
+        new RNGestureHandlerPackage(),
+        new ReactNativeConfigPackage(),
+        new SplashScreenReactPackage(),
+        new ModuleRegistryAdapter(mModuleRegistryProvider));
     }
 
     @Override

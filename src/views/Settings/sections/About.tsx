@@ -4,8 +4,8 @@ import { Text, TouchableOpacity, View } from "react-native";
 import { ListItem } from "react-native-elements";
 
 import { ThemeColors } from "@types";
+import Snackbar from "~/actions/Snackbar";
 import MarkdownModal from "~/components/MarkdownModal";
-import Snackbar from "~/components/Snackbar";
 import changelog from "~/data/changelog";
 import styles from "./styles";
 

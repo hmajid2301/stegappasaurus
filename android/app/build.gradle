@@ -114,8 +114,8 @@ android {
         applicationId "com.stegappasaurus"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 3145750
-        versionName "1.0.0-beta.11"
+        versionCode 3145751
+        versionName "1.0.0-beta.12"
         multiDexEnabled true
     }
     splits {
@@ -160,7 +160,10 @@ android {
 }
 
 dependencies {
-    implementation project(':react-native-notifications')
+    implementation (project(':react-native-push-notification'), {
+        exclude group: "com.google.android.gms"
+        exclude group: "com.google.firebase"
+    })
     implementation project(':bugsnag-react-native')
     implementation project(':@react-native-community_async-storage')
     implementation project(':@react-native-community_netinfo')

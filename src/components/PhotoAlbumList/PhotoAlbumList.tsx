@@ -3,7 +3,7 @@ import * as Permissions from "expo-permissions";
 import React from "react";
 import { FlatList, Image, TouchableOpacity, View } from "react-native";
 
-import Snackbar from "~/components/Snackbar";
+import Snackbar from "~/actions/Snackbar";
 import styles from "./styles";
 
 interface IProps {

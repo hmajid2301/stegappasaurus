@@ -6,8 +6,6 @@ import * as React from "react";
 import { AppState, View } from "react-native";
 import Config from "react-native-config";
 import firebase from "react-native-firebase";
-// @ts-ignore
-import { NotificationsAndroid } from "react-native-notifications";
 import {
   NavigationEventSubscription,
   NavigationScreenProp
@@ -15,8 +13,9 @@ import {
 
 import { IAPIError, IDecodingSuccess, ITheme, PrimaryColor } from "@types";
 import bugsnag from "~/actions/Bugsnag";
+import Notification from "~/actions/Notification";
+import Snackbar from "~/actions/Snackbar";
 import ImageProgress from "~/components/ImageProgress";
-import Snackbar from "~/components/Snackbar";
 import { colors } from "~/modules";
 
 export type Decoding = IDecodingSuccess | IAPIError;
@@ -39,8 +38,7 @@ export default class Progress extends React.Component<IProps, IState> {
 
   constructor(props: IProps) {
     super(props);
-    const { navigation } = props;
-    const uri = navigation.getParam("uri", "NO-ID");
+    const uri = this.props.navigation.getParam("uri", "NO-ID");
     const source = CancelToken.source();
     this.focusListener = null;
 
@@ -67,14 +65,13 @@ export default class Progress extends React.Component<IProps, IState> {
   }
 
   public async componentDidMount() {
-    const base64Image = await FileSystem.readAsStringAsync(this.state.photo, {
-      encoding: FileSystem.EncodingType.Base64
-    });
-
     this.focusListener = this.props.navigation.addListener(
       "willBlur",
       this.cancelRequest
     );
+    const base64Image = await FileSystem.readAsStringAsync(this.state.photo, {
+      encoding: FileSystem.EncodingType.Base64
+    });
     await this.callDecodeAPI(base64Image);
   }
 
@@ -148,18 +145,17 @@ export default class Progress extends React.Component<IProps, IState> {
   }
 
   private decoded(message: string) {
-    this.sendNotification();
     this.props.navigation.navigate("DecodingMessage", {
       message,
       uri: this.state.photo
     });
+    this.sendNotification();
   }
 
   private sendNotification() {
     if (AppState.currentState === "background") {
-      NotificationsAndroid.localNotification({
-        body: "Your image has been decoded.",
-        title: "Decoded"
+      Notification.localNotification({
+        message: "Your image has been decoded."
       });
     }
   }

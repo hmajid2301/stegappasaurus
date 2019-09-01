@@ -59,17 +59,6 @@ test:coverage:
     - yarn coverage --silent
   coverage: /All\sfiles.*?\s+(\d+.\d+)/
 
-test:android:lint:
-  stage: test
-  image: entria/react-native-android
-  only:
-    - master
-  before_script:
-    - cd android
-    - mv $FIREBASE_GOOGLE_SERVICES app/google-services.json
-  script:
-    - yarn android-lint
-
 build:android:package:
   stage: build
   image: entria/react-native-android
@@ -87,8 +76,8 @@ build:android:package:
     - yarn react-native link
     - mv $PLAY_STORE_JSON /tmp/play-store-key.json
     - cp react.gradle ../node_modules/react-native/
-    - yarn android-bundle
-    - yarn android-build-aab
+    - yarn bundle
+    - yarn build-package
   artifacts:
     paths:
       - ./android/app/build/outputs/
@@ -100,7 +89,7 @@ publish:source-maps:
   image: entria/react-native-android
   script:
     - echo fs.inotify.max_user_watches=524288 | tee -a /etc/sysctl.conf && sysctl -p
-    - yarn android-bundle
+    - yarn bundle
     - apt-get install jq
     - export VERSION=$(cat package.json | jq .version)
     - curl https://upload.bugsnag.com/react-native-source-map -F apiKey=${BUGSNAG_API_KEY} -F appVersion=${VERSION} -F dev=false -F platform=android -F sourceMap=@android/app/src/main/assets/index.map -F bundle=@android/app/src/main/assets/index.bundle -F projectRoot=`pwd`

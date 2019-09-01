@@ -7,8 +7,6 @@ import * as React from "react";
 import { AppState, Linking, View } from "react-native";
 import Config from "react-native-config";
 import firebase from "react-native-firebase";
-// @ts-ignore
-import { NotificationsAndroid } from "react-native-notifications";
 import Share from "react-native-share";
 import {
   NavigationEventSubscription,
@@ -17,8 +15,9 @@ import {
 
 import { IAPIError, IEncodingSuccess, ITheme, PrimaryColor } from "@types";
 import bugsnag from "~/actions/Bugsnag";
+import Notification from "~/actions/Notification";
+import Snackbar from "~/actions/Snackbar";
 import ImageProgress from "~/components/ImageProgress";
-import Snackbar from "~/components/Snackbar";
 import { colors } from "~/modules";
 
 type Encoding = IEncodingSuccess | IAPIError;
@@ -42,8 +41,7 @@ export default class Progress extends React.Component<IProps, IState> {
 
   constructor(props: IProps) {
     super(props);
-    const { navigation } = props;
-    const uri = navigation.getParam("uri", "NO-ID");
+    const uri = this.props.navigation.getParam("uri", "NO-ID");
     const source = CancelToken.source();
     this.focusListener = null;
 
@@ -81,10 +79,10 @@ export default class Progress extends React.Component<IProps, IState> {
       "willBlur",
       this.cancelRequest
     );
+
     const base64Image = await FileSystem.readAsStringAsync(this.state.photo, {
       encoding: FileSystem.EncodingType.Base64
     });
-
     const message = this.props.navigation.getParam("message", "NO-ID");
     await this.callEncodeAPI(base64Image, message);
   }
@@ -138,9 +136,9 @@ export default class Progress extends React.Component<IProps, IState> {
     }
   }
 
-  private cancelRequest() {
+  private cancelRequest = () => {
     this.state.source.cancel();
-  }
+  };
 
   private async checkNetworkStatus() {
     try {
@@ -167,11 +165,10 @@ export default class Progress extends React.Component<IProps, IState> {
       encoding: FileSystem.EncodingType.Base64
     });
 
-    const { uri } = await MediaLibrary.createAssetAsync(imagePath);
+    await MediaLibrary.createAssetAsync(imagePath);
     await FileSystem.deleteAsync(imagePath);
 
     this.setState({ encoding: false, encodedUri: base64Image });
-    this.sendNotification();
     Snackbar.show({
       buttonText: "Open Album",
       onButtonPress: async () => {
@@ -179,6 +176,15 @@ export default class Progress extends React.Component<IProps, IState> {
       },
       text: "Image saved to photo album."
     });
+    this.sendNotification();
+  }
+
+  private sendNotification() {
+    if (AppState.currentState === "background") {
+      Notification.localNotification({
+        message: "Your image has been encoded."
+      });
+    }
   }
 
   private failedResponse(error: IAPIError, status: number) {
@@ -191,15 +197,6 @@ export default class Progress extends React.Component<IProps, IState> {
       this.props.navigation.goBack();
     } else {
       this.sendUserBackToMain();
-    }
-  }
-
-  private sendNotification() {
-    if (AppState.currentState === "background") {
-      NotificationsAndroid.localNotification({
-        body: "Your image has been encoded.",
-        title: "Encoded"
-      });
     }
   }
 

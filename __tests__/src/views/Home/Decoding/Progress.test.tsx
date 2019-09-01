@@ -3,7 +3,7 @@ import NetInfo from "@react-native-community/netinfo";
 import { mount, shallow } from "enzyme";
 import React from "react";
 
-import Snackbar from "~/components/Snackbar";
+import Snackbar from "~/actions/Snackbar";
 import Progress from "~/views/Home/Decoding/Progress";
 
 jest.mock("apisauce");

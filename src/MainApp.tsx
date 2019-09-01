@@ -6,9 +6,9 @@ import { Dispatch } from "redux";
 
 import { ITheme } from "@types";
 import AutoToggleTheme from "~/actions/AutoToggleTheme";
+import Snackbar from "~/actions/Snackbar";
 import IntroSlider from "~/components/IntroSlider";
 import Loader from "~/components/Loader";
-import Snackbar from "~/components/Snackbar";
 import { slides } from "~/data";
 import { toggleAutomaticTheme, toggleDarkTheme } from "~/redux/actions";
 import { IReducerState as IReducerAutomaticTheme } from "~/redux/reducers/ToggleAutomaticTheme";

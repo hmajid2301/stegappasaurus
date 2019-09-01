@@ -3,7 +3,7 @@ import * as ImagePicker from "expo-image-picker";
 import { mount, shallow } from "enzyme";
 import React from "react";
 
-import Snackbar from "~/components/Snackbar";
+import Snackbar from "~/actions/Snackbar";
 import Main from "~/views/Home/Decoding/Main";
 
 jest.mock("react-native-share-menu");

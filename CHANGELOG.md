@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.12] - 2019-09-02
+### Changed
+- Push notification library to `react-native-push-notifications`.
+  
+### Fixed
+- App crashing on first run caused by `react-native-notifications`.
+- On cancel api request, raising an error because `cancelRequest` was not an arrow function.
+
 ## [1.0.0-beta.11] - 2019-09-01
 ### Added
 - Added notifications if app is in background.
@@ -78,14 +86,6 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Logs from photo album list.
 - PrimaryColor reducer changed implementation to use view name instead to determine what colour should be used.
 
-## [1.0.0-beta.5] - 2019-08-27
-### Fixed
-- Notch being ignore by app, makes the app look ugly in dark mode.
-
-## [1.0.0-beta.4] - 2019-08-26
-### Added
-- Extra logging in `Progress.tsx` (for decoding).
-
 ## [1.0.0-beta.3] - 2019-08-26
 ### Changed
 - PhotoAlbumList componentDidMount function to mount differently.
@@ -113,6 +113,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Share encoded images with app to decode them.
 - Initial Release.
 
+[1.0.0-beta.12]: https://gitlab.com/stegappasaurus/stegappasaurus-app/-/tags/release%2F1.0.0-beta.12
+[1.0.0-beta.11]: https://gitlab.com/stegappasaurus/stegappasaurus-app/-/tags/release%2F1.0.0-beta.11
+[1.0.0-beta.10]: https://gitlab.com/stegappasaurus/stegappasaurus-app/-/tags/release%2F1.0.0-beta.10
+[1.0.0-beta.9]: https://gitlab.com/stegappasaurus/stegappasaurus-app/-/tags/release%2F1.0.0-beta.9
 [1.0.0-beta.8]: https://gitlab.com/stegappasaurus/stegappasaurus-app/-/tags/release%2F1.0.0-beta.8
 [1.0.0-beta.7]: https://gitlab.com/stegappasaurus/stegappasaurus-app/-/tags/release%2F1.0.0-beta.7
 [1.0.0-alpha.3]: https://gitlab.com/stegappasaurus/stegappasaurus-app/-/tags/release%2F1.0.0-alpha.3

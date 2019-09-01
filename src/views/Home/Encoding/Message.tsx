@@ -2,8 +2,8 @@ import * as React from "react";
 import { Keyboard, View } from "react-native";
 import { NavigationScreenProp } from "react-navigation";
 
+import Snackbar from "~/actions/Snackbar";
 import ImageMessage from "~/components/ImageMessage";
-import Snackbar from "~/components/Snackbar";
 
 interface IProps {
   navigation: NavigationScreenProp<any, any>;

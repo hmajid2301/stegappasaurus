@@ -2,7 +2,7 @@ import { mount, shallow } from "enzyme";
 import React from "react";
 
 import Message from "~/views/Home/Encoding/Message";
-import Snackbar from "~/components/Snackbar";
+import Snackbar from "~/actions/Snackbar";
 
 describe("Encoding Message: Match Snapshots", () => {
   test("1", () => {
