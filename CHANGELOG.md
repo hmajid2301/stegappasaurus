@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.11] - 2019-09-01
+### Added
+- Added notifications if app is in background.
+- Bugsnag native crash support.
+
+### Removed
+- Firebase's analytics and crashlytics. 
+
 ## [1.0.0-beta.10] - 2019-08-30
 ### Changed
 - Try Catch around Progress (Encoding and Decoding).

@@ -1,3 +1,3 @@
-import BugReport from "./Bugsnag";
+import Bugsnag from "./Bugsnag";
 
-export default BugReport;
+export default Bugsnag;

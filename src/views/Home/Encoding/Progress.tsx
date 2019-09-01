@@ -16,6 +16,7 @@ import {
 } from "react-navigation";
 
 import { IAPIError, IEncodingSuccess, ITheme, PrimaryColor } from "@types";
+import bugsnag from "~/actions/Bugsnag";
 import ImageProgress from "~/components/ImageProgress";
 import Snackbar from "~/components/Snackbar";
 import { colors } from "~/modules";
@@ -95,40 +96,45 @@ export default class Progress extends React.Component<IProps, IState> {
   }
 
   private async callEncodeAPI(base64Image: string, message: string) {
-    const userCredentials = await firebase.auth().signInAnonymously();
-    const token = await userCredentials.user.getIdToken();
-    await this.checkNetworkStatus();
-
-    const api = create({
-      baseURL: Config.FIREBASE_API_URL,
-      headers: { Authorization: `Bearer ${token}` },
-      timeout: 60000
-    });
-
-    let response: ApiResponse<Encoding>;
     try {
-      response = await api.post(
-        "/encode",
-        {
-          algorithm: "LSB",
-          imageData: `data:image/png;base64,${base64Image}`,
-          message
-        },
-        {
-          cancelToken: this.state.source.token
-        }
-      );
-    } catch {
-      response = {
-        data: { code: "ServerError", message: "Server unreachable" },
-        ok: false
-      } as any;
-    }
-    const { data, ok, status } = response;
-    if (ok) {
-      await this.encoded((data as IEncodingSuccess).encoded);
-    } else {
-      this.failedResponse(data as IAPIError, status ? status : 500);
+      const userCredentials = await firebase.auth().signInAnonymously();
+      const token = await userCredentials.user.getIdToken();
+      await this.checkNetworkStatus();
+
+      const api = create({
+        baseURL: Config.FIREBASE_API_URL,
+        headers: { Authorization: `Bearer ${token}` },
+        timeout: 60000
+      });
+
+      let response: ApiResponse<Encoding>;
+      try {
+        response = await api.post(
+          "/encode",
+          {
+            algorithm: "LSB",
+            imageData: `data:image/png;base64,${base64Image}`,
+            message
+          },
+          {
+            cancelToken: this.state.source.token
+          }
+        );
+      } catch {
+        response = {
+          data: { code: "ServerError", message: "Server unreachable" },
+          ok: false
+        } as any;
+      }
+
+      const { data, ok, status } = response;
+      if (ok) {
+        await this.encoded((data as IEncodingSuccess).encoded);
+      } else {
+        this.failedResponse(data as IAPIError, status ? status : 500);
+      }
+    } catch (err) {
+      bugsnag.notify(err);
     }
   }
 
@@ -169,7 +175,7 @@ export default class Progress extends React.Component<IProps, IState> {
     Snackbar.show({
       buttonText: "Open Album",
       onButtonPress: async () => {
-        await Linking.openURL(uri);
+        await Linking.openURL("content://media/internal/images/media");
       },
       text: "Image saved to photo album."
     });

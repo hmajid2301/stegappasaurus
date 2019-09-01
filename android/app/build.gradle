@@ -114,8 +114,8 @@ android {
         applicationId "com.stegappasaurus"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 3145749
-        versionName "1.0.0-beta.10"
+        versionCode 3145750
+        versionName "1.0.0-beta.11"
         multiDexEnabled true
     }
     splits {
@@ -170,9 +170,6 @@ dependencies {
     implementation "com.google.android.gms:play-services-base:16.1.0"
     implementation "com.google.firebase:firebase-core:16.0.9"
     implementation "com.google.firebase:firebase-auth:17.0.0"
-    implementation('com.crashlytics.sdk.android:crashlytics:2.9.9@aar') {
-        transitive = true
-    }
     implementation "com.google.firebase:firebase-functions:17.0.0"
     implementation "com.google.firebase:firebase-perf:17.0.2"
     implementation project(':react-native-share')

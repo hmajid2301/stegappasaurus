@@ -3,7 +3,7 @@ import { ApiResponse, CancelToken, create } from "apisauce";
 import { CancelTokenSource } from "axios";
 import * as FileSystem from "expo-file-system";
 import * as React from "react";
-import { AppState, NativeEventSubscription, View } from "react-native";
+import { AppState, View } from "react-native";
 import Config from "react-native-config";
 import firebase from "react-native-firebase";
 // @ts-ignore
@@ -14,7 +14,7 @@ import {
 } from "react-navigation";
 
 import { IAPIError, IDecodingSuccess, ITheme, PrimaryColor } from "@types";
-import bugsnag from "~/actions/Bugsnag/Bugsnag";
+import bugsnag from "~/actions/Bugsnag";
 import ImageProgress from "~/components/ImageProgress";
 import Snackbar from "~/components/Snackbar";
 import { colors } from "~/modules";
@@ -35,7 +35,7 @@ interface IState {
 }
 
 export default class Progress extends React.Component<IProps, IState> {
-  private focusListener: NativeEventSubscription | null;
+  private focusListener: NavigationEventSubscription | null;
 
   constructor(props: IProps) {
     super(props);

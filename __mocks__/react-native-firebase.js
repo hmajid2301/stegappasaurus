@@ -90,8 +90,6 @@ export default class RNFirebase {
     return Promise.all(RNFirebase.promises);
   }
 
-  static analytics() {}
-
   static app() {}
 
   static auth() {
@@ -101,18 +99,6 @@ export default class RNFirebase {
           getIdToken: jest.fn()
         }
       })
-    };
-  }
-
-  static analytics() {
-    return {
-      logEvent: jest.fn()
-    };
-  }
-
-  static crashlytics() {
-    return {
-      log: jest.fn()
     };
   }
 }
