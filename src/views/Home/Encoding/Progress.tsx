@@ -4,17 +4,16 @@ import { CancelTokenSource } from "axios";
 import * as FileSystem from "expo-file-system";
 import * as MediaLibrary from "expo-media-library";
 import * as React from "react";
-import {
-  BackHandler,
-  Linking,
-  NativeEventSubscription,
-  View
-} from "react-native";
+import { AppState, Linking, View } from "react-native";
 import Config from "react-native-config";
-import "react-native-console-time-polyfill";
 import firebase from "react-native-firebase";
+// @ts-ignore
+import { NotificationsAndroid } from "react-native-notifications";
 import Share from "react-native-share";
-import { NavigationScreenProp } from "react-navigation";
+import {
+  NavigationEventSubscription,
+  NavigationScreenProp
+} from "react-navigation";
 
 import { IAPIError, IEncodingSuccess, ITheme, PrimaryColor } from "@types";
 import ImageProgress from "~/components/ImageProgress";
@@ -33,32 +32,23 @@ interface IProps {
 interface IState {
   encodedUri: string;
   encoding: boolean;
-  filename: string;
-  message: string;
   photo: string;
   source: CancelTokenSource;
 }
 
 export default class Progress extends React.Component<IProps, IState> {
-  private backHandler: NativeEventSubscription;
+  private focusListener: NavigationEventSubscription | null;
 
   constructor(props: IProps) {
     super(props);
     const { navigation } = props;
-    const message = navigation.getParam("message", "NO-ID");
     const uri = navigation.getParam("uri", "NO-ID");
-    const filename = `${new Date().toISOString()}.png`;
     const source = CancelToken.source();
-    this.backHandler = BackHandler.addEventListener(
-      "hardwareBackPress",
-      this.cancelRequest
-    );
+    this.focusListener = null;
 
     this.state = {
       encodedUri: "",
       encoding: true,
-      filename,
-      message,
       photo: uri,
       source
     };
@@ -86,22 +76,27 @@ export default class Progress extends React.Component<IProps, IState> {
   }
 
   public async componentDidMount() {
+    this.focusListener = this.props.navigation.addListener(
+      "willBlur",
+      this.cancelRequest
+    );
     const base64Image = await FileSystem.readAsStringAsync(this.state.photo, {
       encoding: FileSystem.EncodingType.Base64
     });
 
-    await this.callEncodeAPI(base64Image);
+    const message = this.props.navigation.getParam("message", "NO-ID");
+    await this.callEncodeAPI(base64Image, message);
   }
 
   public componentWillUnmount() {
-    this.backHandler.remove();
+    if (this.focusListener) {
+      this.focusListener.remove();
+    }
   }
 
-  private async callEncodeAPI(base64Image: string) {
+  private async callEncodeAPI(base64Image: string, message: string) {
     const userCredentials = await firebase.auth().signInAnonymously();
     const token = await userCredentials.user.getIdToken();
-    firebase.analytics().logEvent("User Authed", token);
-    firebase.crashlytics().log(`USer Authed ${token}`);
     await this.checkNetworkStatus();
 
     const api = create({
@@ -112,14 +107,12 @@ export default class Progress extends React.Component<IProps, IState> {
 
     let response: ApiResponse<Encoding>;
     try {
-      firebase.analytics().logEvent("Request made");
-      firebase.crashlytics().log("Request made");
       response = await api.post(
         "/encode",
         {
           algorithm: "LSB",
           imageData: `data:image/png;base64,${base64Image}`,
-          message: this.state.message
+          message
         },
         {
           cancelToken: this.state.source.token
@@ -133,8 +126,6 @@ export default class Progress extends React.Component<IProps, IState> {
     }
 
     const { data, ok, status } = response;
-    firebase.analytics().logEvent("API Status", ok);
-    firebase.crashlytics().log(`API Status ${ok}`);
     if (ok) {
       await this.encoded((data as IEncodingSuccess).encoded);
     } else {
@@ -142,13 +133,12 @@ export default class Progress extends React.Component<IProps, IState> {
     }
   }
 
-  private cancelRequest = () => {
+  private cancelRequest() {
     this.state.source.cancel();
-  };
+  }
 
   private async checkNetworkStatus() {
     const state = await NetInfo.fetch();
-    await NetInfo.fetch();
     if (!state.isConnected) {
       Snackbar.show({
         text: "You need an internet connection to encode an image."
@@ -162,24 +152,24 @@ export default class Progress extends React.Component<IProps, IState> {
   }
 
   private async encoded(base64Image: string) {
-    const imagePath = `${FileSystem.documentDirectory}${this.state.filename}`;
+    const filename = `${new Date().toISOString()}.png`;
+    const imagePath = `${FileSystem.documentDirectory}${filename}`;
     await FileSystem.writeAsStringAsync(imagePath, base64Image.substring(22), {
       encoding: FileSystem.EncodingType.Base64
     });
 
-    await MediaLibrary.createAssetAsync(imagePath);
+    const { uri } = await MediaLibrary.createAssetAsync(imagePath);
     await FileSystem.deleteAsync(imagePath);
 
     this.setState({ encoding: false, encodedUri: base64Image });
+    this.sendNotification();
     Snackbar.show({
       buttonText: "Open Album",
-      onButtonPress: this.openAlbum,
+      onButtonPress: async () => {
+        await Linking.openURL(uri);
+      },
       text: "Image saved to photo album."
     });
-  }
-
-  private async openAlbum() {
-    await Linking.openURL("content://media/internal/images/media");
   }
 
   private failedResponse(error: IAPIError, status: number) {
@@ -192,6 +182,15 @@ export default class Progress extends React.Component<IProps, IState> {
       this.props.navigation.goBack();
     } else {
       this.sendUserBackToMain();
+    }
+  }
+
+  private sendNotification() {
+    if (AppState.currentState === "background") {
+      NotificationsAndroid.localNotification({
+        body: "Your image has been encoded.",
+        title: "Encoded"
+      });
     }
   }
 

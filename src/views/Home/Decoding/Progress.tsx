@@ -3,10 +3,15 @@ import { ApiResponse, CancelToken, create } from "apisauce";
 import { CancelTokenSource } from "axios";
 import * as FileSystem from "expo-file-system";
 import * as React from "react";
-import { BackHandler, NativeEventSubscription, View } from "react-native";
+import { AppState, NativeEventSubscription, View } from "react-native";
 import Config from "react-native-config";
 import firebase from "react-native-firebase";
-import { NavigationScreenProp } from "react-navigation";
+// @ts-ignore
+import { NotificationsAndroid } from "react-native-notifications";
+import {
+  NavigationEventSubscription,
+  NavigationScreenProp
+} from "react-navigation";
 
 import { IAPIError, IDecodingSuccess, ITheme, PrimaryColor } from "@types";
 import ImageProgress from "~/components/ImageProgress";
@@ -29,17 +34,14 @@ interface IState {
 }
 
 export default class Progress extends React.Component<IProps, IState> {
-  private backHandler: NativeEventSubscription;
+  private focusListener: NativeEventSubscription | null;
 
   constructor(props: IProps) {
     super(props);
     const { navigation } = props;
     const uri = navigation.getParam("uri", "NO-ID");
     const source = CancelToken.source();
-    this.backHandler = BackHandler.addEventListener(
-      "hardwareBackPress",
-      this.cancelRequest
-    );
+    this.focusListener = null;
 
     this.state = {
       decoding: true,
@@ -67,11 +69,18 @@ export default class Progress extends React.Component<IProps, IState> {
     const base64Image = await FileSystem.readAsStringAsync(this.state.photo, {
       encoding: FileSystem.EncodingType.Base64
     });
+
+    this.focusListener = this.props.navigation.addListener(
+      "willBlur",
+      this.cancelRequest
+    );
     await this.callDecodeAPI(base64Image);
   }
 
   public componentWillUnmount() {
-    this.backHandler.remove();
+    if (this.focusListener) {
+      this.focusListener.remove();
+    }
   }
 
   private async callDecodeAPI(base64Image: string) {
@@ -121,10 +130,20 @@ export default class Progress extends React.Component<IProps, IState> {
   }
 
   private decoded(message: string) {
+    this.sendNotification();
     this.props.navigation.navigate("DecodingMessage", {
       message,
       uri: this.state.photo
     });
+  }
+
+  private sendNotification() {
+    if (AppState.currentState === "background") {
+      NotificationsAndroid.localNotification({
+        body: "Your image has been decoded.",
+        title: "Decoded"
+      });
+    }
   }
 
   private failedResponse() {

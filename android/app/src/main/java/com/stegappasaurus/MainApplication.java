@@ -3,6 +3,7 @@ package com.stegappasaurus;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.wix.reactnativenotifications.RNNotificationsPackage;
 import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 import com.reactnativecommunity.netinfo.NetInfoPackage;
 import com.meedan.ShareMenuPackage;
@@ -53,6 +54,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new RNNotificationsPackage(MainApplication.this),
             new AsyncStoragePackage(),
             new NetInfoPackage(),
             new ShareMenuPackage(),
