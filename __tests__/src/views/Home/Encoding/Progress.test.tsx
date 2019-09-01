@@ -135,12 +135,6 @@ describe("Encoding Progress: Functions", () => {
     expect(spy).toHaveBeenCalled();
   });
 
-  test("openAlbum", async () => {
-    const spy = jest.spyOn(Linking, "openURL").mockResolvedValue(true);
-    await (instance as any).openAlbum();
-    expect(spy).toHaveBeenCalled();
-  });
-
   test("failedResponse: goBack", () => {
     const spy = jest.fn();
     navigate["goBack"] = spy;

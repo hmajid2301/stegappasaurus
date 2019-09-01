@@ -340,3 +340,8 @@ DerivedData/
 
 .vscode
 google-services.json
+*.bundle
+*.map
+*.keystore
+src_assets*
+gradle.properties

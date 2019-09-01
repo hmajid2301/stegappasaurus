@@ -100,13 +100,15 @@ export default class PhotoAlbumList extends React.Component<IProps, IState> {
   private getPhotosFromCameraRoll = async () => {
     const asked = await Permissions.getAsync(
       Permissions.CAMERA,
-      Permissions.CAMERA_ROLL
+      Permissions.CAMERA_ROLL,
+      Permissions.NOTIFICATIONS
     );
 
     if (asked.status !== "denied") {
       const { status } = await Permissions.askAsync(
         Permissions.CAMERA,
-        Permissions.CAMERA_ROLL
+        Permissions.CAMERA_ROLL,
+        Permissions.NOTIFICATIONS
       );
       if (status === "granted") {
         const { assets, endCursor } = await MediaLibrary.getAssetsAsync({
