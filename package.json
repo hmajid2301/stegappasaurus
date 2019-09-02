@@ -1,6 +1,6 @@
 {
   "name": "stegappasaurus",
-  "version": "1.0.0-beta.12",
+  "version": "1.0.0-beta.13",
   "scripts": {
     "android": "react-native run-android",
     "build-package": "cd android && ./gradlew bundleRelease --no-daemon",
@@ -90,7 +90,6 @@
     "react-native-console-time-polyfill": "1.2.1",
     "react-native-mock-render": "0.1.5",
     "react-test-renderer": "16.8.3",
-    "reactotron-react-native": "3.6.5",
     "redux-mock-store": "1.5.3",
     "ts-jest": "24.0.2",
     "tslib": "1.9.3",

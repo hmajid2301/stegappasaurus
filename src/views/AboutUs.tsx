@@ -26,11 +26,11 @@ export default class AboutUs extends React.Component<IProps, {}> {
 
           <View style={styles.textContainer}>
             <Text style={[styles.about, { color: theme.color }]}>
-              This project was developed by me as a way to learn React Native.
-              It is a complete rewrite of the my university project, which was
-              written in Ionic (Apache Cordova). This mobile application allow
-              you, the user, to encode image with text using steganography
-              algorithms.
+              Stegappasaurus is a free mobile application fully open source,
+              built using React Native. This application uses steganography
+              algorithms to hide your (text) data within images. This project
+              was originally created as third year project for University.
+              However this version is a complete rewrite of the application.
             </Text>
           </View>
 

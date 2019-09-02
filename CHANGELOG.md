@@ -7,10 +7,19 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.0-beta.13] - 2019-09-03
+### Changed
+- `AboutUs.tsx` the "about" description.
+- String concatenation in `questions.ts` for the FAQ.
+
+### Removed
+- `react-native-share-menu` the callback function was not working.
+- `reactotron` not using it for any development.
+
 ## [1.0.0-beta.12] - 2019-09-02
 ### Changed
 - Push notification library to `react-native-push-notifications`.
-  
+
 ### Fixed
 - App crashing on first run caused by `react-native-notifications`.
 - On cancel api request, raising an error because `cancelRequest` was not an arrow function.
@@ -113,6 +122,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Share encoded images with app to decode them.
 - Initial Release.
 
+[1.0.0-beta.13]: https://gitlab.com/stegappasaurus/stegappasaurus-app/-/tags/release%2F1.0.0-beta.13
 [1.0.0-beta.12]: https://gitlab.com/stegappasaurus/stegappasaurus-app/-/tags/release%2F1.0.0-beta.12
 [1.0.0-beta.11]: https://gitlab.com/stegappasaurus/stegappasaurus-app/-/tags/release%2F1.0.0-beta.11
 [1.0.0-beta.10]: https://gitlab.com/stegappasaurus/stegappasaurus-app/-/tags/release%2F1.0.0-beta.10

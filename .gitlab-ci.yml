@@ -90,7 +90,6 @@ publish:source-maps:
   script:
     - echo fs.inotify.max_user_watches=524288 | tee -a /etc/sysctl.conf && sysctl -p
     - yarn bundle
-    - apt-get install jq
     - export VERSION=$(cat package.json | jq .version)
     - curl https://upload.bugsnag.com/react-native-source-map -F apiKey=${BUGSNAG_API_KEY} -F appVersion=${VERSION} -F dev=false -F platform=android -F sourceMap=@android/app/src/main/assets/index.map -F bundle=@android/app/src/main/assets/index.bundle -F projectRoot=`pwd`
 

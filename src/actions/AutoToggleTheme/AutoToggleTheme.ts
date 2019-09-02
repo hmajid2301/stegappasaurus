@@ -3,8 +3,6 @@ import * as Location from "expo-location";
 import * as Permissions from "expo-permissions";
 import { getSunrise, getSunset } from "sunrise-sunset-js";
 
-import Snackbar from "~/actions/Snackbar";
-
 export default class AutoToggleTheme {
   private static oneDay = 24 * 60 * 60 * 1000;
 

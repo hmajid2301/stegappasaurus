@@ -4,7 +4,6 @@ import * as Permissions from "expo-permissions";
 import * as React from "react";
 import { TouchableOpacity, View } from "react-native";
 import { Icon } from "react-native-elements";
-import ShareMenu from "react-native-share-menu";
 import { NavigationScreenProp } from "react-navigation";
 
 import Snackbar from "~/actions/Snackbar";
@@ -37,14 +36,6 @@ export default class Main extends React.Component<IProps, {}> {
         </View>
       </View>
     );
-  }
-
-  public componentDidMount() {
-    ShareMenu.getSharedText((data: string) => {
-      if (data.startsWith("content://media/")) {
-        this.selectPhotoToDecode(data);
-      }
-    });
   }
 
   private getPhotoFromCameraRoll = async () => {

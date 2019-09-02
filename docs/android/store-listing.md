@@ -31,12 +31,10 @@ You use the app to select an image, enter your message and wait for it to encode
 
 ![Encoding Main](docs/android/images/encoding-main.png)
 ![Encoding Message](docs/android/images/encoding-message.png)
-![Intro 1](docs/android/images/intro-slider-1.png)
-![Splashscreen](docs/android/images/splash-screen.png)
 ![Share](docs/android/images/splash-screen.png)
 ![Decoding Main](docs/android/images/decoding-main.png)
 ![Decoding Message](docs/android/images/decoding-message.png)
-![Decoding Progress](docs/android/images/decoding-progress.png)
+![Dark Mode](docs/android/images/dark-mode.png)
 ![Feature Image](docs/android/images/decoding-main.png)
 
 ## Promo Video

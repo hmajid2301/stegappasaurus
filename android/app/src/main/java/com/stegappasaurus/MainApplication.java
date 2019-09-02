@@ -7,7 +7,6 @@ import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
 import com.bugsnag.BugsnagReactNative;
 import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 import com.reactnativecommunity.netinfo.NetInfoPackage;
-import com.meedan.ShareMenuPackage;
 import com.airbnb.android.react.lottie.LottiePackage;
 import io.invertase.firebase.RNFirebasePackage;
 import io.invertase.firebase.auth.RNFirebaseAuthPackage;
@@ -55,7 +54,6 @@ public class MainApplication extends Application implements ReactApplication {
         BugsnagReactNative.getPackage(),
         new AsyncStoragePackage(),
         new NetInfoPackage(),
-        new ShareMenuPackage(),
         new LottiePackage(),
         new RNFirebasePackage(),
         new RNFirebaseAnalyticsPackage(),

@@ -114,8 +114,8 @@ android {
         applicationId "com.stegappasaurus"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 3145751
-        versionName "1.0.0-beta.12"
+        versionCode 3145752
+        versionName "1.0.0-beta.13"
         multiDexEnabled true
     }
     splits {
@@ -167,7 +167,6 @@ dependencies {
     implementation project(':bugsnag-react-native')
     implementation project(':@react-native-community_async-storage')
     implementation project(':@react-native-community_netinfo')
-    implementation project(':react-native-share-menu')
     implementation project(':lottie-react-native')
     implementation project(':react-native-firebase')
     implementation "com.google.android.gms:play-services-base:16.1.0"
