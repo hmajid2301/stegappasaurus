@@ -8,7 +8,7 @@ export const PRIMARY_THEME: ITheme = {
 };
 
 export const DARK_THEME: ITheme = {
-  background: colors.darkColor as ThemeColors,
+  background: colors.darkBlue as ThemeColors,
   color: colors.pureWhite as ThemeColors,
   isDark: true
 };

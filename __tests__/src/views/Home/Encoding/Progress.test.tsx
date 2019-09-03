@@ -3,9 +3,8 @@ import NetInfo from "@react-native-community/netinfo";
 import * as MediaLibrary from "expo-media-library";
 import { mount, shallow } from "enzyme";
 import React from "react";
-import { Linking } from "react-native";
 
-import Snackbar from "~/components/Snackbar";
+import Snackbar from "~/actions/Snackbar";
 import Progress from "~/views/Home/Encoding/Progress";
 
 jest.mock("apisauce");

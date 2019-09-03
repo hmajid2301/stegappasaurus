@@ -8,7 +8,7 @@ describe("Reducer: ToggleDarkTheme", () => {
     {
       expectedState: {
         theme: {
-          background: colors.darkColor as ThemeColors,
+          background: colors.darkBlue as ThemeColors,
           color: colors.pureWhite as ThemeColors,
           isDark: true
         }
@@ -23,14 +23,14 @@ describe("Reducer: ToggleDarkTheme", () => {
     {
       expectedState: {
         theme: {
-          background: colors.darkColor as ThemeColors,
+          background: colors.darkBlue as ThemeColors,
           color: colors.pureWhite as ThemeColors,
           isDark: true
         }
       },
       isDark: true,
       initialState: {
-        background: colors.darkColor as ThemeColors,
+        background: colors.darkBlue as ThemeColors,
         color: colors.pureWhite as ThemeColors,
         isDark: true
       }
@@ -60,7 +60,7 @@ describe("Reducer: ToggleDarkTheme", () => {
       },
       isDark: false,
       initialState: {
-        background: colors.darkColor as ThemeColors,
+        background: colors.darkBlue as ThemeColors,
         color: colors.pureWhite as ThemeColors,
         isDark: true
       }

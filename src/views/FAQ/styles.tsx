@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
 
   faqListContainer: {
     alignItems: "stretch",
-    paddingTop: 5
+    padding: 10
   }
 });
 

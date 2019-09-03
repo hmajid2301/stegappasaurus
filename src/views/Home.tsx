@@ -4,18 +4,16 @@ import {
   createMaterialTopTabNavigator,
   NavigationScreenProp
 } from "react-navigation";
-import { connect } from "react-redux";
 
-import { ITheme, PrimaryColor } from "@types";
+import { ITheme } from "@types";
 import AppHeader from "~/components/AppHeader";
 import { colors, fonts } from "~/modules";
-import { IReducerState } from "~/redux/reducers/TogglePrimaryColor";
 import Decoding from "~/views/Home/Decoding";
 import Encoding from "~/views/Home/Encoding";
 
 import styles from "./Home/styles";
 
-const commonTabOptions = (primaryColor: string) => ({
+const commonTabOptions = (color: string) => ({
   activeTintColor: colors.pureWhite,
   inactiveTintColor: "#DDD",
   indicatorStyle: {
@@ -27,7 +25,7 @@ const commonTabOptions = (primaryColor: string) => ({
   },
   pressColor: colors.pureWhite,
   style: {
-    backgroundColor: primaryColor
+    backgroundColor: color
   }
 });
 
@@ -60,10 +58,9 @@ interface IProps {
   screenProps: {
     theme: ITheme;
   };
-  primaryColor: PrimaryColor;
 }
 
-export class Home extends React.Component<IProps, {}> {
+export default class Home extends React.Component<IProps, {}> {
   public static router = TabNavigator.router;
 
   public render() {
@@ -71,11 +68,7 @@ export class Home extends React.Component<IProps, {}> {
 
     return (
       <View style={styles.container}>
-        <AppHeader
-          primaryColor={this.props.primaryColor}
-          navigation={this.props.navigation}
-          theme={theme}
-        />
+        <AppHeader navigation={this.props.navigation} theme={theme} />
         <TabNavigator
           navigation={this.props.navigation}
           screenProps={{ theme }}
@@ -84,12 +77,3 @@ export class Home extends React.Component<IProps, {}> {
     );
   }
 }
-
-const mapStateToProps = (state: IReducerState) => ({
-  primaryColor: state.TogglePrimaryColor.colorData.color
-});
-
-export default connect(
-  mapStateToProps,
-  null
-)(Home);

@@ -7,8 +7,6 @@ import * as React from "react";
 import { AppState, Linking, View } from "react-native";
 import Config from "react-native-config";
 import firebase from "react-native-firebase";
-// @ts-ignore
-import { NotificationsAndroid } from "react-native-notifications";
 import Share from "react-native-share";
 import {
   NavigationEventSubscription,
@@ -16,8 +14,10 @@ import {
 } from "react-navigation";
 
 import { IAPIError, IEncodingSuccess, ITheme, PrimaryColor } from "@types";
+import bugsnag from "~/actions/Bugsnag";
+import Notification from "~/actions/Notification";
+import Snackbar from "~/actions/Snackbar";
 import ImageProgress from "~/components/ImageProgress";
-import Snackbar from "~/components/Snackbar";
 import { colors } from "~/modules";
 
 type Encoding = IEncodingSuccess | IAPIError;
@@ -41,8 +41,7 @@ export default class Progress extends React.Component<IProps, IState> {
 
   constructor(props: IProps) {
     super(props);
-    const { navigation } = props;
-    const uri = navigation.getParam("uri", "NO-ID");
+    const uri = this.props.navigation.getParam("uri", "NO-ID");
     const source = CancelToken.source();
     this.focusListener = null;
 
@@ -80,10 +79,10 @@ export default class Progress extends React.Component<IProps, IState> {
       "willBlur",
       this.cancelRequest
     );
+
     const base64Image = await FileSystem.readAsStringAsync(this.state.photo, {
       encoding: FileSystem.EncodingType.Base64
     });
-
     const message = this.props.navigation.getParam("message", "NO-ID");
     await this.callEncodeAPI(base64Image, message);
   }
@@ -95,59 +94,67 @@ export default class Progress extends React.Component<IProps, IState> {
   }
 
   private async callEncodeAPI(base64Image: string, message: string) {
-    const userCredentials = await firebase.auth().signInAnonymously();
-    const token = await userCredentials.user.getIdToken();
-    await this.checkNetworkStatus();
-
-    const api = create({
-      baseURL: Config.FIREBASE_API_URL,
-      headers: { Authorization: `Bearer ${token}` },
-      timeout: 60000
-    });
-
-    let response: ApiResponse<Encoding>;
     try {
-      response = await api.post(
-        "/encode",
-        {
-          algorithm: "LSB",
-          imageData: `data:image/png;base64,${base64Image}`,
-          message
-        },
-        {
-          cancelToken: this.state.source.token
-        }
-      );
-    } catch {
-      response = {
-        data: { code: "ServerError", message: "Server unreachable" },
-        ok: false
-      } as any;
-    }
+      const userCredentials = await firebase.auth().signInAnonymously();
+      const token = await userCredentials.user.getIdToken();
+      await this.checkNetworkStatus();
 
-    const { data, ok, status } = response;
-    if (ok) {
-      await this.encoded((data as IEncodingSuccess).encoded);
-    } else {
-      this.failedResponse(data as IAPIError, status ? status : 500);
+      const api = create({
+        baseURL: Config.FIREBASE_API_URL,
+        headers: { Authorization: `Bearer ${token}` },
+        timeout: 60000
+      });
+
+      let response: ApiResponse<Encoding>;
+      try {
+        response = await api.post(
+          "/encode",
+          {
+            algorithm: "LSB",
+            imageData: `data:image/png;base64,${base64Image}`,
+            message
+          },
+          {
+            cancelToken: this.state.source.token
+          }
+        );
+      } catch {
+        response = {
+          data: { code: "ServerError", message: "Server unreachable" },
+          ok: false
+        } as any;
+      }
+
+      const { data, ok, status } = response;
+      if (ok) {
+        await this.encoded((data as IEncodingSuccess).encoded);
+      } else {
+        this.failedResponse(data as IAPIError, status ? status : 500);
+      }
+    } catch (err) {
+      bugsnag.notify(err);
     }
   }
 
-  private cancelRequest() {
+  private cancelRequest = () => {
     this.state.source.cancel();
-  }
+  };
 
   private async checkNetworkStatus() {
-    const state = await NetInfo.fetch();
-    if (!state.isConnected) {
+    try {
+      const state = await NetInfo.fetch();
+      if (!state.isConnected) {
+        throw Error("No Internet");
+      } else if (state.type === "cellular") {
+        Snackbar.show({
+          text: "You are using mobile data."
+        });
+      }
+    } catch {
       Snackbar.show({
         text: "You need an internet connection to encode an image."
       });
       this.sendUserBackToMain();
-    } else if (state.type === "cellular") {
-      Snackbar.show({
-        text: "You are using mobile data."
-      });
     }
   }
 
@@ -158,18 +165,26 @@ export default class Progress extends React.Component<IProps, IState> {
       encoding: FileSystem.EncodingType.Base64
     });
 
-    const { uri } = await MediaLibrary.createAssetAsync(imagePath);
+    await MediaLibrary.createAssetAsync(imagePath);
     await FileSystem.deleteAsync(imagePath);
 
     this.setState({ encoding: false, encodedUri: base64Image });
-    this.sendNotification();
     Snackbar.show({
       buttonText: "Open Album",
       onButtonPress: async () => {
-        await Linking.openURL(uri);
+        await Linking.openURL("content://media/internal/images/media");
       },
       text: "Image saved to photo album."
     });
+    this.sendNotification();
+  }
+
+  private sendNotification() {
+    if (AppState.currentState === "background") {
+      Notification.localNotification({
+        message: "Your image has been encoded."
+      });
+    }
   }
 
   private failedResponse(error: IAPIError, status: number) {
@@ -185,15 +200,6 @@ export default class Progress extends React.Component<IProps, IState> {
     }
   }
 
-  private sendNotification() {
-    if (AppState.currentState === "background") {
-      NotificationsAndroid.localNotification({
-        body: "Your image has been encoded.",
-        title: "Encoded"
-      });
-    }
-  }
-
   private shareImage = async () => {
     await Share.open({
       failOnCancel: false,
@@ -206,6 +212,6 @@ export default class Progress extends React.Component<IProps, IState> {
     Snackbar.show({
       text: "Failed to encode image, please try again."
     });
-    this.props.navigation.navigate("Main");
+    this.props.navigation.navigate("EncodingMain");
   }
 }

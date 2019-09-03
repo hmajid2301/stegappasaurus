@@ -2,12 +2,10 @@ import { combineReducers } from "redux";
 
 import ToggleAutomaticTheme from "./ToggleAutomaticTheme";
 import ToggleDarkTheme from "./ToggleDarkTheme";
-import TogglePrimaryColor from "./TogglePrimaryColor";
 
 const AppReducers = combineReducers({
   ToggleAutomaticTheme,
-  ToggleDarkTheme,
-  TogglePrimaryColor
+  ToggleDarkTheme
 });
 
 interface IAction {

@@ -1,22 +1,15 @@
-import { ITheme, PrimaryColorNames } from "@types";
+import { ITheme } from "@types";
 import { create } from "apisauce";
 import * as ImagePicker from "expo-image-picker";
 import React from "react";
 import { Image, TouchableOpacity, View } from "react-native";
 import Config from "react-native-config";
 import { Icon } from "react-native-elements";
-import {
-  NavigationEventSubscription,
-  NavigationScreenProp
-} from "react-navigation";
-import { connect } from "react-redux";
-import { Dispatch } from "redux";
+import { NavigationScreenProp } from "react-navigation";
 
+import Snackbar from "~/actions/Snackbar";
 import Loader from "~/components/Loader";
 import PhotoAlbumList from "~/components/PhotoAlbumList";
-import Snackbar from "~/components/Snackbar";
-import { PRIMARY_COLOR } from "~/modules";
-import { togglePrimaryColor } from "~/redux/actions";
 import styles from "./Main/styles";
 
 interface IProps {
@@ -24,7 +17,6 @@ interface IProps {
   screenProps: {
     theme: ITheme;
   };
-  togglePrimaryColor: (primaryColor: PrimaryColorNames) => void;
 }
 
 interface IState {
@@ -39,16 +31,12 @@ interface ICatAPI {
   height: number;
 }
 
-export class Main extends React.Component<IProps, IState> {
-  private focusListener: NavigationEventSubscription | null;
-
+export default class Main extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     this.state = {
       loading: false
     };
-
-    this.focusListener = null;
   }
 
   public render() {
@@ -56,7 +44,7 @@ export class Main extends React.Component<IProps, IState> {
 
     return (
       <View style={[styles.container, { backgroundColor: theme.background }]}>
-        <Loader loading={this.state.loading} />
+        <Loader loading={this.state.loading} overlay="#333" />
         <View style={styles.buttonsRow}>
           <TouchableOpacity
             onPress={this.getPhotoFromCamera}
@@ -86,18 +74,6 @@ export class Main extends React.Component<IProps, IState> {
         </View>
       </View>
     );
-  }
-
-  public async componentDidMount() {
-    this.focusListener = this.props.navigation.addListener("willFocus", () => {
-      this.props.togglePrimaryColor(PRIMARY_COLOR.name);
-    });
-  }
-
-  public componentWillUnmount() {
-    if (this.focusListener !== null) {
-      this.focusListener.remove();
-    }
   }
 
   private getPhotoFromCamera = async () => {
@@ -155,13 +131,3 @@ export class Main extends React.Component<IProps, IState> {
     this.props.navigation.navigate("EncodingMessage", { uri });
   };
 }
-
-const mapDispatchToProps = (dispatch: Dispatch) => ({
-  togglePrimaryColor: (colorName: PrimaryColorNames) =>
-    dispatch(togglePrimaryColor({ color: colorName }))
-});
-
-export default connect(
-  null,
-  mapDispatchToProps
-)(Main);

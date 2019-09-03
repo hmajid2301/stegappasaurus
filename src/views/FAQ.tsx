@@ -2,10 +2,9 @@ import * as React from "react";
 import { ScrollView, View } from "react-native";
 import { NavigationScreenProp } from "react-navigation";
 
-import { ITheme, PrimaryColor } from "@types";
+import { ITheme } from "@types";
 import AppHeader from "~/components/AppHeader";
 import FAQList from "~/components/FAQList";
-import { colors } from "~/modules";
 
 import { questions } from "~/data";
 import styles from "./FAQ/styles";
@@ -24,11 +23,7 @@ export default class FAQ extends React.Component<IProps, {}> {
     return (
       <View style={[styles.container, { backgroundColor: theme.background }]}>
         <ScrollView>
-          <AppHeader
-            primaryColor={colors.primary as PrimaryColor}
-            navigation={this.props.navigation}
-            theme={theme}
-          />
+          <AppHeader navigation={this.props.navigation} theme={theme} />
 
           <View style={styles.faqListContainer}>
             <FAQList

@@ -107,12 +107,15 @@ android {
     }
 
 
+    dexOptions {
+        javaMaxHeapSize "4g"
+    } 
     defaultConfig {
         applicationId "com.stegappasaurus"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 3
-        versionName "3.0"
+        versionCode 3145752
+        versionName "1.0.0-beta.13"
         multiDexEnabled true
     }
     splits {
@@ -136,6 +139,7 @@ android {
     buildTypes {
         release {
             minifyEnabled enableProguardInReleaseBuilds
+            shrinkResources false
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             signingConfig signingConfigs.release
         }
@@ -156,18 +160,18 @@ android {
 }
 
 dependencies {
-    implementation project(':react-native-notifications')
+    implementation (project(':react-native-push-notification'), {
+        exclude group: "com.google.android.gms"
+        exclude group: "com.google.firebase"
+    })
+    implementation project(':bugsnag-react-native')
     implementation project(':@react-native-community_async-storage')
     implementation project(':@react-native-community_netinfo')
-    implementation project(':react-native-share-menu')
     implementation project(':lottie-react-native')
     implementation project(':react-native-firebase')
     implementation "com.google.android.gms:play-services-base:16.1.0"
     implementation "com.google.firebase:firebase-core:16.0.9"
     implementation "com.google.firebase:firebase-auth:17.0.0"
-    implementation('com.crashlytics.sdk.android:crashlytics:2.9.9@aar') {
-        transitive = true
-    }
     implementation "com.google.firebase:firebase-functions:17.0.0"
     implementation "com.google.firebase:firebase-perf:17.0.2"
     implementation project(':react-native-share')

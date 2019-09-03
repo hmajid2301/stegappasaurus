@@ -3,7 +3,7 @@ import * as Permissions from "expo-permissions";
 import React from "react";
 import { FlatList, Image, TouchableOpacity, View } from "react-native";
 
-import Snackbar from "~/components/Snackbar";
+import Snackbar from "~/actions/Snackbar";
 import styles from "./styles";
 
 interface IProps {
@@ -47,9 +47,29 @@ export default class PhotoAlbumList extends React.Component<IProps, IState> {
   }
 
   public async componentDidMount() {
-    setTimeout(async () => {
+    const asked = await Permissions.getAsync(
+      Permissions.CAMERA,
+      Permissions.CAMERA_ROLL
+    );
+
+    if (asked.status === "undetermined") {
+      setTimeout(async () => {
+        const { status } = await Permissions.askAsync(
+          Permissions.CAMERA,
+          Permissions.CAMERA_ROLL
+        );
+        if (status === "granted") {
+          await this.getPhotosFromCameraRoll();
+        } else {
+          Snackbar.show({
+            text:
+              "Grant permissions to access camera roll, to view photos here."
+          });
+        }
+      }, 500);
+    } else if (asked.status === "granted") {
       await this.getPhotosFromCameraRoll();
-    }, 1000);
+    }
   }
 
   private padData(data: IPhoto[]) {
@@ -97,35 +117,16 @@ export default class PhotoAlbumList extends React.Component<IProps, IState> {
     );
   };
 
-  private getPhotosFromCameraRoll = async () => {
-    const asked = await Permissions.getAsync(
-      Permissions.CAMERA,
-      Permissions.CAMERA_ROLL,
-      Permissions.NOTIFICATIONS
-    );
+  private async getPhotosFromCameraRoll() {
+    const { assets, endCursor } = await MediaLibrary.getAssetsAsync({
+      first: 15,
+      sortBy: [MediaLibrary.SortBy.creationTime]
+    });
 
-    if (asked.status !== "denied") {
-      const { status } = await Permissions.askAsync(
-        Permissions.CAMERA,
-        Permissions.CAMERA_ROLL,
-        Permissions.NOTIFICATIONS
-      );
-      if (status === "granted") {
-        const { assets, endCursor } = await MediaLibrary.getAssetsAsync({
-          first: 15,
-          sortBy: [MediaLibrary.SortBy.creationTime]
-        });
-
-        this.setState({
-          lastPhoto: endCursor,
-          photos: assets,
-          refreshing: false
-        });
-      } else {
-        Snackbar.show({
-          text: "Grant permissions to access camera roll, to view photos here."
-        });
-      }
-    }
-  };
+    this.setState({
+      lastPhoto: endCursor,
+      photos: assets,
+      refreshing: false
+    });
+  }
 }

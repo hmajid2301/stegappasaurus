@@ -343,5 +343,6 @@ google-services.json
 *.bundle
 *.map
 *.keystore
-src_assets*
-gradle.properties
+src_assets_*
+*.properties
+*.html

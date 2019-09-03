@@ -9,7 +9,7 @@ import Message from "./Decoding/Message";
 import Progress from "./Decoding/Progress";
 
 const DecodeNavigator = createStackNavigator({
-  Main: {
+  DecodingMain: {
     navigationOptions: {
       header: null
     },

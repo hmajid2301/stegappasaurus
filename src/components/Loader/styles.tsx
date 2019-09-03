@@ -3,7 +3,6 @@ import { StyleSheet } from "react-native";
 const styles = StyleSheet.create({
   loaderContainer: {
     alignItems: "center",
-    backgroundColor: "#333",
     bottom: 0,
     flex: 1,
     justifyContent: "center",

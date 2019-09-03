@@ -3,8 +3,6 @@ import * as Location from "expo-location";
 import * as Permissions from "expo-permissions";
 import { getSunrise, getSunset } from "sunrise-sunset-js";
 
-import Snackbar from "~/components/Snackbar";
-
 export default class AutoToggleTheme {
   private static oneDay = 24 * 60 * 60 * 1000;
 
@@ -92,9 +90,6 @@ export default class AutoToggleTheme {
     }
 
     if (latitude === undefined || longitude === undefined) {
-      Snackbar.show({
-        text: "To use the automatic theme, location services must be turned on."
-      });
       throw Error("No location found");
     }
 

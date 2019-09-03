@@ -131,14 +131,3 @@ exports[`Decoding Main: Match Snapshots 2 1`] = `
   </View>
 </View>
 `;
-
-exports[`Decoding Main: Redux mapDispatchToProps 1`] = `
-Array [
-  Object {
-    "payload": Object {
-      "color": "BLUE",
-    },
-    "type": "TOGGLE_PRIMARY_COLOR",
-  },
-]
-`;

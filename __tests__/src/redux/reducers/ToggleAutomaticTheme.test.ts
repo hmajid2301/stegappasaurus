@@ -1,4 +1,3 @@
-import { PrimaryColor, PrimaryColorNames } from "@types";
 import ToggleAutomaticTheme from "~/redux/reducers/ToggleAutomaticTheme";
 import { TOGGLE_AUTOMATIC_THEME } from "~/redux/actions/actionTypes";
 
@@ -43,15 +42,6 @@ describe("Reducer: ToggleAutomaticTheme", () => {
     {
       initialState: { isAutomatic: false },
       type: "IS_A_RANDOM_TYPE"
-    },
-    {
-      initialState: {
-        colorData: {
-          name: "ORANGE" as PrimaryColorNames,
-          color: "#E88C0c" as PrimaryColor
-        }
-      },
-      type: "TOGGLE_PRIMARY_COLOR"
     }
   ];
 

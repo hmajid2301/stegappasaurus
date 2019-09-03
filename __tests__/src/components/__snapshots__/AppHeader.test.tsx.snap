@@ -1,81 +1,95 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`AppHeader: Match snapshots 1 1`] = `
-<Themed.Header
-  centerComponent={
-    <Logo
-      color="#FFF"
-      isDark={false}
-    />
-  }
-  containerStyle={
-    Array [
-      Object {
-        "borderBottomWidth": 2,
-        "height": 70,
-        "paddingTop": 20,
-      },
-      Object {
-        "backgroundColor": "#17212D",
-        "borderBottomColor": "#009CFF",
-      },
-    ]
-  }
-  leftComponent={
-    <Themed.Icon
-      color="#FFF"
-      name="menu"
-      onPress={[Function]}
-      type="simple-line-icon"
-    />
-  }
-  rightComponent={
-    <Themed.Icon
-      color="#FFF"
-      name="home"
-      onPress={[Function]}
-      type="antdesign"
-    />
-  }
-/>
+<View>
+  <StatusBar
+    animated={false}
+    backgroundColor="#17212D"
+    barStyle="dark-content"
+    hidden={false}
+    showHideTransition="fade"
+  />
+  <Themed.Header
+    centerComponent={
+      <Logo
+        color="#FFF"
+        isDark={false}
+      />
+    }
+    containerStyle={
+      Array [
+        Object {
+          "borderBottomWidth": 2,
+        },
+        Object {
+          "backgroundColor": "#17212D",
+          "borderBottomColor": "#009CFF",
+        },
+      ]
+    }
+    leftComponent={
+      <Themed.Icon
+        color="#FFF"
+        name="menu"
+        onPress={[Function]}
+        type="simple-line-icon"
+      />
+    }
+    rightComponent={
+      <Themed.Icon
+        color="#FFF"
+        name="home"
+        onPress={[Function]}
+        type="antdesign"
+      />
+    }
+  />
+</View>
 `;
 
 exports[`AppHeader: Match snapshots 2 1`] = `
-<Themed.Header
-  centerComponent={
-    <Logo
-      color="#17212D"
-      isDark={true}
-    />
-  }
-  containerStyle={
-    Array [
-      Object {
-        "borderBottomWidth": 2,
-        "height": 70,
-        "paddingTop": 20,
-      },
-      Object {
-        "backgroundColor": "#FFF",
-        "borderBottomColor": "#E88C0C",
-      },
-    ]
-  }
-  leftComponent={
-    <Themed.Icon
-      color="#17212D"
-      name="menu"
-      onPress={[Function]}
-      type="simple-line-icon"
-    />
-  }
-  rightComponent={
-    <Themed.Icon
-      color="#17212D"
-      name="home"
-      onPress={[Function]}
-      type="antdesign"
-    />
-  }
-/>
+<View>
+  <StatusBar
+    animated={false}
+    backgroundColor="#FFF"
+    barStyle="light-content"
+    hidden={false}
+    showHideTransition="fade"
+  />
+  <Themed.Header
+    centerComponent={
+      <Logo
+        color="#17212D"
+        isDark={true}
+      />
+    }
+    containerStyle={
+      Array [
+        Object {
+          "borderBottomWidth": 2,
+        },
+        Object {
+          "backgroundColor": "#FFF",
+          "borderBottomColor": "#009CFF",
+        },
+      ]
+    }
+    leftComponent={
+      <Themed.Icon
+        color="#17212D"
+        name="menu"
+        onPress={[Function]}
+        type="simple-line-icon"
+      />
+    }
+    rightComponent={
+      <Themed.Icon
+        color="#17212D"
+        name="home"
+        onPress={[Function]}
+        type="antdesign"
+      />
+    }
+  />
+</View>
 `;

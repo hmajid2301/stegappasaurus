@@ -3,15 +3,14 @@ package com.stegappasaurus;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
-import com.wix.reactnativenotifications.RNNotificationsPackage;
+import com.dieam.reactnativepushnotification.ReactNativePushNotificationPackage;
+import com.bugsnag.BugsnagReactNative;
 import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
 import com.reactnativecommunity.netinfo.NetInfoPackage;
-import com.meedan.ShareMenuPackage;
 import com.airbnb.android.react.lottie.LottiePackage;
 import io.invertase.firebase.RNFirebasePackage;
-import io.invertase.firebase.analytics.RNFirebaseAnalyticsPackage;
 import io.invertase.firebase.auth.RNFirebaseAuthPackage;
-import io.invertase.firebase.fabric.crashlytics.RNFirebaseCrashlyticsPackage;
+import io.invertase.firebase.analytics.RNFirebaseAnalyticsPackage;
 import io.invertase.firebase.functions.RNFirebaseFunctionsPackage;
 import io.invertase.firebase.perf.RNFirebasePerformancePackage;
 import cl.json.RNSharePackage;
@@ -40,9 +39,7 @@ import java.util.List;
 
 public class MainApplication extends Application implements ReactApplication {
   private final ReactModuleRegistryProvider mModuleRegistryProvider = new ReactModuleRegistryProvider(
-    new BasePackageList().getPackageList(),
-    Arrays.<SingletonModule>asList()
-  );
+      new BasePackageList().getPackageList(), Arrays.<SingletonModule>asList());
 
   private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) {
     @Override
@@ -52,27 +49,24 @@ public class MainApplication extends Application implements ReactApplication {
 
     @Override
     protected List<ReactPackage> getPackages() {
-      return Arrays.<ReactPackage>asList(
-          new MainReactPackage(),
-            new RNNotificationsPackage(MainApplication.this),
-            new AsyncStoragePackage(),
-            new NetInfoPackage(),
-            new ShareMenuPackage(),
-            new LottiePackage(),
-            new RNFirebasePackage(),
-            new RNFirebaseAnalyticsPackage(),
-            new RNFirebaseAuthPackage(),
-            new RNFirebaseCrashlyticsPackage(),
-            new RNFirebaseFunctionsPackage(),
-            new RNFirebasePerformancePackage(),
-            new RNSharePackage(),
-            new SnackbarPackage(),
-            new VectorIconsPackage(),
-            new RNGestureHandlerPackage(),
-            new ReactNativeConfigPackage(),
-            new SplashScreenReactPackage(),
-          new ModuleRegistryAdapter(mModuleRegistryProvider)
-      );
+      return Arrays.<ReactPackage>asList(new MainReactPackage(),
+        new ReactNativePushNotificationPackage(),
+        BugsnagReactNative.getPackage(),
+        new AsyncStoragePackage(),
+        new NetInfoPackage(),
+        new LottiePackage(),
+        new RNFirebasePackage(),
+        new RNFirebaseAnalyticsPackage(),
+        new RNFirebaseAuthPackage(),
+        new RNFirebaseFunctionsPackage(),
+        new RNFirebasePerformancePackage(),
+        new RNSharePackage(),
+        new SnackbarPackage(),
+        new VectorIconsPackage(),
+        new RNGestureHandlerPackage(),
+        new ReactNativeConfigPackage(),
+        new SplashScreenReactPackage(),
+        new ModuleRegistryAdapter(mModuleRegistryProvider));
     }
 
     @Override
@@ -89,6 +83,7 @@ public class MainApplication extends Application implements ReactApplication {
   @Override
   public void onCreate() {
     super.onCreate();
+    BugsnagReactNative.start(this);
     SoLoader.init(this, /* native exopackage */ false);
   }
 }

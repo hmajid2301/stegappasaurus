@@ -5,7 +5,7 @@ exports[`Encoding Message: Match Snapshots 1 1`] = `
   <ImageMessage
     action={[Function]}
     editable={true}
-    message=""
+    message="Enter your message here"
     navigation={
       Object {
         "getParam": [MockFunction] {

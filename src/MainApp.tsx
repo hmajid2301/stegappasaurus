@@ -1,11 +1,12 @@
 import AsyncStorage from "@react-native-community/async-storage";
 import * as React from "react";
-import { AppState, SafeAreaView, StatusBar } from "react-native";
+import { AppState, AppStateStatus, StatusBar } from "react-native";
 import { connect } from "react-redux";
 import { Dispatch } from "redux";
 
-import { ITheme, PossibleAppStates } from "@types";
+import { ITheme } from "@types";
 import AutoToggleTheme from "~/actions/AutoToggleTheme";
+import Snackbar from "~/actions/Snackbar";
 import IntroSlider from "~/components/IntroSlider";
 import Loader from "~/components/Loader";
 import { slides } from "~/data";
@@ -43,24 +44,24 @@ export class MainApp extends React.Component<IProps, IState> {
 
   public render() {
     if (this.state.loading) {
-      return <Loader loading={this.state.loading} />;
+      return (
+        <StatusBar hidden>
+          <Loader loading={this.state.loading} />
+        </StatusBar>
+      );
     } else if (!this.state.introShown) {
       return <IntroSlider slides={slides} onDone={this.introShownToUser} />;
     }
     return (
-      <SafeAreaView style={{ flex: 1 }}>
-        <StatusBar hidden />
-        <App
-          screenProps={{
-            theme: this.props.theme
-          }}
-        />
-      </SafeAreaView>
+      <App
+        screenProps={{
+          theme: this.props.theme
+        }}
+      />
     );
   }
 
   public async componentDidMount() {
-    StatusBar.setHidden(true);
     AppState.addEventListener("change", this.appInFocus);
     const storedIntroShown = await AsyncStorage.getItem("@IntroShown");
     if (storedIntroShown) {
@@ -79,7 +80,7 @@ export class MainApp extends React.Component<IProps, IState> {
     this.setState({ introShown: true });
   };
 
-  private appInFocus = async (nextAppState: PossibleAppStates) => {
+  private appInFocus = async (nextAppState: AppStateStatus) => {
     if (nextAppState === "active") {
       if (this.props.isAutomatic) {
         try {
@@ -87,6 +88,10 @@ export class MainApp extends React.Component<IProps, IState> {
           this.props.toggleDarkTheme(shouldToggle);
         } catch {
           this.props.toggleAutomaticTheme(false);
+          Snackbar.show({
+            text:
+              "To use the automatic theme, location services must be turned on."
+          });
         }
       }
     }

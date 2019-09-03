@@ -20,7 +20,7 @@ exports[`DrawerNavigator: Match snapshots 1 1`] = `
           "alignItems": "center",
           "borderBottomColor": "#009CFF",
           "borderBottomWidth": 2,
-          "height": 70,
+          "height": 80,
           "justifyContent": "center",
           "paddingTop": 15,
         },

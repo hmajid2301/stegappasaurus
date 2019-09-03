@@ -1,4 +1,4 @@
-import Snackbar from "~/components/Snackbar";
+import Snackbar from "~/actions/Snackbar";
 
 describe("Snackbar", () => {
   test("1", () => {

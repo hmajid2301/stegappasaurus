@@ -17,7 +17,6 @@ exports[`AboutUs: Match Snapshots 1 1`] = `
   <ScrollViewMock>
     <AppHeader
       navigation={[MockFunction]}
-      primaryColor="#009CFF"
       theme={
         Object {
           "background": "#FFF",
@@ -47,7 +46,7 @@ exports[`AboutUs: Match Snapshots 1 1`] = `
           ]
         }
       >
-        This project was developed by me as a way to learn React Native. It is a complete rewrite of the my university project, which was written in Ionic (Apache Cordova). This mobile application allow you, the user, to encode image with text using steganography algorithms.
+        Stegappasaurus is a free mobile application fully open source, built using React Native. This application uses steganography algorithms to hide your (text) data within images. This project was originally created as third year project for University. However this version is a complete rewrite of the application.
       </Text>
     </View>
     <View>
@@ -62,12 +61,12 @@ exports[`AboutUs: Match Snapshots 1 1`] = `
                 "name": "versions",
                 "type": "octicon",
               },
-              "title": "Version 0.1.0",
+              "title": "Version 1.0.0-beta.13",
               "url": "https://github.com/hmajid2301/Stegappasaurus",
             },
             Object {
               "icon": Object {
-                "color": "#F50AE1",
+                "color": "#009CFF",
                 "name": "code-fork",
                 "type": "font-awesome",
               },
@@ -76,7 +75,7 @@ exports[`AboutUs: Match Snapshots 1 1`] = `
             },
             Object {
               "icon": Object {
-                "color": "#FF9501",
+                "color": "#009CFF",
                 "name": "gitlab",
                 "type": "font-awesome",
               },
@@ -85,17 +84,17 @@ exports[`AboutUs: Match Snapshots 1 1`] = `
             },
             Object {
               "icon": Object {
-                "color": "#4CDA64",
+                "color": "#009CFF",
                 "name": "web",
                 "type": "material-community",
               },
               "title": "Personal Website",
-              "url": "https://hmajid2301.github.io",
+              "url": "https://haseebmajid.dev",
             },
             Object {
               "function_to_call": "store",
               "icon": Object {
-                "color": "#FD3C2D",
+                "color": "#009CFF",
                 "name": "rate-review",
                 "type": "material",
               },
@@ -126,7 +125,6 @@ exports[`AboutUs: Match Snapshots 2 1`] = `
   <ScrollViewMock>
     <AppHeader
       navigation={[MockFunction]}
-      primaryColor="#009CFF"
       theme={
         Object {
           "background": "#17212D",
@@ -156,7 +154,7 @@ exports[`AboutUs: Match Snapshots 2 1`] = `
           ]
         }
       >
-        This project was developed by me as a way to learn React Native. It is a complete rewrite of the my university project, which was written in Ionic (Apache Cordova). This mobile application allow you, the user, to encode image with text using steganography algorithms.
+        Stegappasaurus is a free mobile application fully open source, built using React Native. This application uses steganography algorithms to hide your (text) data within images. This project was originally created as third year project for University. However this version is a complete rewrite of the application.
       </Text>
     </View>
     <View>
@@ -171,12 +169,12 @@ exports[`AboutUs: Match Snapshots 2 1`] = `
                 "name": "versions",
                 "type": "octicon",
               },
-              "title": "Version 0.1.0",
+              "title": "Version 1.0.0-beta.13",
               "url": "https://github.com/hmajid2301/Stegappasaurus",
             },
             Object {
               "icon": Object {
-                "color": "#F50AE1",
+                "color": "#009CFF",
                 "name": "code-fork",
                 "type": "font-awesome",
               },
@@ -185,7 +183,7 @@ exports[`AboutUs: Match Snapshots 2 1`] = `
             },
             Object {
               "icon": Object {
-                "color": "#FF9501",
+                "color": "#009CFF",
                 "name": "gitlab",
                 "type": "font-awesome",
               },
@@ -194,17 +192,17 @@ exports[`AboutUs: Match Snapshots 2 1`] = `
             },
             Object {
               "icon": Object {
-                "color": "#4CDA64",
+                "color": "#009CFF",
                 "name": "web",
                 "type": "material-community",
               },
               "title": "Personal Website",
-              "url": "https://hmajid2301.github.io",
+              "url": "https://haseebmajid.dev",
             },
             Object {
               "function_to_call": "store",
               "icon": Object {
-                "color": "#FD3C2D",
+                "color": "#009CFF",
                 "name": "rate-review",
                 "type": "material",
               },

@@ -1,6 +1,7 @@
 import { IAboutItem } from "~/components/AboutList";
 import { colors } from "~/modules";
 
+import PackageJson from "../../package.json";
 const about: IAboutItem[] = [
   {
     icon: {
@@ -8,12 +9,12 @@ const about: IAboutItem[] = [
       name: "versions",
       type: "octicon"
     },
-    title: "Version 0.1.0",
+    title: `Version ${PackageJson.version}`,
     url: "https://github.com/hmajid2301/Stegappasaurus"
   },
   {
     icon: {
-      color: colors.pink,
+      color: colors.primary,
       name: "code-fork",
       type: "font-awesome"
     },
@@ -22,7 +23,7 @@ const about: IAboutItem[] = [
   },
   {
     icon: {
-      color: colors.orange,
+      color: colors.primary,
       name: "gitlab",
       type: "font-awesome"
     },
@@ -31,17 +32,17 @@ const about: IAboutItem[] = [
   },
   {
     icon: {
-      color: colors.green,
+      color: colors.primary,
       name: "web",
       type: "material-community"
     },
     title: "Personal Website",
-    url: "https://hmajid2301.github.io"
+    url: "https://haseebmajid.dev"
   },
   {
     function_to_call: "store",
     icon: {
-      color: colors.red,
+      color: colors.primary,
       name: "rate-review",
       type: "material"
     },

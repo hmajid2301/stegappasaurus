@@ -220,14 +220,4 @@ describe("PhotoAlbumList: Functions", () => {
     expect(component.state("photos")).toEqual(testData.assets);
     expect(component.state("refreshing")).toEqual(false);
   });
-
-  test("getPhotosListFromAlbum: not granted", async () => {
-    (Permissions.askAsync as jest.Mock).mockResolvedValue({
-      status: "no"
-    });
-    (MediaLibrary.getAssetsAsync as jest.Mock).mockResolvedValue(testData);
-    component.setState({ photos: [], refreshing: true });
-    await (instance as any).getPhotosFromCameraRoll();
-    expect(component.state("refreshing")).toEqual(true);
-  });
 });

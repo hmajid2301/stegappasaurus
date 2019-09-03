@@ -2,11 +2,10 @@ import React from "react";
 import { ScrollView, Text, View } from "react-native";
 import { NavigationScreenProp } from "react-navigation";
 
-import { ITheme, PrimaryColor } from "@types";
+import { ITheme } from "@types";
 import AboutList from "~/components/AboutList";
 import AppHeader from "~/components/AppHeader";
 import { about } from "~/data";
-import { colors } from "~/modules";
 import styles from "~/views/AboutUs/styles";
 
 interface IProps {
@@ -23,19 +22,15 @@ export default class AboutUs extends React.Component<IProps, {}> {
     return (
       <View style={[styles.container, { backgroundColor: theme.background }]}>
         <ScrollView>
-          <AppHeader
-            primaryColor={colors.primary as PrimaryColor}
-            navigation={this.props.navigation}
-            theme={theme}
-          />
+          <AppHeader navigation={this.props.navigation} theme={theme} />
 
           <View style={styles.textContainer}>
             <Text style={[styles.about, { color: theme.color }]}>
-              This project was developed by me as a way to learn React Native.
-              It is a complete rewrite of the my university project, which was
-              written in Ionic (Apache Cordova). This mobile application allow
-              you, the user, to encode image with text using steganography
-              algorithms.
+              Stegappasaurus is a free mobile application fully open source,
+              built using React Native. This application uses steganography
+              algorithms to hide your (text) data within images. This project
+              was originally created as third year project for University.
+              However this version is a complete rewrite of the application.
             </Text>
           </View>
 

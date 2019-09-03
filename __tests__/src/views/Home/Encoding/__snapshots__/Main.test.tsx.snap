@@ -15,6 +15,7 @@ exports[`Encoding Main: Match Snapshots 1 1`] = `
 >
   <Loader
     loading={false}
+    overlay="#333"
   />
   <View
     style={
@@ -136,6 +137,7 @@ exports[`Encoding Main: Match Snapshots 2 1`] = `
 >
   <Loader
     loading={false}
+    overlay="#333"
   />
   <View
     style={
@@ -240,15 +242,4 @@ exports[`Encoding Main: Match Snapshots 2 1`] = `
     />
   </View>
 </View>
-`;
-
-exports[`Encoding Main: Redux mapDispatchToProps 1`] = `
-Array [
-  Object {
-    "payload": Object {
-      "color": "ORANGE",
-    },
-    "type": "TOGGLE_PRIMARY_COLOR",
-  },
-]
 `;

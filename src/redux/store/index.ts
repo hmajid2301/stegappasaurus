@@ -6,7 +6,6 @@ import storage from "redux-persist/es/storage";
 import rootReducer from "../reducers";
 
 const persistConfig = {
-  blacklist: ["TogglePrimaryColor"],
   key: "root",
   stateReconciler: autoMergeLevel2,
   storage

@@ -12,19 +12,37 @@ Array [
 `;
 
 exports[`MainApp: Match snapshots 1: Normal 1`] = `
-<Loader
-  loading={true}
-/>
+<StatusBar
+  animated={false}
+  hidden={true}
+  showHideTransition="fade"
+>
+  <Loader
+    loading={true}
+  />
+</StatusBar>
 `;
 
 exports[`MainApp: Match snapshots 2: Loading 1`] = `
-<Loader
-  loading={true}
-/>
+<StatusBar
+  animated={false}
+  hidden={true}
+  showHideTransition="fade"
+>
+  <Loader
+    loading={true}
+  />
+</StatusBar>
 `;
 
 exports[`MainApp: Match snapshots 3: No Intro Slides 1`] = `
-<Loader
-  loading={true}
-/>
+<StatusBar
+  animated={false}
+  hidden={true}
+  showHideTransition="fade"
+>
+  <Loader
+    loading={true}
+  />
+</StatusBar>
 `;
