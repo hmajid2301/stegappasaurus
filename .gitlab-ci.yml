@@ -24,37 +24,43 @@ create:merge-request:
   image: registry.gitlab.com/gitlab-automation-toolkit/gitlab-auto-mr
   stage: pre
   before_script: []
-  except:
-    - tags
-    - production
-    - master
+  only:
+    - merge_request
   script:
     - gitlab_auto_mr -t master -c WIP -d ./.gitlab/merge_request/merge_request.md -r -s --use-issue-name
 
 lint:
   stage: test
+  only:
+    - merge_request
   script:
     - yarn lint
 
 lint:code-formatter:
   stage: test
+  only:
+    - merge_request
   script:
     - yarn code-formatter-check
 
 lint:compiler:
   stage: test
+  only:
+    - merge_request
   script:
     - yarn compiler-check
 
 tests:unit:
   stage: test
+  only:
+    - merge_request
   script:
     - yarn tests --silent
 
 test:coverage:
   stage: test
-  except:
-    - production
+  only:
+    - master
   script:
     - yarn coverage --silent
   coverage: /All\sfiles.*?\s+(\d+.\d+)/
