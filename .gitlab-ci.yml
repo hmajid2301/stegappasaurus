@@ -24,36 +24,38 @@ create:merge-request:
   image: registry.gitlab.com/gitlab-automation-toolkit/gitlab-auto-mr
   stage: pre
   before_script: []
-  only:
-    - merge_request
+  except:
+    - master
+    - production
+    - tags
   script:
     - gitlab_auto_mr -t master -c WIP -d ./.gitlab/merge_request/merge_request.md -r -s --use-issue-name
 
 lint:
   stage: test
   only:
-    - merge_request
+    - merge_requests
   script:
     - yarn lint
 
 lint:code-formatter:
   stage: test
   only:
-    - merge_request
+    - merge_requests
   script:
     - yarn code-formatter-check
 
 lint:compiler:
   stage: test
   only:
-    - merge_request
+    - merge_requests
   script:
     - yarn compiler-check
 
 tests:unit:
   stage: test
   only:
-    - merge_request
+    - merge_requests
   script:
     - yarn tests --silent
 
