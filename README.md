@@ -2,7 +2,7 @@
     <img src="src/assets/images/logo-dark.png" alt="Stegappasaurus Logo" title="Stegappasaurus" align="right" height="60" />
 </a>
 
-# Stegappasaurus Mobile Application
+# Stegappasaurus App
 
 [![pipeline status](https://gitlab.com/stegappasaurus/stegappasaurus-app/badges/master/pipeline.svg)](https://gitlab.com/stegappasaurus/stegappasaurus-app/commits/master)
 [![coverage report](https://gitlab.com/stegappasaurus/stegappasaurus-app/badges/master/coverage.svg)](https://gitlab.com/stegappasaurus/stegappasaurus-app/commits/master)
@@ -16,13 +16,13 @@ You use the app to select an image, enter your message and wait for it to encode
 The encoded images look identical to normal images to the naked eye you cannot tell the difference between them.
 
 This app relies on using a RESTful API which runs on Google Firebase to do the encoding and decoding.
-The project which contains the code for this [API exists here](https://github.com/stegappasaurus/stegappasaurus-api.git).
+The project which contains the code for this [API exists here](https://gitlab.com/stegappasaurus/stegappasaurus-api.git).
 
 [![android play store](https://play.google.com/intl/en_gb/badges/images/generic/en_badge_web_generic.png)](https://play.google.com/store/apps/details?id=com.stegappasaurus&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1)
 
 # App Demo
 
-[![App Demo](http://img.youtube.com/vi/ui-dl0SVVc4/0.jpg)](http://www.youtube.com/watch?v=ui-dl0SVVc4 "App Demo")
+[![App Demo](http://i3.ytimg.com/vi/ui-dl0SVVc4/maxresdefault.jpg)](http://www.youtube.com/watch?v=ui-dl0SVVc4 "App Demo")
 
 # Getting Started
 
