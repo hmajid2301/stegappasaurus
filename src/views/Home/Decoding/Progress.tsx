@@ -115,6 +115,7 @@ export default class Progress extends React.Component<IProps, IState> {
         const message = (data as IDecodingSuccess).decoded;
         this.decoded(message);
       } else {
+        bugsnag.notify(new Error(JSON.stringify(response)));
         this.failedResponse();
       }
     } catch (err) {

@@ -129,6 +129,7 @@ export default class Progress extends React.Component<IProps, IState> {
       if (ok) {
         await this.encoded((data as IEncodingSuccess).encoded);
       } else {
+        bugsnag.notify(new Error(JSON.stringify(response)));
         this.failedResponse(data as IAPIError, status ? status : 500);
       }
     } catch (err) {

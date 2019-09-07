@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [1.0.0-beta.14] - 2019-09-07
+### Added
+- Notify Bugsnag everytime an API request fails, during encoding/decoding.
+
 ### Changed
 - README with a new HD version of thumbnail.
 
@@ -124,6 +129,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - Share encoded images with app to decode them.
 - Initial Release.
 
+[1.0.0-beta.14]: https://gitlab.com/stegappasaurus/stegappasaurus-app/-/tags/release%2F1.0.0-beta.14
 [1.0.0-beta.13]: https://gitlab.com/stegappasaurus/stegappasaurus-app/-/tags/release%2F1.0.0-beta.13
 [1.0.0-beta.12]: https://gitlab.com/stegappasaurus/stegappasaurus-app/-/tags/release%2F1.0.0-beta.12
 [1.0.0-beta.11]: https://gitlab.com/stegappasaurus/stegappasaurus-app/-/tags/release%2F1.0.0-beta.11
