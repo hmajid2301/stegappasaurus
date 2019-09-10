@@ -1,11 +1,11 @@
-<a href="https://gitlab.com/stegappasaurus/stegappasaurus-app">
-    <img src="src/assets/images/logo-dark.png" alt="Stegappasaurus Logo" title="Stegappasaurus" align="right" height="60" />
+<a href="https://gitlab.com/hmajid2301/stegappasaurus">
+    <img src="src/assets/images/logo-dark.png" alt="Stegappasaurus" align="right" height="60" />
 </a>
 
 # Stegappasaurus App
 
-[![pipeline status](https://gitlab.com/stegappasaurus/stegappasaurus-app/badges/master/pipeline.svg)](https://gitlab.com/stegappasaurus/stegappasaurus-app/commits/master)
-[![coverage report](https://gitlab.com/stegappasaurus/stegappasaurus-app/badges/master/coverage.svg)](https://gitlab.com/stegappasaurus/stegappasaurus-app/commits/master)
+[![pipeline status](https://gitlab.com/hmajid2301/stegappasaurus/badges/master/pipeline.svg)](https://gitlab.com/hmajid2301/stegappasaurus/commits/master)
+[![coverage report](https://gitlab.com/hmajid2301/stegappasaurus/badges/master/coverage.svg)](https://gitlab.com/hmajid2301/stegappasaurus/commits/master)
 
 Stegappasaurus is a free mobile application fully open source, built using React Native. This application uses steganography algorithms to hide your (text) data within images.
 This project was originally created as third year project for University. However this version is a complete rewrite of the application.
@@ -18,7 +18,9 @@ The encoded images look identical to normal images to the naked eye you cannot t
 This app relies on using a RESTful API which runs on Google Firebase to do the encoding and decoding.
 The project which contains the code for this [API exists here](https://gitlab.com/stegappasaurus/stegappasaurus-api.git).
 
-[![android play store](https://play.google.com/intl/en_gb/badges/images/generic/en_badge_web_generic.png)](https://play.google.com/store/apps/details?id=com.stegappasaurus&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1)
+<a href="https://play.google.com/store/apps/details?id=com.stegappasaurus">
+    <img src="https://play.google.com/intl/en_gb/badges/images/generic/en_badge_web_generic.png" alt="Android Play Store" height="100" />
+</a
 
 # App Demo
 
@@ -31,7 +33,7 @@ The project which contains the code for this [API exists here](https://gitlab.co
 To setup this project on your own development machine, do the following. 
 
 ```bash
-git clone https://github.com/stegappasaurus/stegappasaurus-app.git
+git clone https://github.com/hmajid2301/stegappasaurus.git
 cd stegappasaurus
 touch .env
 yarn install
@@ -83,7 +85,7 @@ REACT_NATIVE_PACKAGER_HOSTNAME=192.168.27.1
 
 # Changelog
 
-You can find the changelog for this project [here](https://gitlab.com/stegappasaurus/stegappasaurus-app/blob/master/CHANGELOG.md).
+You can find the changelog for this project [here](https://gitlab.com/hmajid2301/stegappasaurus/blob/master/CHANGELOG.md).
 
 # Other
 

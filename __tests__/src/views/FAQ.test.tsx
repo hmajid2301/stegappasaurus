@@ -1,11 +1,12 @@
 import { shallow } from "enzyme";
 import React from "react";
 
-import AboutUs from "~/views/AboutUs";
-describe("AboutUs: Match Snapshots", () => {
+import FAQ from "~/views/FAQ";
+
+describe("FAQ: Match Snapshots", () => {
   test("1", () => {
     const component = shallow(
-      <AboutUs
+      <FAQ
         navigation={jest.fn() as any}
         screenProps={{
           theme: {
@@ -21,7 +22,7 @@ describe("AboutUs: Match Snapshots", () => {
 
   test("2", () => {
     const component = shallow(
-      <AboutUs
+      <FAQ
         navigation={jest.fn() as any}
         screenProps={{
           theme: {

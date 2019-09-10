@@ -6,7 +6,7 @@ Three main ways to contribute to this project are;
 
 - **Adding a new feature:** Adding a new feature to the project, such as allow encoding of audio files alongside images
 - **Improving a feature:** Extend/improve an existing feature, such as a small UI change
-- **Fix an issue:** We have a list of [issues](https://gitlab.com/stegappasaurus/stegappasaurus-app/issues), or you can fix your own issue.
+- **Fix an issue:** We have a list of [issues](https://gitlab.com/hmajid2301/stegappasaurus/issues), or you can fix your own issue.
 
 **Note**: Please do the following before raising an MR
 
@@ -20,7 +20,7 @@ If you can try to a detailed commit message about what the change is doing. Don'
 
 ## Beginners Guide
 
-Read the getting started guide [here](https://gitlab.com/stegappasaurus/stegappasaurus-app/blob/master/docs/getting-started.md)
+Read the getting started guide [here](https://gitlab.com/hmajid2301/stegappasaurus/blob/master/docs/getting-started.md)
 
 ## Workflow
 
@@ -29,7 +29,7 @@ We use the squash rebase workflow, [Workflow](https://blog.carbonfive.com/2017/0
 ## Licensing
 
 Please note that the examples are all made available under the
-[Apache License 2.0](https://gitlab.com/stegappasaurus/stegappasaurus-app/blob/production/LICENSE),
+[Apache License 2.0](https://gitlab.com/hmajid2301/stegappasaurus/blob/production/LICENSE),
 
 ## Getting help
 
