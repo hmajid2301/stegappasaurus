@@ -49,8 +49,8 @@ export class MainApp extends React.Component<IProps, IState> {
           <Loader loading={this.state.loading} />
         </StatusBar>
       );
-    } else if (!this.state.introShown) {
-      return <IntroSlider slides={slides} onDone={this.introShownToUser} />;
+      // } else if (!this.state.introShown) {
+      //   return <IntroSlider slides={slides} onDone={this.introShownToUser} />;
     }
     return (
       <App

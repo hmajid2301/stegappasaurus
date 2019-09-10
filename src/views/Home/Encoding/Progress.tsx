@@ -189,14 +189,17 @@ export default class Progress extends React.Component<IProps, IState> {
   }
 
   private failedResponse(error: IAPIError, status: number) {
-    const { code } = error;
-
-    if (status === 500 && code === ("MessageTooLong" as IAPIError["code"])) {
-      Snackbar.show({
-        text: "Message too large to encode in image."
-      });
-      this.props.navigation.goBack();
-    } else {
+    try {
+      const { code } = error;
+      if (status === 500 && code === ("MessageTooLong" as IAPIError["code"])) {
+        Snackbar.show({
+          text: "Message too large to encode in image."
+        });
+        this.props.navigation.goBack();
+      } else {
+        throw new Error();
+      }
+    } catch {
       this.sendUserBackToMain();
     }
   }
