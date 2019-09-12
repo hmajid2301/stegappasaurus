@@ -3,7 +3,6 @@ import * as React from "react";
 import { StatusBar } from "react-native";
 import SplashScreen from "react-native-splash-screen";
 
-import Snackbar from "~/actions/Snackbar";
 import IntroSlider from "~/components/IntroSlider";
 import Loader from "~/components/Loader";
 import { slides } from "~/data";
@@ -35,8 +34,8 @@ export default class App extends React.Component<IProps, IState> {
           <Loader loading={this.state.loading} />
         </StatusBar>
       );
-      // } else if (!this.state.introShown) {
-      //   return <IntroSlider slides={slides} onDone={this.introShownToUser} />;
+    } else if (!this.state.introShown) {
+      return <IntroSlider slides={slides} onDone={this.introShownToUser} />;
     }
     return (
       <MainApp

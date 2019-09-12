@@ -1,11 +1,7 @@
 import * as React from "react";
 import { AppState, View } from "react-native";
-import {
-  NavigationEventSubscription,
-  NavigationScreenProp
-} from "react-navigation";
+import { NavigationScreenProp } from "react-navigation";
 
-import bugsnag from "~/actions/Bugsnag";
 import Notification from "~/actions/Notification";
 import Snackbar from "~/actions/Snackbar";
 import ImageProgress from "~/components/ImageProgress";
@@ -25,12 +21,9 @@ interface IState {
 }
 
 export default class Progress extends React.Component<IProps, IState> {
-  private focusListener: NavigationEventSubscription | null;
-
   constructor(props: IProps) {
     super(props);
     const uri = this.props.navigation.getParam("uri", "NO-ID");
-    this.focusListener = null;
 
     this.state = {
       decoding: true,
@@ -55,12 +48,6 @@ export default class Progress extends React.Component<IProps, IState> {
 
   public async componentDidMount() {
     await this.callDecodeAPI(this.state.photo);
-  }
-
-  public componentWillUnmount() {
-    if (this.focusListener) {
-      this.focusListener.remove();
-    }
   }
 
   private async callDecodeAPI(base64Image: string) {
