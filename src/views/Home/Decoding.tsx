@@ -1,8 +1,5 @@
-import {
-  createStackNavigator,
-  NavigationRoute,
-  NavigationScreenProp
-} from "react-navigation";
+import { NavigationRoute, NavigationScreenProp } from "react-navigation";
+import { createStackNavigator } from "react-navigation-stack";
 
 import Main from "./Decoding/Main";
 import Message from "./Decoding/Message";
@@ -18,16 +15,14 @@ const DecodeNavigator = createStackNavigator({
 
   DecodingMessage: {
     navigationOptions: {
-      header: null,
-      tabBarVisible: false
+      header: null
     },
     screen: Message
   },
 
   DecodingProgress: {
     navigationOptions: {
-      header: null,
-      tabBarVisible: false
+      header: null
     },
     screen: Progress
   }

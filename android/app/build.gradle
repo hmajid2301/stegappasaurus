@@ -194,6 +194,7 @@ dependencies {
     implementation project(':react-native-push-notification') 
     implementation fileTree(dir: "libs", include: ["*.jar"])
     implementation 'androidx.appcompat:appcompat:${rootProject.ext.supportLibVersion}'
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0-alpha02'
     implementation "com.facebook.react:react-native:+"  // From node_modules
     if (enableHermes) {
         def hermesPath = "../../node_modules/hermesvm/android/";

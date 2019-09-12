@@ -1,6 +1,7 @@
 import React from "react";
 import { View } from "react-native";
-import { DrawerItems, DrawerItemsProps } from "react-navigation";
+// @ts-ignore
+import { DrawerItems, DrawerItemsProps } from "react-navigation-drawer";
 
 import Logo from "~/components/Logo";
 import { colors } from "~/modules";

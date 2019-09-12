@@ -1,6 +1,8 @@
 import * as React from "react";
 import { Icon } from "react-native-elements";
-import { createAppContainer, createDrawerNavigator } from "react-navigation";
+import { createAppContainer } from "react-navigation";
+// @ts-ignore
+import { createDrawerNavigator } from "react-navigation-drawer";
 
 import DrawerNavigator from "~/components/DrawerNavigator";
 

@@ -1,9 +1,8 @@
 import * as React from "react";
 import { View } from "react-native";
-import {
-  createMaterialTopTabNavigator,
-  NavigationScreenProp
-} from "react-navigation";
+import { NavigationScreenProp } from "react-navigation";
+// @ts-ignore
+import { createMaterialTopTabNavigator } from "react-navigation-tabs";
 
 import AppHeader from "~/components/AppHeader";
 import { colors, fonts } from "~/modules";
