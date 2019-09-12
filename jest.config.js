@@ -5,7 +5,7 @@ module.exports = {
     "~/(.*)": "<rootDir>/src/$1"
   },
   modulePathIgnorePatterns: [".history", "data.ts"],
-  preset: "jest-expo",
+  preset: "react-native",
   setupFiles: ["<rootDir>/__tests__/setupTests.ts"],
   snapshotSerializers: ["enzyme-to-json/serializer"],
   transform: {

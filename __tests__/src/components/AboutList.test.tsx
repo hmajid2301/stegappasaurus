@@ -1,12 +1,11 @@
 import { mount, shallow } from "enzyme";
-import * as WebBrowser from "expo-web-browser";
 import React from "react";
+import { Linking } from "react-native";
 import Rate from "react-native-rate";
 
 import AboutList from "~/components/AboutList";
 import { about } from "~/data";
 
-jest.mock("expo-web-browser");
 jest.mock("react-native-rate");
 
 describe("AboutList: Match snapshots", () => {
@@ -63,11 +62,9 @@ describe("AboutList: OnPress Props", () => {
       />
     );
 
-    const spy = jest
-      .spyOn(WebBrowser as any, "openBrowserAsync")
-      .mockResolvedValue({
-        status: true
-      });
+    const spy = jest.spyOn(Linking as any, "openURL").mockResolvedValue({
+      status: true
+    });
 
     (component
       .find("ListItem")
@@ -96,7 +93,7 @@ describe("AboutList: OnPress Props", () => {
       />
     );
 
-    const spy = jest.spyOn(WebBrowser as any, "openBrowserAsync");
+    const spy = jest.spyOn(Linking as any, "openURL");
 
     (component
       .find("TouchableOpacity")

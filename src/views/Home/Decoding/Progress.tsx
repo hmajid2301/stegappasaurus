@@ -1,24 +1,16 @@
-import NetInfo from "@react-native-community/netinfo";
-import { ApiResponse, CancelToken, create } from "apisauce";
-import { CancelTokenSource } from "axios";
-import * as FileSystem from "expo-file-system";
 import * as React from "react";
 import { AppState, View } from "react-native";
-import Config from "react-native-config";
-import firebase from "react-native-firebase";
 import {
   NavigationEventSubscription,
   NavigationScreenProp
 } from "react-navigation";
 
-import { IAPIError, IDecodingSuccess, ITheme, PrimaryColor } from "@types";
 import bugsnag from "~/actions/Bugsnag";
 import Notification from "~/actions/Notification";
 import Snackbar from "~/actions/Snackbar";
 import ImageProgress from "~/components/ImageProgress";
 import { colors } from "~/modules";
-
-export type Decoding = IDecodingSuccess | IAPIError;
+import { ITheme, PrimaryColor } from "~/modules/types";
 
 interface IProps {
   navigation: NavigationScreenProp<any, any>;
@@ -30,7 +22,6 @@ interface IProps {
 interface IState {
   decoding: boolean;
   photo: string;
-  source: CancelTokenSource;
 }
 
 export default class Progress extends React.Component<IProps, IState> {
@@ -39,13 +30,11 @@ export default class Progress extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     const uri = this.props.navigation.getParam("uri", "NO-ID");
-    const source = CancelToken.source();
     this.focusListener = null;
 
     this.state = {
       decoding: true,
-      photo: uri,
-      source
+      photo: uri
     };
   }
 
@@ -65,14 +54,7 @@ export default class Progress extends React.Component<IProps, IState> {
   }
 
   public async componentDidMount() {
-    this.focusListener = this.props.navigation.addListener(
-      "willBlur",
-      this.cancelRequest
-    );
-    const base64Image = await FileSystem.readAsStringAsync(this.state.photo, {
-      encoding: FileSystem.EncodingType.Base64
-    });
-    await this.callDecodeAPI(base64Image);
+    await this.callDecodeAPI(this.state.photo);
   }
 
   public componentWillUnmount() {
@@ -82,74 +64,10 @@ export default class Progress extends React.Component<IProps, IState> {
   }
 
   private async callDecodeAPI(base64Image: string) {
-    try {
-      const userCredentials = await firebase.auth().signInAnonymously();
-      const token = await userCredentials.user.getIdToken();
-      await this.checkNetworkStatus();
-
-      const api = create({
-        baseURL: Config.FIREBASE_API_URL,
-        headers: { Authorization: `Bearer ${token}` },
-        timeout: 60000
-      });
-      let response: ApiResponse<Decoding>;
-      try {
-        response = await api.post(
-          "/decode",
-          {
-            imageData: `data:image/png;base64,${base64Image}`
-          },
-          {
-            cancelToken: this.state.source.token
-          }
-        );
-      } catch {
-        response = {
-          data: { code: "ServerError", message: "Server unreachable" },
-          ok: false
-        } as any;
-      }
-
-      const { data, ok } = response;
-      if (ok) {
-        const message = (data as IDecodingSuccess).decoded;
-        this.decoded(message);
-      } else {
-        bugsnag.notify(new Error(JSON.stringify(response)));
-        this.failedResponse();
-      }
-    } catch (err) {
-      bugsnag.notify(err);
-    }
-  }
-
-  private cancelRequest = () => {
-    this.state.source.cancel();
-  };
-
-  private async checkNetworkStatus() {
-    try {
-      const state = await NetInfo.fetch();
-      if (!state.isConnected) {
-        throw Error("No Internet");
-      } else if (state.type === "cellular") {
-        Snackbar.show({
-          text: "You are using mobile data."
-        });
-      }
-    } catch {
-      Snackbar.show({
-        text: "You need an internet connection to decode an image."
-      });
-      this.failedResponse();
-    }
+    this.sendNotification();
   }
 
   private decoded(message: string) {
-    this.props.navigation.navigate("DecodingMessage", {
-      message,
-      uri: this.state.photo
-    });
     this.sendNotification();
   }
 

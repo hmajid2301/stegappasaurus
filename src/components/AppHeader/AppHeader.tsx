@@ -3,9 +3,9 @@ import { StatusBar, View } from "react-native";
 import { Header, Icon } from "react-native-elements";
 import { NavigationScreenProp, NavigationState } from "react-navigation";
 
-import { ITheme } from "@types";
 import Logo from "~/components/Logo";
 import { colors } from "~/modules";
+import { ITheme } from "~/modules/types";
 import styles from "./styles";
 
 interface IProps {

@@ -1,5 +1,3 @@
-import * as Permissions from "expo-permissions";
-import * as ImagePicker from "expo-image-picker";
 import { mount, shallow } from "enzyme";
 import React from "react";
 
@@ -12,9 +10,6 @@ const navigate = {
   getParam: jest.fn(),
   addListener: jest.fn()
 };
-
-jest.mock("expo-permissions");
-jest.mock("expo-image-picker");
 
 describe("Decoding Main: Match Snapshots", () => {
   test("1", () => {
@@ -69,26 +64,12 @@ describe("Decoding Main: Functions", () => {
   });
 
   test("getPhotoFromCameraRoll: selectPhotosToEncode", async () => {
-    (Permissions.askAsync as jest.Mock).mockResolvedValue({
-      status: "granted"
-    });
-    (ImagePicker.launchImageLibraryAsync as jest.Mock).mockResolvedValue({
-      cancelled: false,
-      uri: "test.png"
-    });
     const spy = jest.spyOn(instance as any, "selectPhotoToDecode");
     await (instance as any).getPhotoFromCameraRoll();
     expect(spy).toHaveBeenCalled();
   });
 
   test("getPhotoFromCameraRoll: Snackbar", async () => {
-    (Permissions.askAsync as jest.Mock).mockResolvedValue({
-      status: "no"
-    });
-    (ImagePicker.launchImageLibraryAsync as jest.Mock).mockResolvedValue({
-      cancelled: false,
-      uri: "test.png"
-    });
     const spy = jest.spyOn(Snackbar, "show");
     await (instance as any).getPhotoFromCameraRoll();
     expect(spy).toHaveBeenCalled();

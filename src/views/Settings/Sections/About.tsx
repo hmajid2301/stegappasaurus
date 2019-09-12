@@ -1,12 +1,11 @@
-import * as MailComposer from "expo-mail-composer";
 import * as React from "react";
-import { Text, TouchableOpacity, View } from "react-native";
+import { Linking, Text, TouchableOpacity, View } from "react-native";
 import { ListItem } from "react-native-elements";
 
-import { ThemeColors } from "@types";
 import Snackbar from "~/actions/Snackbar";
 import MarkdownModal from "~/components/MarkdownModal";
 import changelog from "~/data/changelog";
+import { ThemeColors } from "~/modules/types";
 import styles from "./styles";
 
 interface IProps {
@@ -57,10 +56,7 @@ const About = ({ background, color }: IProps) => (
 
 const sendEmail = async () => {
   try {
-    await MailComposer.composeAsync({
-      recipients: ["me@haseebmajid.dev"],
-      subject: "Stegappasaurus"
-    });
+    await Linking.openURL("mailto:me@haseebmajid.dev?subject=Stegappasaurus");
   } catch {
     Snackbar.show({
       text: "No email client installed on your device, failed to send email."

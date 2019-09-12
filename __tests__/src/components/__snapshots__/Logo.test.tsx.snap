@@ -25,7 +25,11 @@ exports[`Logo: Match snapshots 1 1`] = `
     Steg
   </Text>
   <Image
-    source={1}
+    source={
+      Object {
+        "testUri": "../../../src/assets/images/logo-light.png",
+      }
+    }
     style={
       Object {
         "height": 25,
@@ -76,7 +80,11 @@ exports[`Logo: Match snapshots 2 1`] = `
     Steg
   </Text>
   <Image
-    source={1}
+    source={
+      Object {
+        "testUri": "../../../src/assets/images/logo-dark.png",
+      }
+    }
     style={
       Object {
         "height": 25,

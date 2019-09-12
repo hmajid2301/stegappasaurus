@@ -1,7 +1,7 @@
 import { IAboutItem } from "~/components/AboutList";
 import { colors } from "~/modules";
 
-import PackageJson from "../../package.json";
+import PackageDotJSON from "~/../package.json";
 const about: IAboutItem[] = [
   {
     icon: {
@@ -9,7 +9,7 @@ const about: IAboutItem[] = [
       name: "versions",
       type: "octicon"
     },
-    title: `Version ${PackageJson.version}`,
+    title: `Version ${PackageDotJSON.version}`,
     url: "https://github.com/hmajid2301/Stegappasaurus"
   },
   {

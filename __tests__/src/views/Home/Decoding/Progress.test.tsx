@@ -1,13 +1,8 @@
-import { create } from "apisauce";
-import NetInfo from "@react-native-community/netinfo";
 import { mount, shallow } from "enzyme";
 import React from "react";
 
 import Snackbar from "~/actions/Snackbar";
 import Progress from "~/views/Home/Decoding/Progress";
-
-jest.mock("apisauce");
-jest.mock("@react-native-community/netinfo");
 
 const navigate = {
   navigate: jest.fn(),
@@ -70,10 +65,6 @@ describe("Decoding Progress: Functions", () => {
   test("checkNetworkStatus: notConnected", async () => {
     const spy = jest.spyOn(Snackbar, "show");
     const failedSpy = jest.spyOn(Progress.prototype as any, "failedResponse");
-    (NetInfo.fetch as jest.Mock).mockResolvedValue({
-      isConnected: false,
-      type: "cellular"
-    });
 
     await (instance as any).checkNetworkStatus();
     expect(spy).toHaveBeenCalled();
@@ -82,10 +73,6 @@ describe("Decoding Progress: Functions", () => {
 
   test("checkNetworkStatus: cellular", async () => {
     const spy = jest.spyOn(Snackbar, "show");
-    (NetInfo.fetch as jest.Mock).mockResolvedValue({
-      isConnected: true,
-      type: "cellular"
-    });
     await (instance as any).checkNetworkStatus();
     expect(spy).toHaveBeenCalled();
   });
@@ -136,14 +123,6 @@ describe("Decoding Progress: API", () => {
       .mockResolvedValue(true);
 
     instance.setState({ source: { token: "hello" } });
-    (create as jest.Mock).mockReturnValue({
-      post: jest.fn().mockReturnValue({
-        ok: true,
-        data: {
-          decoded: "random message"
-        }
-      })
-    });
 
     await (instance as any).callDecodeAPI(
       "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2"
@@ -155,12 +134,6 @@ describe("Decoding Progress: API", () => {
     const spy = jest
       .spyOn(Progress.prototype as any, "failedResponse")
       .mockResolvedValue(true);
-
-    (create as jest.Mock).mockReturnValue({
-      post: jest.fn().mockReturnValue({
-        ok: false
-      })
-    });
 
     await (instance as any).callDecodeAPI(
       "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2"

@@ -1,13 +1,8 @@
-import { create } from "apisauce";
 import { mount, shallow } from "enzyme";
-import * as ImagePicker from "expo-image-picker";
 import * as React from "react";
 
 import Main from "~/views/Home/Encoding/Main";
 import Snackbar from "~/actions/Snackbar";
-
-jest.mock("apisauce");
-jest.mock("expo-image-picker");
 
 const navigate = {
   navigate: jest.fn(),
@@ -67,45 +62,31 @@ describe("Encoding Main: Functions", () => {
   });
 
   test("getPhotoFromCamera: photo taken", async () => {
-    (ImagePicker.launchCameraAsync as jest.Mock).mockResolvedValue({
-      cancelled: false
-    });
     const spy = jest.spyOn(instance as any, "selectPhotoToEncode");
     await (instance as any).getPhotoFromCamera();
     expect(spy).toHaveBeenCalled();
   });
 
   test("getPhotoFromCamera: error", async () => {
-    (ImagePicker.launchCameraAsync as jest.Mock).mockImplementation(() => {
-      throw new Error();
-    });
     const spy = jest.spyOn(Snackbar, "show");
     await (instance as any).getPhotoFromCamera();
     expect(spy).toHaveBeenCalled();
   });
 
   test("getPhotoFromCameraRoll: photo taken", async () => {
-    (ImagePicker.launchImageLibraryAsync as jest.Mock).mockResolvedValue({
-      cancelled: false
-    });
     const spy = jest.spyOn(instance as any, "selectPhotoToEncode");
     await (instance as any).getPhotoFromCameraRoll();
     expect(spy).toHaveBeenCalled();
   });
 
   test("getPhotoFromCameraRoll: error", async () => {
-    (ImagePicker.launchImageLibraryAsync as jest.Mock).mockImplementation(
-      () => {
-        throw new Error();
-      }
-    );
     const spy = jest.spyOn(Snackbar, "show");
     await (instance as any).getPhotoFromCameraRoll();
     expect(spy).toHaveBeenCalled();
   });
 
   test("getPhotoFromCatAPI: Pass", async () => {
-    (create as jest.Mock).mockReturnValue({
+    (fetch as jest.Mock).mockReturnValue({
       get: jest.fn().mockReturnValue({
         ok: true,
         data: [
@@ -125,7 +106,7 @@ describe("Encoding Main: Functions", () => {
   });
 
   test("getPhotoFromCatAPI: Fail", async () => {
-    (create as jest.Mock).mockReturnValue({
+    (fetch as jest.Mock).mockReturnValue({
       get: jest.fn().mockReturnValue({
         ok: false
       })

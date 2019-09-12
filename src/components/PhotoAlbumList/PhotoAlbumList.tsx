@@ -1,9 +1,9 @@
-import * as MediaLibrary from "expo-media-library";
-import * as Permissions from "expo-permissions";
+import CameraRoll, {
+  PhotoIdentifier
+} from "@react-native-community/cameraroll";
 import React from "react";
 import { FlatList, Image, TouchableOpacity, View } from "react-native";
 
-import Snackbar from "~/actions/Snackbar";
 import styles from "./styles";
 
 interface IProps {
@@ -12,12 +12,8 @@ interface IProps {
 
 interface IState {
   lastPhoto: string;
-  photos: IPhoto[];
+  photos: PhotoIdentifier[];
   refreshing: boolean;
-}
-
-interface IPhoto {
-  uri: string;
 }
 
 export default class PhotoAlbumList extends React.Component<IProps, IState> {
@@ -35,9 +31,11 @@ export default class PhotoAlbumList extends React.Component<IProps, IState> {
       <View>
         <FlatList
           data={this.padData(this.state.photos)}
-          keyExtractor={(item, index) => item.uri + index}
+          keyExtractor={(item, index) => item.node.image.uri + index}
           numColumns={3}
-          onEndReached={this.morePhotosFromCameraRoll}
+          onEndReached={async () => {
+            await this.getPhotosFromCameraRoll();
+          }}
           onRefresh={this.handleRefresh}
           renderItem={this.renderPhotosFromCameraRoll}
           refreshing={this.state.refreshing}
@@ -47,38 +45,30 @@ export default class PhotoAlbumList extends React.Component<IProps, IState> {
   }
 
   public async componentDidMount() {
-    const asked = await Permissions.getAsync(
-      Permissions.CAMERA,
-      Permissions.CAMERA_ROLL
-    );
-
-    if (asked.status === "undetermined") {
-      setTimeout(async () => {
-        const { status } = await Permissions.askAsync(
-          Permissions.CAMERA,
-          Permissions.CAMERA_ROLL
-        );
-        if (status === "granted") {
-          await this.getPhotosFromCameraRoll();
-        } else {
-          Snackbar.show({
-            text:
-              "Grant permissions to access camera roll, to view photos here."
-          });
-        }
-      }, 500);
-    } else if (asked.status === "granted") {
-      await this.getPhotosFromCameraRoll();
-    }
+    await this.getPhotosFromCameraRoll(15, "0");
   }
 
-  private padData(data: IPhoto[]) {
+  private padData(data: PhotoIdentifier[]) {
     const itemsPerColumns = 3;
     const itemsLeftOver = data.length % itemsPerColumns;
     const elementsToAdd = itemsLeftOver === 0 ? 0 : 3 - itemsLeftOver;
 
+    const emptyImage = {
+      node: {
+        group_name: "na",
+        image: {
+          filename: "test",
+          height: 100,
+          playableDuration: 0,
+          uri: "",
+          width: 100
+        },
+        timestamp: 0,
+        type: "image"
+      }
+    };
     for (let i = 0; i < elementsToAdd; i += 1) {
-      data.push({ uri: "" });
+      data.push(emptyImage);
     }
 
     return data;
@@ -86,47 +76,46 @@ export default class PhotoAlbumList extends React.Component<IProps, IState> {
 
   private handleRefresh = async () => {
     this.setState({ refreshing: true });
-    await this.getPhotosFromCameraRoll();
+    await this.getPhotosFromCameraRoll(15, "0");
+    this.setState({ refreshing: false });
   };
 
-  private morePhotosFromCameraRoll = async () => {
-    const { assets, endCursor } = await MediaLibrary.getAssetsAsync({
-      after: this.state.lastPhoto,
-      first: 9,
-      sortBy: ["creationTime"]
+  private getPhotosFromCameraRoll = async (
+    first = 9,
+    after = this.state.lastPhoto
+  ) => {
+    const photos = await CameraRoll.getPhotos({
+      after,
+      first
     });
+
+    let lastPhoto = "0";
+    if (photos.page_info.end_cursor) {
+      lastPhoto = photos.page_info.end_cursor;
+    }
 
     this.setState({
-      lastPhoto: endCursor,
-      photos: [...this.state.photos, ...assets]
+      lastPhoto,
+      photos: [...this.state.photos, ...photos.edges]
     });
   };
 
-  private renderPhotosFromCameraRoll = ({ item }: { item: IPhoto }) => {
-    if (item.uri === "") {
+  private renderPhotosFromCameraRoll = ({
+    item
+  }: {
+    item: PhotoIdentifier;
+  }) => {
+    if (item.node.image.uri === "") {
       return <View />;
     }
 
     return (
       <TouchableOpacity
-        onPress={() => this.props.onPhotoPress(item.uri)}
+        onPress={() => this.props.onPhotoPress(item.node.image.uri)}
         style={styles.photoButton}
       >
-        <Image source={{ uri: item.uri }} style={styles.photos} />
+        <Image source={{ uri: item.node.image.uri }} style={styles.photos} />
       </TouchableOpacity>
     );
   };
-
-  private async getPhotosFromCameraRoll() {
-    const { assets, endCursor } = await MediaLibrary.getAssetsAsync({
-      first: 15,
-      sortBy: [MediaLibrary.SortBy.creationTime]
-    });
-
-    this.setState({
-      lastPhoto: endCursor,
-      photos: assets,
-      refreshing: false
-    });
-  }
 }

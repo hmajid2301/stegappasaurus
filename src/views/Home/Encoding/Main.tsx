@@ -1,15 +1,14 @@
-import { ITheme } from "@types";
-import { create } from "apisauce";
-import * as ImagePicker from "expo-image-picker";
 import React from "react";
 import { Image, TouchableOpacity, View } from "react-native";
 import Config from "react-native-config";
 import { Icon } from "react-native-elements";
+import ImagePicker from "react-native-image-picker";
 import { NavigationScreenProp } from "react-navigation";
 
 import Snackbar from "~/actions/Snackbar";
 import Loader from "~/components/Loader";
 import PhotoAlbumList from "~/components/PhotoAlbumList";
+import { ITheme } from "~/modules/types";
 import styles from "./Main/styles";
 
 interface IProps {
@@ -78,10 +77,11 @@ export default class Main extends React.Component<IProps, IState> {
 
   private getPhotoFromCamera = async () => {
     try {
-      const result = await ImagePicker.launchCameraAsync();
-      if (!result.cancelled) {
-        this.selectPhotoToEncode(result.uri);
-      }
+      ImagePicker.launchCamera({}, response => {
+        if (!response.didCancel) {
+          this.selectPhotoToEncode(response.uri);
+        }
+      });
     } catch {
       Snackbar.show({
         text: "This app does not have permission to access the camera."
@@ -91,12 +91,16 @@ export default class Main extends React.Component<IProps, IState> {
 
   private getPhotoFromCameraRoll = async () => {
     try {
-      const result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images
-      });
-      if (!result.cancelled) {
-        this.selectPhotoToEncode(result.uri);
-      }
+      ImagePicker.launchImageLibrary(
+        {
+          mediaType: "photo"
+        },
+        response => {
+          if (!response.didCancel) {
+            this.selectPhotoToEncode(response.uri);
+          }
+        }
+      );
     } catch {
       Snackbar.show({
         text: "This app does not have permission to access the camera roll."
@@ -106,21 +110,24 @@ export default class Main extends React.Component<IProps, IState> {
 
   private getPhotoFromCatAPI = async () => {
     this.setState({ loading: true });
+    const response = await fetch(
+      "https://api.thecatapi.com/v1/images/search?mime_types=jpg,png",
+      {
+        headers: {
+          "x-api-key": Config.CAT_API_KEY
+        }
+      }
+    );
+    const data = await response.json();
 
-    const api = create({
-      baseURL: "https://api.thecatapi.com",
-      headers: { "x-api-key": Config.CAT_API_KEY }
-    });
-
-    const response = await api.get("/v1/images/search?mime_types=jpg,png");
-    if (response.ok) {
-      const urls = response.data as ICatAPI[];
+    if (data.ok) {
+      const urls = data as ICatAPI[];
       await Image.prefetch(urls[0].url);
       this.selectPhotoToEncode(urls[0].url);
     } else {
       Snackbar.show({
         text:
-          "Failed to fetch a cat photo, check you're connected to the internet."
+          "Failed to get a cat photo, check you're connected to the internet."
       });
     }
 

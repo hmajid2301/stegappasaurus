@@ -3,8 +3,13 @@ import { Text, TouchableOpacity, View } from "react-native";
 import Accordion from "react-native-collapsible/Accordion";
 import { Icon } from "react-native-elements";
 
-import { IFAQ, ThemeColors } from "@types";
+import { ThemeColors } from "~/modules/types";
 import styles from "./styles";
+
+export interface IFAQ {
+  content: string;
+  title: string;
+}
 
 interface IProps {
   backgroundColor: ThemeColors;

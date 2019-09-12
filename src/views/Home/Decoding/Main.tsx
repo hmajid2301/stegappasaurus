@@ -1,13 +1,12 @@
-import { ITheme } from "@types";
-import * as ImagePicker from "expo-image-picker";
-import * as Permissions from "expo-permissions";
 import * as React from "react";
 import { TouchableOpacity, View } from "react-native";
 import { Icon } from "react-native-elements";
+import ImagePicker from "react-native-image-picker";
 import { NavigationScreenProp } from "react-navigation";
 
 import Snackbar from "~/actions/Snackbar";
 import PhotoAlbumList from "~/components/PhotoAlbumList";
+import { ITheme } from "~/modules/types";
 import styles from "./Main/styles";
 
 interface IProps {
@@ -39,15 +38,18 @@ export default class Main extends React.Component<IProps, {}> {
   }
 
   private getPhotoFromCameraRoll = async () => {
-    const { status } = await Permissions.askAsync(Permissions.CAMERA_ROLL);
-    if (status === "granted") {
-      const result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images
-      });
-      if (!result.cancelled) {
-        this.selectPhotoToDecode(result.uri);
-      }
-    } else {
+    try {
+      ImagePicker.launchImageLibrary(
+        {
+          mediaType: "photo"
+        },
+        response => {
+          if (!response.didCancel) {
+            this.selectPhotoToDecode(response.uri);
+          }
+        }
+      );
+    } catch {
       Snackbar.show({
         text: "This app does not have permission to access the camera roll."
       });

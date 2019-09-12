@@ -1,4 +1,4 @@
-import { ISlide } from "@types";
+import { ISlide } from "~/components/IntroSlider";
 
 const slides: ISlide[] = [
   {

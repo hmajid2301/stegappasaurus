@@ -2,10 +2,10 @@ import React from "react";
 import { ScrollView, Text, View } from "react-native";
 import { NavigationScreenProp } from "react-navigation";
 
-import { ITheme } from "@types";
 import AboutList from "~/components/AboutList";
 import AppHeader from "~/components/AppHeader";
 import { about } from "~/data";
+import { ITheme } from "~/modules/types";
 import styles from "~/views/AboutUs/styles";
 
 interface IProps {

@@ -2,11 +2,11 @@ import * as React from "react";
 import { Text, View } from "react-native";
 import { ListItem } from "react-native-elements";
 
-import { ThemeColors } from "@types";
 import MarkdownModal from "~/components/MarkdownModal";
 import license from "~/data/license";
 import privatePolicy from "~/data/privatePolicy";
 import termsOfUse from "~/data/termsOfUse";
+import { ThemeColors } from "~/modules/types";
 
 import styles from "./styles";
 

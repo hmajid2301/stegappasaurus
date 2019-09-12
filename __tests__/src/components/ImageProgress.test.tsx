@@ -3,7 +3,6 @@ import React from "react";
 
 import ImageProgress from "~/components/ImageProgress";
 
-jest.mock("lottie-react-native");
 describe("ImageProgress: Match snapshots", () => {
   test("1", () => {
     const component = shallow(
