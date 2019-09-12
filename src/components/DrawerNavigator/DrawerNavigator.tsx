@@ -2,9 +2,9 @@ import React from "react";
 import { View } from "react-native";
 import { DrawerItems, DrawerItemsProps } from "react-navigation";
 
-import { ITheme } from "@types";
 import Logo from "~/components/Logo";
 import { colors } from "~/modules";
+import { ITheme } from "~/modules/types";
 import styles from "./styles";
 
 const DrawerNavigator: React.FunctionComponent<DrawerItemsProps> = props => {

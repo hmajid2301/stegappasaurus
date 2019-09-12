@@ -13,7 +13,6 @@
   },
   "jsRules": {},
   "rules": {
-    "jsx-boolean-value": false,
     "jsx-no-lambda": false,
     "no-var-requires": false
   },

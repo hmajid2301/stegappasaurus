@@ -25,8 +25,8 @@ create:merge-request:
   stage: pre
   before_script: []
   except:
-    - master
     - production
+    - master
     - tags
   script:
     - gitlab_auto_mr -t master -c WIP -d ./.gitlab/merge_request/merge_request.md -r -s --use-issue-name
@@ -54,6 +54,7 @@ lint:compiler:
 
 tests:unit:
   stage: test
+  allow_failure: true
   only:
     - merge_requests
   script:
@@ -61,6 +62,7 @@ tests:unit:
 
 test:coverage:
   stage: test
+  allow_failure: true
   only:
     - master
   script:
@@ -75,9 +77,8 @@ build:android:package:
   script:
     - echo fs.inotify.max_user_watches=524288 | tee -a /etc/sysctl.conf && sysctl -p
     - cd android
-    - mv $FIREBASE_GOOGLE_SERVICES app/google-services.json
     - base64 -d $ANDROID_KEYSTORE > app/stegappasaurus.keystore
-    - echo "MYAPP_RELEASE_STORE_FILE=stegappasaurus.keystore" > gradle.properties
+    - echo "MYAPP_RELEASE_STORE_FILE=stegappasaurus.keystore" >> gradle.properties
     - echo "MYAPP_RELEASE_STORE_PASSWORD=$ANDROID_KEYSTORE_PASSWORD" >> gradle.properties
     - echo "MYAPP_RELEASE_KEY_ALIAS=$ANDROID_KEYSTORE_ALIAS" >> gradle.properties
     - echo "MYAPP_RELEASE_KEY_PASSWORD=$ANDROID_KEYSTORE_KEY_PASSWORD" >> gradle.properties

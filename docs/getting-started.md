@@ -4,11 +4,6 @@ Getting started user guide, this document should help you learn about the app.
 You can read the [README.md](https://gitlab.com/stegappasaurus/stegappasaurus-app/blob/master/README.md)
 to see how to get the app running.
 
-This app relies on using a RESTful API which runs on Google Firebase to do the encoding and decoding.
-The project which contains the code for this API exists [here](https://gitlab.com/stegappasaurus/stegappasaurus-api).
-The API is what actually encodes and decodes our images. So any changes required to the actual steganography logic
-should be done there
-
 ## Project
 
 ### Project Structure

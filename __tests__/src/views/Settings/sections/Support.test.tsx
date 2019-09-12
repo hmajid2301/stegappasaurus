@@ -1,7 +1,7 @@
 import { shallow } from "enzyme";
 import React from "react";
 
-import Support from "~/views/Settings/sections/Support";
+import Support from "~/views/Settings/Sections/Support";
 describe("Support: Match Snapshots", () => {
   test("1", () => {
     const component = shallow(<Support color="#17212D" background="#FFF" />);

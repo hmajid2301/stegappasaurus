@@ -1,12 +1,7 @@
-import { mount, shallow, ShallowWrapper } from "enzyme";
-import * as MediaLibrary from "expo-media-library";
-import * as Permissions from "expo-permissions";
+import { shallow, ShallowWrapper } from "enzyme";
 import React from "react";
 
 import PhotoAlbumList from "~/components/PhotoAlbumList";
-
-jest.mock("expo-media-library");
-jest.mock("expo-permissions");
 
 describe("PhotoAlbumList: Match snapshots", () => {
   test("1", () => {
@@ -35,8 +30,6 @@ describe("PhotoAlbumList: Match snapshots", () => {
       ],
       endCursor: "24"
     };
-
-    (MediaLibrary.getAssetsAsync as jest.Mock).mockResolvedValue(data);
 
     const component = shallow(
       <PhotoAlbumList onPhotoPress={() => jest.fn()} />
@@ -187,7 +180,6 @@ describe("PhotoAlbumList: Functions", () => {
   };
 
   test("morePhotosFromCameraRoll", async () => {
-    (MediaLibrary.getAssetsAsync as jest.Mock).mockResolvedValue(testData);
     component.setState({ photos: [] });
     await (instance as any).morePhotosFromCameraRoll();
     expect(component.state("lastPhoto")).toEqual("24");
@@ -207,13 +199,6 @@ describe("PhotoAlbumList: Functions", () => {
   });
 
   test("getPhotosListFromAlbum: granted", async () => {
-    (Permissions.getAsync as jest.Mock).mockResolvedValue({
-      status: "undetermined"
-    });
-    (Permissions.askAsync as jest.Mock).mockResolvedValue({
-      status: "granted"
-    });
-    (MediaLibrary.getAssetsAsync as jest.Mock).mockResolvedValue(testData);
     component.setState({ photos: [], refreshing: true });
     await (instance as any).getPhotosFromCameraRoll();
     expect(component.state("lastPhoto")).toEqual("24");

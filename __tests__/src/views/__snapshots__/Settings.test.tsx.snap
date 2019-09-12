@@ -24,7 +24,7 @@ exports[`Settings: Match Snapshots 1 1`] = `
     }
   />
   <View>
-    <Connect(Themes)
+    <Themes
       theme={
         Object {
           "background": "#FFF",
@@ -69,7 +69,7 @@ exports[`Settings: Match Snapshots 2 1`] = `
     }
   />
   <View>
-    <Connect(Themes)
+    <Themes
       theme={
         Object {
           "background": "#17212D",

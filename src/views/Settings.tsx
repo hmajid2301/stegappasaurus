@@ -2,10 +2,9 @@ import * as React from "react";
 import { ScrollView, View } from "react-native";
 import { NavigationScreenProp } from "react-navigation";
 
-import { ITheme } from "@types";
 import AppHeader from "~/components/AppHeader";
-
-import { About, Support, Themes } from "./Settings/sections";
+import { ITheme } from "~/modules/types";
+import { About, Support, Themes } from "./Settings/Sections";
 import styles from "./Settings/styles";
 
 interface IProps {

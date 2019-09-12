@@ -1,10 +1,9 @@
-import * as WebBrowser from "expo-web-browser";
 import * as React from "react";
-import { Text, TouchableOpacity, View } from "react-native";
-import { ListItem } from "react-native-elements";
+import { Linking, Text, TouchableOpacity, View } from "react-native";
+import { IconType, ListItem } from "react-native-elements";
 import Rate, { AndroidMarket } from "react-native-rate";
 
-import { IIcon, ThemeColors } from "@types";
+import { ThemeColors } from "~/modules/types";
 import styles from "./styles";
 
 interface IProps {
@@ -16,7 +15,11 @@ interface IProps {
 export interface IAboutItem {
   title: string;
   function_to_call?: "browser" | "store";
-  icon: IIcon;
+  icon: {
+    color: string;
+    name: string;
+    type: IconType;
+  };
   url?: string;
 }
 
@@ -46,7 +49,7 @@ const renderListItem = (
   />
 );
 
-const chooseFunction = (item: IAboutItem) => {
+const chooseFunction = async (item: IAboutItem) => {
   switch (item.function_to_call) {
     case "store":
       const options = {
@@ -59,9 +62,7 @@ const chooseFunction = (item: IAboutItem) => {
 
     default:
       if (item.url !== undefined) {
-        WebBrowser.openBrowserAsync(item.url)
-          .then()
-          .catch();
+        await Linking.openURL(item.url);
       }
       break;
   }

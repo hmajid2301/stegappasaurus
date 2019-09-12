@@ -1,7 +1,7 @@
 import { mount, shallow } from "enzyme";
 import React from "react";
 
-import About from "~/views/Settings/sections/About";
+import About from "~/views/Settings/Sections/About";
 
 describe("About: Match Snapshots", () => {
   test("1", () => {

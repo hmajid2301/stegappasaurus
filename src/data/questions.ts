@@ -1,4 +1,4 @@
-import { IFAQ } from "@types";
+import { IFAQ } from "~/components/FAQList";
 
 const questions: IFAQ[] = [
   {

@@ -1,9 +1,24 @@
 import React from "react";
-import { Image, StatusBar, Text, View } from "react-native";
+import {
+  Image,
+  ImageSourcePropType,
+  StatusBar,
+  Text,
+  View
+} from "react-native";
 import AppIntroSlider from "react-native-app-intro-slider";
 
-import { ISlide } from "@types";
 import styles from "./styles";
+
+export interface ISlide {
+  color: string;
+  height?: number;
+  image: ImageSourcePropType;
+  key: string;
+  text: string;
+  title: string;
+  width?: number;
+}
 
 interface IProps {
   slides: ISlide[];
@@ -22,12 +37,12 @@ export default class IntroSlider extends React.Component<IProps, {}> {
   public render() {
     return (
       <View style={styles.contentContainer}>
-        <StatusBar hidden />
+        <StatusBar hidden={true} />
         <AppIntroSlider
           onDone={this.props.onDone}
           onSkip={this.props.onDone}
           renderItem={this.renderSlide}
-          showSkipButton
+          showSkipButton={true}
           slides={this.props.slides}
         />
       </View>

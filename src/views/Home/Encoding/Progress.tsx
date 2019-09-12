@@ -1,26 +1,17 @@
-import NetInfo from "@react-native-community/netinfo";
-import { ApiResponse, CancelToken, create } from "apisauce";
-import { CancelTokenSource } from "axios";
-import * as FileSystem from "expo-file-system";
-import * as MediaLibrary from "expo-media-library";
 import * as React from "react";
 import { AppState, Linking, View } from "react-native";
-import Config from "react-native-config";
-import firebase from "react-native-firebase";
 import Share from "react-native-share";
 import {
   NavigationEventSubscription,
   NavigationScreenProp
 } from "react-navigation";
 
-import { IAPIError, IEncodingSuccess, ITheme, PrimaryColor } from "@types";
 import bugsnag from "~/actions/Bugsnag";
 import Notification from "~/actions/Notification";
 import Snackbar from "~/actions/Snackbar";
 import ImageProgress from "~/components/ImageProgress";
 import { colors } from "~/modules";
-
-type Encoding = IEncodingSuccess | IAPIError;
+import { ITheme, PrimaryColor } from "~/modules/types";
 
 interface IProps {
   navigation: NavigationScreenProp<any, any>;
@@ -33,7 +24,6 @@ interface IState {
   encodedUri: string;
   encoding: boolean;
   photo: string;
-  source: CancelTokenSource;
 }
 
 export default class Progress extends React.Component<IProps, IState> {
@@ -42,14 +32,12 @@ export default class Progress extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     const uri = this.props.navigation.getParam("uri", "NO-ID");
-    const source = CancelToken.source();
     this.focusListener = null;
 
     this.state = {
       encodedUri: "",
       encoding: true,
-      photo: uri,
-      source
+      photo: uri
     };
   }
 
@@ -75,16 +63,8 @@ export default class Progress extends React.Component<IProps, IState> {
   }
 
   public async componentDidMount() {
-    this.focusListener = this.props.navigation.addListener(
-      "willBlur",
-      this.cancelRequest
-    );
-
-    const base64Image = await FileSystem.readAsStringAsync(this.state.photo, {
-      encoding: FileSystem.EncodingType.Base64
-    });
     const message = this.props.navigation.getParam("message", "NO-ID");
-    await this.callEncodeAPI(base64Image, message);
+    await this.callEncodeAPI(this.state.photo, message);
   }
 
   public componentWillUnmount() {
@@ -94,81 +74,10 @@ export default class Progress extends React.Component<IProps, IState> {
   }
 
   private async callEncodeAPI(base64Image: string, message: string) {
-    try {
-      const userCredentials = await firebase.auth().signInAnonymously();
-      const token = await userCredentials.user.getIdToken();
-      await this.checkNetworkStatus();
-
-      const api = create({
-        baseURL: Config.FIREBASE_API_URL,
-        headers: { Authorization: `Bearer ${token}` },
-        timeout: 60000
-      });
-
-      let response: ApiResponse<Encoding>;
-      try {
-        response = await api.post(
-          "/encode",
-          {
-            algorithm: "LSB",
-            imageData: `data:image/png;base64,${base64Image}`,
-            message
-          },
-          {
-            cancelToken: this.state.source.token
-          }
-        );
-      } catch {
-        response = {
-          data: { code: "ServerError", message: "Server unreachable" },
-          ok: false
-        } as any;
-      }
-
-      const { data, ok, status } = response;
-      if (ok) {
-        await this.encoded((data as IEncodingSuccess).encoded);
-      } else {
-        bugsnag.notify(new Error(JSON.stringify(response)));
-        this.failedResponse(data as IAPIError, status ? status : 500);
-      }
-    } catch (err) {
-      bugsnag.notify(err);
-    }
-  }
-
-  private cancelRequest = () => {
-    this.state.source.cancel();
-  };
-
-  private async checkNetworkStatus() {
-    try {
-      const state = await NetInfo.fetch();
-      if (!state.isConnected) {
-        throw Error("No Internet");
-      } else if (state.type === "cellular") {
-        Snackbar.show({
-          text: "You are using mobile data."
-        });
-      }
-    } catch {
-      Snackbar.show({
-        text: "You need an internet connection to encode an image."
-      });
-      this.sendUserBackToMain();
-    }
+    this.sendNotification();
   }
 
   private async encoded(base64Image: string) {
-    const filename = `${new Date().toISOString()}.png`;
-    const imagePath = `${FileSystem.documentDirectory}${filename}`;
-    await FileSystem.writeAsStringAsync(imagePath, base64Image.substring(22), {
-      encoding: FileSystem.EncodingType.Base64
-    });
-
-    await MediaLibrary.createAssetAsync(imagePath);
-    await FileSystem.deleteAsync(imagePath);
-
     this.setState({ encoding: false, encodedUri: base64Image });
     Snackbar.show({
       buttonText: "Open Album",
@@ -188,20 +97,8 @@ export default class Progress extends React.Component<IProps, IState> {
     }
   }
 
-  private failedResponse(error: IAPIError, status: number) {
-    try {
-      const { code } = error;
-      if (status === 500 && code === ("MessageTooLong" as IAPIError["code"])) {
-        Snackbar.show({
-          text: "Message too large to encode in image."
-        });
-        this.props.navigation.goBack();
-      } else {
-        throw new Error();
-      }
-    } catch {
-      this.sendUserBackToMain();
-    }
+  private failedResponse(error: any, status: number) {
+    this.sendNotification();
   }
 
   private shareImage = async () => {

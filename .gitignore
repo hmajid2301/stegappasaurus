@@ -344,5 +344,4 @@ google-services.json
 *.map
 *.keystore
 src_assets_*
-*.properties
 *.html

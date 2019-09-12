@@ -41,21 +41,27 @@ exports[`IntroSlider: Match snapshots 1 1`] = `
       Array [
         Object {
           "color": "#06C49C",
-          "image": 1,
+          "image": Object {
+            "testUri": "../../../src/assets/images/slider/1.jpg",
+          },
           "key": "encoding",
           "text": "Hide your data within images.",
           "title": "Hide data. ",
         },
         Object {
           "color": "#129FDD",
-          "image": 1,
+          "image": Object {
+            "testUri": "../../../src/assets/images/slider/2.jpg",
+          },
           "key": "share",
           "text": "Then share the encoded images with your friends.",
           "title": "Share your images",
         },
         Object {
           "color": "#643FEA",
-          "image": 1,
+          "image": Object {
+            "testUri": "../../../src/assets/images/slider/3.jpg",
+          },
           "key": "decoding",
           "text": "Finally use this app to retrieve your hidden data from the image.",
           "title": "Retrieve hidden data",

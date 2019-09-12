@@ -1,4 +1,4 @@
-import { ITheme, ThemeColors } from "@types";
+import { ITheme, ThemeColors } from "~/modules/types";
 import { colors } from "./colors";
 
 export const PRIMARY_THEME: ITheme = {

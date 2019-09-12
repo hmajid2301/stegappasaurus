@@ -1,6 +1,5 @@
 platform :ios, '10.0'
 
-require_relative '../node_modules/react-native-unimodules/cocoapods'
 
 target 'Stegappasaurus' do
   # Pods for Stegappasaurus
@@ -27,31 +26,20 @@ target 'Stegappasaurus' do
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
-  use_unimodules!
-
-  pod 'react-native-splash-screen', :path => '../node_modules/react-native-splash-screen'
-
-  pod 'react-native-config', :path => '../node_modules/react-native-config'
-
-  pod 'RNGestureHandler', :path => '../node_modules/react-native-gesture-handler'
-
-  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
-
-  pod 'RNSnackbar', :path => '../node_modules/react-native-snackbar'
-
-  pod 'RNShare', :path => '../node_modules/react-native-share'
 
 
 
-  pod 'lottie-react-native', :path => '../node_modules/lottie-react-native'
 
 
-  pod 'react-native-netinfo', :path => '../node_modules/@react-native-community/netinfo'
 
 
-  pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-community/async-storage'
 
-  pod 'BugsnagReactNative', :path => '../node_modules/bugsnag-react-native'
+
+
+
+
+
+
 
   target 'StegappasaurusTests' do
     inherit! :search_paths

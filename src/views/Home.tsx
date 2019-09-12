@@ -5,12 +5,11 @@ import {
   NavigationScreenProp
 } from "react-navigation";
 
-import { ITheme } from "@types";
 import AppHeader from "~/components/AppHeader";
 import { colors, fonts } from "~/modules";
+import { ITheme } from "~/modules/types";
 import Decoding from "~/views/Home/Decoding";
 import Encoding from "~/views/Home/Encoding";
-
 import styles from "./Home/styles";
 
 const commonTabOptions = (color: string) => ({

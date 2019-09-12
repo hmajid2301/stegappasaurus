@@ -28,11 +28,11 @@ exports[`Themes: Match Snapshots 1 1`] = `
       }
     }
   />
-  <Component />
   <Themed.ListItem
+    bottomDivider={true}
     checkBox={
       Object {
-        "checked": true,
+        "checked": false,
         "checkedColor": "#009CFF",
         "onPress": [Function],
       }
@@ -42,38 +42,7 @@ exports[`Themes: Match Snapshots 1 1`] = `
         "backgroundColor": "#FFF",
       }
     }
-    title={
-      <View>
-        <Text
-          style={
-            Array [
-              Object {
-                "fontFamily": "Roboto-Light",
-              },
-              Object {
-                "color": "#17212D",
-              },
-            ]
-          }
-        >
-          Automatic Theme
-        </Text>
-        <Text
-          style={
-            Array [
-              Object {
-                "fontFamily": "Roboto-Light",
-              },
-              Object {
-                "color": "grey",
-              },
-            ]
-          }
-        >
-          Automatically changes to dark mode at sunset and light mode at sunrise.
-        </Text>
-      </View>
-    }
+    title="Dark Mode"
     titleStyle={
       Array [
         Object {
@@ -84,6 +53,7 @@ exports[`Themes: Match Snapshots 1 1`] = `
         },
       ]
     }
+    topDivider={true}
   />
 </View>
 `;
@@ -116,11 +86,11 @@ exports[`Themes: Match Snapshots 2 1`] = `
       }
     }
   />
-  <Component />
   <Themed.ListItem
+    bottomDivider={true}
     checkBox={
       Object {
-        "checked": true,
+        "checked": false,
         "checkedColor": "#009CFF",
         "onPress": [Function],
       }
@@ -130,38 +100,7 @@ exports[`Themes: Match Snapshots 2 1`] = `
         "backgroundColor": "#17212D",
       }
     }
-    title={
-      <View>
-        <Text
-          style={
-            Array [
-              Object {
-                "fontFamily": "Roboto-Light",
-              },
-              Object {
-                "color": "#FFF",
-              },
-            ]
-          }
-        >
-          Automatic Theme
-        </Text>
-        <Text
-          style={
-            Array [
-              Object {
-                "fontFamily": "Roboto-Light",
-              },
-              Object {
-                "color": "grey",
-              },
-            ]
-          }
-        >
-          Automatically changes to dark mode at sunset and light mode at sunrise.
-        </Text>
-      </View>
-    }
+    title="Dark Mode"
     titleStyle={
       Array [
         Object {
@@ -172,23 +111,7 @@ exports[`Themes: Match Snapshots 2 1`] = `
         },
       ]
     }
+    topDivider={true}
   />
 </View>
-`;
-
-exports[`Themes: Redux mapDispatchToProps 1`] = `
-Array [
-  Object {
-    "payload": Object {
-      "isAutomatic": true,
-    },
-    "type": "TOGGLE_AUTOMATIC_THEME",
-  },
-  Object {
-    "payload": Object {
-      "isDark": true,
-    },
-    "type": "TOGGLE_DARK_THEME",
-  },
-]
 `;

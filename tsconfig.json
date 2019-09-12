@@ -20,7 +20,13 @@
     "strictNullChecks": true,
     "strictFunctionTypes": true,
     "target": "esnext",
-    "typeRoots": ["node_modules/@types", "@types"]
+    "typeRoots": ["node_modules/@types"]
   },
-  "exclude": ["babel.config.js", "metro.config.js"]
+  "exclude": [
+    "babel.config.js",
+    "index.js",
+    "jest.config.js",
+    "metro.config.js",
+    "react-native-config.js"
+  ]
 }

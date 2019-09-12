@@ -1,3 +1,4 @@
-import IntroSlider from "./IntroSlider";
+import IntroSlider, { ISlide } from "./IntroSlider";
 
+export { ISlide };
 export default IntroSlider;

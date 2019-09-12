@@ -3,7 +3,7 @@ import { Modal, ScrollView, Text, TouchableOpacity, View } from "react-native";
 import { Icon } from "react-native-elements";
 import Markdown from "react-native-markdown-renderer";
 
-import { ThemeColors } from "@types";
+import { ThemeColors } from "~/modules/types";
 
 import styles, { markdown } from "./styles";
 
