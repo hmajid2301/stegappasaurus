@@ -1,7 +1,6 @@
 import { createCanvas, createImageData, Image } from "canvas";
 import sizeOf from "image-size";
 import lz from "lzutf8";
-// @ts-ignore
 import { stringToArray } from "utf8-to-bytes";
 import varint from "varint";
 

@@ -23,49 +23,59 @@ export interface IAboutItem {
   url?: string;
 }
 
-const AboutList = ({ backgroundColor, color, items }: IProps) => (
-  <View>{items.map(item => renderListItem(backgroundColor, color, item))}</View>
-);
-
-const renderListItem = (
-  backgroundColor: ThemeColors,
-  color: ThemeColors,
-  item: IAboutItem
-) => (
-  <ListItem
-    containerStyle={{ backgroundColor }}
-    key={item.title}
-    leftIcon={{
-      ...item.icon,
-      onPress: () => chooseFunction(item)
-    }}
-    topDivider={true}
-    bottomDivider={true}
-    title={
-      <TouchableOpacity onPress={() => chooseFunction(item)}>
-        <Text style={[styles.text, { color }]}>{item.title}</Text>
-      </TouchableOpacity>
-    }
-  />
-);
-
-const chooseFunction = async (item: IAboutItem) => {
-  switch (item.function_to_call) {
-    case "store":
-      const options = {
-        GooglePackageName: "com.stegappasaurus",
-        openAppStoreIfInAppFails: true,
-        preferredAndroidMarket: AndroidMarket.Google
-      };
-      Rate.rate(options, () => null);
-      break;
-
-    default:
-      if (item.url !== undefined) {
-        await Linking.openURL(item.url);
-      }
-      break;
+export default class Progress extends React.Component<IProps, {}> {
+  public render() {
+    return (
+      <View>
+        {this.props.items.map(item =>
+          this.renderListItem(
+            this.props.backgroundColor,
+            this.props.color,
+            item
+          )
+        )}
+      </View>
+    );
   }
-};
 
-export default AboutList;
+  private renderListItem = (
+    backgroundColor: ThemeColors,
+    color: ThemeColors,
+    item: IAboutItem
+  ) => (
+    <ListItem
+      containerStyle={{ backgroundColor }}
+      key={item.title}
+      leftIcon={{
+        ...item.icon,
+        onPress: this.chooseFunction.bind(this, item)
+      }}
+      topDivider={true}
+      bottomDivider={true}
+      title={
+        <TouchableOpacity onPress={this.chooseFunction.bind(this, item)}>
+          <Text style={[styles.text, { color }]}>{item.title}</Text>
+        </TouchableOpacity>
+      }
+    />
+  );
+
+  private async chooseFunction(item: IAboutItem) {
+    switch (item.function_to_call) {
+      case "store":
+        const options = {
+          GooglePackageName: "com.stegappasaurus",
+          openAppStoreIfInAppFails: true,
+          preferredAndroidMarket: AndroidMarket.Google
+        };
+        Rate.rate(options, () => null);
+        break;
+
+      default:
+        if (item.url !== undefined) {
+          await Linking.openURL(item.url);
+        }
+        break;
+    }
+  }
+}

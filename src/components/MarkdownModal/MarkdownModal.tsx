@@ -4,7 +4,6 @@ import { Icon } from "react-native-elements";
 import Markdown from "react-native-markdown-renderer";
 
 import { ThemeColors } from "~/modules/types";
-
 import styles, { markdown } from "./styles";
 
 interface IProps {
@@ -31,7 +30,7 @@ export default class MarkdownModal extends React.Component<IProps, IState> {
       <View>
         <Modal
           animationType="slide"
-          onRequestClose={() => this.setModalVisible(false)}
+          onRequestClose={this.setModalVisibility.bind(this, false)}
           transparent={false}
           visible={this.state.isVisible}
         >
@@ -42,9 +41,10 @@ export default class MarkdownModal extends React.Component<IProps, IState> {
             ]}
           >
             <TouchableOpacity
-              onPress={() => {
-                this.setModalVisible(!this.state.isVisible);
-              }}
+              onPress={this.setModalVisibility.bind(
+                this,
+                !this.state.isVisible
+              )}
             >
               <Icon
                 iconStyle={[styles.icons, { color: this.props.color }]}
@@ -68,11 +68,7 @@ export default class MarkdownModal extends React.Component<IProps, IState> {
           </View>
         </Modal>
 
-        <TouchableOpacity
-          onPress={() => {
-            this.setModalVisible(true);
-          }}
-        >
+        <TouchableOpacity onPress={this.setModalVisibility.bind(this, true)}>
           <Text style={[styles.buttonText, { color: this.props.color }]}>
             {this.props.name}
           </Text>
@@ -81,7 +77,7 @@ export default class MarkdownModal extends React.Component<IProps, IState> {
     );
   }
 
-  private setModalVisible(visible: boolean) {
+  private setModalVisibility(visible: boolean) {
     this.setState({ isVisible: visible });
   }
 }

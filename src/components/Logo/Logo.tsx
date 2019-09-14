@@ -1,11 +1,10 @@
 import * as React from "react";
 import { Image, Text, View } from "react-native";
 
+import logoDark from "~/assets/images/logo-dark.png";
+import logoLight from "~/assets/images/logo-light.png";
 import { ThemeColors } from "~/modules/types";
 import styles from "./styles";
-
-const logoDark = require("~/assets/images/logo-dark.png");
-const logoLight = require("~/assets/images/logo-light.png");
 
 interface IProps {
   isDark: boolean;
