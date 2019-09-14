@@ -31,11 +31,9 @@ export default class PhotoAlbumList extends React.Component<IProps, IState> {
       <View>
         <FlatList
           data={this.padData(this.state.photos)}
-          keyExtractor={(item, index) => item.node.image.uri + index}
+          keyExtractor={this.setKey}
           numColumns={3}
-          onEndReached={async () => {
-            await this.getPhotosFromCameraRoll();
-          }}
+          onEndReached={this.getPhotosFromCameraRoll.bind}
           onRefresh={this.handleRefresh}
           renderItem={this.renderPhotosFromCameraRoll}
           refreshing={this.state.refreshing}
@@ -46,6 +44,10 @@ export default class PhotoAlbumList extends React.Component<IProps, IState> {
 
   public async componentDidMount() {
     await this.getPhotosFromCameraRoll(15, "0");
+  }
+
+  private setKey(item: any, _: number) {
+    return item.node.image.uri;
   }
 
   private padData(data: PhotoIdentifier[]) {
@@ -111,7 +113,7 @@ export default class PhotoAlbumList extends React.Component<IProps, IState> {
 
     return (
       <TouchableOpacity
-        onPress={() => this.props.onPhotoPress(item.node.image.uri)}
+        onPress={this.props.onPhotoPress(item.node.image.uri)}
         style={styles.photoButton}
       >
         <Image source={{ uri: item.node.image.uri }} style={styles.photos} />

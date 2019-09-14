@@ -12,9 +12,6 @@
     ]
   },
   "jsRules": {},
-  "rules": {
-    "jsx-no-lambda": false,
-    "no-var-requires": false
-  },
+  "rules": {},
   "rulesDirectory": []
 }

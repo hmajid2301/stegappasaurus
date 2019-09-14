@@ -44,20 +44,6 @@ export default class ImageMessage extends React.Component<IProps, IState> {
     this.focusListener = null;
   }
 
-  public componentDidMount() {
-    this.focusListener = this.props.navigation.addListener("didFocus", () => {
-      if (this.textInput !== null) {
-        this.textInput.focus();
-      }
-    });
-  }
-
-  public componentWillUnmount() {
-    if (this.focusListener) {
-      this.focusListener.remove();
-    }
-  }
-
   public render() {
     return (
       <KeyboardAvoidingView behavior="height">
@@ -72,8 +58,11 @@ export default class ImageMessage extends React.Component<IProps, IState> {
                 editable={this.props.editable}
                 enablesReturnKeyAutomatically={true}
                 multiline={true}
-                onChangeText={message => this.setState({ message })}
-                onSubmitEditing={() => this.props.action(this.state.message)}
+                onChangeText={this.updateText}
+                onSubmitEditing={this.props.action.bind(
+                  this,
+                  this.state.message
+                )}
                 placeholder={this.props.message}
                 placeholderTextColor={colors.pureWhite}
                 ref={ref => {
@@ -88,4 +77,22 @@ export default class ImageMessage extends React.Component<IProps, IState> {
       </KeyboardAvoidingView>
     );
   }
+
+  public componentDidMount() {
+    this.focusListener = this.props.navigation.addListener("didFocus", () => {
+      if (this.textInput !== null) {
+        this.textInput.focus();
+      }
+    });
+  }
+
+  public componentWillUnmount() {
+    if (this.focusListener) {
+      this.focusListener.remove();
+    }
+  }
+
+  private updateText = (message: string) => {
+    this.setState({ message });
+  };
 }

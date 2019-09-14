@@ -41,7 +41,7 @@ const About = ({ background, color }: IProps) => (
       }}
       title={
         <View>
-          <TouchableOpacity onPress={() => sendEmail()}>
+          <TouchableOpacity onPress={sendEmail}>
             <Text style={[styles.itemText, { color }]}>Email</Text>
             <Text style={[styles.itemText, styles.itemTextUnder]}>
               me@haseebmajid.dev

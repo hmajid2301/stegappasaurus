@@ -28,5 +28,6 @@
     "jest.config.js",
     "metro.config.js",
     "react-native-config.js"
-  ]
+  ],
+  "include": ["./index.d.ts"]
 }
