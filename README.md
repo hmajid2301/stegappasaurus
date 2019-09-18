@@ -47,6 +47,32 @@ BUGSNAG_API_KEY=xxxxx
 CAT_API_KEY=xxx
 ```
 
+## Build Packages
+
+If you wish to build the package locally
+
+```bash
+touch android/gradle.properties
+```
+Then you will need to (Look at the `build:android-package` in the `.gitlab-ci.yml` file to see how currently build our packages).
+
+- [Create a keystore](https://stablekernel.com/creating-keystores-and-signing-android-apps/).
+- [Setup Google PlayStore service Account](https://medium.com/faun/gitlab-ci-cd-configuring-gitlab-variable-and-google-playservice-account-part-3-e6614699cad8)
+
+### Example `android/gradle.properties` file
+
+you can look at `util/generateDotEnv.sh` for an example template file
+
+```bash
+android.useAndroidX=true
+android.enableJetifier=true
+MYAPP_RELEASE_STORE_FILE=stegappasaurus.keystore
+MYAPP_RELEASE_STORE_PASSWORD=$ANDROID_KEYSTORE_PASSWORD
+MYAPP_RELEASE_KEY_ALIAS=$ANDROID_KEYSTORE_ALIAS
+MYAPP_RELEASE_KEY_PASSWORD=$ANDROID_KEYSTORE_KEY_PASSWORD
+yarn build-package
+```
+
 # Changelog
 
 You can find the changelog for this project [here](https://gitlab.com/hmajid2301/stegappasaurus/blob/master/CHANGELOG.md).
