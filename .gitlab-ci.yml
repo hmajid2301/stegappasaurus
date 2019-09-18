@@ -16,8 +16,7 @@ variables:
   DOCKER_DRIVER: overlay2
 
 before_script:
-  - chmod +x util/generateDotEnv.sh
-  - ./util/generateDotEnv.sh > .env
+  - sh util/generateDotEnv.sh > .env
   - yarn
 
 create:merge-request:
@@ -69,8 +68,8 @@ test:coverage:
     - yarn coverage --silent
   coverage: /All\sfiles.*?\s+(\d+.\d+)/
 
-build:android:package:
-  stage: build
+publish:android:package:
+  stage: publish
   image: entria/react-native-android
   only:
     - /^release/.*$/
@@ -78,15 +77,10 @@ build:android:package:
     - echo fs.inotify.max_user_watches=524288 | tee -a /etc/sysctl.conf && sysctl -p
     - cd android
     - base64 -d $ANDROID_KEYSTORE > app/stegappasaurus.keystore
-    - echo "MYAPP_RELEASE_STORE_FILE=stegappasaurus.keystore" >> gradle.properties
-    - echo "MYAPP_RELEASE_STORE_PASSWORD=$ANDROID_KEYSTORE_PASSWORD" >> gradle.properties
-    - echo "MYAPP_RELEASE_KEY_ALIAS=$ANDROID_KEYSTORE_ALIAS" >> gradle.properties
-    - echo "MYAPP_RELEASE_KEY_PASSWORD=$ANDROID_KEYSTORE_KEY_PASSWORD" >> gradle.properties
-    - yarn react-native link
-    - mv $PLAY_STORE_JSON /tmp/play-store-key.json
-    - cp react.gradle ../node_modules/react-native/
+    - sh ../util/generateGradleProperties.sh > gradle.properties
+    - mv $PLAY_STORE_JSON app/play-store.json
     - yarn bundle
-    - yarn build-package
+    - yarn publish-package --no-daemon
   artifacts:
     paths:
       - ./android/app/build/outputs/
@@ -99,10 +93,10 @@ publish:source-maps:
   script:
     - echo fs.inotify.max_user_watches=524288 | tee -a /etc/sysctl.conf && sysctl -p
     - yarn bundle
-    - export VERSION=$(cat package.json | jq -r .version)
+    - export VERSION=$(cat app.json | jq -r .version)
     - curl https://upload.bugsnag.com/react-native-source-map -F apiKey=${BUGSNAG_API_KEY} -F appVersion=${VERSION} -F dev=false -F platform=android -F sourceMap=@android/app/src/main/assets/index.map -F bundle=@android/app/src/main/assets/index.bundle -F projectRoot=`pwd`
 
-create:release:
+post:create:gitlab:release:
   image: registry.gitlab.com/gitlab-automation-toolkit/gitlab-auto-release
   stage: post
   only:

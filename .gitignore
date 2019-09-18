@@ -339,9 +339,11 @@ DerivedData/
 
 
 .vscode
-google-services.json
 *.bundle
 *.map
 *.keystore
 src_assets_*
-*.html
+raw/
+node_modules_*
+gradle.properties
+play-store.json

@@ -1,6 +1,5 @@
 {
   "name": "stegappasaurus",
-  "version": "1.0.0-beta.1",
   "scripts": {
     "android": "react-native run-android",
     "build-package": "cd android && ./gradlew bundleRelease --no-daemon",
@@ -13,9 +12,9 @@
     "coverage": "jest --coverage",
     "log": "react-native log-android",
     "lint": "tslint src/**/*.{ts,tx,tsx} -c tslint.json",
-    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "publish-package": "cd android && ./gradlew publishRelease",
+    "start": "react-native start",
     "tests": "jest",
-    "visualise-bundle": "yarn run react-native-bundle-visualizer",
     "watch-tests": " jest --watch"
   },
   "dependencies": {
@@ -45,9 +44,9 @@
     "react-native-vector-icons": "6.6.0",
     "react-navigation": "4.0.4",
     "react-navigation-drawer": "2.2.0",
-    "react-navigation-stack": "^1.7.3",
+    "react-navigation-stack": "1.7.3",
     "react-navigation-tabs": "2.5.1",
-    "utf8-to-bytes": "^0.1.0-post2",
+    "utf8-to-bytes": "0.1.2",
     "varint": "5.0.0"
   },
   "devDependencies": {
@@ -79,7 +78,6 @@
     "mock-async-storage": "2.2.0",
     "prettier": "1.16.4",
     "react-dom": "16.8.6",
-    "react-native-bundle-visualizer": "1.4.2",
     "react-native-mock-render": "0.1.5",
     "react-test-renderer": "16.8.3",
     "ts-jest": "24.0.2",
