@@ -1,31 +1,29 @@
 import AsyncStorage from "@react-native-community/async-storage";
-import * as React from "react";
+import React, { useContext } from "react";
 import { StatusBar } from "react-native";
 import SplashScreen from "react-native-splash-screen";
 
 import IntroSlider from "~/components/IntroSlider";
 import Loader from "~/components/Loader";
 import { slides } from "~/data";
+import { DARK_THEME, PRIMARY_THEME } from "~/modules";
 import { ITheme } from "~/modules/types";
+import { changeTheme } from "~/state/actions";
+import Store from "~/state/store";
 import MainApp from "~/views/Routes";
-
-interface IProps {
-  theme: ITheme;
-}
 
 interface IState {
   loading: boolean;
   introShown: boolean | null;
+  theme: ITheme;
 }
 
-export default class App extends React.Component<IProps, IState> {
-  constructor(props: IProps) {
-    super(props);
-    this.state = {
-      introShown: false,
-      loading: true
-    };
-  }
+export default class App extends React.Component<{}, IState> {
+  public static state = {
+    introShown: false,
+    loading: true,
+    theme: PRIMARY_THEME
+  };
 
   public render() {
     if (this.state.loading) {
@@ -40,7 +38,7 @@ export default class App extends React.Component<IProps, IState> {
     return (
       <MainApp
         screenProps={{
-          theme: this.props.theme
+          theme: this.state.theme
         }}
       />
     );
@@ -48,12 +46,31 @@ export default class App extends React.Component<IProps, IState> {
 
   public async componentDidMount() {
     SplashScreen.hide();
-    const storedIntroShown = await AsyncStorage.getItem("@IntroShown");
+    const [storedIntroShown, storedTheme] = await Promise.all([
+      AsyncStorage.getItem("@IntroShown"),
+      AsyncStorage.getItem("@Theme")
+    ]);
+
+    let introShown = false;
+    const { state, dispatch } = useContext(Store);
+    let theme = PRIMARY_THEME;
+
     if (storedIntroShown) {
-      const introShown = storedIntroShown === "true" ? true : false;
-      this.setState({ introShown });
+      introShown = storedIntroShown === "true" ? true : false;
     }
-    this.setState({ loading: false });
+    if (storedTheme) {
+      const isDark = storedTheme === "true" ? true : false;
+      changeTheme(isDark, dispatch);
+      theme = isDark ? DARK_THEME : PRIMARY_THEME;
+    } else {
+      theme = state.isDark ? DARK_THEME : PRIMARY_THEME;
+    }
+
+    this.setState({
+      introShown,
+      loading: false,
+      theme
+    });
   }
 
   private introShownToUser = async () => {
