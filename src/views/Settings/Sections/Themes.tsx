@@ -1,9 +1,12 @@
-import * as React from "react";
+import AsyncStorage from "@react-native-community/async-storage";
+import React, { useContext } from "react";
 import { Text, View } from "react-native";
 import { ListItem } from "react-native-elements";
 
 import { colors } from "~/modules";
 import { ITheme } from "~/modules/types";
+import { changeTheme } from "~/state/actions";
+import Store from "~/state/store";
 import styles from "./styles";
 
 interface IProps {
@@ -11,10 +14,6 @@ interface IProps {
 }
 
 export default class Themes extends React.Component<IProps, {}> {
-  constructor(props: IProps) {
-    super(props);
-  }
-
   public render() {
     const { theme } = this.props;
 
@@ -27,7 +26,6 @@ export default class Themes extends React.Component<IProps, {}> {
           titleStyle={styles.itemHeader}
           title={<Text style={styles.itemHeaderText}>Themes</Text>}
         />
-
         <ListItem
           containerStyle={{
             backgroundColor: theme.background
@@ -39,13 +37,17 @@ export default class Themes extends React.Component<IProps, {}> {
           checkBox={{
             checked: theme.isDark,
             checkedColor: colors.primary,
-            onPress: () => {
-              const b = 10;
-              return b;
-            }
+            onPress: this.setTheme.bind(this, !theme.isDark)
           }}
         />
       </View>
     );
+  }
+
+  private async setTheme(isDark: boolean) {
+    const { dispatch } = useContext(Store);
+    changeTheme(isDark, dispatch);
+    await AsyncStorage.setItem("@Theme", JSON.stringify(isDark));
+    this.setState({ isDark });
   }
 }
