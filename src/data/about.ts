@@ -47,6 +47,15 @@ const about: IAboutItem[] = [
       type: "material"
     },
     title: "Rate the App"
+  },
+  {
+    icon: {
+      color: colors.primary,
+      name: "paypal",
+      type: "font-awesome"
+    },
+    title: "Buy me a coffee",
+    url: "https://www.paypal.me/hmajid2301"
   }
 ];
 
