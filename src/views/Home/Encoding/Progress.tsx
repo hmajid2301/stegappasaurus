@@ -8,7 +8,7 @@ import Snackbar from "~/actions/Snackbar";
 import Steganography from "~/actions/Steganography/Steganography";
 import ImageProgress from "~/components/ImageProgress";
 import { colors } from "~/modules";
-import { ITheme } from "~/modules/types";
+import { ITheme, PrimaryColor } from "~/modules/types";
 
 interface IProps {
   navigation: NavigationScreenProp<any, any>;
@@ -50,7 +50,7 @@ export default class Progress extends React.Component<IProps, IState> {
           }}
           onPress={this.shareImage}
           photo={this.state.photo}
-          primaryColor={colors.primary}
+          primaryColor={colors.primary as PrimaryColor}
         />
       </View>
     );
@@ -64,10 +64,11 @@ export default class Progress extends React.Component<IProps, IState> {
   private async callEncodeAPI(imageURI: string, message: string) {
     Image.getSize(
       imageURI,
-      (width, height) => {
+      async (width, height) => {
         try {
           const steganography = new Steganography(imageURI, width, height);
-          steganography.encode(message, "LSB");
+          const encodedImage = await steganography.encode(message, "LSB");
+          await this.encoded(encodedImage);
         } catch (error) {
           this.failedResponse(error);
         }

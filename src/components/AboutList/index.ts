@@ -1,4 +1,4 @@
 import AboutList, { IAboutItem } from "./AboutList";
 
-export { IAboutItem };
+export type IAboutItem = IAboutItem;
 export default AboutList;

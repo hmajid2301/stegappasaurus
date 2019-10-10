@@ -1,4 +1,4 @@
 import IntroSlider, { ISlide } from "./IntroSlider";
 
-export { ISlide };
+export type ISlide = ISlide;
 export default IntroSlider;
