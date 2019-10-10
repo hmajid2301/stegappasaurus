@@ -5,8 +5,6 @@ import { ListItem } from "react-native-elements";
 
 import { colors } from "~/modules";
 import { ITheme } from "~/modules/types";
-import { changeTheme } from "~/state/actions";
-import Store from "~/state/store";
 import styles from "./styles";
 
 interface IProps {
@@ -45,8 +43,7 @@ export default class Themes extends React.Component<IProps, {}> {
   }
 
   private async setTheme(isDark: boolean) {
-    const { dispatch } = useContext(Store);
-    changeTheme(isDark, dispatch);
+    // TODO: EDIT GLOBAL THEME HERE
     await AsyncStorage.setItem("@Theme", JSON.stringify(isDark));
     this.setState({ isDark });
   }

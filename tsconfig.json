@@ -4,30 +4,23 @@
     "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
     "esModuleInterop": true,
+    "isolatedModules": true,
     "jsx": "react",
     "lib": ["es6"],
-    "module": "commonjs",
     "moduleResolution": "node",
     "noEmit": true,
-    "noImplicitAny": true,
-    "noImplicitThis": true,
     "paths": {
       "~/*": ["src/*"]
     },
     "removeComments": true,
     "resolveJsonModule": true,
     "strict": true,
-    "strictNullChecks": true,
-    "strictFunctionTypes": true,
-    "target": "esnext",
-    "typeRoots": ["node_modules/@types"]
+    "target": "esnext"
   },
   "exclude": [
+    "node_modules",
     "babel.config.js",
-    "index.js",
-    "jest.config.js",
     "metro.config.js",
-    "react-native-config.js"
-  ],
-  "include": ["./index.d.ts"]
+    "jest.config.js"
+  ]
 }

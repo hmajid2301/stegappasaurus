@@ -8,8 +8,6 @@ import Loader from "~/components/Loader";
 import { slides } from "~/data";
 import { DARK_THEME, PRIMARY_THEME } from "~/modules";
 import { ITheme } from "~/modules/types";
-import { changeTheme } from "~/state/actions";
-import Store from "~/state/store";
 import MainApp from "~/views/Routes";
 
 interface IState {
@@ -51,8 +49,9 @@ export default class App extends React.Component<{}, IState> {
       AsyncStorage.getItem("@Theme")
     ]);
 
+    // TODO: Edit logic here for dark theme
     let introShown = false;
-    const { state, dispatch } = useContext(Store);
+    const state = DARK_THEME;
     let theme = PRIMARY_THEME;
 
     if (storedIntroShown) {
@@ -60,7 +59,6 @@ export default class App extends React.Component<{}, IState> {
     }
     if (storedTheme) {
       const isDark = storedTheme === "true" ? true : false;
-      changeTheme(isDark, dispatch);
       theme = isDark ? DARK_THEME : PRIMARY_THEME;
     } else {
       theme = state.isDark ? DARK_THEME : PRIMARY_THEME;

@@ -41,7 +41,7 @@ export default class Progress extends React.Component<IProps, IState> {
           animating={this.state.decoding}
           background={theme.background}
           photo={this.state.photo}
-          primaryColor={colors.secondary}
+          primaryColor={colors.secondary as PrimaryColor}
         />
       </View>
     );
@@ -54,10 +54,10 @@ export default class Progress extends React.Component<IProps, IState> {
   private async callDecodeAPI(imageURI: string) {
     Image.getSize(
       imageURI,
-      (width, height) => {
+      async (width, height) => {
         try {
           const steganography = new Steganography(imageURI, width, height);
-          const decodedMessage = steganography.decode();
+          const decodedMessage = await steganography.decode();
           this.decoded(decodedMessage);
         } catch (error) {
           this.failedResponse(error);

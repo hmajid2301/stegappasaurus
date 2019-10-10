@@ -63,7 +63,7 @@ export default class Steganography {
     try {
       const imageData = await this.getImageData(this.imageURI);
       const decodedDecimalData = this.decodeData(imageData);
-      const message = lz.decompress(decodedDecimalData);
+      const message: string = lz.decompress(decodedDecimalData);
       return message;
     } catch (error) {
       if (error instanceof RangeError) {
@@ -172,7 +172,11 @@ export default class Steganography {
     };
   }
 
-  private async saveImage(data: number[], width: number, height: number) {
+  private async saveImage(
+    data: Uint8ClampedArray,
+    width: number,
+    height: number
+  ) {
     const uri = await NativeModules.ImageProcessing.setPixels(
       data,
       width,
