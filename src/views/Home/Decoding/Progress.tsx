@@ -1,9 +1,10 @@
 import * as React from "react";
-import { AppState, View } from "react-native";
+import { AppState, Image, View } from "react-native";
 import { NavigationScreenProp } from "react-navigation";
 
 import Notification from "~/actions/Notification";
 import Snackbar from "~/actions/Snackbar";
+import Steganography from "~/actions/Steganography/Steganography";
 import ImageProgress from "~/components/ImageProgress";
 import { colors } from "~/modules";
 import { ITheme, PrimaryColor } from "~/modules/types";
@@ -40,7 +41,7 @@ export default class Progress extends React.Component<IProps, IState> {
           animating={this.state.decoding}
           background={theme.background}
           photo={this.state.photo}
-          primaryColor={colors.secondary as PrimaryColor}
+          primaryColor={colors.secondary}
         />
       </View>
     );
@@ -50,12 +51,28 @@ export default class Progress extends React.Component<IProps, IState> {
     await this.callDecodeAPI(this.state.photo);
   }
 
-  private async callDecodeAPI(base64Image: string) {
+  private async callDecodeAPI(imageURI: string) {
+    Image.getSize(
+      imageURI,
+      (width, height) => {
+        try {
+          const steganography = new Steganography(imageURI, width, height);
+          const decodedMessage = steganography.decode();
+          this.decoded(decodedMessage);
+        } catch (error) {
+          this.failedResponse(error);
+        }
+      },
+      () => null
+    );
     this.sendNotification();
   }
 
   private decoded(message: string) {
-    this.sendNotification();
+    this.props.navigation.navigate("DecodingMessage", {
+      message,
+      uri: this.state.photo
+    });
   }
 
   private sendNotification() {
@@ -66,7 +83,7 @@ export default class Progress extends React.Component<IProps, IState> {
     }
   }
 
-  private failedResponse() {
+  private failedResponse(error: any) {
     Snackbar.show({
       text: "Failed to decode image, please try again."
     });

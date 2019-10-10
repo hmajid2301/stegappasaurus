@@ -16,8 +16,19 @@ variables:
   DOCKER_DRIVER: overlay2
 
 before_script:
-  - sh util/generateDotEnv.sh > .env
+  - yarn generate-dotenv
   - yarn
+
+close:issue:
+  image: registry.gitlab.com/gitlab-automation-toolkit/gitlab-auto-close-issue
+  stage: pre
+  before_script: []
+  only:
+    - master
+  script:
+    - apk add --no-cache --upgrade grep
+    - ISSUE=$(echo $CI_COMMIT_MESSAGE | grep -oP "(?<=Fixes \#)[0-9]+")
+    - gitlab_auto_close_issue --issue $ISSUE --remove-label "Doing" --remove-label "To Do"
 
 create:merge-request:
   image: registry.gitlab.com/gitlab-automation-toolkit/gitlab-auto-mr
@@ -70,15 +81,15 @@ test:coverage:
 
 publish:android:package:
   stage: publish
-  image: entria/react-native-android
+  image: reactnativecommunity/react-native-android
   only:
     - /^release/.*$/
   script:
     - echo fs.inotify.max_user_watches=524288 | tee -a /etc/sysctl.conf && sysctl -p
     - cd android
     - base64 -d $ANDROID_KEYSTORE > app/stegappasaurus.keystore
-    - sh ../util/generateGradleProperties.sh > gradle.properties
     - mv $PLAY_STORE_JSON app/play-store.json
+    - yarn generate-gradle-propetties
     - yarn bundle
     - yarn publish-package --no-daemon
   artifacts:
@@ -89,7 +100,7 @@ publish:source-maps:
   stage: publish
   only:
     - /^release/.*$/
-  image: entria/react-native-android
+  image: reactnativecommunity/react-native-android
   script:
     - echo fs.inotify.max_user_watches=524288 | tee -a /etc/sysctl.conf && sysctl -p
     - yarn bundle
