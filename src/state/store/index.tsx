@@ -1,7 +1,7 @@
 import React, { createContext } from "react";
 
 import { PRIMARY_THEME } from "~/modules";
-import { CHANGE_THEME } from "~/state/actionTypes";
+import { CHANGE_THEME } from "~/state/actions/actionTypes";
 
 export const Store = createContext(null);
 

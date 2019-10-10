@@ -1,13 +1,14 @@
 import * as React from "react";
-import { AppState, Linking, View } from "react-native";
+import { AppState, Image, Linking, View } from "react-native";
 import Share from "react-native-share";
 import { NavigationScreenProp } from "react-navigation";
 
 import Notification from "~/actions/Notification";
 import Snackbar from "~/actions/Snackbar";
+import Steganography from "~/actions/Steganography/Steganography";
 import ImageProgress from "~/components/ImageProgress";
 import { colors } from "~/modules";
-import { ITheme, PrimaryColor } from "~/modules/types";
+import { ITheme } from "~/modules/types";
 
 interface IProps {
   navigation: NavigationScreenProp<any, any>;
@@ -49,7 +50,7 @@ export default class Progress extends React.Component<IProps, IState> {
           }}
           onPress={this.shareImage}
           photo={this.state.photo}
-          primaryColor={colors.primary as PrimaryColor}
+          primaryColor={colors.primary}
         />
       </View>
     );
@@ -60,8 +61,19 @@ export default class Progress extends React.Component<IProps, IState> {
     await this.callEncodeAPI(this.state.photo, message);
   }
 
-  private async callEncodeAPI(base64Image: string, message: string) {
-    this.sendNotification();
+  private async callEncodeAPI(imageURI: string, message: string) {
+    Image.getSize(
+      imageURI,
+      (width, height) => {
+        try {
+          const steganography = new Steganography(imageURI, width, height);
+          steganography.encode(message, "LSB");
+        } catch (error) {
+          this.failedResponse(error);
+        }
+      },
+      () => null
+    );
   }
 
   private async encoded(base64Image: string) {
@@ -84,8 +96,8 @@ export default class Progress extends React.Component<IProps, IState> {
     }
   }
 
-  private failedResponse(error: any, status: number) {
-    this.sendNotification();
+  private failedResponse(error: any) {
+    this.sendUserBackToMain();
   }
 
   private shareImage = async () => {
