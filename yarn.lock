@@ -5635,7 +5635,7 @@ react-native-config@0.11.7:
   resolved "https://registry.yarnpkg.com/react-native-config/-/react-native-config-0.11.7.tgz#a2b323f2ecd76a4df88cbb6bc86eaa2ef9febee7"
   integrity sha512-dn5s+zhwLyE25vRT/vaEtLk/j8ZL1UZKvejORNDWakSwpOnLmFurFeaZV83IqkPlfWHXHFdsYe2IRYG1WN4WkQ==
 
-react-native-dark-mode@^0.1.2:
+react-native-dark-mode@0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/react-native-dark-mode/-/react-native-dark-mode-0.1.2.tgz#4afd760073d5eb02bb83fc09004733d036e9f2d8"
   integrity sha512-oCanZ5LBJvhmgNCG2uPtvKRfBZ85nBCz/2UHkizXDt3t7ep1Vp994REye/RkIW86bbpPH/Dt8QUHExw5R0ftpg==
@@ -5707,6 +5707,11 @@ react-native-mock-render@0.1.5:
     react-dom "^16.0.0"
     react-timer-mixin "^0.13.3"
     warning "^2.1.0"
+
+react-native-progress-circle@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/react-native-progress-circle/-/react-native-progress-circle-2.0.1.tgz#6a034bef69a13c3b7f1a33722527046d088c233d"
+  integrity sha512-Cb2bBJ+m4DIcUnv7zaRvhMuaZAb1cWrd0UUMFJz/F7Z5yMga3A7SrQGDhtUrcpBju4peyqtUMoQG8dOFEuCVog==
 
 react-native-push-notification@3.1.9:
   version "3.1.9"

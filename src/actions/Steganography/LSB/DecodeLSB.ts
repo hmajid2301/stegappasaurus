@@ -2,9 +2,18 @@ import varint from "varint";
 
 export default class DecodeLSB {
   private pixelIndex: number;
+  private action: () => void;
 
-  constructor() {
+  constructor(action?: () => void) {
     this.pixelIndex = 0;
+
+    if (action !== undefined) {
+      this.action = action;
+    } else {
+      this.action = () => {
+        return;
+      };
+    }
   }
 
   public decode(imageData: Uint8ClampedArray, startDecodingAt = 0) {
@@ -48,6 +57,7 @@ export default class DecodeLSB {
       if ((this.pixelIndex + 1) % 1 === 0) {
         this.pixelIndex += 1;
       }
+      this.action();
     }
     return byte;
   }

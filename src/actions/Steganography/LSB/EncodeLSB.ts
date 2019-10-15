@@ -1,4 +1,16 @@
 export default class EncodeLSB {
+  private action: () => void;
+
+  constructor(action?: () => void) {
+    if (action !== undefined) {
+      this.action = action;
+    } else {
+      this.action = () => {
+        return;
+      };
+    }
+  }
+
   public encode(
     imageData: Uint8ClampedArray,
     binaryMessage: string,
@@ -16,6 +28,7 @@ export default class EncodeLSB {
       if ((pixelIndex + 1) % 1 === 0) {
         pixelIndex += 1;
       }
+      this.action();
     }
     return newPixelData;
   }

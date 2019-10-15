@@ -21,6 +21,7 @@ interface IState {
   encodedUri: string;
   encoding: boolean;
   photo: string;
+  progress: number;
 }
 
 export default class Progress extends React.Component<IProps, IState> {
@@ -31,7 +32,8 @@ export default class Progress extends React.Component<IProps, IState> {
     this.state = {
       encodedUri: "",
       encoding: true,
-      photo: uri
+      photo: uri,
+      progress: 0
     };
   }
 
@@ -50,6 +52,7 @@ export default class Progress extends React.Component<IProps, IState> {
           }}
           onPress={this.shareImage}
           photo={this.state.photo}
+          progress={this.state.progress}
           primaryColor={colors.primary as PrimaryColor}
         />
       </View>
@@ -67,8 +70,12 @@ export default class Progress extends React.Component<IProps, IState> {
       async (width, height) => {
         try {
           const steganography = new Steganography(imageURI, width, height);
+          const timer = setInterval(() => {
+            this.setState({ progress: steganography.getProgress() });
+          }, 1000);
           const encodedImage = await steganography.encode(message, "LSB");
           await this.encoded(encodedImage);
+          clearInterval(timer);
         } catch (error) {
           this.failedResponse(error);
         }

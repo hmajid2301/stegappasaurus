@@ -23,6 +23,10 @@ export default class Steganography {
   private readonly imageURI: string;
   private readonly width: number;
   private readonly height: number;
+  private progress: {
+    increment: number;
+    value: number;
+  };
 
   private numToAlgorithmTypes: IAlgorithms = {
     0: "LSB"
@@ -32,6 +36,10 @@ export default class Steganography {
     this.imageURI = imageURI;
     this.width = width;
     this.height = height;
+    this.progress = {
+      increment: 100 / (width * height * 4),
+      value: 0
+    };
   }
 
   public async encode(
@@ -77,6 +85,14 @@ export default class Steganography {
     }
   }
 
+  public updateProgress() {
+    this.progress.value += this.progress.increment;
+  }
+
+  public getProgress() {
+    return this.progress.value;
+  }
+
   private convertMessageToBits(message: string) {
     const compressedMessage = lz.compress(message);
     const messageLength = varint.encode(compressedMessage.length);
@@ -113,7 +129,7 @@ export default class Steganography {
 
     switch (algorithm) {
       default: {
-        encodedData = new EncodeLSB().encode(
+        encodedData = new EncodeLSB(this.updateProgress).encode(
           newImageData,
           data,
           startEncodingAt
@@ -138,7 +154,7 @@ export default class Steganography {
 
   private encodeMetadata(imageData: Uint8ClampedArray, metadata: IMetaData) {
     const metadataToEncode = [];
-    const dataToEncode = ["algorithm", "limit", "password"];
+    const dataToEncode = ["algorithm"];
 
     for (const data of dataToEncode) {
       const tempData = metadata[data];
@@ -191,7 +207,10 @@ export default class Steganography {
 
     switch (algorithm) {
       default: {
-        decodedMessage = new DecodeLSB().decode(imageData, startDecodingAt);
+        decodedMessage = new DecodeLSB(this.updateProgress).decode(
+          imageData,
+          startDecodingAt
+        );
       }
     }
 

@@ -1,5 +1,7 @@
 import { Dimensions, StyleSheet } from "react-native";
 
+import { fonts } from "~/modules";
+
 const pageWidth = Dimensions.get("window").width;
 
 const styles = StyleSheet.create({
@@ -25,6 +27,12 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flex: 1,
     justifyContent: "center"
+  },
+
+  textPercentage: {
+    color: "black",
+    fontFamily: fonts.body,
+    fontSize: 50
   }
 });
 
