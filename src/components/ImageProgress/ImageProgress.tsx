@@ -1,6 +1,14 @@
 import React from "react";
-import { ImageBackground, TouchableOpacity, View } from "react-native";
+import {
+  Dimensions,
+  ImageBackground,
+  Text,
+  TouchableOpacity,
+  View
+} from "react-native";
 import { Icon, IconType } from "react-native-elements";
+// @ts-ignore
+import PercentageCircle from "react-native-percentage-circle";
 
 import { PrimaryColor, ThemeColors } from "~/modules/types";
 import styles from "./styles";
@@ -15,9 +23,12 @@ interface IProps {
     size: number;
     type: IconType;
   };
+  progress: number;
   photo: string;
   primaryColor: PrimaryColor;
 }
+
+const pageWidth = Dimensions.get("window").width;
 
 const ImageProgress: React.FunctionComponent<IProps> = (props: IProps) => (
   <View
@@ -27,18 +38,26 @@ const ImageProgress: React.FunctionComponent<IProps> = (props: IProps) => (
       <View style={{ flex: 1, justifyContent: "center" }} />
     ) : (
       <TouchableOpacity activeOpacity={0.8} onPress={props.onPress}>
-        <ImageBackground
-          imageStyle={[
-            styles.circularImage,
-            { borderColor: props.primaryColor }
-          ]}
-          source={{ uri: props.photo }}
-          style={styles.image}
+        <PercentageCircle
+          borderWidth={5}
+          color={props.primaryColor}
+          percent={props.progress}
+          radius={pageWidth * 0.334}
         >
-          <View style={styles.iconContainer}>
-            {props.icon && <Icon {...props.icon} />}
-          </View>
-        </ImageBackground>
+          <ImageBackground
+            imageStyle={[
+              styles.circularImage,
+              { borderColor: props.primaryColor }
+            ]}
+            source={{ uri: props.photo }}
+            style={styles.image}
+          >
+            <View style={styles.iconContainer}>
+              {props.icon && <Icon {...props.icon} />}
+              <Text style={styles.textPercentage}>{props.progress}%</Text>
+            </View>
+          </ImageBackground>
+        </PercentageCircle>
       </TouchableOpacity>
     )}
   </View>

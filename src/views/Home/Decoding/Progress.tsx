@@ -19,6 +19,7 @@ interface IProps {
 interface IState {
   decoding: boolean;
   photo: string;
+  progress: number;
 }
 
 export default class Progress extends React.Component<IProps, IState> {
@@ -28,7 +29,8 @@ export default class Progress extends React.Component<IProps, IState> {
 
     this.state = {
       decoding: true,
-      photo: uri
+      photo: uri,
+      progress: 0
     };
   }
 
@@ -42,6 +44,7 @@ export default class Progress extends React.Component<IProps, IState> {
           background={theme.background}
           photo={this.state.photo}
           primaryColor={colors.secondary as PrimaryColor}
+          progress={this.state.progress}
         />
       </View>
     );
@@ -57,7 +60,11 @@ export default class Progress extends React.Component<IProps, IState> {
       async (width, height) => {
         try {
           const steganography = new Steganography(imageURI, width, height);
+          const timer = setInterval(() => {
+            this.setState({ progress: steganography.getProgress() });
+          }, 1000);
           const decodedMessage = await steganography.decode();
+          clearInterval(timer);
           this.decoded(decodedMessage);
         } catch (error) {
           this.failedResponse(error);

@@ -17,6 +17,7 @@ describe("ImageProgress: Match snapshots", () => {
         }}
         onPress={() => null}
         photo="images.png"
+        progress={100}
         primaryColor="#009CFF"
       />
     );
@@ -36,6 +37,7 @@ describe("ImageProgress: Match snapshots", () => {
         }}
         onPress={() => null}
         photo="images.png"
+        progress={0}
         primaryColor="#E88C0C"
       />
     );
