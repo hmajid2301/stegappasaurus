@@ -9,7 +9,7 @@
  *
  */
 export default class MessageTooLongError extends Error {
-  public name: "MessageTooLong";
+  public name: 'MessageTooLong';
   public message: string;
   public messageToEncode: string;
 
@@ -17,7 +17,7 @@ export default class MessageTooLongError extends Error {
     super(message);
 
     Error.captureStackTrace(this, MessageTooLongError);
-    this.name = "MessageTooLong";
+    this.name = 'MessageTooLong';
     this.message = message;
     this.messageToEncode = messageToEncode;
   }

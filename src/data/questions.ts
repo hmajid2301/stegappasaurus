@@ -1,12 +1,25 @@
-import { IFAQ } from "~/components/FAQList";
+import {IFAQ} from '~/components/FAQList';
 
 const questions: IFAQ[] = [
+  {
+    content: 'Yes the app is 100% free and fully open source.',
+    title: 'Is Stegappasaurus mobile application free?',
+  },
+  {
+    content: 'At the moment just Android.',
+    title: 'What OS is the application available on?',
+  },
+  {
+    content:
+      "Simple answer no, all the data is stored on the user's (your device).",
+    title: 'Do you store any data?',
+  },
   {
     content: `Steganography is the art/science of hiding data in plain sight. In the context of this \
 app, it allows you to hide messages (text) within images. You do this by encoding the image with \
 the text data. You can then share the image with other people and they can decode the image \
 (retrieve the original message) using this app.`,
-    title: "What is steganography?"
+    title: 'What is steganography?',
   },
   {
     content: `Not quite, encryption, involves obscuring information whereas steganography is concerned with hiding it. \
@@ -18,7 +31,7 @@ party without anyone noticing.\n\n \
 You can combine the two "techniques", encrypt your data before encoding it into an image, then simply \
 decrypt the message after decoding it from the image for added security. This involves a shared secret \
 "password" between you and the person you are sending the image to.`,
-    title: "So is it the same as encryption?"
+    title: 'So is it the same as encryption?',
   },
   {
     content: `This app uses different steganography algorithms to encode the RGB (Red, Green, Blue) pixel values \
@@ -28,7 +41,7 @@ to decode and get the originally encoded message.\n\n \
 In general each algorithm will encode the size of the message, this is so that when decoding the image we \
 know when to stop. Each character in the message usually uses 8 bits in the images, this is because we \
 encode it using the UTF-8 representation of the letter, symbol or emoji.`,
-    title: "How does this app work?"
+    title: 'How does this app work?',
   },
   {
     content: `There are many ways to represent colours in an image one of the most common ways is to the (8 bit) RGB colour \
@@ -40,7 +53,7 @@ So for example, if the RGB values of a pixel was set to 255 (all of them) then t
 white (all colours added together). However, if the RGB values were set to 0, the pixel would be \
 black. By changing the values of the RGB components we get different colours. So, all in all, \
 we can represent 255 ^ 3 colours in 8-bit RGB or 16,777,216 different colours.`,
-    title: "How do RGB images work?"
+    title: 'How do RGB images work?',
   },
   {
     content: `LSB which stands for least significant bits, involves changing the smallest bit in a binary number. The \
@@ -62,8 +75,8 @@ change the LSB. So to include 65 we will need 8 bytes so we will encode the foll
 (across 3 pixels)." In our specific implementation, we also include the size of the message we are encoding at \
 the beginning so in this case 'A' message is just 1. So we will encode the following byte '00000001'. So the \
 whole message that we will encode is '0000000101000001'.`,
-    title: "How does LSB work?"
-  }
+    title: 'How does LSB work?',
+  },
 ];
 
 export default questions;

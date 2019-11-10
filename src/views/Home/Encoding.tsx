@@ -1,40 +1,40 @@
-import { NavigationRoute, NavigationScreenProp } from "react-navigation";
-import { createStackNavigator } from "react-navigation-stack";
+import {NavigationRoute, NavigationScreenProp} from 'react-navigation';
+import {createStackNavigator} from 'react-navigation-stack';
 
-import Main from "./Encoding/Main";
-import Message from "./Encoding/Message";
-import Progress from "./Encoding/Progress";
+import Main from './Encoding/Main';
+import Message from './Encoding/Message';
+import Progress from './Encoding/Progress';
 
 const EncodeNavigator = createStackNavigator({
   EncodingMain: {
     navigationOptions: {
-      header: null
+      header: null,
     },
-    screen: Main
+    screen: Main,
   },
 
   EncodingMessage: {
     navigationOptions: {
-      header: null
+      header: null,
     },
-    screen: Message
+    screen: Message,
   },
 
   EncodingProgress: {
     navigationOptions: {
-      header: null
+      header: null,
     },
-    screen: Progress
-  }
+    screen: Progress,
+  },
 });
 
 EncodeNavigator.navigationOptions = ({
-  navigation
+  navigation,
 }: {
   navigation: NavigationScreenProp<NavigationRoute>;
 }) => ({
   swipeEnabled: navigation.state.index === 0,
-  tabBarVisible: navigation.state.index === 0
+  tabBarVisible: navigation.state.index === 0,
 });
 
 export default EncodeNavigator;

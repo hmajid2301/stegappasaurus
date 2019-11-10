@@ -4,7 +4,6 @@ import React from "react";
 import Snackbar from "~/actions/Snackbar";
 import Main from "~/views/Home/Decoding/Main";
 
-jest.mock("react-native-share-menu");
 const navigate = {
   navigate: jest.fn(),
   getParam: jest.fn(),

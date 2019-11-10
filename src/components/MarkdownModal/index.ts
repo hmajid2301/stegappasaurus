@@ -1,3 +1,3 @@
-import MarkdownModal from "./MarkdownModal";
+import MarkdownModal from './MarkdownModal';
 
 export default MarkdownModal;

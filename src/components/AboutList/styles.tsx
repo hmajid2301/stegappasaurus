@@ -1,11 +1,11 @@
-import { StyleSheet } from "react-native";
+import {StyleSheet} from 'react-native';
 
-import { fonts } from "~/modules";
+import {bodyLight} from '~/constants/fonts';
 
 const styles = StyleSheet.create({
   text: {
-    fontFamily: fonts.bodyLight
-  }
+    fontFamily: bodyLight,
+  },
 });
 
 export default styles;

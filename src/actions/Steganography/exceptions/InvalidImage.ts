@@ -8,7 +8,7 @@
  *
  */
 export default class InvalidImageError extends Error {
-  public name: "InvalidImage";
+  public name: 'InvalidImage';
   public message: string;
   public base64Image: string;
 
@@ -16,7 +16,7 @@ export default class InvalidImageError extends Error {
     super(message);
     Error.captureStackTrace(this, InvalidImageError);
 
-    this.name = "InvalidImage";
+    this.name = 'InvalidImage';
     this.message = message;
     this.base64Image = base64Image;
   }

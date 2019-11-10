@@ -1,14 +1,14 @@
-import * as React from "react";
-import { Text, View } from "react-native";
-import { ListItem } from "react-native-elements";
+import * as React from 'react';
+import {Text, View} from 'react-native';
+import {ListItem} from 'react-native-elements';
 
-import MarkdownModal from "~/components/MarkdownModal";
-import license from "~/data/license";
-import privatePolicy from "~/data/privatePolicy";
-import termsOfUse from "~/data/termsOfUse";
-import { ThemeColors } from "~/modules/types";
+import MarkdownModal from '~/components/MarkdownModal';
+import {ThemeColors} from '~/constants/types';
+import license from '~/data/license';
+import privatePolicy from '~/data/privatePolicy';
+import termsOfUse from '~/data/termsOfUse';
 
-import styles from "./styles";
+import styles from './styles';
 
 interface IProps {
   background: ThemeColors;
@@ -17,12 +17,12 @@ interface IProps {
 
 export default class Support extends React.Component<IProps, {}> {
   public render() {
-    const { background } = this.props;
+    const {background} = this.props;
     return (
       <View>
         <ListItem
           containerStyle={{
-            backgroundColor: background
+            backgroundColor: background,
           }}
           title={<Text style={styles.itemHeaderText}>Support</Text>}
           titleStyle={styles.itemHeader}
@@ -30,7 +30,7 @@ export default class Support extends React.Component<IProps, {}> {
 
         <ListItem
           containerStyle={{
-            backgroundColor: background
+            backgroundColor: background,
           }}
           title={this.PrivatePolicy()}
           topDivider={true}
@@ -38,14 +38,14 @@ export default class Support extends React.Component<IProps, {}> {
         />
         <ListItem
           containerStyle={{
-            backgroundColor: background
+            backgroundColor: background,
           }}
           title={this.TermsOfUse()}
           bottomDivider={true}
         />
         <ListItem
           containerStyle={{
-            backgroundColor: background
+            backgroundColor: background,
           }}
           title={this.License()}
           bottomDivider={true}
@@ -58,8 +58,7 @@ export default class Support extends React.Component<IProps, {}> {
     <MarkdownModal
       background={this.props.background}
       color={this.props.color}
-      name="Private Policy"
-    >
+      name="Private Policy">
       {privatePolicy}
     </MarkdownModal>
   );
@@ -68,8 +67,7 @@ export default class Support extends React.Component<IProps, {}> {
     <MarkdownModal
       background={this.props.background}
       color={this.props.color}
-      name="Terms of Use"
-    >
+      name="Terms of Use">
       {termsOfUse}
     </MarkdownModal>
   );
@@ -78,8 +76,7 @@ export default class Support extends React.Component<IProps, {}> {
     <MarkdownModal
       background={this.props.background}
       color={this.props.color}
-      name="License"
-    >
+      name="License">
       {license}
     </MarkdownModal>
   );

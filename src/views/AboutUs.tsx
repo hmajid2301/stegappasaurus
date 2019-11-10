@@ -1,12 +1,12 @@
-import React from "react";
-import { ScrollView, Text, View } from "react-native";
-import { NavigationScreenProp } from "react-navigation";
+import React from 'react';
+import {ScrollView, Text, View} from 'react-native';
+import {NavigationScreenProp} from 'react-navigation';
 
-import AboutList from "~/components/AboutList";
-import AppHeader from "~/components/AppHeader";
-import { about } from "~/data";
-import { ITheme } from "~/modules/types";
-import styles from "~/views/AboutUs/styles";
+import AboutList from '~/components/AboutList';
+import AppHeader from '~/components/AppHeader';
+import {ITheme} from '~/constants/types';
+import {about} from '~/data';
+import styles from '~/views/AboutUs/styles';
 
 interface IProps {
   navigation: NavigationScreenProp<any, any>;
@@ -17,15 +17,15 @@ interface IProps {
 
 export default class AboutUs extends React.Component<IProps, {}> {
   public render() {
-    const { theme } = this.props.screenProps;
+    const {theme} = this.props.screenProps;
 
     return (
-      <View style={[styles.container, { backgroundColor: theme.background }]}>
+      <View style={[styles.container, {backgroundColor: theme.background}]}>
         <ScrollView>
           <AppHeader navigation={this.props.navigation} theme={theme} />
 
           <View style={styles.textContainer}>
-            <Text style={[styles.about, { color: theme.color }]}>
+            <Text style={[styles.about, {color: theme.color}]}>
               Stegappasaurus is a free mobile application fully open source,
               built using React Native. This application uses steganography
               algorithms to hide your (text) data within images. This project

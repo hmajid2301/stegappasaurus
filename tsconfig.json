@@ -9,6 +9,8 @@
     "lib": ["es6"],
     "moduleResolution": "node",
     "noEmit": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
     "paths": {
       "~/*": ["src/*"]
     },
@@ -23,6 +25,7 @@
     "metro.config.js",
     "__mocks__",
     "jest.config.js",
-    "react-native.config.js"
+    "react-native.config.js",
+    "__tests__"
   ]
 }

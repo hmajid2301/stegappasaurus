@@ -1,40 +1,40 @@
-import { NavigationRoute, NavigationScreenProp } from "react-navigation";
-import { createStackNavigator } from "react-navigation-stack";
+import {NavigationRoute, NavigationScreenProp} from 'react-navigation';
+import {createStackNavigator} from 'react-navigation-stack';
 
-import Main from "./Decoding/Main";
-import Message from "./Decoding/Message";
-import Progress from "./Decoding/Progress";
+import Main from './Decoding/Main';
+import Message from './Decoding/Message';
+import Progress from './Decoding/Progress';
 
 const DecodeNavigator = createStackNavigator({
   DecodingMain: {
     navigationOptions: {
-      header: null
+      header: null,
     },
-    screen: Main
+    screen: Main,
   },
 
   DecodingMessage: {
     navigationOptions: {
-      header: null
+      header: null,
     },
-    screen: Message
+    screen: Message,
   },
 
   DecodingProgress: {
     navigationOptions: {
-      header: null
+      header: null,
     },
-    screen: Progress
-  }
+    screen: Progress,
+  },
 });
 
 DecodeNavigator.navigationOptions = ({
-  navigation
+  navigation,
 }: {
   navigation: NavigationScreenProp<NavigationRoute>;
 }) => ({
   swipeEnabled: navigation.state.index === 0,
-  tabBarVisible: navigation.state.index === 0
+  tabBarVisible: navigation.state.index === 0,
 });
 
 export default DecodeNavigator;

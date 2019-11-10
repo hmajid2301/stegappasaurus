@@ -1,3 +1,3 @@
-import Bugsnag from "./Bugsnag";
+import Bugsnag from './Bugsnag';
 
 export default Bugsnag;

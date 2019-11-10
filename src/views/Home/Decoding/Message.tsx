@@ -1,7 +1,7 @@
-import * as React from "react";
-import { NavigationScreenProp } from "react-navigation";
+import * as React from 'react';
+import {NavigationScreenProp} from 'react-navigation';
 
-import ImageMessage from "~/components/ImageMessage";
+import ImageMessage from '~/components/ImageMessage';
 
 interface IProps {
   navigation: NavigationScreenProp<any, any>;
@@ -16,14 +16,14 @@ interface IState {
 class Progress extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
-    const { navigation } = props;
-    const uri = navigation.getParam("uri", "NO-ID");
-    const message = navigation.getParam("message", "NO-ID");
+    const {navigation} = props;
+    const uri = navigation.getParam('uri', 'NO-ID');
+    const message = navigation.getParam('message', 'NO-ID');
 
     this.state = {
       isDecoded: false,
       message,
-      photo: uri
+      photo: uri,
     };
   }
 

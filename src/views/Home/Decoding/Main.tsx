@@ -1,13 +1,13 @@
-import * as React from "react";
-import { TouchableOpacity, View } from "react-native";
-import { Icon } from "react-native-elements";
-import ImagePicker from "react-native-image-picker";
-import { NavigationScreenProp } from "react-navigation";
+import * as React from 'react';
+import {TouchableOpacity, View} from 'react-native';
+import {Icon} from 'react-native-elements';
+import ImagePicker from 'react-native-image-picker';
+import {NavigationScreenProp} from 'react-navigation';
 
-import Snackbar from "~/actions/Snackbar";
-import PhotoAlbumList from "~/components/PhotoAlbumList";
-import { ITheme } from "~/modules/types";
-import styles from "./Main/styles";
+import Snackbar from '~/actions/Snackbar';
+import PhotoAlbumList from '~/components/PhotoAlbumList';
+import {ITheme} from '~/constants/types';
+import styles from './Main/styles';
 
 interface IProps {
   navigation: NavigationScreenProp<any, any>;
@@ -17,15 +17,19 @@ interface IProps {
 }
 
 export default class Main extends React.Component<IProps, {}> {
+  constructor(props: IProps) {
+    super(props);
+  }
+
   public render() {
-    const { theme } = this.props.screenProps;
+    const {theme} = this.props.screenProps;
+
     return (
-      <View style={[styles.container, { backgroundColor: theme.background }]}>
+      <View style={[styles.container, {backgroundColor: theme.background}]}>
         <View style={styles.buttonsRow}>
           <TouchableOpacity
             onPress={this.getPhotoFromCameraRoll}
-            style={styles.button}
-          >
+            style={styles.button}>
             <Icon name="photo" iconStyle={styles.icon} type="font-awesome" />
           </TouchableOpacity>
         </View>
@@ -41,22 +45,22 @@ export default class Main extends React.Component<IProps, {}> {
     try {
       ImagePicker.launchImageLibrary(
         {
-          mediaType: "photo"
+          mediaType: 'photo',
         },
         response => {
           if (!response.didCancel) {
             this.selectPhotoToDecode(response.uri);
           }
-        }
+        },
       );
     } catch {
       Snackbar.show({
-        text: "This app does not have permission to access the camera roll."
+        text: 'This app does not have permission to access the camera roll.',
       });
     }
   };
 
   private selectPhotoToDecode = (uri: string) => {
-    this.props.navigation.navigate("DecodingProgress", { uri });
+    this.props.navigation.navigate('DecodingProgress', {uri});
   };
 }

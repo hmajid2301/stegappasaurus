@@ -1,13 +1,13 @@
-import * as React from "react";
-import { AppState, Image, View } from "react-native";
-import { NavigationScreenProp } from "react-navigation";
+import * as React from 'react';
+import {Image, View} from 'react-native';
+import Canvas from 'react-native-canvas';
+import {NavigationScreenProp} from 'react-navigation';
 
-import Notification from "~/actions/Notification";
-import Snackbar from "~/actions/Snackbar";
-import Steganography from "~/actions/Steganography/Steganography";
-import ImageProgress from "~/components/ImageProgress";
-import { colors } from "~/modules";
-import { ITheme, PrimaryColor } from "~/modules/types";
+import Snackbar from '~/actions/Snackbar';
+import Steganography from '~/actions/Steganography/Steganography';
+import ImageProgress from '~/components/ImageProgress';
+import {secondary} from '~/constants/colors';
+import {ITheme, TabColors} from '~/constants/types';
 
 interface IProps {
   navigation: NavigationScreenProp<any, any>;
@@ -25,74 +25,67 @@ interface IState {
 export default class Progress extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
-    const uri = this.props.navigation.getParam("uri", "NO-ID");
+    const uri = this.props.navigation.getParam('uri', 'NO-ID');
 
     this.state = {
       decoding: true,
       photo: uri,
-      progress: 0
+      progress: 0,
     };
   }
 
   public render() {
-    const { theme } = this.props.screenProps;
+    const {theme} = this.props.screenProps;
 
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{flex: 1}}>
         <ImageProgress
           animating={this.state.decoding}
           background={theme.background}
           photo={this.state.photo}
-          primaryColor={colors.secondary as PrimaryColor}
+          primaryColor={secondary as TabColors}
           progress={this.state.progress}
         />
+        <Canvas ref={this.decodeImage} style={{display: 'none'}} />
       </View>
     );
   }
 
-  public async componentDidMount() {
-    await this.callDecodeAPI(this.state.photo);
-  }
-
-  private async callDecodeAPI(imageURI: string) {
+  private async decodeImage(canvas: Canvas) {
     Image.getSize(
-      imageURI,
+      this.state.photo,
       async (width, height) => {
         try {
-          const steganography = new Steganography(imageURI, width, height);
+          const steganography = new Steganography(
+            canvas,
+            this.state.photo,
+            width,
+            height,
+          );
           const timer = setInterval(() => {
-            this.setState({ progress: steganography.getProgress() });
-          }, 1000);
+            this.setState({progress: steganography.getProgress()});
+          }, 100);
           const decodedMessage = await steganography.decode();
           clearInterval(timer);
-          this.decoded(decodedMessage);
+          this.success(decodedMessage);
         } catch (error) {
-          this.failedResponse(error);
+          this.failed(error);
         }
       },
-      () => null
+      () => null,
     );
-    this.sendNotification();
   }
 
-  private decoded(message: string) {
-    this.props.navigation.navigate("DecodingMessage", {
+  private success(message: string) {
+    this.props.navigation.navigate('DecodingMessage', {
       message,
-      uri: this.state.photo
+      uri: this.state.photo,
     });
   }
 
-  private sendNotification() {
-    if (AppState.currentState === "background") {
-      Notification.localNotification({
-        message: "Your image has been decoded."
-      });
-    }
-  }
-
-  private failedResponse(error: any) {
+  private failed(_: any) {
     Snackbar.show({
-      text: "Failed to decode image, please try again."
+      text: 'Failed to decode image, please try again.',
     });
     this.props.navigation.goBack();
   }

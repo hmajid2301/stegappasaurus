@@ -1,15 +1,12 @@
-import lz from "lzutf8";
-import { NativeModules } from "react-native";
-import { stringToArray } from "utf8-to-bytes";
-import varint from "varint";
+import LZUTF8 from 'lzutf8';
+import {stringToArray} from 'utf8-to-bytes';
+import varint from 'varint';
 
-import {
-  ImageNotEncodedError,
-  MessageTooLongError
-} from "~/actions/Steganography/exceptions";
-import { DecodeLSB, EncodeLSB } from "./LSB";
+import Canvas, {Image as CanvasImage, ImageData} from 'react-native-canvas';
+import {ImageNotEncodedError, MessageTooLongError} from './exceptions';
+import {DecodeLSB, EncodeLSB} from './LSB';
 
-type AlgorithmNames = "LSB";
+type AlgorithmNames = 'LSBv1';
 
 interface IMetaData {
   [name: string]: number | string;
@@ -20,6 +17,7 @@ interface IAlgorithms {
 }
 
 export default class Steganography {
+  private readonly canvas: Canvas;
   private readonly imageURI: string;
   private readonly width: number;
   private readonly height: number;
@@ -29,38 +27,45 @@ export default class Steganography {
   };
 
   private numToAlgorithmTypes: IAlgorithms = {
-    0: "LSB"
+    0: 'LSBv1',
   };
 
-  constructor(imageURI: string, width: number, height: number) {
+  constructor(canvas: Canvas, imageURI: string, width: number, height: number) {
+    this.canvas = canvas;
     this.imageURI = imageURI;
     this.width = width;
     this.height = height;
+    this.canvas.width = width;
+    this.canvas.height = height;
     this.progress = {
-      increment: 100 / (width * height * 4),
-      value: 0
+      increment: 0,
+      value: 0,
     };
   }
 
   public async encode(
     message: string,
-    algorithm: AlgorithmNames,
-    metadata?: IMetaData
+    algorithm: AlgorithmNames = 'LSBv1',
+    metadata?: IMetaData,
   ) {
     try {
-      const imageData = await this.getImageData(this.imageURI);
-      const binaryMessage = this.convertMessageToBits(message);
+      const output = LZUTF8.compress(message);
+      const binaryMessage = this.convertMessageToBits(output);
+      const imageData = await this.getImageData(
+        this.imageURI,
+        binaryMessage.length,
+      );
       const newImageData = this.encodeData(
         imageData,
         binaryMessage,
         algorithm,
-        metadata
+        metadata,
       );
-      const uri = this.saveImage(newImageData, this.width, this.height);
-      return uri;
+      const url = await this.getEncodedImageURI(newImageData);
+      return url;
     } catch (error) {
       if (error instanceof RangeError) {
-        throw new MessageTooLongError("Message too long to encode", message);
+        throw new MessageTooLongError('Message too long to encode', message);
       } else {
         throw new Error(error);
       }
@@ -69,15 +74,18 @@ export default class Steganography {
 
   public async decode() {
     try {
-      const imageData = await this.getImageData(this.imageURI);
+      const imageData = await this.getImageData(
+        this.imageURI,
+        this.width * this.height,
+      );
       const decodedDecimalData = this.decodeData(imageData);
-      const message: string = lz.decompress(decodedDecimalData);
+      const message = LZUTF8.decompress(decodedDecimalData);
       return message;
     } catch (error) {
       if (error instanceof RangeError) {
         throw new ImageNotEncodedError(
-          "Image is not encoded with any data",
-          this.imageURI
+          'Image is not encoded with any data',
+          this.imageURI,
         );
       } else {
         throw new Error(error);
@@ -93,12 +101,11 @@ export default class Steganography {
     return this.progress.value;
   }
 
-  private convertMessageToBits(message: string) {
-    const compressedMessage = lz.compress(message);
-    const messageLength = varint.encode(compressedMessage.length);
-    const arrayToEncode = [...messageLength, ...compressedMessage];
+  private convertMessageToBits(message: Uint8Array) {
+    const messageLength = varint.encode(message.length);
+    const arrayToEncode = [...messageLength, ...message];
 
-    let bitsToEncode: string = "";
+    let bitsToEncode: string = '';
     for (const element of arrayToEncode) {
       bitsToEncode += this.convertDecimalToBytes(element);
     }
@@ -106,33 +113,61 @@ export default class Steganography {
     return bitsToEncode;
   }
 
-  private async getImageData(imageURI: string) {
-    const imageData = await NativeModules.ImageProcessing.getPixels(imageURI);
-    return imageData;
+  private async getImageData(imageURI: string, length: number) {
+    const context = this.canvas.getContext('2d');
+    const uri = imageURI;
+    const image = await this.loadImage(uri);
+    context.drawImage(image, 0, 0, this.width, this.height);
+
+    const bytesRequired = this.getBytesRequired(length);
+    const width = bytesRequired % this.width;
+    const height = Math.floor(bytesRequired / this.height) + 1;
+
+    const rgbaImageObject = await context.getImageData(0, 0, width, height);
+    const rgbData = Object.values(rgbaImageObject.data).filter((_, index) => {
+      return (index + 1) % 4 !== 0;
+    });
+    return rgbData;
+  }
+
+  private loadImage(url: string): Promise<CanvasImage> {
+    return new Promise(resolve => {
+      const image = new CanvasImage(this.canvas);
+      image.addEventListener('load', () => {
+        resolve(image);
+      });
+      image.src = url;
+    });
+  }
+
+  private getBytesRequired(messageLength: number, _: AlgorithmNames = 'LSBv1') {
+    const bytesRequired = Math.ceil((messageLength + 8) / 3);
+    return bytesRequired;
   }
 
   private encodeData(
-    imageData: Uint8ClampedArray,
+    imageData: number[],
     data: string,
     algorithm: AlgorithmNames,
-    metadata?: IMetaData
+    metadata?: IMetaData,
   ) {
+    this.progress.increment = 100 / data.length;
     metadata = this.setDefaultMetaData(
-      metadata && algorithm !== "LSB" ? metadata : {},
-      algorithm
+      metadata && algorithm !== 'LSBv1' ? metadata : {},
+      algorithm,
     );
-    const { newImageData, startEncodingAt } = this.encodeMetadata(
+    const {newImageData, startEncodingAt} = this.encodeMetadata(
       imageData,
-      metadata
+      metadata,
     );
-    let encodedData;
 
+    let encodedData;
     switch (algorithm) {
       default: {
-        encodedData = new EncodeLSB(this.updateProgress).encode(
+        encodedData = new EncodeLSB(this.updateProgress.bind(this)).encode(
           newImageData,
           data,
-          startEncodingAt
+          startEncodingAt,
         );
       }
     }
@@ -147,14 +182,14 @@ export default class Steganography {
     return metadata;
   }
 
-  private algorithmsTypesToNum(algorithm = "LSB") {
+  private algorithmsTypesToNum(algorithm = 'LSB') {
     const values = Object.values(this.numToAlgorithmTypes);
     return values.indexOf(algorithm);
   }
 
-  private encodeMetadata(imageData: Uint8ClampedArray, metadata: IMetaData) {
+  private encodeMetadata(imageData: number[], metadata: IMetaData) {
     const metadataToEncode = [];
-    const dataToEncode = ["algorithm"];
+    const dataToEncode = ['algorithm'];
 
     for (const data of dataToEncode) {
       const tempData = metadata[data];
@@ -163,7 +198,7 @@ export default class Steganography {
       }
 
       let decimalDataToEncode;
-      if (typeof tempData === "string") {
+      if (typeof tempData === 'string') {
         decimalDataToEncode = stringToArray(tempData) as number[];
       } else {
         decimalDataToEncode = varint.encode(tempData);
@@ -171,45 +206,43 @@ export default class Steganography {
       metadataToEncode.push(...decimalDataToEncode);
     }
 
-    let binaryMetadata = "";
+    let binaryMetadata = '';
     for (const data of metadataToEncode) {
       binaryMetadata += this.convertDecimalToBytes(data);
     }
     const imageDataWithMetadata = new EncodeLSB().encode(
       imageData,
-      binaryMetadata
+      binaryMetadata,
     );
 
-    let encodedPixels = binaryMetadata.length;
-    encodedPixels += Math.floor(encodedPixels / 4);
     return {
       newImageData: imageDataWithMetadata,
-      startEncodingAt: encodedPixels
+      startEncodingAt: binaryMetadata.length,
     };
   }
 
-  private async saveImage(
-    data: Uint8ClampedArray,
-    width: number,
-    height: number
-  ) {
-    const uri = await NativeModules.ImageProcessing.setPixels(
-      data,
-      width,
-      height
-    );
-    return uri;
+  private async getEncodedImageURI(data: number[]) {
+    const context = this.canvas.getContext('2d');
+    for (let index = 3; index < data.length + 3; index += 4) {
+      data.splice(index, 0, 255);
+    }
+    const width = data.length / 4;
+    const height = Math.floor(width / this.height) + 1;
+
+    const imgData = new ImageData(this.canvas, data, width, height);
+    context.putImageData(imgData, 0, 0);
+    return this.canvas.toDataURL();
   }
 
-  private decodeData(imageData: Uint8ClampedArray) {
-    const { algorithm, startDecodingAt } = this.decodeMetadata(imageData);
+  private decodeData(imageData: number[]) {
+    const {algorithm, startDecodingAt} = this.decodeMetadata(imageData);
     let decodedMessage;
 
     switch (algorithm) {
       default: {
-        decodedMessage = new DecodeLSB(this.updateProgress).decode(
+        decodedMessage = new DecodeLSB(this.updateProgress.bind(this)).decode(
           imageData,
-          startDecodingAt
+          startDecodingAt,
         );
       }
     }
@@ -223,25 +256,25 @@ export default class Steganography {
     return new Uint8Array(decodedDecimal);
   }
 
-  private decodeMetadata(imageData: Uint8ClampedArray) {
+  private decodeMetadata(imageData: number[]) {
     const decodeLSB = new DecodeLSB();
     const algorithmTypeBinary = decodeLSB.decodeNextByte(imageData);
     const algorithmNum = this.convertBytesToDecimal(algorithmTypeBinary);
-    const algorithm = this.numToAlgorithmTypes[algorithmNum] || "LSB";
+    const algorithm = this.numToAlgorithmTypes[algorithmNum] || 'LSB';
     const metadata: IMetaData = {};
 
     const startDecodingAt = decodeLSB.getCurrentIndex();
     return {
       algorithm,
       metadata,
-      startDecodingAt
+      startDecodingAt,
     };
   }
 
   private convertDecimalToBytes(data: number) {
     const binaryString = data.toString(2);
     const nearestByte = Math.ceil(binaryString.length / 8) * 8;
-    const byte = binaryString.padStart(nearestByte, "0");
+    const byte = binaryString.padStart(nearestByte, '0');
     return byte;
   }
 

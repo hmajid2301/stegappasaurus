@@ -1,14 +1,8 @@
-import React from "react";
-import {
-  Image,
-  ImageSourcePropType,
-  StatusBar,
-  Text,
-  View
-} from "react-native";
-import AppIntroSlider from "react-native-app-intro-slider";
+import React from 'react';
+import {Image, ImageSourcePropType, StatusBar, Text, View} from 'react-native';
+import AppIntroSlider from 'react-native-app-intro-slider';
 
-import styles from "./styles";
+import styles from './styles';
 
 export interface ISlide {
   color: string;
@@ -49,17 +43,16 @@ export default class IntroSlider extends React.Component<IProps, {}> {
     );
   }
 
-  public renderSlide = ({ dimensions, item }: IRenderProps) => (
+  public renderSlide = ({dimensions, item}: IRenderProps) => (
     <View
       style={[
         styles.container,
         {
           backgroundColor: item.color,
           height: dimensions.height,
-          width: dimensions.width
-        }
-      ]}
-    >
+          width: dimensions.width,
+        },
+      ]}>
       <Text style={styles.title}>{item.title}</Text>
       <Image source={item.image} style={styles.image} />
       <Text style={styles.text}>{item.text}</Text>

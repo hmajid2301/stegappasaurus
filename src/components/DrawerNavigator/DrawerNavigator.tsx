@@ -1,25 +1,31 @@
-import React from "react";
-import { View } from "react-native";
-// @ts-ignore
-import { DrawerItems, DrawerItemsProps } from "react-navigation-drawer";
+import React from 'react';
+import {View} from 'react-native';
+import {DrawerItems} from 'react-navigation-drawer';
+import {DrawerNavigatorItemsProps} from 'react-navigation-drawer/lib/typescript/src/types';
 
-import Logo from "~/components/Logo";
-import { colors } from "~/modules";
-import { ITheme } from "~/modules/types";
-import styles from "./styles";
+import Logo from '~/components/Logo';
+import {primary, pureWhite} from '~/constants/colors';
+import {ITheme} from '~/constants/types';
+import styles from './styles';
 
-const DrawerNavigator: React.FunctionComponent<DrawerItemsProps> = props => {
+interface IScreenProps {
+  theme: ITheme;
+}
+
+const DrawerNavigator: React.FunctionComponent<
+  DrawerNavigatorItemsProps
+> = props => {
   if (props.screenProps !== undefined) {
-    const theme: ITheme = props.screenProps.theme;
+    const theme: ITheme = (props.screenProps as IScreenProps).theme;
 
     return (
-      <View style={[styles.container, { backgroundColor: theme.background }]}>
-        <View style={[styles.header, { backgroundColor: theme.background }]}>
+      <View style={[styles.container, {backgroundColor: theme.background}]}>
+        <View style={[styles.header, {backgroundColor: theme.background}]}>
           <Logo color={theme.color} isDark={theme.isDark} />
         </View>
         <DrawerItems
-          activeBackgroundColor={colors.primary}
-          activeTintColor={colors.pureWhite}
+          activeBackgroundColor={primary}
+          activeTintColor={pureWhite}
           iconContainerStyle={styles.icons}
           inactiveTintColor={theme.color}
           labelStyle={styles.text}
