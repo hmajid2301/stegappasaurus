@@ -1,18 +1,18 @@
-import * as React from "react";
+import * as React from 'react';
 import {
   ImageBackground,
   KeyboardAvoidingView,
   TextInput,
-  View
-} from "react-native";
+  View,
+} from 'react-native';
 import {
   NavigationEventSubscription,
-  NavigationScreenProp
-} from "react-navigation";
+  NavigationScreenProp,
+} from 'react-navigation';
 
-import DismissKeyboard from "~/components/DismissKeyboard";
-import { colors } from "~/modules";
-import styles from "./styles";
+import DismissKeyboard from '~/components/DismissKeyboard';
+import {pureWhite} from '~/constants/colors';
+import styles from './styles';
 
 interface IProps {
   navigation: NavigationScreenProp<any, any>;
@@ -29,7 +29,7 @@ interface IState {
 export default class ImageMessage extends React.Component<IProps, IState> {
   public static defaultProps = {
     action: null,
-    message: "Enter your message here"
+    message: 'Enter your message here',
   };
 
   private focusListener: NavigationEventSubscription | null;
@@ -38,7 +38,7 @@ export default class ImageMessage extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     this.state = {
-      message: ""
+      message: '',
     };
     this.textInput = null;
     this.focusListener = null;
@@ -49,11 +49,11 @@ export default class ImageMessage extends React.Component<IProps, IState> {
       <KeyboardAvoidingView behavior="height">
         <DismissKeyboard>
           <ImageBackground
-            source={{ uri: this.props.photo }}
-            style={styles.backgroundImage}
-          >
+            source={{uri: this.props.photo}}
+            style={styles.backgroundImage}>
             <View style={styles.textInputContainer}>
               <TextInput
+                autoFocus={true}
                 blurOnSubmit={true}
                 editable={this.props.editable}
                 enablesReturnKeyAutomatically={true}
@@ -61,10 +61,10 @@ export default class ImageMessage extends React.Component<IProps, IState> {
                 onChangeText={this.updateText}
                 onSubmitEditing={this.props.action.bind(
                   this,
-                  this.state.message
+                  this.state.message,
                 )}
                 placeholder={this.props.message}
-                placeholderTextColor={colors.pureWhite}
+                placeholderTextColor={pureWhite}
                 ref={ref => {
                   this.textInput = ref;
                 }}
@@ -79,7 +79,7 @@ export default class ImageMessage extends React.Component<IProps, IState> {
   }
 
   public componentDidMount() {
-    this.focusListener = this.props.navigation.addListener("didFocus", () => {
+    this.focusListener = this.props.navigation.addListener('didFocus', () => {
       if (this.textInput !== null) {
         this.textInput.focus();
       }
@@ -93,6 +93,6 @@ export default class ImageMessage extends React.Component<IProps, IState> {
   }
 
   private updateText = (message: string) => {
-    this.setState({ message });
+    this.setState({message});
   };
 }

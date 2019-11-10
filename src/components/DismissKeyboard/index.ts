@@ -1,3 +1,3 @@
-import DismissKeyboard from "./DismissKeyboard";
+import DismissKeyboard from './DismissKeyboard';
 
 export default DismissKeyboard;

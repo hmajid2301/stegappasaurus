@@ -8,7 +8,7 @@
  *
  */
 export default class ImageTooSmall extends Error {
-  public name: "ImageTooSmall";
+  public name: 'ImageTooSmall';
   public message: string;
   public base64Image: string;
 
@@ -16,7 +16,7 @@ export default class ImageTooSmall extends Error {
     super(message);
     Error.captureStackTrace(this, ImageTooSmall);
 
-    this.name = "ImageTooSmall";
+    this.name = 'ImageTooSmall';
     this.message = message;
     this.base64Image = base64Image;
   }

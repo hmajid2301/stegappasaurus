@@ -1,48 +1,49 @@
-import { StyleSheet } from "react-native";
+import {StyleSheet} from 'react-native';
 
-import { colors, fonts } from "~/modules";
+import {primary, pureWhite, secondary} from '~/constants/colors';
+import {bodyLight} from '~/constants/fonts';
 
 const styles = StyleSheet.create({
   contentContainer: {
     paddingHorizontal: 20,
-    paddingVertical: 20
+    paddingVertical: 20,
   },
 
   content: {
-    fontFamily: fonts.bodyLight
+    fontFamily: bodyLight,
   },
 
   headerContainer: {
-    alignItems: "center",
+    alignItems: 'center',
     borderBottomWidth: 1,
     flex: 1,
-    flexDirection: "row",
+    flexDirection: 'row',
     height: 50,
-    justifyContent: "center"
+    justifyContent: 'center',
   },
 
   inactive: {
-    backgroundColor: colors.secondary
+    backgroundColor: secondary,
   },
 
   active: {
-    backgroundColor: colors.primary
+    backgroundColor: primary,
   },
 
   header: {
-    color: colors.pureWhite,
-    fontFamily: fonts.bodyLight
+    color: pureWhite,
+    fontFamily: bodyLight,
   },
 
   iconContainer: {
-    position: "absolute",
-    right: 10
+    position: 'absolute',
+    right: 10,
   },
 
   icon: {
-    color: colors.pureWhite,
-    fontSize: 12
-  }
+    color: pureWhite,
+    fontSize: 12,
+  },
 });
 
 export default styles;

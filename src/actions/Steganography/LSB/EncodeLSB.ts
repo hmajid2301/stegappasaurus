@@ -12,9 +12,9 @@ export default class EncodeLSB {
   }
 
   public encode(
-    imageData: Uint8ClampedArray,
+    imageData: number[],
     binaryMessage: string,
-    startEncodingAt = 0
+    startEncodingAt = 0,
   ) {
     const newPixelData = imageData;
 
@@ -22,12 +22,9 @@ export default class EncodeLSB {
     for (const bit of binaryMessage) {
       const pixelValue = imageData[pixelIndex];
       const newPixelValue = this.getNewPixelValue(pixelValue, bit);
-      newPixelData[pixelIndex] = newPixelValue;
 
+      newPixelData[pixelIndex] = newPixelValue;
       pixelIndex += 1;
-      if ((pixelIndex + 1) % 1 === 0) {
-        pixelIndex += 1;
-      }
       this.action();
     }
     return newPixelData;
@@ -36,9 +33,9 @@ export default class EncodeLSB {
   public getNewPixelValue(pixelValue: number, bit: string) {
     let newPixelValue = pixelValue;
 
-    if (bit === "0" && pixelValue % 2 === 1) {
+    if (bit === '0' && pixelValue % 2 === 1) {
       newPixelValue -= 1;
-    } else if (bit === "1" && pixelValue % 2 === 0) {
+    } else if (bit === '1' && pixelValue % 2 === 0) {
       newPixelValue += 1;
     }
     return newPixelValue;

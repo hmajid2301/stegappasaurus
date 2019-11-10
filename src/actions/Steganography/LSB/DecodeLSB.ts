@@ -1,4 +1,4 @@
-import varint from "varint";
+import varint from 'varint';
 
 export default class DecodeLSB {
   private pixelIndex: number;
@@ -16,7 +16,7 @@ export default class DecodeLSB {
     }
   }
 
-  public decode(imageData: Uint8ClampedArray, startDecodingAt = 0) {
+  public decode(imageData: number[], startDecodingAt = 0) {
     this.pixelIndex = startDecodingAt;
     const messageLength = this.getMessageLength(imageData);
     const binaryMessage: string[] = [];
@@ -28,12 +28,14 @@ export default class DecodeLSB {
     return binaryMessage;
   }
 
-  public decodeVarint(imageData: Uint8ClampedArray) {
+  public decodeVarint(imageData: number[]) {
     let completed = false;
     const messageVarint: number[] = [];
+
     while (!completed) {
       const byte = this.decodeNextByte(imageData);
       const num = parseInt(byte, 2);
+
       messageVarint.push(num);
       if (messageVarint.slice(-1)[0] < 128) {
         completed = true;
@@ -42,21 +44,18 @@ export default class DecodeLSB {
     return messageVarint;
   }
 
-  public decodeNextByte(imageData: Uint8ClampedArray) {
-    let byte = "";
+  public decodeNextByte(imageData: number[]) {
+    let byte = '';
 
     for (let j = 0; j < 8; j += 1) {
       const currentPixel = imageData[this.pixelIndex];
-      let lsb = "0";
+      let lsb = '0';
       if (currentPixel % 2 === 1) {
-        lsb = "1";
+        lsb = '1';
       }
-      byte += lsb;
 
+      byte += lsb;
       this.pixelIndex += 1;
-      if ((this.pixelIndex + 1) % 1 === 0) {
-        this.pixelIndex += 1;
-      }
       this.action();
     }
     return byte;
@@ -66,7 +65,7 @@ export default class DecodeLSB {
     return this.pixelIndex;
   }
 
-  private getMessageLength(imageData: Uint8ClampedArray) {
+  private getMessageLength(imageData: number[]) {
     const messageVarint: number[] = this.decodeVarint(imageData);
     const messageLength = varint.decode(messageVarint);
     return messageLength;

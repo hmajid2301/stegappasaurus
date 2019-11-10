@@ -1,15 +1,14 @@
-import * as React from "react";
-import { Icon } from "react-native-elements";
-import { createAppContainer } from "react-navigation";
-// @ts-ignore
-import { createDrawerNavigator } from "react-navigation-drawer";
+import * as React from 'react';
+import {Icon} from 'react-native-elements';
+import {createAppContainer} from 'react-navigation';
+import {createDrawerNavigator} from 'react-navigation-drawer';
 
-import DrawerNavigator from "~/components/DrawerNavigator";
+import DrawerNavigator from '~/components/DrawerNavigator';
 
-import AboutUs from "./AboutUs";
-import FAQ from "./FAQ";
-import Home from "./Home";
-import Settings from "./Settings";
+import AboutUs from './AboutUs';
+import FAQ from './FAQ';
+import Home from './Home';
+import Settings from './Settings';
 
 interface IColor {
   tintColor: string;
@@ -19,47 +18,47 @@ const MainNavigator = createDrawerNavigator(
   {
     Home: {
       navigationOptions: {
-        drawerIcon: ({ tintColor }: IColor) => (
+        drawerIcon: ({tintColor}: IColor) => (
           <Icon name="home" type="font-awesome" color={tintColor} />
         ),
-        drawerLabel: "Home"
+        drawerLabel: 'Home',
       },
-      screen: Home
+      screen: Home,
     },
 
     About: {
       navigationOptions: {
-        drawerIcon: ({ tintColor }: IColor) => (
+        drawerIcon: ({tintColor}: IColor) => (
           <Icon name="info" type="feather" color={tintColor} />
         ),
-        drawerLabel: "About Us"
+        drawerLabel: 'About Us',
       },
-      screen: AboutUs
+      screen: AboutUs,
     },
 
     Settings: {
       navigationOptions: {
-        drawerIcon: ({ tintColor }: IColor) => (
+        drawerIcon: ({tintColor}: IColor) => (
           <Icon name="settings" type="feather" color={tintColor} />
         ),
-        drawerLabel: "Settings"
+        drawerLabel: 'Settings',
       },
-      screen: Settings
+      screen: Settings,
     },
 
     FAQ: {
       navigationOptions: {
-        drawerIcon: ({ tintColor }: IColor) => (
+        drawerIcon: ({tintColor}: IColor) => (
           <Icon name="questioncircleo" type="antdesign" color={tintColor} />
         ),
-        drawerLabel: "FAQ"
+        drawerLabel: 'FAQ',
       },
-      screen: FAQ
-    }
+      screen: FAQ,
+    },
   },
   {
-    contentComponent: DrawerNavigator
-  }
+    contentComponent: DrawerNavigator,
+  },
 );
 
 const App = createAppContainer(MainNavigator);

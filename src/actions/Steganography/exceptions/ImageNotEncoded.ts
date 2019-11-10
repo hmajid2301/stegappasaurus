@@ -8,7 +8,7 @@
  *
  */
 export default class ImageNotEncodedError extends Error {
-  public name: "ImageNotEncoded";
+  public name: 'ImageNotEncoded';
   public message: string;
   public base64Image: string;
 
@@ -16,7 +16,7 @@ export default class ImageNotEncodedError extends Error {
     super(message);
     Error.captureStackTrace(this, ImageNotEncodedError);
 
-    this.name = "ImageNotEncoded";
+    this.name = 'ImageNotEncoded';
     this.message = message;
     this.base64Image = base64Image;
   }

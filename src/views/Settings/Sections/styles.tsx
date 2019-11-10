@@ -1,30 +1,31 @@
-import { StyleSheet } from "react-native";
+import {StyleSheet} from 'react-native';
 
-import { colors, fonts } from "~/modules";
+import {primary} from '~/constants/colors';
+import {body, bodyLight} from '~/constants/fonts';
 
 const styles = StyleSheet.create({
   itemHeader: {
     paddingBottom: 5,
-    paddingTop: 20
+    paddingTop: 20,
   },
 
   itemHeaderText: {
-    color: colors.primary,
-    fontFamily: fonts.body,
-    fontSize: 12
+    color: primary,
+    fontFamily: body,
+    fontSize: 12,
   },
 
   itemText: {
-    fontFamily: fonts.bodyLight
+    fontFamily: bodyLight,
   },
 
   itemTextUnder: {
-    color: "grey"
+    color: 'grey',
   },
 
   checkbox: {
-    paddingRight: 20
-  }
+    paddingRight: 20,
+  },
 });
 
 export default styles;

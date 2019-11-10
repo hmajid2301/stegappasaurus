@@ -1,22 +1,22 @@
-import { StyleSheet } from "react-native";
+import {StyleSheet} from 'react-native';
 
-import { fonts } from "~/modules";
+import {bodyLight} from '~/constants/fonts';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: "column"
+    flexDirection: 'column',
   },
 
   textContainer: {
-    alignItems: "center",
-    paddingVertical: 20
+    alignItems: 'center',
+    paddingVertical: 20,
   },
 
   about: {
-    fontFamily: fonts.bodyLight,
-    paddingHorizontal: 20
-  }
+    fontFamily: bodyLight,
+    paddingHorizontal: 20,
+  },
 });
 
 export default styles;

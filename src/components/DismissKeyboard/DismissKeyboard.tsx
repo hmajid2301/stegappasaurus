@@ -1,7 +1,7 @@
-import * as React from "react";
-import { Keyboard, TouchableWithoutFeedback } from "react-native";
+import * as React from 'react';
+import {Keyboard, TouchableWithoutFeedback} from 'react-native';
 
-const DismissKeyboard = ({ children }: { children: React.ReactChild }) => (
+const DismissKeyboard = ({children}: {children: React.ReactChild}) => (
   <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
     {children}
   </TouchableWithoutFeedback>

@@ -1,6 +1,6 @@
-import React, { Context, createContext, useState } from "react";
-import { DARK_THEME, PRIMARY_THEME } from "~/modules";
-import { ITheme } from "~/modules/types";
+import React, {Context, createContext, useState} from 'react';
+import {DARK_THEME, LIGHT_THEME} from '~/constants/themes';
+import {ITheme} from '~/constants/types';
 
 interface IThemeContext {
   theme: ITheme;
@@ -11,17 +11,17 @@ const ThemeContext: Context<IThemeContext> = createContext({
   changeTheme: (_: boolean) => {
     return;
   },
-  theme: PRIMARY_THEME
+  theme: LIGHT_THEME,
 });
 
-const ThemeProvider: React.FC = ({ children }) => {
+const ThemeProvider: React.FC = ({children}) => {
   const [themeState, setTheme] = useState({
-    theme: PRIMARY_THEME
+    theme: LIGHT_THEME,
   });
 
   const changeTheme = (isDark: boolean) => {
     setTheme({
-      theme: isDark ? DARK_THEME : PRIMARY_THEME
+      theme: isDark ? DARK_THEME : LIGHT_THEME,
     });
   };
 
@@ -29,12 +29,11 @@ const ThemeProvider: React.FC = ({ children }) => {
     <ThemeContext.Provider
       value={{
         changeTheme,
-        theme: themeState.theme
-      }}
-    >
+        theme: themeState.theme,
+      }}>
       {children}
     </ThemeContext.Provider>
   );
 };
 
-export { ThemeProvider, ThemeContext };
+export {ThemeProvider, ThemeContext};

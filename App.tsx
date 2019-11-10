@@ -1,28 +1,36 @@
-import AsyncStorage from "@react-native-community/async-storage";
-import React, { useContext } from "react";
-import { StatusBar } from "react-native";
-import SplashScreen from "react-native-splash-screen";
+import AsyncStorage from '@react-native-community/async-storage';
+import React from 'react';
+import {StatusBar} from 'react-native';
+import SplashScreen from 'react-native-splash-screen';
 
-import IntroSlider from "~/components/IntroSlider";
-import Loader from "~/components/Loader";
-import { slides } from "~/data";
-import { DARK_THEME, PRIMARY_THEME } from "~/modules";
-import { ITheme } from "~/modules/types";
-import { ThemeContext } from "~/providers/ThemeContext";
-import MainApp from "~/views/Routes";
+import IntroSlider from '~/components/IntroSlider';
+import Loader from '~/components/Loader';
+import {ITheme} from '~/constants/types';
+import {slides} from '~/data';
+import {ThemeContext} from '~/providers/ThemeContext';
+import MainApp from '~/views/Routes';
+
+interface IProps {
+  changeTheme: (_: boolean) => void;
+  theme: ITheme;
+}
 
 interface IState {
   loading: boolean;
   introShown: boolean | null;
-  theme: ITheme;
 }
 
-export default class App extends React.Component<{}, IState> {
-  public static state = {
-    introShown: false,
-    loading: true,
-    theme: PRIMARY_THEME
-  };
+export default class App extends React.Component<IProps, IState> {
+  public static contextType = ThemeContext;
+  public context!: React.ContextType<typeof ThemeContext>;
+
+  constructor(props: IProps) {
+    super(props);
+    this.state = {
+      introShown: false,
+      loading: true,
+    };
+  }
 
   public render() {
     if (this.state.loading) {
@@ -37,7 +45,7 @@ export default class App extends React.Component<{}, IState> {
     return (
       <MainApp
         screenProps={{
-          theme: this.state.theme
+          theme: this.context.theme,
         }}
       />
     );
@@ -46,30 +54,28 @@ export default class App extends React.Component<{}, IState> {
   public async componentDidMount() {
     SplashScreen.hide();
     const [storedIntroShown, storedTheme] = await Promise.all([
-      AsyncStorage.getItem("@IntroShown"),
-      AsyncStorage.getItem("@Theme")
+      AsyncStorage.getItem('@IntroShown'),
+      AsyncStorage.getItem('@Theme'),
     ]);
 
-    const { theme, changeTheme } = useContext(ThemeContext);
     let introShown = false;
 
     if (storedIntroShown) {
-      introShown = storedIntroShown === "true" ? true : false;
+      introShown = storedIntroShown === 'true' ? true : false;
     }
     if (storedTheme) {
-      const isDark = storedTheme === "true" ? true : false;
-      changeTheme(isDark);
+      const isDark = storedTheme === 'true' ? true : false;
+      this.context.changeTheme(isDark);
     }
 
     this.setState({
       introShown,
       loading: false,
-      theme
     });
   }
 
   private introShownToUser = async () => {
-    await AsyncStorage.setItem("@IntroShown", "true");
-    this.setState({ introShown: true });
+    await AsyncStorage.setItem('@IntroShown', 'true');
+    this.setState({introShown: true});
   };
 }

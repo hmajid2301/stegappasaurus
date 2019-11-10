@@ -1,4 +1,4 @@
-import FAQList, { IFAQ } from "./FAQList";
+import FAQList, {IFAQ} from './FAQList';
 
 export type IFAQ = IFAQ;
 export default FAQList;

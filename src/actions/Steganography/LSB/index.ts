@@ -1,4 +1,4 @@
-import DecodeLSB from "./DecodeLSB";
-import EncodeLSB from "./EncodeLSB";
+import DecodeLSB from './DecodeLSB';
+import EncodeLSB from './EncodeLSB';
 
-export { EncodeLSB, DecodeLSB };
+export {EncodeLSB, DecodeLSB};

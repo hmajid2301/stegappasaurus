@@ -55,12 +55,12 @@ lint:code-formatter:
   script:
     - yarn code-formatter-check
 
-lint:compiler:
+lint:types:
   stage: test
   only:
     - merge_requests
   script:
-    - yarn compiler-check
+    - yarn types-check
 
 tests:unit:
   stage: test

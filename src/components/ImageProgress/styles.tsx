@@ -1,39 +1,39 @@
-import { Dimensions, StyleSheet } from "react-native";
+import {Dimensions, StyleSheet} from 'react-native';
 
-import { fonts } from "~/modules";
+import {body} from '~/constants/fonts';
 
-const pageWidth = Dimensions.get("window").width;
+const pageWidth = Dimensions.get('window').width;
 
 const styles = StyleSheet.create({
   progressContainer: {
-    alignItems: "center",
+    alignItems: 'center',
     flex: 1,
-    justifyContent: "center"
+    justifyContent: 'center',
   },
 
   circularImage: {
     borderRadius: pageWidth * 0.75,
     borderWidth: 5,
-    overflow: "hidden"
+    overflow: 'hidden',
   },
 
   image: {
     height: pageWidth * 0.75,
     opacity: 0.65,
-    width: pageWidth * 0.75
+    width: pageWidth * 0.75,
   },
 
   iconContainer: {
-    alignItems: "center",
+    alignItems: 'center',
     flex: 1,
-    justifyContent: "center"
+    justifyContent: 'center',
   },
 
   textPercentage: {
-    color: "black",
-    fontFamily: fonts.body,
-    fontSize: 50
-  }
+    color: 'black',
+    fontFamily: body,
+    fontSize: 50,
+  },
 });
 
 export default styles;

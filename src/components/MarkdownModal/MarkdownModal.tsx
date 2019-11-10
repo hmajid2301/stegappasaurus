@@ -1,10 +1,10 @@
-import * as React from "react";
-import { Modal, ScrollView, Text, TouchableOpacity, View } from "react-native";
-import { Icon } from "react-native-elements";
-import Markdown from "react-native-markdown-renderer";
+import * as React from 'react';
+import {Modal, ScrollView, Text, TouchableOpacity, View} from 'react-native';
+import {Icon} from 'react-native-elements';
+import Markdown from 'react-native-markdown-renderer';
 
-import { ThemeColors } from "~/modules/types";
-import styles, { markdown } from "./styles";
+import {ThemeColors} from '~/constants/types';
+import styles, {markdown} from './styles';
 
 interface IProps {
   background: ThemeColors;
@@ -21,7 +21,7 @@ export default class MarkdownModal extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
     this.state = {
-      isVisible: false
+      isVisible: false,
     };
   }
 
@@ -32,22 +32,20 @@ export default class MarkdownModal extends React.Component<IProps, IState> {
           animationType="slide"
           onRequestClose={this.setModalVisibility.bind(this, false)}
           transparent={false}
-          visible={this.state.isVisible}
-        >
+          visible={this.state.isVisible}>
           <View
             style={[
               styles.modalContainer,
-              { backgroundColor: this.props.background }
-            ]}
-          >
+              {backgroundColor: this.props.background},
+            ]}>
             <TouchableOpacity
               onPress={this.setModalVisibility.bind(
                 this,
-                !this.state.isVisible
+                !this.state.isVisible,
               )}
-            >
+              style={styles.iconContainer}>
               <Icon
-                iconStyle={[styles.icons, { color: this.props.color }]}
+                iconStyle={{color: this.props.color}}
                 name="close"
                 type="evil-icons"
               />
@@ -58,9 +56,8 @@ export default class MarkdownModal extends React.Component<IProps, IState> {
                 <Markdown
                   style={{
                     ...markdown,
-                    ...{ text: { color: this.props.color } }
-                  }}
-                >
+                    ...{text: {color: this.props.color}},
+                  }}>
                   {this.props.children}
                 </Markdown>
               </View>
@@ -69,7 +66,7 @@ export default class MarkdownModal extends React.Component<IProps, IState> {
         </Modal>
 
         <TouchableOpacity onPress={this.setModalVisibility.bind(this, true)}>
-          <Text style={[styles.buttonText, { color: this.props.color }]}>
+          <Text style={[styles.buttonText, {color: this.props.color}]}>
             {this.props.name}
           </Text>
         </TouchableOpacity>
@@ -78,6 +75,6 @@ export default class MarkdownModal extends React.Component<IProps, IState> {
   }
 
   private setModalVisibility(visible: boolean) {
-    this.setState({ isVisible: visible });
+    this.setState({isVisible: visible});
   }
 }

@@ -1,12 +1,12 @@
-import * as React from "react";
-import { StatusBar, View } from "react-native";
-import { Header, Icon } from "react-native-elements";
-import { NavigationScreenProp, NavigationState } from "react-navigation";
+import * as React from 'react';
+import {StatusBar, View} from 'react-native';
+import {Header, Icon} from 'react-native-elements';
+import {NavigationLeafRoute, NavigationScreenProp} from 'react-navigation';
 
-import Logo from "~/components/Logo";
-import { colors } from "~/modules";
-import { ITheme } from "~/modules/types";
-import styles from "./styles";
+import Logo from '~/components/Logo';
+import {primary, secondary} from '~/constants/colors';
+import {ITheme} from '~/constants/types';
+import styles from './styles';
 
 interface IProps {
   navigation: NavigationScreenProp<any, any>;
@@ -15,20 +15,20 @@ interface IProps {
 
 export default class AppHeader extends React.Component<IProps, {}> {
   public render() {
-    const { navigation, theme } = this.props;
+    const {navigation, theme} = this.props;
     return (
       <View>
         <StatusBar
           backgroundColor={theme.background}
           hidden={false}
-          barStyle={theme.isDark ? "light-content" : "dark-content"}
+          barStyle={theme.isDark ? 'light-content' : 'dark-content'}
         />
         <Header
           leftComponent={
             <Icon
               color={theme.color}
               name="menu"
-              onPress={navigation.openDrawer()}
+              onPress={navigation.toggleDrawer.bind(this)}
               type="simple-line-icon"
             />
           }
@@ -37,73 +37,71 @@ export default class AppHeader extends React.Component<IProps, {}> {
             styles.container,
             {
               backgroundColor: theme.background as string,
-              borderBottomColor: this.showPrimaryColor.bind(this, navigation)
-                ? colors.primary
-                : colors.secondary
-            }
+              borderBottomColor: this.primaryColor(navigation),
+            },
           ]}
           rightComponent={
-            <Icon
-              color={
-                this.showHomeIcon.bind(this, navigation)
-                  ? theme.color
-                  : theme.background
-              }
-              name="home"
-              type="antdesign"
-              onPress={this.goToHome.bind(this, navigation)}
-            />
+            this.homeIconColor(navigation) ? (
+              <Icon
+                color={theme.color}
+                name="home"
+                type="antdesign"
+                onPress={this.goToMainView.bind(this, navigation)}
+              />
+            ) : (
+              <View />
+            )
           }
         />
       </View>
     );
   }
 
-  private showPrimaryColor(navigation: NavigationScreenProp<any, any>) {
-    const activeRoute = this.getActiveRouteState(navigation.state) as any;
-    const routeName = activeRoute.routeName;
-    let showPrimary = true;
+  private primaryColor(navigation: NavigationScreenProp<any, any>) {
+    const viewName = this.getCurrentViewName(navigation.state) as any;
+    let primaryColor = primary;
 
-    if (routeName.startsWith("Decoding")) {
-      showPrimary = false;
+    if (viewName.startsWith('Decoding')) {
+      primaryColor = secondary;
     }
 
-    return showPrimary;
+    return primaryColor;
   }
 
-  private showHomeIcon(navigation: NavigationScreenProp<any, any>) {
-    const activeRoute = this.getActiveRouteState(navigation.state) as any;
-    const routeName = activeRoute.routeName;
-    let showHome = false;
+  private homeIconColor(navigation: NavigationScreenProp<any, any>) {
+    const viewName = this.getCurrentViewName(navigation.state) as any;
+    let showHomeIcon = false;
 
-    if (routeName.startsWith("Encoding") || routeName.startsWith("Decoding")) {
-      showHome = true;
+    if (
+      (viewName.startsWith('Encoding') || viewName.startsWith('Decoding')) &&
+      !viewName.includes('Main')
+    ) {
+      showHomeIcon = true;
     }
 
-    return showHome;
+    return showHomeIcon;
   }
 
-  private goToHome(navigation: NavigationScreenProp<any, any>) {
-    const activeRoute = this.getActiveRouteState(navigation.state) as any;
-    const routeName = activeRoute.routeName;
+  private goToMainView(navigation: NavigationScreenProp<any, any>) {
+    const viewName = this.getCurrentViewName(navigation.state);
 
-    if (routeName.startsWith("Encoding")) {
-      navigation.navigate("EncodingMain");
-    } else if (routeName.startsWith("Decoding")) {
-      navigation.navigate("DecodingMain");
+    if (viewName.startsWith('Encoding')) {
+      navigation.navigate('EncodingMain');
+    } else if (viewName.startsWith('Decoding')) {
+      navigation.navigate('DecodingMain');
     }
   }
 
-  private getActiveRouteState(route: NavigationState): NavigationState {
+  private getCurrentViewName(route: NavigationLeafRoute): string {
     if (
       !route.routes ||
       route.routes.length === 0 ||
       route.index >= route.routes.length
     ) {
-      return route;
+      return route.routeName;
     }
 
-    const childActiveRoute = route.routes[route.index] as NavigationState;
-    return this.getActiveRouteState(childActiveRoute);
+    const childActiveRoute = route.routes[route.index];
+    return this.getCurrentViewName(childActiveRoute);
   }
 }

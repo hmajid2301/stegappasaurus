@@ -1,7 +1,5 @@
 apply plugin: "com.android.application"
 apply plugin: "com.github.triplet.play"
-apply plugin: "kotlin-android"
-apply plugin: "kotlin-android-extensions"
 
 import com.android.build.OutputFile
 
@@ -203,14 +201,12 @@ preBuild.doFirst {
 }
 
 dependencies {
-    implementation project(":react-native-push-notification") 
     implementation fileTree(dir: "libs", include: ["*.jar"])
-    implementation "androidx.appcompat:appcompat:${rootProject.ext.supportLibVersion}"
-    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0-alpha02"
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:1.3.50"
-    implementation "com.facebook.react:react-native:+"  // From node_modules
+    implementation 'androidx.appcompat:appcompat:1.1.0-rc01'
+    implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0-alpha02'
+    implementation 'com.facebook.react:react-native:+'  // From node_modules
     if (enableHermes) {
-        def hermesPath = "../../node_modules/hermesvm/android/";
+        def hermesPath = "../../node_modules/hermes-engine/android/";
         debugImplementation files(hermesPath + "hermes-debug.aar")
         releaseImplementation files(hermesPath + "hermes-release.aar")
     } else {

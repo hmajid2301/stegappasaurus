@@ -1,6 +1,6 @@
-import Snackbar from "react-native-snackbar";
+import Snackbar from 'react-native-snackbar';
 
-import { colors } from "~/modules";
+import {primary, pureWhite} from '~/constants/colors';
 
 interface IShow {
   text: string;
@@ -12,18 +12,19 @@ interface IShow {
 export default class CustomSnackbar {
   public static show = ({
     onButtonPress = () => null,
-    buttonText = "Okay",
+    buttonText = 'Okay',
     duration = 5000,
-    text
+    text,
   }: IShow) => {
     Snackbar.show({
       action: {
-        color: colors.primary,
+        color: primary,
         onPress: onButtonPress,
-        title: buttonText
+        title: buttonText,
       },
+      color: pureWhite,
       duration,
-      title: text
+      title: text,
     });
   };
 }

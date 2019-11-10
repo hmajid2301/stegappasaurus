@@ -1,10 +1,10 @@
-import * as React from "react";
-import { Text, TouchableOpacity, View } from "react-native";
-import Accordion from "react-native-collapsible/Accordion";
-import { Icon } from "react-native-elements";
+import * as React from 'react';
+import {Text, TouchableOpacity, View} from 'react-native';
+import Accordion from 'react-native-collapsible/Accordion';
+import {Icon} from 'react-native-elements';
 
-import { ThemeColors } from "~/modules/types";
-import styles from "./styles";
+import {ThemeColors} from '~/constants/types';
+import styles from './styles';
 
 export interface IFAQ {
   content: string;
@@ -27,7 +27,7 @@ export default class FAQList extends React.Component<IProps, IState> {
     super(props);
     this.state = {
       activeSections: [],
-      collapsed: true
+      collapsed: true,
     };
   }
 
@@ -47,13 +47,13 @@ export default class FAQList extends React.Component<IProps, IState> {
 
   private setSections = (sections: number[]) => {
     this.setState({
-      activeSections: sections
+      activeSections: sections,
     });
   };
 
   private renderContent = (item: IFAQ) => (
     <View style={styles.contentContainer}>
-      <Text style={[styles.content, { color: this.props.color }]}>
+      <Text style={[styles.content, {color: this.props.color}]}>
         {item.content}
       </Text>
     </View>
@@ -64,9 +64,8 @@ export default class FAQList extends React.Component<IProps, IState> {
       style={[
         styles.headerContainer,
         isActive ? styles.inactive : styles.active,
-        { borderBottomColor: this.props.backgroundColor }
-      ]}
-    >
+        {borderBottomColor: this.props.backgroundColor},
+      ]}>
       <Text style={styles.header}>{item.title}</Text>
       <View style={styles.iconContainer}>
         {isActive ? (

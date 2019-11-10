@@ -1,42 +1,45 @@
-import AsyncStorage from "@react-native-community/async-storage";
-import React, { useContext } from "react";
-import { Text, View } from "react-native";
-import { ListItem } from "react-native-elements";
+import AsyncStorage from '@react-native-community/async-storage';
+import React from 'react';
+import {Text, View} from 'react-native';
+import {ListItem} from 'react-native-elements';
 
-import { colors } from "~/modules";
-import { ITheme } from "~/modules/types";
-import { ThemeContext } from "~/providers/ThemeContext";
-import styles from "./styles";
+import {primary} from '~/constants/colors';
+import {ITheme} from '~/constants/types';
+import {ThemeContext} from '~/providers/ThemeContext';
+import styles from './styles';
 
 interface IProps {
   theme: ITheme;
 }
 
 export default class Themes extends React.Component<IProps, {}> {
+  public static contextType = ThemeContext;
+  public context!: React.ContextType<typeof ThemeContext>;
+
   public render() {
-    const { theme } = this.props;
+    const {theme} = this.props;
 
     return (
       <View>
         <ListItem
           containerStyle={{
-            backgroundColor: theme.background
+            backgroundColor: theme.background,
           }}
           titleStyle={styles.itemHeader}
           title={<Text style={styles.itemHeaderText}>Themes</Text>}
         />
         <ListItem
           containerStyle={{
-            backgroundColor: theme.background
+            backgroundColor: theme.background,
           }}
           topDivider={true}
           bottomDivider={true}
-          titleStyle={[styles.itemText, { color: theme.color }]}
+          titleStyle={[styles.itemText, {color: theme.color}]}
           title="Dark Mode"
-          checkBox={{
-            checked: theme.isDark,
-            checkedColor: colors.primary,
-            onPress: this.setTheme.bind(this, !theme.isDark)
+          switch={{
+            onValueChange: this.setTheme.bind(this, !theme.isDark),
+            thumbColor: primary,
+            value: theme.isDark,
           }}
         />
       </View>
@@ -44,8 +47,7 @@ export default class Themes extends React.Component<IProps, {}> {
   }
 
   private async setTheme(isDark: boolean) {
-    const { changeTheme } = useContext(ThemeContext);
-    changeTheme(isDark);
-    await AsyncStorage.setItem("@Theme", JSON.stringify(isDark));
+    this.context.changeTheme(isDark);
+    await AsyncStorage.setItem('@Theme', JSON.stringify(isDark));
   }
 }

@@ -1,9 +1,9 @@
-import * as React from "react";
-import { Keyboard, View } from "react-native";
-import { NavigationScreenProp } from "react-navigation";
+import * as React from 'react';
+import {Keyboard, View} from 'react-native';
+import {NavigationScreenProp} from 'react-navigation';
 
-import Snackbar from "~/actions/Snackbar";
-import ImageMessage from "~/components/ImageMessage";
+import Snackbar from '~/actions/Snackbar';
+import ImageMessage from '~/components/ImageMessage';
 
 interface IProps {
   navigation: NavigationScreenProp<any, any>;
@@ -18,13 +18,13 @@ interface IState {
 export default class Message extends React.Component<IProps, IState> {
   constructor(props: IProps) {
     super(props);
-    const { navigation } = props;
-    const uri = navigation.getParam("uri", "NO-ID");
+    const {navigation} = props;
+    const uri = navigation.getParam('uri', 'NO-ID');
 
     this.state = {
       limit: 15,
-      password: "",
-      photo: uri
+      password: '',
+      photo: uri,
     };
   }
 
@@ -44,14 +44,14 @@ export default class Message extends React.Component<IProps, IState> {
   private onSubmit = (message: string) => {
     if (message.length === 0) {
       Snackbar.show({
-        text: "Message cannot be empty"
+        text: 'Message cannot be empty',
       });
     } else {
       Keyboard.dismiss();
       setTimeout(() => {
-        this.props.navigation.navigate("EncodingProgress", {
+        this.props.navigation.navigate('EncodingProgress', {
           message,
-          uri: this.state.photo
+          uri: this.state.photo,
         });
       }, 100);
     }

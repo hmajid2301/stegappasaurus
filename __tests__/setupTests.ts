@@ -1,12 +1,11 @@
-import Enzyme from "enzyme";
-import Adapter from "enzyme-adapter-react-16";
-import { DOMWindow, JSDOM } from "jsdom";
+import Enzyme from 'enzyme';
+import Adapter from 'enzyme-adapter-react-16';
+import {DOMWindow, JSDOM} from 'jsdom';
 // @ts-ignore
-import MockAsyncStorage from "mock-async-storage";
-import renderer from "react-test-renderer";
+import MockAsyncStorage from 'mock-async-storage';
 
 const jsdom = new JSDOM();
-const { window } = jsdom;
+const {window} = jsdom;
 
 interface Global extends NodeJS.Global {
   window: DOMWindow;
@@ -20,30 +19,30 @@ const globalNode: Global = {
   window: window,
   document: window.document,
   navigator: {
-    userAgent: "node.js"
+    userAgent: 'node.js',
   },
-  ...global
+  ...global,
 };
 
 const copyProps = (src: DOMWindow, target: Global) => {
   Object.defineProperties(target, {
     ...Object.getOwnPropertyDescriptors(src),
-    ...Object.getOwnPropertyDescriptors(target)
+    ...Object.getOwnPropertyDescriptors(target),
   });
 };
 copyProps(window, globalNode);
 
 const realConsoleError = console.error;
 console.error = (message: string) => {
-  if (message.match("Warning:")) {
+  if (message.match('Warning:')) {
     return;
   }
   realConsoleError(message);
 };
 
 jest.mock(
-  "@react-native-community/async-storage",
-  () => new MockAsyncStorage()
+  '@react-native-community/async-storage',
+  () => new MockAsyncStorage(),
 );
 
-Enzyme.configure({ adapter: new Adapter() });
+Enzyme.configure({adapter: new Adapter()});

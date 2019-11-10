@@ -1,3 +1,3 @@
-import ImageMessage from "./ImageMessage";
+import ImageMessage from './ImageMessage';
 
 export default ImageMessage;

@@ -1,17 +1,17 @@
-import React from "react";
+import React from 'react';
 import {
   Dimensions,
   ImageBackground,
   Text,
   TouchableOpacity,
-  View
-} from "react-native";
-import { Icon, IconType } from "react-native-elements";
+  View,
+} from 'react-native';
+import {Icon, IconType} from 'react-native-elements';
 // @ts-ignore
-import PercentageCircle from "react-native-percentage-circle";
+import PercentageCircle from 'react-native-percentage-circle';
 
-import { PrimaryColor, ThemeColors } from "~/modules/types";
-import styles from "./styles";
+import {TabColors, ThemeColors} from '~/constants/types';
+import styles from './styles';
 
 interface IProps {
   animating: boolean;
@@ -25,33 +25,29 @@ interface IProps {
   };
   progress: number;
   photo: string;
-  primaryColor: PrimaryColor;
+  primaryColor: TabColors;
 }
 
-const pageWidth = Dimensions.get("window").width;
+const pageWidth = Dimensions.get('window').width;
 
 const ImageProgress: React.FunctionComponent<IProps> = (props: IProps) => (
-  <View
-    style={[styles.progressContainer, { backgroundColor: props.background }]}
-  >
+  <View style={[styles.progressContainer, {backgroundColor: props.background}]}>
     {props.animating ? (
-      <View style={{ flex: 1, justifyContent: "center" }} />
+      <View style={{flex: 1, justifyContent: 'center'}} />
     ) : (
       <TouchableOpacity activeOpacity={0.8} onPress={props.onPress}>
         <PercentageCircle
           borderWidth={5}
           color={props.primaryColor}
           percent={props.progress}
-          radius={pageWidth * 0.334}
-        >
+          radius={pageWidth * 0.334}>
           <ImageBackground
             imageStyle={[
               styles.circularImage,
-              { borderColor: props.primaryColor }
+              {borderColor: props.primaryColor},
             ]}
-            source={{ uri: props.photo }}
-            style={styles.image}
-          >
+            source={{uri: props.photo}}
+            style={styles.image}>
             <View style={styles.iconContainer}>
               {props.icon && <Icon {...props.icon} />}
               <Text style={styles.textPercentage}>{props.progress}%</Text>
