@@ -4,8 +4,11 @@ import {ListItem} from 'react-native-elements';
 
 import Snackbar from '~/actions/Snackbar';
 import MarkdownModal from '~/components/MarkdownModal';
+import Modal from '~/components/Modal';
 import {ThemeColors} from '~/constants/types';
 import changelog from '~/data/changelog';
+import AboutUs from '~/views/Settings/Sections/About/AboutUs';
+import FAQ from '~/views/Settings/Sections/About/FAQ';
 import styles from './styles';
 
 interface IProps {
@@ -22,6 +25,31 @@ const About = ({background, color}: IProps) => (
       titleStyle={styles.itemHeader}
       title={<Text style={styles.itemHeaderText}>About</Text>}
     />
+
+    <ListItem
+      containerStyle={{
+        backgroundColor: background,
+      }}
+      title={
+        <Modal background={background} color={color} name="About Us">
+          <AboutUs background={background} color={color} />
+        </Modal>
+      }
+      topDivider={true}
+    />
+
+    <ListItem
+      containerStyle={{
+        backgroundColor: background,
+      }}
+      title={
+        <Modal background={background} color={color} name="FAQ">
+          <FAQ background={background} color={color} />
+        </Modal>
+      }
+      topDivider={true}
+    />
+
     <ListItem
       containerStyle={{
         backgroundColor: background,

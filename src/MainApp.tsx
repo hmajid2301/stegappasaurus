@@ -1,4 +1,5 @@
-import * as React from 'react';
+import React from 'react';
+import {createAppContainer} from 'react-navigation';
 import {
   createMaterialTopTabNavigator,
   MaterialTopTabBar,
@@ -53,4 +54,5 @@ const TabNavigator = createMaterialTopTabNavigator(
   },
 );
 
-export default TabNavigator;
+const App = createAppContainer(TabNavigator);
+export default App;

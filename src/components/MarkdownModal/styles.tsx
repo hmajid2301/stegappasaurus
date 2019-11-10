@@ -3,23 +3,9 @@ import {StyleSheet} from 'react-native';
 import {bodyLight} from '~/constants/fonts';
 
 const styles = StyleSheet.create({
-  modalContainer: {
-    flex: 1,
-  },
-
-  iconContainer: {
-    alignSelf: 'flex-end',
-    paddingHorizontal: 10,
-    paddingVertical: 10,
-  },
-
   container: {
     paddingHorizontal: 20,
     paddingVertical: 10,
-  },
-
-  buttonText: {
-    fontFamily: bodyLight,
   },
 });
 

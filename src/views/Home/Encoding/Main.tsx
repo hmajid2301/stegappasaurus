@@ -7,6 +7,7 @@ import {check, PERMISSIONS, request} from 'react-native-permissions';
 import {NavigationScreenProp} from 'react-navigation';
 
 import Snackbar from '~/actions/Snackbar';
+import AppHeader from '~/components/AppHeader';
 import Loader from '~/components/Loader';
 import PhotoAlbumList from '~/components/PhotoAlbumList';
 import {ITheme} from '~/constants/types';
@@ -46,6 +47,11 @@ export default class Main extends React.Component<IProps, IState> {
 
     return (
       <View style={[styles.container, {backgroundColor: theme.background}]}>
+        <AppHeader
+          navigation={this.props.navigation}
+          primary={'#009CFF'}
+          theme={theme}
+        />
         <Loader loading={this.state.loading} overlay="#333" />
         <View style={styles.buttonsRow}>
           <TouchableOpacity
