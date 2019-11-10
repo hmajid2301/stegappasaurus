@@ -7,8 +7,8 @@ import IntroSlider from '~/components/IntroSlider';
 import Loader from '~/components/Loader';
 import {ITheme} from '~/constants/types';
 import {slides} from '~/data';
+import MainApp from '~/MainApp';
 import {ThemeContext} from '~/providers/ThemeContext';
-import MainApp from '~/views/Routes';
 
 interface IProps {
   changeTheme: (_: boolean) => void;

@@ -21,7 +21,11 @@ export default class Settings extends React.Component<IProps, {}> {
     return (
       <ScrollView
         style={[styles.container, {backgroundColor: theme.background}]}>
-        <AppHeader navigation={this.props.navigation} theme={theme} />
+        <AppHeader
+          primary="#009CFF"
+          navigation={this.props.navigation}
+          theme={theme}
+        />
         <View>
           <Themes theme={theme} />
           <Support background={theme.background} color={theme.color} />

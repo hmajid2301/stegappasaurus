@@ -1,6 +1,7 @@
 import {NavigationRoute, NavigationScreenProp} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
 
+import Settings from '~/views/Settings';
 import Main from './Encoding/Main';
 import Message from './Encoding/Message';
 import Progress from './Encoding/Progress';
@@ -25,6 +26,13 @@ const EncodeNavigator = createStackNavigator({
       header: null,
     },
     screen: Progress,
+  },
+
+  Settings: {
+    navigationOptions: {
+      header: null,
+    },
+    screen: Settings,
   },
 });
 

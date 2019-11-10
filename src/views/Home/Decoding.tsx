@@ -1,6 +1,7 @@
 import {NavigationRoute, NavigationScreenProp} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
 
+import Settings from '~/views/Settings';
 import Main from './Decoding/Main';
 import Message from './Decoding/Message';
 import Progress from './Decoding/Progress';
@@ -25,6 +26,13 @@ const DecodeNavigator = createStackNavigator({
       header: null,
     },
     screen: Progress,
+  },
+
+  Settings: {
+    navigationOptions: {
+      header: null,
+    },
+    screen: Settings,
   },
 });
 
