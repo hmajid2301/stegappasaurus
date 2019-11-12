@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import {Linking, Text, TouchableOpacity, View} from 'react-native';
 import {IconType, ListItem} from 'react-native-elements';
 import Rate, {AndroidMarket} from 'react-native-rate';

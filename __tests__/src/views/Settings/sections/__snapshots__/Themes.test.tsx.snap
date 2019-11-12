@@ -30,16 +30,16 @@ exports[`Themes: Match Snapshots 1 1`] = `
   />
   <Themed.ListItem
     bottomDivider={true}
-    checkBox={
-      Object {
-        "checked": false,
-        "checkedColor": "#009CFF",
-        "onPress": [Function],
-      }
-    }
     containerStyle={
       Object {
         "backgroundColor": "#FFF",
+      }
+    }
+    switch={
+      Object {
+        "onValueChange": [Function],
+        "thumbColor": "#009CFF",
+        "value": false,
       }
     }
     title="Dark Mode"
@@ -88,16 +88,16 @@ exports[`Themes: Match Snapshots 2 1`] = `
   />
   <Themed.ListItem
     bottomDivider={true}
-    checkBox={
-      Object {
-        "checked": false,
-        "checkedColor": "#009CFF",
-        "onPress": [Function],
-      }
-    }
     containerStyle={
       Object {
         "backgroundColor": "#17212D",
+      }
+    }
+    switch={
+      Object {
+        "onValueChange": [Function],
+        "thumbColor": "#009CFF",
+        "value": false,
       }
     }
     title="Dark Mode"

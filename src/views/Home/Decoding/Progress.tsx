@@ -17,7 +17,6 @@ interface IProps {
 }
 
 interface IState {
-  decoding: boolean;
   photo: string;
   progress: number;
 }
@@ -28,7 +27,6 @@ export default class Progress extends React.Component<IProps, IState> {
     const uri = this.props.navigation.getParam('uri', 'NO-ID');
 
     this.state = {
-      decoding: true,
       photo: uri,
       progress: 0,
     };
@@ -40,7 +38,6 @@ export default class Progress extends React.Component<IProps, IState> {
     return (
       <View style={{flex: 1}}>
         <ImageProgress
-          animating={this.state.decoding}
           background={theme.background}
           photo={this.state.photo}
           primaryColor={secondary as TabColors}

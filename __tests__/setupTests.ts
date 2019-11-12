@@ -24,6 +24,8 @@ const globalNode: Global = {
   ...global,
 };
 
+(global as any).fetch = require('jest-fetch-mock');
+
 const copyProps = (src: DOMWindow, target: Global) => {
   Object.defineProperties(target, {
     ...Object.getOwnPropertyDescriptors(src),

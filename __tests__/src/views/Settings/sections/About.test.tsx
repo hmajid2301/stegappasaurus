@@ -1,34 +1,34 @@
-import { mount, shallow } from "enzyme";
-import React from "react";
+import {mount, shallow} from 'enzyme';
+import React from 'react';
 
-import About from "~/views/Settings/Sections/About";
+import About from '~/views/Settings/Sections/About';
 
-describe("About: Match Snapshots", () => {
-  test("1", () => {
+describe('About: Match Snapshots', () => {
+  test('1', () => {
     const component = shallow(<About color="#17212D" background="#FFF" />);
     expect(component).toMatchSnapshot();
   });
 
-  test("2", () => {
+  test('2', () => {
     const component = shallow(<About background="#17212D" color="#FFF" />);
     expect(component).toMatchSnapshot();
   });
-  test("3", () => {
+  test('3', () => {
     const component = mount(<About background="#17212D" color="#FFF" />);
     expect(
       component
-        .find("ListItem")
+        .find('ListItem')
         .at(1)
-        .props().title
+        .props().title,
     ).toMatchSnapshot();
   });
 });
 
-describe("About: Props", () => {
-  test("OnPress", async () => {
+describe('About: Props', () => {
+  test('OnPress', async () => {
     const component = mount(<About background="#17212D" color="#FFF" />);
     const prop = component
-      .find("TouchableOpacity")
+      .find('TouchableOpacity')
       .last()
       .props() as any;
     prop.onPress();

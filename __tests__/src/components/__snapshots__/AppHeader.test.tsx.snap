@@ -27,20 +27,12 @@ exports[`AppHeader: Match snapshots 1 1`] = `
         },
       ]
     }
-    leftComponent={
-      <Themed.Icon
-        color="#FFF"
-        name="menu"
-        onPress={[Function]}
-        type="simple-line-icon"
-      />
-    }
     rightComponent={
       <Themed.Icon
         color="#FFF"
-        name="home"
+        name="settings"
         onPress={[Function]}
-        type="antdesign"
+        type="feather"
       />
     }
   />
@@ -70,24 +62,16 @@ exports[`AppHeader: Match snapshots 2 1`] = `
         },
         Object {
           "backgroundColor": "#FFF",
-          "borderBottomColor": "#009CFF",
+          "borderBottomColor": "#E88C0C",
         },
       ]
-    }
-    leftComponent={
-      <Themed.Icon
-        color="#17212D"
-        name="menu"
-        onPress={[Function]}
-        type="simple-line-icon"
-      />
     }
     rightComponent={
       <Themed.Icon
         color="#17212D"
-        name="home"
+        name="settings"
         onPress={[Function]}
-        type="antdesign"
+        type="feather"
       />
     }
   />

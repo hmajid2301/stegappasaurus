@@ -64,7 +64,6 @@ lint:types:
 
 tests:unit:
   stage: test
-  allow_failure: true
   only:
     - merge_requests
   script:
@@ -72,7 +71,6 @@ tests:unit:
 
 test:coverage:
   stage: test
-  allow_failure: true
   only:
     - master
   script:
