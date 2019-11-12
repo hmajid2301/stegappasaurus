@@ -20,7 +20,6 @@ interface IProps {
 
 interface IState {
   encodedUri: string;
-  encoding: boolean;
   photo: string;
   progress: number;
 }
@@ -32,7 +31,6 @@ export default class Progress extends React.Component<IProps, IState> {
 
     this.state = {
       encodedUri: '',
-      encoding: true,
       photo: uri,
       progress: 0,
     };
@@ -43,7 +41,6 @@ export default class Progress extends React.Component<IProps, IState> {
     return (
       <View style={{flex: 1}}>
         <ImageProgress
-          animating={this.state.encoding}
           background={theme.background}
           icon={{
             color: pureWhite,
@@ -101,7 +98,7 @@ export default class Progress extends React.Component<IProps, IState> {
     const path =
       fs.dirs.PictureDir + '/Stegappasaurus' + `/${new Date().toISOString()}`;
     await fs.createFile(path, encodedImage.slice(23), 'base64');
-    this.setState({encoding: false, encodedUri: path});
+    this.setState({encodedUri: path});
   }
 
   private failed(_: any) {

@@ -1,0 +1,215 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`AboutUs: Match Snapshots 1 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "flex": 1,
+        "flexDirection": "column",
+      },
+      Object {
+        "backgroundColor": "#FFF",
+      },
+    ]
+  }
+>
+  <ScrollViewMock>
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "paddingVertical": 20,
+        }
+      }
+    >
+      <Text
+        style={
+          Array [
+            Object {
+              "fontFamily": "Roboto-Light",
+              "paddingHorizontal": 20,
+            },
+            Object {
+              "color": "#17212D",
+            },
+          ]
+        }
+      >
+        Stegappasaurus is a free mobile application fully open source, built using React Native. This application uses steganography algorithms to hide your (text) data within images. This project was originally created as third year project for University. However this version is a complete rewrite of the application.
+      </Text>
+    </View>
+    <View>
+      <Progress
+        backgroundColor="#FFF"
+        color="#17212D"
+        items={
+          Array [
+            Object {
+              "icon": Object {
+                "color": "#009CFF",
+                "name": "versions",
+                "type": "octicon",
+              },
+              "title": "Version 1.0.0-beta.1",
+              "url": "https://github.com/hmajid2301/Stegappasaurus",
+            },
+            Object {
+              "icon": Object {
+                "color": "#009CFF",
+                "name": "code-fork",
+                "type": "font-awesome",
+              },
+              "title": "Fork this Project on GitHub",
+              "url": "https://github.com/hmajid2301/Stegappasaurus",
+            },
+            Object {
+              "icon": Object {
+                "color": "#009CFF",
+                "name": "gitlab",
+                "type": "font-awesome",
+              },
+              "title": "Personal GitLab",
+              "url": "https://gitlab.com/hmajid2301",
+            },
+            Object {
+              "icon": Object {
+                "color": "#009CFF",
+                "name": "web",
+                "type": "material-community",
+              },
+              "title": "Personal Website",
+              "url": "https://haseebmajid.dev",
+            },
+            Object {
+              "function_to_call": "store",
+              "icon": Object {
+                "color": "#009CFF",
+                "name": "rate-review",
+                "type": "material",
+              },
+              "title": "Rate the App",
+            },
+            Object {
+              "icon": Object {
+                "color": "#009CFF",
+                "name": "paypal",
+                "type": "font-awesome",
+              },
+              "title": "Buy me a coffee",
+              "url": "https://www.paypal.me/hmajid2301",
+            },
+          ]
+        }
+      />
+    </View>
+  </ScrollViewMock>
+</View>
+`;
+
+exports[`AboutUs: Match Snapshots 2 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "flex": 1,
+        "flexDirection": "column",
+      },
+      Object {
+        "backgroundColor": "#17212D",
+      },
+    ]
+  }
+>
+  <ScrollViewMock>
+    <View
+      style={
+        Object {
+          "alignItems": "center",
+          "paddingVertical": 20,
+        }
+      }
+    >
+      <Text
+        style={
+          Array [
+            Object {
+              "fontFamily": "Roboto-Light",
+              "paddingHorizontal": 20,
+            },
+            Object {
+              "color": "#FFF",
+            },
+          ]
+        }
+      >
+        Stegappasaurus is a free mobile application fully open source, built using React Native. This application uses steganography algorithms to hide your (text) data within images. This project was originally created as third year project for University. However this version is a complete rewrite of the application.
+      </Text>
+    </View>
+    <View>
+      <Progress
+        backgroundColor="#17212D"
+        color="#FFF"
+        items={
+          Array [
+            Object {
+              "icon": Object {
+                "color": "#009CFF",
+                "name": "versions",
+                "type": "octicon",
+              },
+              "title": "Version 1.0.0-beta.1",
+              "url": "https://github.com/hmajid2301/Stegappasaurus",
+            },
+            Object {
+              "icon": Object {
+                "color": "#009CFF",
+                "name": "code-fork",
+                "type": "font-awesome",
+              },
+              "title": "Fork this Project on GitHub",
+              "url": "https://github.com/hmajid2301/Stegappasaurus",
+            },
+            Object {
+              "icon": Object {
+                "color": "#009CFF",
+                "name": "gitlab",
+                "type": "font-awesome",
+              },
+              "title": "Personal GitLab",
+              "url": "https://gitlab.com/hmajid2301",
+            },
+            Object {
+              "icon": Object {
+                "color": "#009CFF",
+                "name": "web",
+                "type": "material-community",
+              },
+              "title": "Personal Website",
+              "url": "https://haseebmajid.dev",
+            },
+            Object {
+              "function_to_call": "store",
+              "icon": Object {
+                "color": "#009CFF",
+                "name": "rate-review",
+                "type": "material",
+              },
+              "title": "Rate the App",
+            },
+            Object {
+              "icon": Object {
+                "color": "#009CFF",
+                "name": "paypal",
+                "type": "font-awesome",
+              },
+              "title": "Buy me a coffee",
+              "url": "https://www.paypal.me/hmajid2301",
+            },
+          ]
+        }
+      />
+    </View>
+  </ScrollViewMock>
+</View>
+`;

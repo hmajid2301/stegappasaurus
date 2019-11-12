@@ -32,6 +32,7 @@ exports[`ImageMessage: Match snapshots 1 1`] = `
       >
         <TextInput
           allowFontScaling={true}
+          autoFocus={true}
           blurOnSubmit={true}
           editable={true}
           enablesReturnKeyAutomatically={true}
@@ -91,6 +92,7 @@ exports[`ImageMessage: Match snapshots 2 1`] = `
       >
         <TextInput
           allowFontScaling={true}
+          autoFocus={true}
           blurOnSubmit={true}
           editable={true}
           enablesReturnKeyAutomatically={true}

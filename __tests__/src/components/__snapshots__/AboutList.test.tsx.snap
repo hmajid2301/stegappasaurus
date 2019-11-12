@@ -197,6 +197,45 @@ exports[`AboutList: Match snapshots 1 1`] = `
     }
     topDivider={true}
   />
+  <Themed.ListItem
+    bottomDivider={true}
+    containerStyle={
+      Object {
+        "backgroundColor": "#FFF",
+      }
+    }
+    key="Buy me a coffee"
+    leftIcon={
+      Object {
+        "color": "#009CFF",
+        "name": "paypal",
+        "onPress": [Function],
+        "type": "font-awesome",
+      }
+    }
+    title={
+      <TouchableOpacity
+        activeOpacity={0.2}
+        onPress={[Function]}
+      >
+        <Text
+          style={
+            Array [
+              Object {
+                "fontFamily": "Roboto-Light",
+              },
+              Object {
+                "color": "#17212D",
+              },
+            ]
+          }
+        >
+          Buy me a coffee
+        </Text>
+      </TouchableOpacity>
+    }
+    topDivider={true}
+  />
 </View>
 `;
 
@@ -397,12 +436,51 @@ exports[`AboutList: Match snapshots 2 1`] = `
     }
     topDivider={true}
   />
+  <Themed.ListItem
+    bottomDivider={true}
+    containerStyle={
+      Object {
+        "backgroundColor": "#17212D",
+      }
+    }
+    key="Buy me a coffee"
+    leftIcon={
+      Object {
+        "color": "#009CFF",
+        "name": "paypal",
+        "onPress": [Function],
+        "type": "font-awesome",
+      }
+    }
+    title={
+      <TouchableOpacity
+        activeOpacity={0.2}
+        onPress={[Function]}
+      >
+        <Text
+          style={
+            Array [
+              Object {
+                "fontFamily": "Roboto-Light",
+              },
+              Object {
+                "color": "#FFF",
+              },
+            ]
+          }
+        >
+          Buy me a coffee
+        </Text>
+      </TouchableOpacity>
+    }
+    topDivider={true}
+  />
 </View>
 `;
 
 exports[`AboutList: Match snapshots 3 1`] = `<View />`;
 
-exports[`AboutList: Match snapshots Title 1`] = `
+exports[`AboutList: Match snapshots List Item Title 1`] = `
 <TouchableOpacity
   activeOpacity={0.2}
   onPress={[Function]}
@@ -414,7 +492,7 @@ exports[`AboutList: Match snapshots Title 1`] = `
           "fontFamily": "Roboto-Light",
         },
         Object {
-          "color": "#FFF",
+          "color": "#17212D",
         },
       ]
     }

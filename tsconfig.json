@@ -25,7 +25,6 @@
     "metro.config.js",
     "__mocks__",
     "jest.config.js",
-    "react-native.config.js",
-    "__tests__"
+    "react-native.config.js"
   ]
 }

@@ -35,7 +35,7 @@ export default class PhotoAlbumList extends React.Component<IProps, IState> {
           numColumns={3}
           onEndReached={this.getMorePhotos}
           onRefresh={this.handleRefresh}
-          renderItem={this.renderPhotosFromCameraRoll}
+          renderItem={this.renderPhotos}
           refreshing={this.state.refreshing}
         />
       </View>
@@ -57,20 +57,13 @@ export default class PhotoAlbumList extends React.Component<IProps, IState> {
 
     const emptyImage = {
       node: {
-        group_name: 'na',
         image: {
-          filename: 'test',
-          height: 100,
-          playableDuration: 0,
           uri: '',
-          width: 100,
         },
-        timestamp: 0,
-        type: 'image',
       },
     };
     for (let i = 0; i < elementsToAdd; i += 1) {
-      data.push(emptyImage);
+      data.push(emptyImage as any);
     }
 
     return data;
@@ -98,7 +91,7 @@ export default class PhotoAlbumList extends React.Component<IProps, IState> {
     this.setState({refreshing: false});
   };
 
-  private renderPhotosFromCameraRoll = ({item}: {item: PhotoIdentifier}) => {
+  private renderPhotos = ({item}: {item: PhotoIdentifier}) => {
     if (item.node.image.uri === '') {
       return <View />;
     }

@@ -15,6 +15,7 @@ exports[`Settings: Match Snapshots 1 1`] = `
 >
   <AppHeader
     navigation={[MockFunction]}
+    primary="#009CFF"
     theme={
       Object {
         "background": "#FFF",
@@ -60,6 +61,7 @@ exports[`Settings: Match Snapshots 2 1`] = `
 >
   <AppHeader
     navigation={[MockFunction]}
+    primary="#009CFF"
     theme={
       Object {
         "background": "#17212D",

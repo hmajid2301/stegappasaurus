@@ -29,6 +29,26 @@ exports[`About: Match Snapshots 1 1`] = `
     }
   />
   <Themed.ListItem
+    containerStyle={
+      Object {
+        "backgroundColor": "#FFF",
+      }
+    }
+    title={
+      <MyModal
+        background="#FFF"
+        color="#17212D"
+        name="About Us"
+      >
+        <AboutUs
+          background="#FFF"
+          color="#17212D"
+        />
+      </MyModal>
+    }
+    topDivider={true}
+  />
+  <Themed.ListItem
     bottomDivider={true}
     containerStyle={
       Object {
@@ -129,6 +149,26 @@ exports[`About: Match Snapshots 2 1`] = `
     }
   />
   <Themed.ListItem
+    containerStyle={
+      Object {
+        "backgroundColor": "#17212D",
+      }
+    }
+    title={
+      <MyModal
+        background="#17212D"
+        color="#FFF"
+        name="About Us"
+      >
+        <AboutUs
+          background="#17212D"
+          color="#FFF"
+        />
+      </MyModal>
+    }
+    topDivider={true}
+  />
+  <Themed.ListItem
     bottomDivider={true}
     containerStyle={
       Object {
@@ -201,17 +241,14 @@ exports[`About: Match Snapshots 2 1`] = `
 `;
 
 exports[`About: Match Snapshots 3 1`] = `
-<MarkdownModal
+<MyModal
   background="#17212D"
   color="#FFF"
-  name="Changelog"
+  name="About Us"
 >
-  
-# Changelog
-
-## 1.0.0
-### What's New
-
-* Initial release of the app
-</MarkdownModal>
+  <AboutUs
+    background="#17212D"
+    color="#FFF"
+  />
+</MyModal>
 `;
