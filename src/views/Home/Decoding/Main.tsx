@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import {TouchableOpacity, View} from 'react-native';
 import {Icon} from 'react-native-elements';
 import ImagePicker from 'react-native-image-picker';
@@ -29,7 +29,7 @@ export default class Main extends React.Component<IProps, {}> {
       <View style={[styles.container, {backgroundColor: theme.background}]}>
         <AppHeader
           navigation={this.props.navigation}
-          primary={'#E88C0C'}
+          primary="#E88C0C"
           theme={theme}
         />
         <View style={styles.buttonsRow}>

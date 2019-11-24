@@ -38,7 +38,11 @@ exports[`Themes: Match Snapshots 1 1`] = `
     switch={
       Object {
         "onValueChange": [Function],
-        "thumbColor": "#009CFF",
+        "thumbColor": "white",
+        "trackColor": Object {
+          "false": "gray",
+          "true": "#009CFF",
+        },
         "value": false,
       }
     }
@@ -96,7 +100,11 @@ exports[`Themes: Match Snapshots 2 1`] = `
     switch={
       Object {
         "onValueChange": [Function],
-        "thumbColor": "#009CFF",
+        "thumbColor": "white",
+        "trackColor": Object {
+          "false": "gray",
+          "true": "#009CFF",
+        },
         "value": false,
       }
     }

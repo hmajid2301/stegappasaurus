@@ -4,7 +4,6 @@ import {bodyLight} from '~/constants/fonts';
 
 const styles = StyleSheet.create({
   backgroundImage: {
-    backgroundColor: 'rgba(0, 0, 0, 0.7)',
     height: '100%',
     width: '100%',
   },
@@ -16,12 +15,14 @@ const styles = StyleSheet.create({
   },
 
   message: {
-    backgroundColor: 'rgba(0, 0, 0, 0.3)',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
     color: '#ffffff',
     fontFamily: bodyLight,
     fontSize: 22,
+    height: '100%',
     paddingHorizontal: 20,
     paddingVertical: 20,
+    width: '100%',
   },
 });
 

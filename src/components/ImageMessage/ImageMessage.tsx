@@ -16,7 +16,7 @@ import styles from './styles';
 
 interface IProps {
   navigation: NavigationScreenProp<any, any>;
-  action: (message: string) => void;
+  action?: (message: string) => void;
   editable: boolean;
   message?: string;
   photo: string;
@@ -28,7 +28,7 @@ interface IState {
 
 export default class ImageMessage extends React.Component<IProps, IState> {
   public static defaultProps = {
-    action: null,
+    action: () => null,
     message: 'Enter your message here',
   };
 
@@ -59,10 +59,11 @@ export default class ImageMessage extends React.Component<IProps, IState> {
                 enablesReturnKeyAutomatically={true}
                 multiline={true}
                 onChangeText={this.updateText}
-                onSubmitEditing={this.props.action.bind(
-                  this,
-                  this.state.message,
-                )}
+                onSubmitEditing={
+                  this.props.action !== undefined
+                    ? this.props.action.bind(this, this.state.message)
+                    : () => null
+                }
                 placeholder={this.props.message}
                 placeholderTextColor={pureWhite}
                 ref={ref => {
