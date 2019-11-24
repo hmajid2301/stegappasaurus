@@ -78,6 +78,7 @@
     "mock-async-storage": "2.2.0",
     "prettier": "1.19.1",
     "react-dom": "16.8.6",
+    "react-native-bundle-visualizer": "^2.0.4",
     "react-native-mock-render": "0.1.5",
     "react-test-renderer": "16.9.0",
     "ts-jest": "24.0.2",
