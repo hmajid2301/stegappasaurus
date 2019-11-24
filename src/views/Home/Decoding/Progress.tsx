@@ -1,6 +1,4 @@
-import * as React from 'react';
-import {Image, View} from 'react-native';
-import Canvas from 'react-native-canvas';
+import React from 'react';
 import {NavigationScreenProp} from 'react-navigation';
 
 import Snackbar from '~/actions/Snackbar';
@@ -36,41 +34,34 @@ export default class Progress extends React.Component<IProps, IState> {
     const {theme} = this.props.screenProps;
 
     return (
-      <View style={{flex: 1}}>
-        <ImageProgress
-          background={theme.background}
-          photo={this.state.photo}
-          primaryColor={secondary as TabColors}
-          progress={this.state.progress}
-        />
-        <Canvas ref={this.decodeImage} style={{display: 'none'}} />
-      </View>
+      <ImageProgress
+        background={theme.background}
+        photo={this.state.photo}
+        primaryColor={secondary as TabColors}
+        progress={this.state.progress}
+      />
     );
   }
 
-  private async decodeImage(canvas: Canvas) {
-    Image.getSize(
-      this.state.photo,
-      async (width, height) => {
-        try {
-          const steganography = new Steganography(
-            canvas,
-            this.state.photo,
-            width,
-            height,
-          );
-          const timer = setInterval(() => {
-            this.setState({progress: steganography.getProgress()});
-          }, 100);
-          const decodedMessage = await steganography.decode();
-          clearInterval(timer);
-          this.success(decodedMessage);
-        } catch (error) {
-          this.failed(error);
-        }
-      },
-      () => null,
-    );
+  public async componentDidMount() {
+    await this.decodeImage();
+  }
+
+  private async decodeImage() {
+    const steganography = new Steganography(this.state.photo);
+    const timer = setInterval(() => {
+      this.setState({progress: steganography.getProgress()});
+    }, 50);
+    try {
+      const decodedMessage = await steganography.decode();
+      clearInterval(timer);
+      this.success(decodedMessage);
+    } catch (error) {
+      this.failed(error);
+    } finally {
+      this.setState({progress: 100});
+      clearInterval(timer);
+    }
   }
 
   private success(message: string) {

@@ -86,13 +86,20 @@ export default class PhotoAlbumList extends React.Component<IProps, IState> {
   };
 
   private handleRefresh = async () => {
-    this.setState({refreshing: true, finished: false, photos: []});
-    await this.getMorePhotos();
+    this.setState(
+      {
+        finished: false,
+        lastPhoto: null,
+        photos: [],
+        refreshing: true,
+      },
+      async () => this.getMorePhotos(),
+    );
     this.setState({refreshing: false});
   };
 
   private renderPhotos = ({item}: {item: PhotoIdentifier}) => {
-    if (item.node.image.uri === '') {
+    if (item.node.image.filename === '') {
       return <View />;
     }
 

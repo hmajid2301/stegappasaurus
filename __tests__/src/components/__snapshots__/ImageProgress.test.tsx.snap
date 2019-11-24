@@ -19,70 +19,17 @@ exports[`ImageProgress: Match snapshots 1 1`] = `
     activeOpacity={0.8}
     onPress={[Function]}
   >
-    <PercentageCircle
-      bgcolor="#e3e3e3"
-      borderWidth={5}
-      color="#009CFF"
-      innerColor="#fff"
-      percent={100}
-      radius={250.50000000000003}
+    <AnimatedCircularProgress
+      duration={500}
+      easing={[Function]}
+      fill={100}
+      prefill={0}
+      size={562.5}
+      tintColor="#009CFF"
+      width={3}
     >
-      <ImageBackground
-        imageStyle={
-          Array [
-            Object {
-              "borderRadius": 562.5,
-              "borderWidth": 5,
-              "overflow": "hidden",
-            },
-            Object {
-              "borderColor": "#009CFF",
-            },
-          ]
-        }
-        source={
-          Object {
-            "uri": "images.png",
-          }
-        }
-        style={
-          Object {
-            "height": 562.5,
-            "opacity": 0.65,
-            "width": 562.5,
-          }
-        }
-      >
-        <View
-          style={
-            Object {
-              "alignItems": "center",
-              "flex": 1,
-              "justifyContent": "center",
-            }
-          }
-        >
-          <Themed.Icon
-            color="#FFF"
-            name="share"
-            size={130}
-            type="font-awesome"
-          />
-          <Text
-            style={
-              Object {
-                "color": "black",
-                "fontFamily": "Roboto",
-                "fontSize": 50,
-              }
-            }
-          >
-            100
-            %
-          </Text>
-        </View>
-      </ImageBackground>
-    </PercentageCircle>
+      <Component />
+    </AnimatedCircularProgress>
   </TouchableOpacity>
 </View>
 `;
@@ -106,70 +53,17 @@ exports[`ImageProgress: Match snapshots 2 1`] = `
     activeOpacity={0.8}
     onPress={[Function]}
   >
-    <PercentageCircle
-      bgcolor="#e3e3e3"
-      borderWidth={5}
-      color="#E88C0C"
-      innerColor="#fff"
-      percent={0}
-      radius={250.50000000000003}
+    <AnimatedCircularProgress
+      duration={500}
+      easing={[Function]}
+      fill={0}
+      prefill={0}
+      size={562.5}
+      tintColor="#E88C0C"
+      width={3}
     >
-      <ImageBackground
-        imageStyle={
-          Array [
-            Object {
-              "borderRadius": 562.5,
-              "borderWidth": 5,
-              "overflow": "hidden",
-            },
-            Object {
-              "borderColor": "#E88C0C",
-            },
-          ]
-        }
-        source={
-          Object {
-            "uri": "images.png",
-          }
-        }
-        style={
-          Object {
-            "height": 562.5,
-            "opacity": 0.65,
-            "width": 562.5,
-          }
-        }
-      >
-        <View
-          style={
-            Object {
-              "alignItems": "center",
-              "flex": 1,
-              "justifyContent": "center",
-            }
-          }
-        >
-          <Themed.Icon
-            color="#111"
-            name="share"
-            size={100}
-            type="font-awesome"
-          />
-          <Text
-            style={
-              Object {
-                "color": "black",
-                "fontFamily": "Roboto",
-                "fontSize": 50,
-              }
-            }
-          >
-            0
-            %
-          </Text>
-        </View>
-      </ImageBackground>
-    </PercentageCircle>
+      <Component />
+    </AnimatedCircularProgress>
   </TouchableOpacity>
 </View>
 `;

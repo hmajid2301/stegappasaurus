@@ -35,6 +35,9 @@ export default class EncodeLSB {
 
     if (bit === '0' && pixelValue % 2 === 1) {
       newPixelValue -= 1;
+      if (newPixelValue === -1) {
+        newPixelValue = 1;
+      }
     } else if (bit === '1' && pixelValue % 2 === 0) {
       newPixelValue += 1;
     }

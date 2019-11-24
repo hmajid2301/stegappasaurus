@@ -1,8 +1,8 @@
 import LZUTF8 from 'lzutf8';
+import {Image, NativeModules} from 'react-native';
 import {stringToArray} from 'utf8-to-bytes';
 import varint from 'varint';
 
-import Canvas, {Image as CanvasImage, ImageData} from 'react-native-canvas';
 import {ImageNotEncodedError, MessageTooLongError} from './exceptions';
 import {DecodeLSB, EncodeLSB} from './LSB';
 
@@ -17,10 +17,7 @@ interface IAlgorithms {
 }
 
 export default class Steganography {
-  private readonly canvas: Canvas;
   private readonly imageURI: string;
-  private readonly width: number;
-  private readonly height: number;
   private progress: {
     increment: number;
     value: number;
@@ -30,13 +27,8 @@ export default class Steganography {
     0: 'LSBv1',
   };
 
-  constructor(canvas: Canvas, imageURI: string, width: number, height: number) {
-    this.canvas = canvas;
+  constructor(imageURI: string) {
     this.imageURI = imageURI;
-    this.width = width;
-    this.height = height;
-    this.canvas.width = width;
-    this.canvas.height = height;
     this.progress = {
       increment: 0,
       value: 0,
@@ -49,11 +41,11 @@ export default class Steganography {
     metadata?: IMetaData,
   ) {
     try {
-      const output = LZUTF8.compress(message);
-      const binaryMessage = this.convertMessageToBits(output);
+      const compressedMessage = LZUTF8.compress(message);
+      const binaryMessage = this.convertMessageToBits(compressedMessage);
       const imageData = await this.getImageData(
         this.imageURI,
-        binaryMessage.length,
+        binaryMessage.length + 8,
       );
       const newImageData = this.encodeData(
         imageData,
@@ -74,9 +66,10 @@ export default class Steganography {
 
   public async decode() {
     try {
+      const {width, height} = await this.imageSize(this.imageURI);
       const imageData = await this.getImageData(
         this.imageURI,
-        this.width * this.height,
+        width * height * 3,
       );
       const decodedDecimalData = this.decodeData(imageData);
       const message = LZUTF8.decompress(decodedDecimalData);
@@ -94,7 +87,11 @@ export default class Steganography {
   }
 
   public updateProgress() {
-    this.progress.value += this.progress.increment;
+    if (this.progress.value >= 100) {
+      this.progress.value = 100;
+    } else {
+      this.progress.value += this.progress.increment;
+    }
   }
 
   public getProgress() {
@@ -114,35 +111,20 @@ export default class Steganography {
   }
 
   private async getImageData(imageURI: string, length: number) {
-    const context = this.canvas.getContext('2d');
-    const uri = imageURI;
-    const image = await this.loadImage(uri);
-    context.drawImage(image, 0, 0, this.width, this.height);
-
-    const bytesRequired = this.getBytesRequired(length);
-    const width = bytesRequired % this.width;
-    const height = Math.floor(bytesRequired / this.height) + 1;
-
-    const rgbaImageObject = await context.getImageData(0, 0, width, height);
-    const rgbData = Object.values(rgbaImageObject.data).filter((_, index) => {
-      return (index + 1) % 4 !== 0;
-    });
-    return rgbData;
+    const pixels = await NativeModules.Bitmap.getPixels(imageURI, length);
+    return pixels;
   }
 
-  private loadImage(url: string): Promise<CanvasImage> {
+  private imageSize(uri: string): Promise<{width: number; height: number}> {
     return new Promise(resolve => {
-      const image = new CanvasImage(this.canvas);
-      image.addEventListener('load', () => {
-        resolve(image);
-      });
-      image.src = url;
+      Image.getSize(
+        uri,
+        (width, height) => {
+          resolve({width, height});
+        },
+        () => null,
+      );
     });
-  }
-
-  private getBytesRequired(messageLength: number, _: AlgorithmNames = 'LSBv1') {
-    const bytesRequired = Math.ceil((messageLength + 8) / 3);
-    return bytesRequired;
   }
 
   private encodeData(
@@ -151,7 +133,7 @@ export default class Steganography {
     algorithm: AlgorithmNames,
     metadata?: IMetaData,
   ) {
-    this.progress.increment = 100 / data.length;
+    this.progress.increment = Math.ceil(100 / data.length);
     metadata = this.setDefaultMetaData(
       metadata && algorithm !== 'LSBv1' ? metadata : {},
       algorithm,
@@ -182,7 +164,7 @@ export default class Steganography {
     return metadata;
   }
 
-  private algorithmsTypesToNum(algorithm = 'LSB') {
+  private algorithmsTypesToNum(algorithm = 'LSBv1') {
     const values = Object.values(this.numToAlgorithmTypes);
     return values.indexOf(algorithm);
   }
@@ -222,16 +204,8 @@ export default class Steganography {
   }
 
   private async getEncodedImageURI(data: number[]) {
-    const context = this.canvas.getContext('2d');
-    for (let index = 3; index < data.length + 3; index += 4) {
-      data.splice(index, 0, 255);
-    }
-    const width = data.length / 4;
-    const height = Math.floor(width / this.height) + 1;
-
-    const imgData = new ImageData(this.canvas, data, width, height);
-    context.putImageData(imgData, 0, 0);
-    return this.canvas.toDataURL();
+    const uri = await NativeModules.Bitmap.setPixels(this.imageURI, data);
+    return uri;
   }
 
   private decodeData(imageData: number[]) {
@@ -260,7 +234,7 @@ export default class Steganography {
     const decodeLSB = new DecodeLSB();
     const algorithmTypeBinary = decodeLSB.decodeNextByte(imageData);
     const algorithmNum = this.convertBytesToDecimal(algorithmTypeBinary);
-    const algorithm = this.numToAlgorithmTypes[algorithmNum] || 'LSB';
+    const algorithm = this.numToAlgorithmTypes[algorithmNum] || 'LSBv1';
     const metadata: IMetaData = {};
 
     const startDecodingAt = decodeLSB.getCurrentIndex();

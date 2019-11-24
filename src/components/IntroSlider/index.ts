@@ -1,4 +1,4 @@
-import IntroSlider, {ISlide} from './IntroSlider';
+import IntroSlider, {ISlide as OtherSlide} from './IntroSlider';
 
-export type ISlide = ISlide;
+export type ISlide = OtherSlide;
 export default IntroSlider;

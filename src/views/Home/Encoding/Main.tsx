@@ -5,6 +5,7 @@ import {Icon} from 'react-native-elements';
 import ImagePicker from 'react-native-image-picker';
 import {check, PERMISSIONS, request} from 'react-native-permissions';
 import {NavigationScreenProp} from 'react-navigation';
+import RNFetchBlob from 'rn-fetch-blob';
 
 import Snackbar from '~/actions/Snackbar';
 import AppHeader from '~/components/AppHeader';
@@ -113,16 +114,11 @@ export default class Main extends React.Component<IProps, IState> {
 
   private getPhotoFromCameraRoll = async () => {
     try {
-      ImagePicker.launchImageLibrary(
-        {
-          mediaType: 'photo',
-        },
-        response => {
-          if (!response.didCancel) {
-            this.selectPhotoToEncode(response.uri);
-          }
-        },
-      );
+      ImagePicker.launchImageLibrary({}, response => {
+        if (!response.didCancel) {
+          this.selectPhotoToEncode(response.uri);
+        }
+      });
     } catch {
       Snackbar.show({
         text: 'This app does not have permission to access the camera roll.',
@@ -144,8 +140,15 @@ export default class Main extends React.Component<IProps, IState> {
     const status = response.status;
     if (status === 200) {
       const urls = data as ICatAPI[];
-      await Image.prefetch(urls[0].url);
-      this.selectPhotoToEncode(urls[0].url);
+      const url = urls[0].url;
+      await Image.prefetch(url);
+      await RNFetchBlob.config({
+        fileCache: true,
+      })
+        .fetch('GET', url, {})
+        .then(res => {
+          this.selectPhotoToEncode(`file://${res.path()}`);
+        });
     } else {
       Snackbar.show({
         text:
