@@ -78,7 +78,7 @@ export default class PhotoAlbumList extends React.Component<IProps, IState> {
       const {end_cursor, has_next_page} = photos.page_info;
 
       this.setState({
-        finished: has_next_page,
+        finished: !has_next_page,
         lastPhoto: end_cursor as string,
         photos: [...this.state.photos, ...photos.edges],
       });
