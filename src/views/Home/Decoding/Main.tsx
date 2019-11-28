@@ -5,7 +5,7 @@ import ImagePicker from 'react-native-image-picker';
 import {NavigationScreenProp} from 'react-navigation';
 
 import Snackbar from '~/actions/Snackbar';
-import AppHeader from '~/components/AppHeader';
+import {MainHeader} from '~/components/Header';
 import PhotoAlbumList from '~/components/PhotoAlbumList';
 import {ITheme} from '~/constants/types';
 import styles from './Main/styles';
@@ -27,7 +27,7 @@ export default class Main extends React.Component<IProps, {}> {
 
     return (
       <View style={[styles.container, {backgroundColor: theme.background}]}>
-        <AppHeader
+        <MainHeader
           navigation={this.props.navigation}
           primary="#E88C0C"
           theme={theme}
@@ -67,6 +67,6 @@ export default class Main extends React.Component<IProps, {}> {
   };
 
   private selectPhotoToDecode = (uri: string) => {
-    this.props.navigation.navigate('DecodingProgress', {uri});
+    this.props.navigation.navigate('Progress', {uri});
   };
 }

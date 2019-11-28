@@ -2,7 +2,7 @@ import * as React from 'react';
 import {ScrollView, View} from 'react-native';
 import {NavigationScreenProp} from 'react-navigation';
 
-import AppHeader from '~/components/AppHeader';
+import {MainHeader} from '~/components/Header';
 import {ITheme} from '~/constants/types';
 import {About, Support, Themes} from './Settings/Sections';
 import styles from './Settings/styles';
@@ -21,7 +21,7 @@ export default class Settings extends React.Component<IProps, {}> {
     return (
       <ScrollView
         style={[styles.container, {backgroundColor: theme.background}]}>
-        <AppHeader
+        <MainHeader
           primary="#009CFF"
           navigation={this.props.navigation}
           theme={theme}

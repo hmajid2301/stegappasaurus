@@ -1,10 +1,12 @@
 import React from 'react';
-import {Linking} from 'react-native';
+import {Linking, View} from 'react-native';
+import {check, PERMISSIONS, request} from 'react-native-permissions';
 import Share from 'react-native-share';
 import {NavigationScreenProp} from 'react-navigation';
 
 import Snackbar from '~/actions/Snackbar';
 import Steganography from '~/actions/Steganography/Steganography';
+import {MainHeader} from '~/components/Header';
 import ImageProgress from '~/components/ImageProgress';
 import {primary, pureWhite} from '~/constants/colors';
 import {ITheme, TabColors} from '~/constants/types';
@@ -38,23 +40,35 @@ export default class Progress extends React.Component<IProps, IState> {
     const {theme} = this.props.screenProps;
 
     return (
-      <ImageProgress
-        background={theme.background}
-        icon={{
-          color: pureWhite,
-          name: 'share',
-          size: 130,
-          type: 'font-awesome',
-        }}
-        onPress={this.shareImage}
-        photo={this.state.photo}
-        progress={this.state.progress}
-        primaryColor={primary as TabColors}
-      />
+      <View style={{flex: 1}}>
+        <MainHeader
+          navigation={this.props.navigation}
+          primary="#009CFF"
+          theme={theme}
+        />
+        <ImageProgress
+          background={theme.background}
+          icon={{
+            color: pureWhite,
+            name: 'share',
+            size: 130,
+            type: 'font-awesome',
+          }}
+          onPress={this.shareImage}
+          photo={this.state.photo}
+          progress={this.state.progress}
+          primaryColor={primary as TabColors}
+        />
+      </View>
     );
   }
 
   public async componentDidMount() {
+    status = await check(PERMISSIONS.ANDROID.WRITE_EXTERNAL_STORAGE);
+    if (status !== 'blocked') {
+      await request(PERMISSIONS.ANDROID.WRITE_EXTERNAL_STORAGE);
+    }
+
     await this.encodeImage();
   }
 
@@ -102,6 +116,6 @@ export default class Progress extends React.Component<IProps, IState> {
     Snackbar.show({
       text: 'Failed to encode image, please try again.',
     });
-    this.props.navigation.navigate('EncodingMain');
+    this.props.navigation.navigate('Main');
   }
 }

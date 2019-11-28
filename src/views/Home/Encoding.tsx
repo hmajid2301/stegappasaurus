@@ -7,21 +7,21 @@ import Message from './Encoding/Message';
 import Progress from './Encoding/Progress';
 
 const EncodeNavigator = createStackNavigator({
-  EncodingMain: {
+  Main: {
     navigationOptions: {
       header: null,
     },
     screen: Main,
   },
 
-  EncodingMessage: {
+  Message: {
     navigationOptions: {
       header: null,
     },
     screen: Message,
   },
 
-  EncodingProgress: {
+  Progress: {
     navigationOptions: {
       header: null,
     },
