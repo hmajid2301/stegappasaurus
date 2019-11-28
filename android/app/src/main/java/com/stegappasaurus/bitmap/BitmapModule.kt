@@ -17,6 +17,7 @@ import com.facebook.react.bridge.WritableNativeArray
 import java.io.File
 import java.io.FileOutputStream
 import java.lang.Math
+import 	android.media.MediaScannerConnection
 
 class BitmapModule(reactContext: ReactApplicationContext) : ReactContextBaseJavaModule(reactContext) {
     override fun getName(): String {
@@ -91,7 +92,7 @@ class BitmapModule(reactContext: ReactApplicationContext) : ReactContextBaseJava
             out.flush()
             out.close()
             val uri = Uri.fromFile(file)
-            getReactApplicationContext().sendBroadcast(Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(file)))
+            MediaScannerConnection.scanFile(this.getReactApplicationContext(), arrayOf(file.getAbsolutePath()), null, null)
             promise.resolve(uri.toString())
         } catch (e: Exception) {
             promise.reject(e)

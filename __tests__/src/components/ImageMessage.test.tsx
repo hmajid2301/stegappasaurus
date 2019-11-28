@@ -32,7 +32,7 @@ const navigation: NavigationScreenProp<any, any> = {
               uri:
                 'file:/data/user/0/com.stegappasaurus/cache/ImagePicker/a89493b5-e2a5-4546-80f3-4fb13d2461d8.png',
             },
-            routeName: 'EncodingMessage',
+            routeName: 'Message',
             key: 'id-1565732047195-2',
           },
         ],

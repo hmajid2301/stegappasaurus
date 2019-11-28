@@ -13,7 +13,7 @@ exports[`Settings: Match Snapshots 1 1`] = `
     ]
   }
 >
-  <AppHeader
+  <MainHeader
     navigation={[MockFunction]}
     primary="#009CFF"
     theme={
@@ -59,7 +59,7 @@ exports[`Settings: Match Snapshots 2 1`] = `
     ]
   }
 >
-  <AppHeader
+  <MainHeader
     navigation={[MockFunction]}
     primary="#009CFF"
     theme={

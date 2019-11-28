@@ -1,8 +1,8 @@
-import {mount, shallow} from 'enzyme';
+import {shallow} from 'enzyme';
 import React from 'react';
 import {NavigationScreenProp} from 'react-navigation';
 
-import AppHeader from '~/components/AppHeader';
+import {AppHeader} from '~/components/Header';
 
 jest.mock('react-navigation');
 const navigation: NavigationScreenProp<any, any> = {
@@ -33,7 +33,7 @@ const navigation: NavigationScreenProp<any, any> = {
               uri:
                 'file:/data/user/0/com.stegappasaurus/cache/ImagePicker/a89493b5-e2a5-4546-80f3-4fb13d2461d8.png',
             },
-            routeName: 'EncodingMessage',
+            routeName: 'Message',
             key: 'id-1565732047195-2',
           },
         ],
@@ -75,21 +75,5 @@ describe('AppHeader: Match snapshots', () => {
       />,
     );
     expect(component).toMatchSnapshot();
-  });
-});
-
-describe('AppHeader: OnPress Props', () => {
-  test('RightComponent', () => {
-    const component = mount(
-      <AppHeader
-        navigation={navigation}
-        primary="#009CFF"
-        theme={{background: '#17212D', color: '#FFF', isDark: false}}
-      />,
-    );
-
-    const spy = jest.spyOn(navigation, 'navigate');
-    (component.find('Header').props() as any).rightComponent.props.onPress();
-    expect(spy).toHaveBeenCalled();
   });
 });

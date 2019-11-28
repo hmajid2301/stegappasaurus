@@ -1,8 +1,10 @@
 import React from 'react';
+import {View} from 'react-native';
 import {NavigationScreenProp} from 'react-navigation';
 
 import Snackbar from '~/actions/Snackbar';
 import Steganography from '~/actions/Steganography/Steganography';
+import {AppHeader} from '~/components/Header';
 import ImageProgress from '~/components/ImageProgress';
 import {secondary} from '~/constants/colors';
 import {ITheme, TabColors} from '~/constants/types';
@@ -34,12 +36,19 @@ export default class Progress extends React.Component<IProps, IState> {
     const {theme} = this.props.screenProps;
 
     return (
-      <ImageProgress
-        background={theme.background}
-        photo={this.state.photo}
-        primaryColor={secondary as TabColors}
-        progress={this.state.progress}
-      />
+      <View style={{flex: 1}}>
+        <AppHeader
+          navigation={this.props.navigation}
+          primary="#E88C0C"
+          theme={theme}
+        />
+        <ImageProgress
+          background={theme.background}
+          photo={this.state.photo}
+          primaryColor={secondary as TabColors}
+          progress={this.state.progress}
+        />
+      </View>
     );
   }
 
@@ -65,7 +74,7 @@ export default class Progress extends React.Component<IProps, IState> {
   }
 
   private success(message: string) {
-    this.props.navigation.navigate('DecodingMessage', {
+    this.props.navigation.navigate('Message', {
       message,
       uri: this.state.photo,
     });
@@ -75,6 +84,6 @@ export default class Progress extends React.Component<IProps, IState> {
     Snackbar.show({
       text: 'Failed to decode image, please try again.',
     });
-    this.props.navigation.goBack();
+    this.props.navigation.navigate('Main');
   }
 }

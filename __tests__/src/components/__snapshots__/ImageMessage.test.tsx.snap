@@ -6,58 +6,56 @@ exports[`ImageMessage: Match snapshots 1 1`] = `
   enabled={true}
   keyboardVerticalOffset={0}
 >
-  <DismissKeyboard>
-    <ImageBackground
-      source={
-        Object {
-          "uri": "images.png",
-        }
+  <ImageBackground
+    source={
+      Object {
+        "uri": "images.png",
       }
+    }
+    style={
+      Object {
+        "height": "100%",
+        "width": "100%",
+      }
+    }
+  >
+    <View
       style={
         Object {
-          "height": "100%",
-          "width": "100%",
+          "alignItems": "center",
+          "flex": 1,
+          "justifyContent": "center",
         }
       }
     >
-      <View
+      <TextInput
+        allowFontScaling={true}
+        autoFocus={true}
+        blurOnSubmit={true}
+        editable={true}
+        enablesReturnKeyAutomatically={true}
+        multiline={true}
+        onChangeText={[Function]}
+        onSubmitEditing={[Function]}
+        placeholder="Enter your message here"
+        placeholderTextColor="#FFF"
+        rejectResponderTermination={true}
         style={
           Object {
-            "alignItems": "center",
-            "flex": 1,
-            "justifyContent": "center",
+            "backgroundColor": "rgba(0, 0, 0, 0.5)",
+            "color": "#ffffff",
+            "fontFamily": "Roboto-Light",
+            "fontSize": 22,
+            "height": "100%",
+            "paddingHorizontal": 20,
+            "paddingVertical": 20,
+            "width": "100%",
           }
         }
-      >
-        <TextInput
-          allowFontScaling={true}
-          autoFocus={true}
-          blurOnSubmit={true}
-          editable={true}
-          enablesReturnKeyAutomatically={true}
-          multiline={true}
-          onChangeText={[Function]}
-          onSubmitEditing={[Function]}
-          placeholder="Enter your message here"
-          placeholderTextColor="#FFF"
-          rejectResponderTermination={true}
-          style={
-            Object {
-              "backgroundColor": "rgba(0, 0, 0, 0.5)",
-              "color": "#ffffff",
-              "fontFamily": "Roboto-Light",
-              "fontSize": 22,
-              "height": "100%",
-              "paddingHorizontal": 20,
-              "paddingVertical": 20,
-              "width": "100%",
-            }
-          }
-          underlineColorAndroid="transparent"
-        />
-      </View>
-    </ImageBackground>
-  </DismissKeyboard>
+        underlineColorAndroid="transparent"
+      />
+    </View>
+  </ImageBackground>
 </KeyboardAvoidingView>
 `;
 
@@ -67,57 +65,55 @@ exports[`ImageMessage: Match snapshots 2 1`] = `
   enabled={true}
   keyboardVerticalOffset={0}
 >
-  <DismissKeyboard>
-    <ImageBackground
-      source={
-        Object {
-          "uri": "images.png",
-        }
+  <ImageBackground
+    source={
+      Object {
+        "uri": "images.png",
       }
+    }
+    style={
+      Object {
+        "height": "100%",
+        "width": "100%",
+      }
+    }
+  >
+    <View
       style={
         Object {
-          "height": "100%",
-          "width": "100%",
+          "alignItems": "center",
+          "flex": 1,
+          "justifyContent": "center",
         }
       }
     >
-      <View
+      <TextInput
+        allowFontScaling={true}
+        autoFocus={true}
+        blurOnSubmit={true}
+        editable={true}
+        enablesReturnKeyAutomatically={true}
+        multiline={true}
+        onChangeText={[Function]}
+        onSubmitEditing={[Function]}
+        placeholder="Hello"
+        placeholderTextColor="#FFF"
+        rejectResponderTermination={true}
         style={
           Object {
-            "alignItems": "center",
-            "flex": 1,
-            "justifyContent": "center",
+            "backgroundColor": "rgba(0, 0, 0, 0.5)",
+            "color": "#ffffff",
+            "fontFamily": "Roboto-Light",
+            "fontSize": 22,
+            "height": "100%",
+            "paddingHorizontal": 20,
+            "paddingVertical": 20,
+            "width": "100%",
           }
         }
-      >
-        <TextInput
-          allowFontScaling={true}
-          autoFocus={true}
-          blurOnSubmit={true}
-          editable={true}
-          enablesReturnKeyAutomatically={true}
-          multiline={true}
-          onChangeText={[Function]}
-          onSubmitEditing={[Function]}
-          placeholder="Hello"
-          placeholderTextColor="#FFF"
-          rejectResponderTermination={true}
-          style={
-            Object {
-              "backgroundColor": "rgba(0, 0, 0, 0.5)",
-              "color": "#ffffff",
-              "fontFamily": "Roboto-Light",
-              "fontSize": 22,
-              "height": "100%",
-              "paddingHorizontal": 20,
-              "paddingVertical": 20,
-              "width": "100%",
-            }
-          }
-          underlineColorAndroid="transparent"
-        />
-      </View>
-    </ImageBackground>
-  </DismissKeyboard>
+        underlineColorAndroid="transparent"
+      />
+    </View>
+  </ImageBackground>
 </KeyboardAvoidingView>
 `;

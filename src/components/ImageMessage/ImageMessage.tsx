@@ -10,7 +10,6 @@ import {
   NavigationScreenProp,
 } from 'react-navigation';
 
-import DismissKeyboard from '~/components/DismissKeyboard';
 import {pureWhite} from '~/constants/colors';
 import styles from './styles';
 
@@ -47,34 +46,32 @@ export default class ImageMessage extends React.Component<IProps, IState> {
   public render() {
     return (
       <KeyboardAvoidingView behavior="height">
-        <DismissKeyboard>
-          <ImageBackground
-            source={{uri: this.props.photo}}
-            style={styles.backgroundImage}>
-            <View style={styles.textInputContainer}>
-              <TextInput
-                autoFocus={true}
-                blurOnSubmit={true}
-                editable={this.props.editable}
-                enablesReturnKeyAutomatically={true}
-                multiline={true}
-                onChangeText={this.updateText}
-                onSubmitEditing={
-                  this.props.action !== undefined
-                    ? this.props.action.bind(this, this.state.message)
-                    : () => null
-                }
-                placeholder={this.props.message}
-                placeholderTextColor={pureWhite}
-                ref={ref => {
-                  this.textInput = ref;
-                }}
-                style={styles.message}
-                underlineColorAndroid="transparent"
-              />
-            </View>
-          </ImageBackground>
-        </DismissKeyboard>
+        <ImageBackground
+          source={{uri: this.props.photo}}
+          style={styles.backgroundImage}>
+          <View style={styles.textInputContainer}>
+            <TextInput
+              autoFocus={true}
+              blurOnSubmit={true}
+              editable={this.props.editable}
+              enablesReturnKeyAutomatically={true}
+              multiline={true}
+              onChangeText={this.updateText}
+              onSubmitEditing={
+                this.props.action !== undefined
+                  ? this.props.action.bind(this, this.state.message)
+                  : () => null
+              }
+              placeholder={this.props.message}
+              placeholderTextColor={pureWhite}
+              ref={ref => {
+                this.textInput = ref;
+              }}
+              style={styles.message}
+              underlineColorAndroid="transparent"
+            />
+          </View>
+        </ImageBackground>
       </KeyboardAvoidingView>
     );
   }

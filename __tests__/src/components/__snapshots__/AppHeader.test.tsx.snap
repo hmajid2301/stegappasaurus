@@ -1,79 +1,175 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`AppHeader: Match snapshots 1 1`] = `
-<View>
-  <StatusBar
-    animated={false}
-    backgroundColor="#17212D"
-    barStyle="dark-content"
-    hidden={false}
-    showHideTransition="fade"
-  />
-  <ForwardRef(Themed.Header)
-    centerComponent={
-      <Logo
-        color="#FFF"
-        isDark={false}
-      />
-    }
-    containerStyle={
-      Array [
-        Object {
-          "borderBottomWidth": 2,
-        },
-        Object {
-          "backgroundColor": "#17212D",
-          "borderBottomColor": "#009CFF",
-        },
-      ]
-    }
-    rightComponent={
+<Header
+  left={
+    <TouchableOpacity
+      activeOpacity={0.2}
+    >
       <Themed.Icon
         color="#FFF"
-        name="settings"
+        name="arrow-back"
         onPress={[Function]}
-        type="feather"
+        type="material-icons"
       />
+    </TouchableOpacity>
+  }
+  navigation={
+    Object {
+      "addListener": [MockFunction],
+      "closeDrawer": [MockFunction],
+      "dangerouslyGetParent": [MockFunction],
+      "dismiss": [MockFunction],
+      "dispatch": [MockFunction],
+      "emit": [MockFunction],
+      "getParam": [MockFunction],
+      "goBack": [MockFunction],
+      "isFirstRouteInParent": [MockFunction],
+      "isFocused": [MockFunction],
+      "navigate": [MockFunction],
+      "openDrawer": [MockFunction],
+      "setParams": [MockFunction],
+      "state": Object {
+        "index": 0,
+        "isTransitioning": false,
+        "key": "Home",
+        "routeName": "Home",
+        "routes": Array [
+          Object {
+            "index": 1,
+            "isTransitioning": false,
+            "key": "Encoding",
+            "routeName": "Encoding",
+            "routes": Array [
+              Object {
+                "key": "id-1565732047195-0",
+                "routeName": "Main",
+              },
+              Object {
+                "key": "id-1565732047195-2",
+                "params": Object {
+                  "uri": "file:/data/user/0/com.stegappasaurus/cache/ImagePicker/a89493b5-e2a5-4546-80f3-4fb13d2461d8.png",
+                },
+                "routeName": "Message",
+              },
+            ],
+          },
+          Object {
+            "index": 0,
+            "isTransitioning": false,
+            "key": "Decoding",
+            "routeName": "Decoding",
+            "routes": Array [
+              Object {
+                "key": "id-1565732047195-1",
+                "routeName": "Main",
+              },
+            ],
+          },
+        ],
+      },
+      "toggleDrawer": [MockFunction],
     }
-  />
-</View>
+  }
+  primary="#009CFF"
+  styles={
+    Object {
+      "height": 50,
+    }
+  }
+  theme={
+    Object {
+      "background": "#17212D",
+      "color": "#FFF",
+      "isDark": false,
+    }
+  }
+/>
 `;
 
 exports[`AppHeader: Match snapshots 2 1`] = `
-<View>
-  <StatusBar
-    animated={false}
-    backgroundColor="#FFF"
-    barStyle="light-content"
-    hidden={false}
-    showHideTransition="fade"
-  />
-  <ForwardRef(Themed.Header)
-    centerComponent={
-      <Logo
-        color="#17212D"
-        isDark={true}
-      />
-    }
-    containerStyle={
-      Array [
-        Object {
-          "borderBottomWidth": 2,
-        },
-        Object {
-          "backgroundColor": "#FFF",
-          "borderBottomColor": "#E88C0C",
-        },
-      ]
-    }
-    rightComponent={
+<Header
+  left={
+    <TouchableOpacity
+      activeOpacity={0.2}
+    >
       <Themed.Icon
         color="#17212D"
-        name="settings"
+        name="arrow-back"
         onPress={[Function]}
-        type="feather"
+        type="material-icons"
       />
+    </TouchableOpacity>
+  }
+  navigation={
+    Object {
+      "addListener": [MockFunction],
+      "closeDrawer": [MockFunction],
+      "dangerouslyGetParent": [MockFunction],
+      "dismiss": [MockFunction],
+      "dispatch": [MockFunction],
+      "emit": [MockFunction],
+      "getParam": [MockFunction],
+      "goBack": [MockFunction],
+      "isFirstRouteInParent": [MockFunction],
+      "isFocused": [MockFunction],
+      "navigate": [MockFunction],
+      "openDrawer": [MockFunction],
+      "setParams": [MockFunction],
+      "state": Object {
+        "index": 0,
+        "isTransitioning": false,
+        "key": "Home",
+        "routeName": "Home",
+        "routes": Array [
+          Object {
+            "index": 1,
+            "isTransitioning": false,
+            "key": "Encoding",
+            "routeName": "Encoding",
+            "routes": Array [
+              Object {
+                "key": "id-1565732047195-0",
+                "routeName": "Main",
+              },
+              Object {
+                "key": "id-1565732047195-2",
+                "params": Object {
+                  "uri": "file:/data/user/0/com.stegappasaurus/cache/ImagePicker/a89493b5-e2a5-4546-80f3-4fb13d2461d8.png",
+                },
+                "routeName": "Message",
+              },
+            ],
+          },
+          Object {
+            "index": 0,
+            "isTransitioning": false,
+            "key": "Decoding",
+            "routeName": "Decoding",
+            "routes": Array [
+              Object {
+                "key": "id-1565732047195-1",
+                "routeName": "Main",
+              },
+            ],
+          },
+        ],
+      },
+      "toggleDrawer": [MockFunction],
     }
-  />
-</View>
+  }
+  primary="#E88C0C"
+  styles={
+    Object {
+      "height": 50,
+    }
+  }
+  theme={
+    Object {
+      "background": "#FFF",
+      "color": "#17212D",
+      "isDark": true,
+    }
+  }
+/>
 `;

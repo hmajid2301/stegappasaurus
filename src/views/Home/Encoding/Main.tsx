@@ -8,7 +8,7 @@ import {NavigationScreenProp} from 'react-navigation';
 import RNFetchBlob from 'rn-fetch-blob';
 
 import Snackbar from '~/actions/Snackbar';
-import AppHeader from '~/components/AppHeader';
+import {MainHeader} from '~/components/Header';
 import Loader from '~/components/Loader';
 import PhotoAlbumList from '~/components/PhotoAlbumList';
 import {ITheme} from '~/constants/types';
@@ -48,9 +48,9 @@ export default class Main extends React.Component<IProps, IState> {
 
     return (
       <View style={[styles.container, {backgroundColor: theme.background}]}>
-        <AppHeader
+        <MainHeader
           navigation={this.props.navigation}
-          primary={'#009CFF'}
+          primary="#009CFF"
           theme={theme}
         />
         <Loader loading={this.state.loading} overlay="#333" />
@@ -95,6 +95,7 @@ export default class Main extends React.Component<IProps, IState> {
     if (status !== 'blocked') {
       await request(PERMISSIONS.ANDROID.READ_EXTERNAL_STORAGE);
     }
+
     this.setState({permissionsChecked: true});
   }
 
@@ -160,6 +161,6 @@ export default class Main extends React.Component<IProps, IState> {
   };
 
   private selectPhotoToEncode = (uri: string) => {
-    this.props.navigation.navigate('EncodingMessage', {uri});
+    this.props.navigation.navigate('Message', {uri});
   };
 }
