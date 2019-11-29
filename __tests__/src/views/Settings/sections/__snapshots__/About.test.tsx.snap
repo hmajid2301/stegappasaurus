@@ -56,6 +56,27 @@ exports[`About: Match Snapshots 1 1`] = `
       }
     }
     title={
+      <MyModal
+        background="#FFF"
+        color="#17212D"
+        name="Licenses"
+      >
+        <Licenses
+          background="#FFF"
+          color="#17212D"
+        />
+      </MyModal>
+    }
+    topDivider={true}
+  />
+  <Themed.ListItem
+    bottomDivider={true}
+    containerStyle={
+      Object {
+        "backgroundColor": "#FFF",
+      }
+    }
+    title={
       <MarkdownModal
         background="#FFF"
         color="#17212D"
@@ -161,6 +182,27 @@ exports[`About: Match Snapshots 2 1`] = `
         name="About Us"
       >
         <AboutUs
+          background="#17212D"
+          color="#FFF"
+        />
+      </MyModal>
+    }
+    topDivider={true}
+  />
+  <Themed.ListItem
+    bottomDivider={true}
+    containerStyle={
+      Object {
+        "backgroundColor": "#17212D",
+      }
+    }
+    title={
+      <MyModal
+        background="#17212D"
+        color="#FFF"
+        name="Licenses"
+      >
+        <Licenses
           background="#17212D"
           color="#FFF"
         />

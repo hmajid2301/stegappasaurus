@@ -46,7 +46,7 @@ export default class PhotoAlbumList extends React.Component<IProps, IState> {
     await this.getMorePhotos();
   }
 
-  private setKey = (item: any, _: number) => {
+  private setKey = (item: PhotoIdentifier, _: number) => {
     return item.node.image.uri;
   };
 

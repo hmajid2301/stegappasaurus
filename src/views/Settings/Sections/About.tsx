@@ -7,7 +7,9 @@ import MarkdownModal from '~/components/MarkdownModal';
 import Modal from '~/components/Modal';
 import {ThemeColors} from '~/constants/types';
 import changelog from '~/data/changelog';
-import AboutUs from '~/views/Settings/Sections/About/AboutUs';
+
+import AboutUs from './About/AboutUs';
+import Licenses from './About/Licenses';
 import styles from './styles';
 
 interface IProps {
@@ -35,6 +37,19 @@ const About = ({background, color}: IProps) => (
         </Modal>
       }
       topDivider={true}
+    />
+
+    <ListItem
+      containerStyle={{
+        backgroundColor: background,
+      }}
+      title={
+        <Modal background={background} color={color} name="Licenses">
+          <Licenses background={background} color={color} />
+        </Modal>
+      }
+      topDivider={true}
+      bottomDivider={true}
     />
 
     <ListItem
