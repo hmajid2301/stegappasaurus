@@ -83,6 +83,7 @@ publish:android:package:
   only:
     - /^release/.*$/
   script:
+    - yarn run generate-licenses
     - echo fs.inotify.max_user_watches=524288 | tee -a /etc/sysctl.conf && sysctl -p
     - cd android
     - base64 -d $ANDROID_KEYSTORE > app/stegappasaurus.keystore
