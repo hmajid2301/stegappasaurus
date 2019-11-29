@@ -13,6 +13,7 @@ interface IState {
   lastPhoto: string | null;
   photos: PhotoIdentifier[];
   refreshing: boolean;
+  seen: Set<string>;
 }
 
 export default class PhotoAlbumList extends React.Component<IProps, IState> {
@@ -23,6 +24,7 @@ export default class PhotoAlbumList extends React.Component<IProps, IState> {
       lastPhoto: null,
       photos: [],
       refreshing: false,
+      seen: new Set(),
     };
   }
 
@@ -50,9 +52,8 @@ export default class PhotoAlbumList extends React.Component<IProps, IState> {
     return item.node.image.uri;
   };
 
-  private padData(data: PhotoIdentifier[]) {
-    const itemsPerColumns = 3;
-    const itemsLeftOver = data.length % itemsPerColumns;
+  private padData(data: PhotoIdentifier[], itemsPerColumn = 3) {
+    const itemsLeftOver = data.length % itemsPerColumn;
     const elementsToAdd = itemsLeftOver === 0 ? 0 : 3 - itemsLeftOver;
 
     const emptyImage = {
@@ -71,19 +72,36 @@ export default class PhotoAlbumList extends React.Component<IProps, IState> {
 
   private getMorePhotos = async () => {
     if (!this.state.finished) {
-      const photos = await CameraRoll.getPhotos({
+      const photosData = await CameraRoll.getPhotos({
         after: this.state.lastPhoto ? this.state.lastPhoto : undefined,
         first: 15,
       });
-      const {end_cursor, has_next_page} = photos.page_info;
+      const {end_cursor, has_next_page} = photosData.page_info;
+      const {seen, newPhotos} = this.uniqueAssets(photosData.edges);
 
       this.setState({
         finished: !has_next_page,
         lastPhoto: end_cursor as string,
-        photos: [...this.state.photos, ...photos.edges],
+        photos: [...this.state.photos, ...newPhotos],
+        seen,
       });
     }
   };
+
+  private uniqueAssets(photosData: PhotoIdentifier[]) {
+    const {seen} = this.state;
+    const newPhotos: PhotoIdentifier[] = [];
+
+    for (const photo of photosData) {
+      const uri = photo.node.image.uri;
+      if (!seen.has(uri)) {
+        seen.add(uri);
+        newPhotos.push(photo);
+      }
+    }
+
+    return {seen, newPhotos};
+  }
 
   private handleRefresh = async () => {
     this.setState(
