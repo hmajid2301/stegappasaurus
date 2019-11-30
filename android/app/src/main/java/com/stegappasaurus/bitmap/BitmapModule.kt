@@ -25,27 +25,19 @@ class BitmapModule(reactContext: ReactApplicationContext) : ReactContextBaseJava
     }
 
     @ReactMethod
-    fun getPixels(filePath: String, bitsRequired: Int, promise: Promise) {
+    fun getPixels(filePath: String, start: Int, end: Int, promise: Promise) {
         try {
 
             val bitmap = this.getBitmap(filePath)
-            val pixelsRequired = Math.ceil(bitsRequired / 3.0).toInt()
-
             val width = bitmap.getWidth()
-            val height = bitmap.getHeight()
-            var requiredWidth = pixelsRequired % width
-            var requiredHeight = pixelsRequired.div(width) + 1
-
-            if(requiredWidth == 0) {
-                requiredWidth = width
-            }
-            if (requiredHeight > height) {
-                requiredHeight = height
-            }
+            var startX = start % width
+            var startY = start.div(width)
+            var endX = end % width
+            var endY = end.div(width) + 1
 
             val pixels = WritableNativeArray()
-            for (y in 0 until requiredHeight) {
-                for (x in 0 until requiredWidth) {
+            for (y in startY until endY) {
+                for (x in startX until endX) {
                     val color = bitmap.getPixel(x, y)
                     pixels.pushInt(Color.red(color))
                     pixels.pushInt(Color.green(color))

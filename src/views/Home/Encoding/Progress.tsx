@@ -6,7 +6,7 @@ import {NavigationScreenProp} from 'react-navigation';
 
 import Snackbar from '~/actions/Snackbar';
 import Steganography from '~/actions/Steganography/Steganography';
-import {MainHeader} from '~/components/Header';
+import {AppHeader} from '~/components/Header';
 import ImageProgress from '~/components/ImageProgress';
 import {primary, pureWhite} from '~/constants/colors';
 import {ITheme, TabColors} from '~/constants/types';
@@ -41,7 +41,7 @@ export default class Progress extends React.Component<IProps, IState> {
 
     return (
       <View style={{flex: 1}}>
-        <MainHeader
+        <AppHeader
           navigation={this.props.navigation}
           primary="#009CFF"
           theme={theme}
@@ -79,7 +79,9 @@ export default class Progress extends React.Component<IProps, IState> {
       this.setState({progress: steganography.getProgress()});
     }, 50);
     try {
-      const encodedImage = await steganography.encode(message, 'LSBv1');
+      const encodedImage = await steganography.encode(message, {
+        algorithm: 'LSBv1',
+      });
       await this.success(encodedImage);
     } catch (error) {
       this.failed(error);
