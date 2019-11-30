@@ -110,6 +110,7 @@ export default class PhotoAlbumList extends React.Component<IProps, IState> {
         lastPhoto: null,
         photos: [],
         refreshing: true,
+        seen: new Set(),
       },
       async () => this.getMorePhotos(),
     );
