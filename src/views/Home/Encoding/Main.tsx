@@ -47,7 +47,9 @@ export default class Main extends React.Component<IProps, IState> {
     const {theme} = this.props.screenProps;
 
     return (
-      <View style={[styles.container, {backgroundColor: theme.background}]}>
+      <View
+        style={[styles.container, {backgroundColor: theme.background}]}
+        testID={'hello'}>
         <MainHeader
           navigation={this.props.navigation}
           primary="#009CFF"

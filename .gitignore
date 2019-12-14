@@ -340,6 +340,7 @@ DerivedData/
 
 .vscode
 *.bundle
+*.hprof
 *.map
 *.keystore
 src_assets_*

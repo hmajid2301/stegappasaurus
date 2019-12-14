@@ -4,7 +4,7 @@ import React from 'react';
 import Modal from '~/components/Modal';
 import AboutUs from '~/views/Settings/Sections/About/AboutUs';
 
-describe('odal: Match snapshots', () => {
+describe('Modal: Match snapshots', () => {
   test('1', () => {
     const component = shallow(
       <Modal background="#17212D" color="#FFF" name="About Us">

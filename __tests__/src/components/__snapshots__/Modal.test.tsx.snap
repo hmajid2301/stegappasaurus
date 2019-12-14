@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`odal: Match snapshots 1 1`] = `
+exports[`Modal: Match snapshots 1 1`] = `
 <View>
   <Component
     animationType="slide"
