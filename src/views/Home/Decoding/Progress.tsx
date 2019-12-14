@@ -3,7 +3,7 @@ import {View} from 'react-native';
 import {NavigationScreenProp} from 'react-navigation';
 
 import Snackbar from '~/actions/Snackbar';
-import Steganography from '~/actions/Steganography/Steganography';
+import Steganography from '~/actions/Steganography';
 import {AppHeader} from '~/components/Header';
 import ImageProgress from '~/components/ImageProgress';
 import {secondary} from '~/constants/colors';

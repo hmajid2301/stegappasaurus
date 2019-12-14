@@ -1,0 +1,119 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Encoding Progress: Match Snapshots 1 1`] = `
+<View
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <AppHeader
+    navigation={
+      Object {
+        "getParam": [MockFunction] {
+          "calls": Array [
+            Array [
+              "uri",
+              "NO-ID",
+            ],
+          ],
+          "results": Array [
+            Object {
+              "type": "return",
+              "value": undefined,
+            },
+          ],
+        },
+        "goBack": [MockFunction],
+        "navigate": [MockFunction],
+      }
+    }
+    primary="#009CFF"
+    theme={
+      Object {
+        "background": "#FFF",
+        "color": "#17212D",
+        "isDark": false,
+      }
+    }
+  />
+  <ImageProgress
+    background="#FFF"
+    icon={
+      Object {
+        "color": "#FFF",
+        "name": "share",
+        "size": 130,
+        "type": "font-awesome",
+      }
+    }
+    onPress={[Function]}
+    primaryColor="#009CFF"
+    progress={0}
+  />
+</View>
+`;
+
+exports[`Encoding Progress: Match Snapshots 2 1`] = `
+<View
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <AppHeader
+    navigation={
+      Object {
+        "getParam": [MockFunction] {
+          "calls": Array [
+            Array [
+              "uri",
+              "NO-ID",
+            ],
+            Array [
+              "uri",
+              "NO-ID",
+            ],
+          ],
+          "results": Array [
+            Object {
+              "type": "return",
+              "value": undefined,
+            },
+            Object {
+              "type": "return",
+              "value": undefined,
+            },
+          ],
+        },
+        "goBack": [MockFunction],
+        "navigate": [MockFunction],
+      }
+    }
+    primary="#009CFF"
+    theme={
+      Object {
+        "background": "#17212D",
+        "color": "#FFF",
+        "isDark": false,
+      }
+    }
+  />
+  <ImageProgress
+    background="#17212D"
+    icon={
+      Object {
+        "color": "#FFF",
+        "name": "share",
+        "size": 130,
+        "type": "font-awesome",
+      }
+    }
+    onPress={[Function]}
+    primaryColor="#009CFF"
+    progress={0}
+  />
+</View>
+`;

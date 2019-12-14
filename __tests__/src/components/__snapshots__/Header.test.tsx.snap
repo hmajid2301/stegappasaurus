@@ -1,0 +1,184 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Header: Match Snapshots Blue Tab: Dark Theme 1`] = `
+<View>
+  <StatusBar
+    animated={false}
+    backgroundColor="#17212D"
+    barStyle="dark-content"
+    hidden={false}
+    showHideTransition="fade"
+  />
+  <ForwardRef(Themed.Header)
+    containerStyle={
+      Array [
+        Object {
+          "borderBottomWidth": 2,
+        },
+        Object {
+          "backgroundColor": "#17212D",
+          "borderBottomColor": "#009CFF",
+        },
+        undefined,
+      ]
+    }
+  />
+</View>
+`;
+
+exports[`Header: Match Snapshots Orange Tab: Light Theme 1`] = `
+<View>
+  <StatusBar
+    animated={false}
+    backgroundColor="#FFF"
+    barStyle="light-content"
+    hidden={false}
+    showHideTransition="fade"
+  />
+  <ForwardRef(Themed.Header)
+    containerStyle={
+      Array [
+        Object {
+          "borderBottomWidth": 2,
+        },
+        Object {
+          "backgroundColor": "#FFF",
+          "borderBottomColor": "#E88C0C",
+        },
+        undefined,
+      ]
+    }
+  />
+</View>
+`;
+
+exports[`Header: Match Snapshots w/ Center Component 1`] = `
+<View>
+  <StatusBar
+    animated={false}
+    backgroundColor="#FFF"
+    barStyle="light-content"
+    hidden={false}
+    showHideTransition="fade"
+  />
+  <ForwardRef(Themed.Header)
+    centerComponent={
+      <Logo
+        color="#17212D"
+        isDark={false}
+      />
+    }
+    containerStyle={
+      Array [
+        Object {
+          "borderBottomWidth": 2,
+        },
+        Object {
+          "backgroundColor": "#FFF",
+          "borderBottomColor": "#E88C0C",
+        },
+        undefined,
+      ]
+    }
+  />
+</View>
+`;
+
+exports[`Header: Match Snapshots w/ Left Component 1`] = `
+<View>
+  <StatusBar
+    animated={false}
+    backgroundColor="#FFF"
+    barStyle="light-content"
+    hidden={false}
+    showHideTransition="fade"
+  />
+  <ForwardRef(Themed.Header)
+    containerStyle={
+      Array [
+        Object {
+          "borderBottomWidth": 2,
+        },
+        Object {
+          "backgroundColor": "#FFF",
+          "borderBottomColor": "#E88C0C",
+        },
+        undefined,
+      ]
+    }
+    leftComponent={
+      <TouchableOpacity
+        activeOpacity={0.2}
+      >
+        <Themed.Icon
+          color="black"
+          name="arrow-back"
+          onPress={[Function]}
+          type="material-icons"
+        />
+      </TouchableOpacity>
+    }
+  />
+</View>
+`;
+
+exports[`Header: Match Snapshots w/ Right Component 1`] = `
+<View>
+  <StatusBar
+    animated={false}
+    backgroundColor="#FFF"
+    barStyle="light-content"
+    hidden={false}
+    showHideTransition="fade"
+  />
+  <ForwardRef(Themed.Header)
+    containerStyle={
+      Array [
+        Object {
+          "borderBottomWidth": 2,
+        },
+        Object {
+          "backgroundColor": "#FFF",
+          "borderBottomColor": "#E88C0C",
+        },
+        undefined,
+      ]
+    }
+    rightComponent={
+      <View>
+        <Text>
+          Hello!
+        </Text>
+      </View>
+    }
+  />
+</View>
+`;
+
+exports[`Header: Match Snapshots w/ Styles 1`] = `
+<View>
+  <StatusBar
+    animated={false}
+    backgroundColor="#FFF"
+    barStyle="light-content"
+    hidden={false}
+    showHideTransition="fade"
+  />
+  <ForwardRef(Themed.Header)
+    containerStyle={
+      Array [
+        Object {
+          "borderBottomWidth": 2,
+        },
+        Object {
+          "backgroundColor": "#FFF",
+          "borderBottomColor": "#E88C0C",
+        },
+        Object {
+          "height": 50,
+        },
+      ]
+    }
+  />
+</View>
+`;

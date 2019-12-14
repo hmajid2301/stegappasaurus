@@ -5,7 +5,7 @@ import Share from 'react-native-share';
 import {NavigationScreenProp} from 'react-navigation';
 
 import Snackbar from '~/actions/Snackbar';
-import Steganography from '~/actions/Steganography/Steganography';
+import Steganography from '~/actions/Steganography';
 import {AppHeader} from '~/components/Header';
 import ImageProgress from '~/components/ImageProgress';
 import {primary, pureWhite} from '~/constants/colors';

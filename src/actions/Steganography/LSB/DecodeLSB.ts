@@ -1,3 +1,5 @@
+import {ImageNotEncodedError} from '~/actions/Steganography/exceptions';
+
 export default class DecodeLSB {
   private pixelIndex: number;
   private action: () => void;
@@ -14,15 +16,11 @@ export default class DecodeLSB {
     }
   }
 
-  public decode(
-    imageData: number[],
-    startDecodingAt = 0,
-    messageLength: number,
-  ) {
-    this.pixelIndex = startDecodingAt;
+  public decode(imageData: number[], startIndex: number, endIndex: number) {
+    this.pixelIndex = startIndex;
     const binaryMessage: string[] = [];
 
-    for (let i = 0; i < messageLength; i += 1) {
+    for (let i = 0; i < endIndex; i += 1) {
       const byte = this.decodeNextByte(imageData);
       binaryMessage.push(byte);
     }
@@ -33,6 +31,9 @@ export default class DecodeLSB {
     let byte = '';
 
     for (let j = 0; j < 8; j += 1) {
+      if (this.pixelIndex > imageData.length) {
+        throw new ImageNotEncodedError('Image does not seem to be encoded.');
+      }
       const currentPixel = imageData[this.pixelIndex];
       let lsb = '0';
       if (currentPixel % 2 === 1) {

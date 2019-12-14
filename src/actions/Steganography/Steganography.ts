@@ -2,7 +2,6 @@ import LZUTF8 from 'lzutf8';
 import {NativeModules} from 'react-native';
 import varint from 'varint';
 
-import {ImageNotEncodedError, MessageTooLongError} from './exceptions';
 import {DecodeLSB, EncodeLSB} from './LSB';
 
 type AlgorithmNames = 'LSBv1';
@@ -36,54 +35,35 @@ export default class Steganography {
   }
 
   public async encode(message: string, metadata: IMetaData) {
-    try {
-      const compressedMessage = LZUTF8.compress(message);
-      const compressedBinaryMessage = this.convertMessageToBits(
-        compressedMessage,
-      );
-      const binaryMetadata = this.convertMetadataToBits(metadata);
-      const binaryMessage = binaryMetadata + compressedBinaryMessage;
+    const compressedMessage = LZUTF8.compress(message);
+    const compressedBinaryMessage = this.convertMessageToBits(
+      compressedMessage,
+    );
+    const binaryMetadata = this.convertMetadataToBits(metadata);
+    const binaryMessage = binaryMetadata + compressedBinaryMessage;
 
-      const end = Math.ceil(binaryMessage.length / 3);
-      const imageData = await this.getImageData(this.imageURI, 0, end);
-      const newImageData = this.encodeData(
-        imageData,
-        binaryMessage,
-        metadata.algorithm,
-      );
-      const uri = await this.getEncodedImageURI(newImageData);
-      return uri;
-    } catch (error) {
-      if (error instanceof RangeError) {
-        throw new MessageTooLongError('Message too long to encode', message);
-      } else {
-        throw new Error(error);
-      }
-    }
+    const end = Math.ceil(binaryMessage.length / 3);
+    const imageData = await this.getImageData(this.imageURI, 0, end);
+    const newImageData = this.encodeData(
+      imageData,
+      binaryMessage,
+      metadata.algorithm,
+    );
+    const uri = await this.getEncodedImageURI(newImageData);
+    return uri;
   }
 
   public async decode() {
-    try {
-      const decodeLSB = new DecodeLSB();
-      const metadata = await this.decodeMetadata(decodeLSB);
-      const messageLength = await this.decodeMessageLength(decodeLSB);
-      const decodedDecimalData = await this.decodeData(
-        decodeLSB,
-        messageLength,
-        metadata,
-      );
-      const message = LZUTF8.decompress(decodedDecimalData);
-      return message;
-    } catch (error) {
-      if (error instanceof RangeError) {
-        throw new ImageNotEncodedError(
-          'Image is not encoded with any data',
-          this.imageURI,
-        );
-      } else {
-        throw new Error(error);
-      }
-    }
+    const decodeLSB = new DecodeLSB();
+    const metadata = await this.decodeMetadata(decodeLSB);
+    const messageLength = await this.decodeMessageLength(decodeLSB);
+    const decodedDecimalData = await this.decodeData(
+      decodeLSB,
+      messageLength,
+      metadata,
+    );
+    const message = LZUTF8.decompress(decodedDecimalData);
+    return message;
   }
 
   public updateProgress() {
@@ -158,7 +138,7 @@ export default class Steganography {
   }
 
   private async decodeMetadata(decodeLSB: DecodeLSB) {
-    const imageData = await this.getImageData(this.imageURI, 0, 8);
+    const imageData = await this.getImageData(this.imageURI, 0, 3);
     const algorithmBinary = decodeLSB.decodeNextByte(imageData);
     const algorithmDecimal = this.convertBytesToDecimal(algorithmBinary);
     const algorithm = this.algorithmNums[algorithmDecimal];
@@ -170,7 +150,6 @@ export default class Steganography {
   private async decodeMessageLength(decodeLSB: DecodeLSB) {
     let end = 8;
     let imageData = await this.getImageData(this.imageURI, 0, end);
-    const pixelIndex = decodeLSB.getCurrentIndex();
     let messageLength = 0;
 
     while (messageLength === 0) {
@@ -180,7 +159,6 @@ export default class Steganography {
         if (error instanceof RangeError) {
           end += 8;
           imageData = await this.getImageData(this.imageURI, 0, end);
-          decodeLSB.setCurrentIndex(pixelIndex);
         } else {
           throw new error(error);
         }
@@ -212,7 +190,7 @@ export default class Steganography {
   ) {
     const start = Math.floor(decodeLSB.getCurrentIndex() / 3);
     const startDecodingAt = decodeLSB.getCurrentIndex() % 3;
-    const end = start + Math.ceil((messageLength * 8) / 3);
+    const end = start + Math.ceil((messageLength * 8) / 3) + 1;
     const imageData = await this.getImageData(this.imageURI, start, end);
 
     let decodedMessage;
