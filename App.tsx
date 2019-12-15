@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React from 'react';
 import {StatusBar} from 'react-native';
+import {Appearance} from 'react-native-appearance';
 import SplashScreen from 'react-native-splash-screen';
 
 import IntroSlider from '~/components/IntroSlider';
@@ -59,19 +60,35 @@ export default class App extends React.Component<IProps, IState> {
     ]);
 
     let introShown = false;
-
     if (storedIntroShown) {
       introShown = storedIntroShown === 'true' ? true : false;
     }
+
+    let darkTheme = false;
     if (storedTheme) {
-      const isDark = storedTheme === 'true' ? true : false;
-      this.context.changeTheme(isDark);
+      darkTheme = storedTheme === 'true' ? true : false;
     }
+
+    const colorScheme = Appearance.getColorScheme();
+    if (colorScheme === 'dark') {
+      darkTheme = true;
+    }
+    this.context.changeTheme(darkTheme);
+
+    Appearance.addChangeListener(({colorScheme: osColorScheme}) => {
+      const isDark = osColorScheme === 'dark' ? true : false;
+      this.context.changeTheme(isDark);
+    });
 
     this.setState({
       introShown,
       loading: false,
     });
+  }
+
+  public componentWillUnmount() {
+    const subscription = Appearance.addChangeListener(_ => null);
+    subscription.remove();
   }
 
   private introShownToUser = async () => {

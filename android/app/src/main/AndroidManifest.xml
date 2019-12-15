@@ -15,7 +15,7 @@
       </intent-filter>
     </activity>
 
-    <activity android:name=".MainActivity" android:label="@string/app_name" android:configChanges="keyboard|keyboardHidden|orientation|screenSize" android:screenOrientation="portrait" android:windowSoftInputMode="adjustResize" android:exported="true" android:launchMode="singleTask" />
+    <activity android:name=".MainActivity" android:label="@string/app_name" android:configChanges="keyboard|keyboardHidden|orientation|screenSize|uiMode" android:screenOrientation="portrait" android:windowSoftInputMode="adjustResize" android:exported="true" android:launchMode="singleTask" />
 
     <meta-data android:name="com.bugsnag.android.API_KEY" android:value="@string/BUGSNAG_API_KEY" />
     <meta-data android:name="com.bugsnag.android.DETECT_NDK_CRASHES" android:value="true" />
