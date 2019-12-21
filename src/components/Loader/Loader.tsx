@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import {ActivityIndicator, View} from 'react-native';
 import {primary} from '~/constants/colors';
 

@@ -125,7 +125,8 @@ export default class PhotoAlbumList extends React.Component<IProps, IState> {
     return (
       <TouchableOpacity
         onPress={this.props.onPhotoPress.bind(this, item.node.image.uri)}
-        style={styles.photoButton}>
+        style={styles.photoButton}
+        accessibilityLabel="photo">
         <Image source={{uri: item.node.image.uri}} style={styles.photos} />
       </TouchableOpacity>
     );

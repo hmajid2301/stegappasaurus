@@ -40,13 +40,12 @@ const about: IAboutItem[] = [
     url: 'https://haseebmajid.dev',
   },
   {
-    function_to_call: 'store',
     icon: {
       color: primary,
       name: 'rate-review',
       type: 'material',
     },
-    title: 'Rate the App',
+    title: 'Rate the app',
   },
   {
     icon: {

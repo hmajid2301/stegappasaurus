@@ -35,7 +35,8 @@ export default class Main extends React.Component<IProps, {}> {
         <View style={styles.buttonsRow}>
           <TouchableOpacity
             onPress={this.getPhotoFromCameraRoll}
-            style={styles.button}>
+            style={styles.button}
+            testID="cameraroll">
             <Icon name="photo" iconStyle={styles.icon} type="font-awesome" />
           </TouchableOpacity>
         </View>

@@ -42,7 +42,8 @@ export default class MyModal extends React.Component<IProps, IState> {
                 this,
                 !this.state.isVisible,
               )}
-              style={styles.iconContainer}>
+              style={styles.iconContainer}
+              testID="close">
               <Icon
                 iconStyle={{color: this.props.color}}
                 name="close"

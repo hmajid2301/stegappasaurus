@@ -24,12 +24,11 @@ export default class AppHeader extends React.Component<IProps, {}> {
   }
 
   private leftComponent = () => (
-    <TouchableOpacity>
+    <TouchableOpacity onPress={this.toHome} testID="home">
       <Icon
         color={this.props.theme.color}
         name="arrow-back"
         type="material-icons"
-        onPress={this.toHome}
       />
     </TouchableOpacity>
   );

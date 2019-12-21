@@ -1,89 +1,74 @@
-import {mount, shallow} from 'enzyme';
+import {render, wait} from '@testing-library/react-native';
 import React from 'react';
 
-import Snackbar from '~/actions/Snackbar';
 import Steganography from '~/actions/Steganography';
+import Snackbar from '~/actions/Snackbar';
+import {ITheme} from '~/constants/types';
 import Progress from '~/views/Home/Decoding/Progress';
 
 jest.mock('~/actions/Steganography');
 
-const navigate = {
-  navigate: jest.fn(),
-  getParam: jest.fn(),
-  goBack: jest.fn(),
+const LIGHT_THEME: ITheme = {
+  background: '#FFF',
+  color: '#17212D',
+  isDark: false,
 };
 
-describe('Decoding Progress: Match Snapshots', () => {
-  test('1', () => {
-    const component = shallow(
-      <Progress
-        navigation={navigate as any}
-        screenProps={{
-          theme: {
-            background: '#FFF',
-            color: '#17212D',
-            isDark: false,
-          },
-        }}
-      />,
+const DARK_THEME: ITheme = {
+  background: '#17212D',
+  color: '#FFF',
+  isDark: false,
+};
+
+const navigation: any = {
+  addListener: jest.fn(),
+  navigate: jest.fn(),
+  getParam: jest.fn().mockReturnValue({
+    uri: 'file:///storage/emulated/0/Stegappasaurus/1575927505003.png',
+  }),
+  state: {
+    routeName: 'Progress',
+  },
+};
+
+describe('Decoding Progress: Functionality', () => {
+  test('Success', async () => {
+    Steganography.prototype.decode = jest.fn().mockResolvedValue('Hello!');
+
+    const spy = jest.spyOn(navigation, 'navigate');
+
+    render(
+      <Progress navigation={navigation} screenProps={{theme: LIGHT_THEME}} />,
     );
-    expect(component).toMatchSnapshot();
+
+    await wait(() => {
+      expect(spy).toHaveBeenCalledWith('Message', {
+        message: 'Hello!',
+        uri: {
+          uri: 'file:///storage/emulated/0/Stegappasaurus/1575927505003.png',
+        },
+      });
+    });
   });
 
-  test('2', () => {
-    const component = shallow(
-      <Progress
-        navigation={navigate as any}
-        screenProps={{
-          theme: {
-            background: '#17212D',
-            color: '#FFF',
-            isDark: false,
-          },
-        }}
-      />,
+  test('Failed', async () => {
+    Steganography.prototype.decode = jest.fn().mockImplementation(() => {
+      throw new Error();
+    });
+
+    const snackSpy = jest.spyOn(Snackbar, 'show');
+    const navSpy = jest.spyOn(navigation, 'navigate');
+
+    render(
+      <Progress navigation={navigation} screenProps={{theme: DARK_THEME}} />,
     );
-    expect(component).toMatchSnapshot();
-  });
-});
 
-describe('Decoding Progress: Functions', () => {
-  let instance: React.Component<{}, {}, any>;
-  beforeAll(() => {
-    const component = mount(
-      <Progress
-        navigation={navigate as any}
-        screenProps={{
-          theme: {
-            background: '#17212D',
-            color: '#FFF',
-            isDark: false,
-          },
-        }}
-      />,
-    );
-    instance = component.instance();
-  });
+    await wait(() => {
+      expect(snackSpy).toHaveBeenCalledWith({
+        text: 'Failed to decode image, please try again.',
+      });
 
-  test('decodeImage', async () => {
-    const spy = jest.spyOn(Snackbar, 'show');
-    (Steganography as jest.Mock).mockImplementation(() => ({
-      decode: 'abcdef',
-    }));
-    await (instance as any).decodeImage();
-    expect(spy).toHaveBeenCalled();
-  });
-
-  test('success', async () => {
-    const spy = jest.fn();
-    navigate['navigate'] = spy;
-    await (instance as any).success();
-    expect(spy).toHaveBeenCalled();
-  });
-
-  test('failed ', () => {
-    const spy = jest.spyOn(Snackbar, 'show');
-    (instance as any).failed();
-    expect(spy).toHaveBeenCalled();
+      expect(navSpy).toHaveBeenCalledWith('Main');
+    });
   });
 });

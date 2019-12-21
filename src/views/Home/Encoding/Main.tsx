@@ -59,17 +59,20 @@ export default class Main extends React.Component<IProps, IState> {
         <View style={styles.buttonsRow}>
           <TouchableOpacity
             onPress={this.getPhotoFromCamera}
-            style={styles.button}>
+            style={styles.button}
+            testID="camera">
             <Icon name="camera" iconStyle={styles.icon} type="font-awesome" />
           </TouchableOpacity>
           <TouchableOpacity
             onPress={this.getPhotoFromCameraRoll}
-            style={styles.button}>
+            style={styles.button}
+            testID="cameraroll">
             <Icon name="photo" iconStyle={styles.icon} type="font-awesome" />
           </TouchableOpacity>
           <TouchableOpacity
             onPress={this.getPhotoFromCatAPI}
-            style={styles.button}>
+            style={styles.button}
+            testID="catapi">
             <Icon
               name="cat"
               iconStyle={styles.icon}

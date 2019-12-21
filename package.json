@@ -25,6 +25,7 @@
   "dependencies": {
     "@react-native-community/async-storage": "1.6.2",
     "@react-native-community/cameraroll": "1.2.1",
+    "@testing-library/react-native": "^5.0.3",
     "bugsnag-react-native": "2.23.1",
     "lzutf8": "0.5.5",
     "react": "16.9.0",
@@ -57,6 +58,7 @@
   "devDependencies": {
     "@babel/core": "7.6.2",
     "@babel/runtime": "7.6.2",
+    "@testing-library/jest-native": "3.1.0",
     "@types/enzyme": "3.10.3",
     "@types/enzyme-adapter-react-16": "1.0.5",
     "@types/jest": "24.0.15",

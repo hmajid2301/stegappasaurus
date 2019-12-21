@@ -1,139 +1,72 @@
-import {mount, shallow} from 'enzyme';
+import {render, fireEvent, wait} from '@testing-library/react-native';
 import React from 'react';
-import {NavigationScreenProp} from 'react-navigation';
 import ImagePicker from 'react-native-image-picker';
 
 import Snackbar from '~/actions/Snackbar';
+import {ITheme} from '~/constants/types';
 import Main from '~/views/Home/Decoding/Main';
 
-jest.mock('react-native-image-picker');
-jest.mock('react-navigation');
+const LIGHT_THEME: ITheme = {
+  background: '#FFF',
+  color: '#17212D',
+  isDark: false,
+};
 
-const navigate: NavigationScreenProp<any, any> = {
-  openDrawer: jest.fn(),
-  closeDrawer: jest.fn(),
-  toggleDrawer: jest.fn(),
-  dismiss: jest.fn(),
-  goBack: jest.fn(),
+const DARK_THEME: ITheme = {
+  background: '#17212D',
+  color: '#FFF',
+  isDark: false,
+};
+
+const navigation: any = {
+  addListener: jest.fn(),
   navigate: jest.fn(),
   getParam: jest.fn(),
-  setParams: jest.fn(),
-  emit: jest.fn(),
-  addListener: jest.fn(),
-  isFocused: jest.fn(),
-  isFirstRouteInParent: jest.fn(),
-  dangerouslyGetParent: jest.fn(),
-  dispatch: jest.fn(),
   state: {
-    routes: [
-      {
-        key: 'Encoding',
-        isTransitioning: false,
-        index: 1,
-        routes: [
-          {routeName: 'Main', key: 'id-1565732047195-0'},
-          {
-            params: {
-              uri:
-                'file:/data/user/0/com.stegappasaurus/cache/ImagePicker/a89493b5-e2a5-4546-80f3-4fb13d2461d8.png',
-            },
-            routeName: 'Message',
-            key: 'id-1565732047195-2',
-          },
-        ],
-        routeName: 'Encoding',
-      },
-      {
-        key: 'Decoding',
-        isTransitioning: false,
-        index: 0,
-        routes: [{routeName: 'Main', key: 'id-1565732047195-1'}],
-        routeName: 'Decoding',
-      },
-    ],
-    index: 0,
-    isTransitioning: false,
-    key: 'Home',
-    routeName: 'Home',
+    routeName: 'Main',
   },
 };
 
-describe('Decoding Main: Match Snapshots', () => {
-  test('1', () => {
-    const component = shallow(
-      <Main
-        navigation={navigate as any}
-        screenProps={{
-          theme: {
-            background: '#FFF',
-            color: '#17212D',
-            isDark: false,
-          },
-        }}
-      />,
+describe('Decoding Main: Functionality', () => {
+  test('Open Camera Roll Pass', async () => {
+    const {getByTestId} = render(
+      <Main navigation={navigation} screenProps={{theme: DARK_THEME}} />,
     );
-    expect(component).toMatchSnapshot();
-  });
 
-  test('2', () => {
-    const component = shallow(
-      <Main
-        navigation={navigate as any}
-        screenProps={{
-          theme: {
-            background: '#17212D',
-            color: '#FFF',
-            isDark: false,
-          },
-        }}
-      />,
-    );
-    expect(component).toMatchSnapshot();
-  });
-});
-
-describe('Decoding Main: Functions', () => {
-  let instance: React.Component<{}, {}, any>;
-  beforeAll(() => {
-    const component = mount(
-      <Main
-        navigation={navigate as any}
-        screenProps={{
-          theme: {
-            background: '#17212D',
-            color: '#FFF',
-            isDark: false,
-          },
-        }}
-      />,
-    );
-    instance = component.instance();
-  });
-
-  test('getPhotoFromCameraRoll: photo taken', async () => {
     ImagePicker.launchImageLibrary = jest
       .fn()
       .mockImplementation((_, callback) =>
-        callback({uri: 'file://pixels.jpg'}),
+        callback({
+          uri: 'file:///storage/emulated/0/Stegappasaurus/1575927505003.png',
+        }),
       );
-    const spy = jest.spyOn(instance as any, 'selectPhotoToDecode');
-    await (instance as any).getPhotoFromCameraRoll();
-    expect(spy).toHaveBeenCalled();
+
+    const spy = jest.spyOn(navigation, 'navigate');
+    const touchable = getByTestId('cameraroll');
+    fireEvent.press(touchable);
+
+    await wait(() => {
+      expect(spy).toHaveBeenCalled();
+    });
   });
 
-  test('getPhotoFromCameraRoll: error', async () => {
-    (ImagePicker.launchImageLibrary as jest.Mock).mockImplementation(() => {
+  test('Open Camera Roll Fail', async () => {
+    const {getByTestId} = render(
+      <Main navigation={navigation} screenProps={{theme: LIGHT_THEME}} />,
+    );
+
+    ImagePicker.launchImageLibrary = jest.fn().mockImplementation(() => {
       throw new Error();
     });
-    const spy = jest.spyOn(Snackbar, 'show');
-    await (instance as any).getPhotoFromCameraRoll();
-    expect(spy).toHaveBeenCalled();
-  });
 
-  test('selectPhotoToDecode', () => {
-    const spy = jest.fn();
-    navigate['navigate'] = spy;
-    (instance as any).selectPhotoToDecode();
-    expect(spy).toHaveBeenCalled();
+    const spy = jest.spyOn(Snackbar, 'show');
+    const touchable = getByTestId('cameraroll');
+    fireEvent.press(touchable);
+
+    await wait(() => {
+      expect(spy).toHaveBeenCalledWith({
+        text: 'This app does not have permission to access the camera roll.',
+      });
+    });
   });
 });

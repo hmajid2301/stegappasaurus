@@ -38,6 +38,7 @@ export default class Themes extends React.Component<IProps, {}> {
           title="Dark Mode"
           switch={{
             onValueChange: this.setTheme.bind(this, !theme.isDark),
+            testID: 'switch',
             thumbColor: 'white',
             trackColor: {false: 'gray', true: primary},
             value: theme.isDark,

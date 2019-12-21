@@ -41,6 +41,7 @@ export default class Licenses extends React.Component<IProps, {}> {
         subtitle={item.item.licenses}
         topDivider={true}
         bottomDivider={true}
+        testID="license"
       />
     </TouchableOpacity>
   );

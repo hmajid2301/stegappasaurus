@@ -10,12 +10,12 @@ interface IShow {
 }
 
 export default class CustomSnackbar {
-  public static show = ({
+  public static show({
     onButtonPress = () => null,
     buttonText = 'Okay',
     duration = 5000,
     text,
-  }: IShow) => {
+  }: IShow) {
     Snackbar.show({
       action: {
         color: primary,
@@ -26,5 +26,5 @@ export default class CustomSnackbar {
       duration,
       title: text,
     });
-  };
+  }
 }
