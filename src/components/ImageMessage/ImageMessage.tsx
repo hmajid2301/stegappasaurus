@@ -68,6 +68,7 @@ export default class ImageMessage extends React.Component<IProps, IState> {
                 this.textInput = ref;
               }}
               style={styles.message}
+              testID="message"
               underlineColorAndroid="transparent"
             />
           </View>

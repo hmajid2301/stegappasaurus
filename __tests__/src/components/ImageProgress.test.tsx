@@ -1,11 +1,15 @@
-import {shallow} from 'enzyme';
+import {render, fireEvent} from '@testing-library/react-native';
 import React from 'react';
 
 import ImageProgress from '~/components/ImageProgress';
 
-describe('ImageProgress: Match snapshots', () => {
-  test('1', () => {
-    const component = shallow(
+describe('ImageProgress: Functionality', () => {
+  test('Action called on press', () => {
+    const action = {
+      func: jest.fn(),
+    };
+
+    const {getByTestId} = render(
       <ImageProgress
         background="#17212D"
         icon={{
@@ -14,31 +18,15 @@ describe('ImageProgress: Match snapshots', () => {
           size: 130,
           type: 'font-awesome',
         }}
-        onPress={() => null}
-        photo="images.png"
-        progress={100}
+        onPress={action.func}
+        photo="file://example-uri.png"
+        progress={20}
         primaryColor="#009CFF"
       />,
     );
-    expect(component).toMatchSnapshot();
-  });
 
-  test('2', () => {
-    const component = shallow(
-      <ImageProgress
-        background="#FFF"
-        icon={{
-          color: '#111',
-          name: 'share',
-          size: 100,
-          type: 'font-awesome',
-        }}
-        onPress={() => null}
-        photo="images.png"
-        progress={0}
-        primaryColor="#E88C0C"
-      />,
-    );
-    expect(component).toMatchSnapshot();
+    const touchable = getByTestId('action');
+    fireEvent.press(touchable);
+    expect(action.func).toHaveBeenCalled();
   });
 });

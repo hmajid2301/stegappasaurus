@@ -1,79 +1,87 @@
-import {shallow} from 'enzyme';
+import {render, fireEvent} from '@testing-library/react-native';
 import React from 'react';
-import {NavigationScreenProp} from 'react-navigation';
 
 import {MainHeader} from '~/components/Header';
+import {ITheme} from '~/constants/types';
 
-jest.mock('react-navigation');
-const navigation: NavigationScreenProp<any, any> = {
-  openDrawer: jest.fn(),
-  closeDrawer: jest.fn(),
-  toggleDrawer: jest.fn(),
-  dismiss: jest.fn(),
-  goBack: jest.fn(),
+const LIGHT_THEME: ITheme = {
+  background: '#FFF',
+  color: '#17212D',
+  isDark: false,
+};
+
+const DARK_THEME: ITheme = {
+  background: '#17212D',
+  color: '#FFF',
+  isDark: false,
+};
+
+let navigation: any = {
   navigate: jest.fn(),
-  getParam: jest.fn(),
-  setParams: jest.fn(),
-  emit: jest.fn(),
-  addListener: jest.fn(),
-  isFocused: jest.fn(),
-  isFirstRouteInParent: jest.fn(),
-  dangerouslyGetParent: jest.fn(),
-  dispatch: jest.fn(),
   state: {
-    routes: [
-      {
-        key: 'Encoding',
-        isTransitioning: false,
-        index: 1,
-        routes: [
-          {routeName: 'Main', key: 'id-1565732047195-0'},
-          {
-            params: {
-              uri:
-                'file:/data/user/0/com.stegappasaurus/cache/ImagePicker/a89493b5-e2a5-4546-80f3-4fb13d2461d8.png',
-            },
-            routeName: 'Message',
-            key: 'id-1565732047195-2',
-          },
-        ],
-        routeName: 'Encoding',
-      },
-      {
-        key: 'Decoding',
-        isTransitioning: false,
-        index: 0,
-        routes: [{routeName: 'Main', key: 'id-1565732047195-1'}],
-        routeName: 'Decoding',
-      },
-    ],
-    index: 0,
-    isTransitioning: false,
-    key: 'Home',
-    routeName: 'Home',
+    routeName: 'Main',
   },
 };
 
-describe('MainHeader: Match snapshots', () => {
-  test('1', () => {
-    const component = shallow(
+describe('MainHeader: Functionality', () => {
+  test('Press Home Icon', () => {
+    navigation = {
+      navigate: jest.fn(),
+      state: {
+        routeName: 'Settings',
+      },
+    };
+
+    const {getByTestId} = render(
       <MainHeader
         navigation={navigation}
         primary="#009CFF"
-        theme={{background: '#17212D', color: '#FFF', isDark: false}}
+        theme={LIGHT_THEME}
       />,
     );
-    expect(component).toMatchSnapshot();
+
+    const spy = jest.spyOn(navigation, 'navigate');
+    const homeIcon = getByTestId('home');
+    fireEvent.press(homeIcon);
+    expect(spy).toHaveBeenCalled();
   });
 
-  test('2', () => {
-    const component = shallow(
+  test('Press settings icon', async () => {
+    navigation = {
+      navigate: jest.fn(),
+      state: {
+        routeName: 'Main',
+      },
+    };
+
+    const {getByTestId} = render(
       <MainHeader
         navigation={navigation}
-        primary="#E88C0C"
-        theme={{background: '#FFF', color: '#17212D', isDark: true}}
+        primary="#009CFF"
+        theme={DARK_THEME}
       />,
     );
-    expect(component).toMatchSnapshot();
+
+    const spy = jest.spyOn(navigation, 'navigate');
+    const settingsIcon = getByTestId('settings');
+    fireEvent.press(settingsIcon);
+    expect(spy).toHaveBeenCalledWith('Settings');
+  });
+
+  test('Press home icon: No navigation props', () => {
+    try {
+      const {getByTestId} = render(
+        <MainHeader
+          navigation={{} as any}
+          primary="#009CFF"
+          theme={LIGHT_THEME}
+        />,
+      );
+
+      const homeIcon = getByTestId('home');
+      fireEvent.press(homeIcon);
+    } catch (error) {
+      expect(error).toBeTruthy();
+    }
   });
 });

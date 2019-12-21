@@ -56,12 +56,10 @@ export default class Message extends React.Component<IProps, IState> {
       });
     } else {
       Keyboard.dismiss();
-      setTimeout(() => {
-        this.props.navigation.navigate('Progress', {
-          message,
-          uri: this.state.photo,
-        });
-      }, 100);
+      this.props.navigation.navigate('Progress', {
+        message,
+        uri: this.state.photo,
+      });
     }
   };
 }

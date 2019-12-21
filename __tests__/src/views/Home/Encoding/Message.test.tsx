@@ -1,64 +1,60 @@
-import {mount, shallow} from 'enzyme';
+import {render, fireEvent} from '@testing-library/react-native';
 import React from 'react';
 
-import Message from '~/views/Home/Encoding/Message';
 import Snackbar from '~/actions/Snackbar';
+import {ITheme} from '~/constants/types';
+import Message from '~/views/Home/Encoding/Message';
 
-describe('Encoding Message: Match Snapshots', () => {
-  test('1', () => {
-    const navigate = {
-      navigate: jest.fn(),
-      getParam: jest.fn(),
-    };
-    const component = shallow(
-      <Message
-        navigation={navigate as any}
-        screenProps={{
-          theme: {
-            background: '#FFF',
-            color: '#17212D',
-            isDark: false,
-          },
-        }}
-      />,
+const LIGHT_THEME: ITheme = {
+  background: '#FFF',
+  color: '#17212D',
+  isDark: false,
+};
+
+const DARK_THEME: ITheme = {
+  background: '#17212D',
+  color: '#FFF',
+  isDark: false,
+};
+
+const navigation: any = {
+  addListener: jest.fn(),
+  navigate: jest.fn(),
+  getParam: jest.fn().mockReturnValue({
+    uri: 'file:///storage/emulated/0/Stegappasaurus/1575927505003.png',
+  }),
+  state: {
+    routeName: 'Message',
+  },
+};
+
+describe('Encoding Message: Functionality', () => {
+  test('Message: Hello', () => {
+    const {getByTestId} = render(
+      <Message navigation={navigation} screenProps={{theme: LIGHT_THEME}} />,
     );
-    expect(component).toMatchSnapshot();
-  });
-});
 
-describe('Encoding Message: Function', () => {
-  let instance: React.Component<{}, {}, any>;
-  let addSpy = jest.fn();
+    const spy = jest.spyOn(navigation, 'navigate');
 
-  beforeAll(() => {
-    const navigate = {
-      navigate: jest.fn(),
-      getParam: jest.fn(),
-      addListener: addSpy,
-    };
-    const component = mount(
-      <Message
-        navigation={navigate as any}
-        screenProps={{
-          theme: {
-            background: '#FFF',
-            color: '#17212D',
-            isDark: false,
-          },
-        }}
-      />,
-    );
-    instance = component.instance();
+    const input = getByTestId('message');
+    fireEvent.changeText(input, 'Hello!');
+    fireEvent.submitEditing(input);
+    expect(spy).toHaveBeenCalledWith('Progress', {
+      message: 'Hello!',
+      uri: {uri: 'file:///storage/emulated/0/Stegappasaurus/1575927505003.png'},
+    });
   });
 
-  test('Empty Message', () => {
+  test('Message: Empty', () => {
+    const {getByTestId} = render(
+      <Message navigation={navigation} screenProps={{theme: DARK_THEME}} />,
+    );
+
     const spy = jest.spyOn(Snackbar, 'show');
-    (instance as any).onSubmit('');
-    expect(spy).toHaveBeenCalled();
-  });
 
-  test('Not Empty', () => {
-    (instance as any).onSubmit('Test!');
-    expect(addSpy).toHaveBeenCalled();
+    const input = getByTestId('message');
+    fireEvent.changeText(input, '');
+    fireEvent.submitEditing(input);
+    expect(spy).toHaveBeenCalledWith({text: 'Message cannot be empty'});
   });
 });

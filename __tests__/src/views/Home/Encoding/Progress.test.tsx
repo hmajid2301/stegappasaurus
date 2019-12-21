@@ -1,88 +1,90 @@
-import {mount, shallow} from 'enzyme';
+import {render, wait, fireEvent} from '@testing-library/react-native';
 import React from 'react';
+import Share from 'react-native-share';
 
-import Snackbar from '~/actions/Snackbar';
 import Steganography from '~/actions/Steganography';
+import Snackbar from '~/actions/Snackbar';
+import {ITheme} from '~/constants/types';
 import Progress from '~/views/Home/Encoding/Progress';
 
 jest.mock('~/actions/Steganography');
 
-const navigate = {
-  navigate: jest.fn(),
-  getParam: jest.fn(),
-  goBack: jest.fn(),
+const LIGHT_THEME: ITheme = {
+  background: '#FFF',
+  color: '#17212D',
+  isDark: false,
 };
 
-describe('Encoding Progress: Match Snapshots', () => {
-  test('1', () => {
-    const component = shallow(
-      <Progress
-        navigation={navigate as any}
-        screenProps={{
-          theme: {
-            background: '#FFF',
-            color: '#17212D',
-            isDark: false,
-          },
-        }}
-      />,
-    );
-    expect(component).toMatchSnapshot();
-  });
+const DARK_THEME: ITheme = {
+  background: '#17212D',
+  color: '#FFF',
+  isDark: false,
+};
 
-  test('2', () => {
-    const component = shallow(
-      <Progress
-        navigation={navigate as any}
-        screenProps={{
-          theme: {
-            background: '#17212D',
-            color: '#FFF',
-            isDark: false,
-          },
-        }}
-      />,
-    );
-    expect(component).toMatchSnapshot();
-  });
-});
+const navigation: any = {
+  addListener: jest.fn(),
+  navigate: jest.fn(),
+  getParam: jest.fn().mockReturnValue({
+    uri: 'file:///storage/emulated/0/Stegappasaurus/1575927505003.png',
+  }),
+  state: {
+    routeName: 'Progress',
+  },
+};
 
-describe('Encoding Progress: Functions', () => {
-  let instance: React.Component<{}, {}, any>;
-  beforeAll(() => {
-    const component = mount(
-      <Progress
-        navigation={navigate as any}
-        screenProps={{
-          theme: {
-            background: '#17212D',
-            color: '#FFF',
-            isDark: false,
-          },
-        }}
-      />,
-    );
-    instance = component.instance();
-  });
+describe('Encoding Progress: Functionality', () => {
+  test('Success', async () => {
+    Steganography.prototype.encode = jest
+      .fn()
+      .mockResolvedValue(
+        'file:///storage/emulated/0/Stegappasaurus/1575927505003.png',
+      );
 
-  test('encodeImage', async () => {
     const spy = jest.spyOn(Snackbar, 'show');
-    (Steganography as jest.Mock).mockImplementation(() => ({
-      encode: 'encodedImage.png',
-    }));
-    await (instance as any).encodeImage();
-    expect(spy).toHaveBeenCalled();
+
+    render(
+      <Progress navigation={navigation} screenProps={{theme: DARK_THEME}} />,
+    );
+
+    await wait(() => {
+      expect(spy).toHaveBeenCalled();
+    });
   });
 
-  test('success', async () => {
-    const spy = jest.spyOn(Snackbar, 'show');
-    await (instance as any).success();
-    expect(spy).toHaveBeenCalled();
+  test('Share Image', async () => {
+    Steganography.prototype.encode = jest
+      .fn()
+      .mockResolvedValue(
+        'file:///storage/emulated/0/Stegappasaurus/1575927505003.png',
+      );
+
+    Share.open = jest.fn();
+    const spy = jest.spyOn(Share, 'open');
+
+    const {getByTestId} = render(
+      <Progress navigation={navigation} screenProps={{theme: LIGHT_THEME}} />,
+    );
+    const touchable = getByTestId('action');
+    fireEvent.press(touchable);
+
+    await wait(() => {
+      expect(spy).toHaveBeenCalled();
+    });
   });
 
-  test('failed ', () => {
-    const spy = jest.spyOn(instance as any, 'sendUserBackToMain');
-    (instance as any).failed();
-    expect(spy).toHaveBeenCalled();
+  test('Failed', async () => {
+    Steganography.prototype.encode = jest.fn().mockImplementation(() => {
+      throw new Error();
+    });
+
+    const spy = jest.spyOn(navigation, 'navigate');
+
+    render(
+      <Progress navigation={navigation} screenProps={{theme: LIGHT_THEME}} />,
+    );
+
+    await wait(() => {
+      expect(spy).toHaveBeenCalledWith('Main');
+    });
   });
 });

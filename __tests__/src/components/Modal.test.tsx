@@ -1,60 +1,43 @@
-import {mount, shallow} from 'enzyme';
+import {render, fireEvent} from '@testing-library/react-native';
 import React from 'react';
 
 import Modal from '~/components/Modal';
-import AboutUs from '~/views/Settings/Sections/About/AboutUs';
+import Licenses from '~/views/Settings/Sections/About/Licenses';
 
-describe('Modal: Match snapshots', () => {
-  test('1', () => {
-    const component = shallow(
-      <Modal background="#17212D" color="#FFF" name="About Us">
-        <AboutUs background="#17212D" color="#FFF" />
-      </Modal>,
-    );
-    expect(component).toMatchSnapshot();
-  });
-});
-
-describe('Modal Props', () => {
-  test('Modal: onRequestClose', () => {
-    const component = mount(
-      <Modal background="#17212D" color="#FFF" name="FAQ">
-        <AboutUs background="#17212D" color="#FFF" />
-      </Modal>,
+describe('Modal: Functionality', () => {
+  test('Open Modal', () => {
+    const {getByText, getByTestId} = render(
+      <Modal
+        background="#17212D"
+        color="#FFF"
+        children={<Licenses background="#17212D" color="#FFF" />}
+        name="Licenses"
+      />,
     );
 
-    (component
-      .find('Modal')
-      .first()
-      .props() as any).onRequestClose();
-    expect(component.state('isVisible')).toEqual(false);
+    const text = getByText('Licenses');
+    const openModalTouchable = text.parentNode;
+    fireEvent.press(openModalTouchable);
+    const closeIcon = getByTestId('close');
+    expect(closeIcon).toBeTruthy();
   });
 
-  test('TouchableOpacity: onPress', () => {
-    const component = mount(
-      <Modal background="#17212D" color="#FFF" name="FAQ">
-        <AboutUs background="#17212D" color="#FFF" />
-      </Modal>,
+  test('Close Modal', () => {
+    const {getByText, getByTestId} = render(
+      <Modal
+        background="#17212D"
+        color="#FFF"
+        children={<Licenses background="#17212D" color="#FFF" />}
+        name="Licenses"
+      />,
     );
 
-    (component
-      .find('TouchableOpacity')
-      .first()
-      .props() as any).onPress();
-    expect(component.state('isVisible')).toEqual(true);
-  });
-
-  test('TouchableOpacity2: onPress', () => {
-    const component = mount(
-      <Modal background="#17212D" color="#FFF" name="FAQ">
-        <AboutUs background="#17212D" color="#FFF" />
-      </Modal>,
-    );
-
-    (component
-      .find('TouchableOpacity')
-      .last()
-      .props() as any).onPress();
-    expect(component.state('isVisible')).toEqual(true);
+    let text = getByText('Licenses');
+    const openModalTouchable = text.parentNode;
+    fireEvent.press(openModalTouchable);
+    const closeIcon = getByTestId('close');
+    fireEvent.press(closeIcon);
+    text = getByText('Licenses');
+    expect(text).toBeTruthy;
   });
 });

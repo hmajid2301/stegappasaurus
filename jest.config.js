@@ -5,23 +5,27 @@ module.exports = {
     '~/(.*)': '<rootDir>/src/$1',
   },
   modulePathIgnorePatterns: ['.history', 'data.ts'],
-  preset: 'react-native',
+  preset: '@testing-library/react-native',
   setupFiles: [
-    '<rootDir>/__tests__/setupTests.ts',
+    './node_modules/@testing-library/react-native/jest-preset',
     './node_modules/react-native-gesture-handler/jestSetup.js',
+    '<rootDir>/__tests__/setupTests.ts',
   ],
-  snapshotSerializers: ['enzyme-to-json/serializer'],
+  setupFilesAfterEnv: [
+    './node_modules/@testing-library/react-native/cleanup-after-each',
+  ],
+  snapshotSerializers: [
+    './node_modules/@testing-library/react-native/dist/preset/serializer.js',
+  ],
   transform: {
     '^.+\\.tsx?$': 'babel-jest',
   },
-  testEnvironment: 'jsdom',
   testMatch: ['**/__tests__/**/*.ts?(x)'],
   transformIgnorePatterns: [
-    'node_modules/(?!((jest-)?react-native|react-clone-referenced-element|expo(nent)?|@expo(nent)?/.*|react-navigation|@react-navigation/.*|sentry-expo|native-base))',
+    './node_modules/(?!(react-native.*|@?react-navigation.*)/)',
   ],
   testPathIgnorePatterns: [
     '/node_modules/',
     '<rootDir>/__tests__/setupTests.ts',
   ],
-  timers: 'fake',
 };

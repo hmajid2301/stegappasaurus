@@ -61,21 +61,15 @@ export default class Progress extends React.Component<IProps, {}> {
   );
 
   private async chooseFunction(item: IAboutItem) {
-    switch (item.function_to_call) {
-      case 'store':
-        const options = {
-          GooglePackageName: 'com.stegappasaurus',
-          openAppStoreIfInAppFails: true,
-          preferredAndroidMarket: AndroidMarket.Google,
-        };
-        Rate.rate(options, () => null);
-        break;
-
-      default:
-        if (item.url !== undefined) {
-          await Linking.openURL(item.url);
-        }
-        break;
+    if (item.url === undefined) {
+      const options = {
+        GooglePackageName: 'com.stegappasaurus',
+        openAppStoreIfInAppFails: true,
+        preferredAndroidMarket: AndroidMarket.Google,
+      };
+      Rate.rate(options, () => null);
+    } else {
+      await Linking.openURL(item.url);
     }
   }
 }

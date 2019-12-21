@@ -32,24 +32,14 @@ export default class MainHeader extends React.Component<IProps, {}> {
     const isSettings = this.isSettings();
     if (isSettings) {
       return (
-        <TouchableOpacity>
-          <Icon
-            color={this.props.theme.color}
-            name="settings"
-            type="feather"
-            onPress={this.toSettings}
-          />
+        <TouchableOpacity onPress={this.toSettings} testID="settings">
+          <Icon color={this.props.theme.color} name="settings" type="feather" />
         </TouchableOpacity>
       );
     }
     return (
-      <TouchableOpacity>
-        <Icon
-          color={this.props.theme.color}
-          name="home"
-          type="font-awesome"
-          onPress={this.toHome}
-        />
+      <TouchableOpacity onPress={this.toHome} testID="home">
+        <Icon color={this.props.theme.color} name="home" type="font-awesome" />
       </TouchableOpacity>
     );
   };
@@ -66,7 +56,7 @@ export default class MainHeader extends React.Component<IProps, {}> {
     const routeName = this.props.navigation.state.routeName;
     let isSettingsPage = false;
 
-    if (!routeName.startsWith('Settings')) {
+    if (routeName !== 'Settings') {
       isSettingsPage = true;
     }
 

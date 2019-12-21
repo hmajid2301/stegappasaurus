@@ -30,7 +30,10 @@ const pageWidth = Dimensions.get('window').width;
 
 const ImageProgress: React.FunctionComponent<IProps> = (props: IProps) => (
   <View style={[styles.progressContainer, {backgroundColor: props.background}]}>
-    <TouchableOpacity activeOpacity={0.8} onPress={props.onPress}>
+    <TouchableOpacity
+      activeOpacity={0.8}
+      onPress={props.onPress}
+      testID="action">
       <AnimatedCircularProgress
         size={pageWidth * 0.75}
         width={3}
