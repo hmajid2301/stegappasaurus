@@ -2,6 +2,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import React from 'react';
 import {Text, View} from 'react-native';
 import {ListItem} from 'react-native-elements';
+import changeNavigationBarColor from 'react-native-navigation-bar-color';
 
 import {primary} from '~/constants/colors';
 import {ITheme} from '~/constants/types';
@@ -51,5 +52,11 @@ export default class Themes extends React.Component<IProps, {}> {
   private async setTheme(isDark: boolean) {
     this.context.changeTheme(isDark);
     await AsyncStorage.setItem('@Theme', JSON.stringify(isDark));
+    // @ts-ignore
+    changeNavigationBarColor(
+      this.context.theme.isDark ? '#17212d' : '#ffffff',
+      this.context.theme.isDark,
+      false,
+    );
   }
 }

@@ -11,9 +11,9 @@ describe('ImageProgress: Functionality', () => {
 
     const {getByTestId} = render(
       <ImageProgress
-        background="#17212D"
+        background="#17212d"
         icon={{
-          color: '#FFF',
+          color: '#ffffff',
           name: 'share',
           size: 130,
           type: 'font-awesome',
@@ -21,7 +21,7 @@ describe('ImageProgress: Functionality', () => {
         onPress={action.func}
         photo="file://example-uri.png"
         progress={20}
-        primaryColor="#009CFF"
+        primaryColor="#009cff"
       />,
     );
 

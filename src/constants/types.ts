@@ -1,5 +1,5 @@
-export type ThemeColors = '#17212D' | '#FFF';
-export type TabColors = '#009CFF' | '#E88C0C';
+export type ThemeColors = '#17212d' | '#ffffff';
+export type TabColors = '#009cff' | '#e88c0c';
 
 export interface ITheme {
   background: ThemeColors;

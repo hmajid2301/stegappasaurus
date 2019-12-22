@@ -8,9 +8,9 @@ describe('Modal: Functionality', () => {
   test('Open Modal', () => {
     const {getByText, getByTestId} = render(
       <Modal
-        background="#17212D"
-        color="#FFF"
-        children={<Licenses background="#17212D" color="#FFF" />}
+        background="#17212d"
+        color="#ffffff"
+        children={<Licenses background="#17212d" color="#ffffff" />}
         name="Licenses"
       />,
     );
@@ -25,9 +25,9 @@ describe('Modal: Functionality', () => {
   test('Close Modal', () => {
     const {getByText, getByTestId} = render(
       <Modal
-        background="#17212D"
-        color="#FFF"
-        children={<Licenses background="#17212D" color="#FFF" />}
+        background="#17212d"
+        color="#ffffff"
+        children={<Licenses background="#17212d" color="#ffffff" />}
         name="Licenses"
       />,
     );

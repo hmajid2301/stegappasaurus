@@ -7,7 +7,7 @@ import Licenses from '~/views/Settings/Sections/About/Licenses';
 describe('Licenses: Functionality', () => {
   test('Open URL', () => {
     const {getAllByTestId} = render(
-      <Licenses color="#17212D" background="#FFF" />,
+      <Licenses color="#17212d" background="#ffffff" />,
     );
 
     const spy = jest

@@ -1,4 +1,5 @@
 import React, {Context, createContext, useState} from 'react';
+
 import {DARK_THEME, LIGHT_THEME} from '~/constants/themes';
 import {ITheme} from '~/constants/types';
 

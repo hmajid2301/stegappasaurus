@@ -39,7 +39,7 @@ export default class Progress extends React.Component<IProps, IState> {
       <View style={{flex: 1}}>
         <AppHeader
           navigation={this.props.navigation}
-          primary="#E88C0C"
+          primary="#e88c0c"
           theme={theme}
         />
         <ImageProgress

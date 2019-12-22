@@ -7,7 +7,7 @@ import Snackbar from '~/actions/Snackbar';
 
 describe('About: Functionality', () => {
   test('Open Modal: About Us', () => {
-    const {getByText} = render(<About color="#17212D" background="#FFF" />);
+    const {getByText} = render(<About color="#17212d" background="#ffffff" />);
 
     const text = getByText('About Us');
     const openModalTouchable = text.parentNode;
@@ -20,7 +20,7 @@ describe('About: Functionality', () => {
 
   // test('Close Modal: About Us', () => {
   //   const {getByText, getByTestId} = render(
-  //     <About color="#17212D" background="#FFF" />,
+  //     <About color="#17212d" background="#ffffff" />,
   //   );
 
   //   const text = getByText('About Us');
@@ -33,7 +33,7 @@ describe('About: Functionality', () => {
   // });
 
   test('Open Email: Success', () => {
-    const {getByText} = render(<About color="#17212D" background="#FFF" />);
+    const {getByText} = render(<About color="#17212d" background="#ffffff" />);
 
     const spy = jest
       .spyOn(Linking, 'openURL')
@@ -48,7 +48,7 @@ describe('About: Functionality', () => {
   });
 
   test('Open Email: Error', () => {
-    const {getByText} = render(<About color="#17212D" background="#FFF" />);
+    const {getByText} = render(<About color="#17212d" background="#ffffff" />);
 
     jest.spyOn(Linking, 'openURL').mockImplementation(() => {
       throw new Error();

@@ -16,7 +16,7 @@ const styles = StyleSheet.create({
 
   message: {
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
-    color: '#ffffff',
+    color: '#ffffffff',
     fontFamily: bodyLight,
     fontSize: 22,
     height: '100%',

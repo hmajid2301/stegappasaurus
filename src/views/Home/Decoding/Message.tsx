@@ -40,7 +40,7 @@ export default class Message extends React.Component<IProps, IState> {
       <View>
         <AppHeader
           navigation={this.props.navigation}
-          primary="#E88C0C"
+          primary="#e88c0c"
           theme={theme}
         />
         <ImageMessage

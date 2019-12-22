@@ -2,6 +2,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import React from 'react';
 import {StatusBar} from 'react-native';
 import {Appearance} from 'react-native-appearance';
+import changeNavigationBarColor from 'react-native-navigation-bar-color';
 import SplashScreen from 'react-native-splash-screen';
 
 import IntroSlider from '~/components/IntroSlider';
@@ -80,6 +81,12 @@ export default class App extends React.Component<IProps, IState> {
       this.context.changeTheme(isDark);
     });
 
+    // @ts-ignore
+    changeNavigationBarColor(
+      this.context.theme.isDark ? '#17212d' : '#ffffff',
+      this.context.theme.isDark,
+      false,
+    );
     this.setState({
       introShown,
       loading: false,
