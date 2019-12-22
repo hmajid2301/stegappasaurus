@@ -11,7 +11,7 @@ jest.mock('react-native-rate');
 describe('AboutList: Functionality', () => {
   test('Open URL', () => {
     const {getByText} = render(
-      <AboutList items={about} color="#17212D" backgroundColor="#FFF" />,
+      <AboutList items={about} color="#17212d" backgroundColor="#ffffff" />,
     );
 
     const spy = jest
@@ -26,7 +26,7 @@ describe('AboutList: Functionality', () => {
 
   test('Open app store review', () => {
     const {getByText} = render(
-      <AboutList items={about} color="#17212D" backgroundColor="#FFF" />,
+      <AboutList items={about} color="#17212d" backgroundColor="#ffffff" />,
     );
 
     const spy = jest

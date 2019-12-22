@@ -6,8 +6,8 @@ import Themes from '~/views/Settings/Sections/Themes';
 import AsyncStorage from '@react-native-community/async-storage';
 
 const LIGHT_THEME: ITheme = {
-  background: '#FFF',
-  color: '#17212D',
+  background: '#ffffff',
+  color: '#17212d',
   isDark: false,
 };
 

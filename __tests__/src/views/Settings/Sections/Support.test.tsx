@@ -5,7 +5,9 @@ import Support from '~/views/Settings/Sections/Support';
 
 describe('Support: Functionality', () => {
   test('Open Modal: Private Policy', () => {
-    const {getByText} = render(<Support color="#17212D" background="#FFF" />);
+    const {getByText} = render(
+      <Support color="#17212d" background="#ffffff" />,
+    );
 
     const text = getByText('Private Policy');
     const openModalTouchable = text.parentNode;
@@ -15,7 +17,9 @@ describe('Support: Functionality', () => {
   });
 
   test('Open Modal: Terms of Use', () => {
-    const {getByText} = render(<Support color="#17212D" background="#FFF" />);
+    const {getByText} = render(
+      <Support color="#17212d" background="#ffffff" />,
+    );
 
     const text = getByText('Terms of Use');
     const openModalTouchable = text.parentNode;
@@ -25,7 +29,9 @@ describe('Support: Functionality', () => {
   });
 
   test('Open Modal: License', () => {
-    const {getByText} = render(<Support color="#17212D" background="#FFF" />);
+    const {getByText} = render(
+      <Support color="#17212d" background="#ffffff" />,
+    );
 
     const text = getByText('License');
     const openModalTouchable = text.parentNode;

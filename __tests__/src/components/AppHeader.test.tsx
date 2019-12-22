@@ -5,14 +5,14 @@ import {AppHeader} from '~/components/Header';
 import {ITheme} from '~/constants/types';
 
 const LIGHT_THEME: ITheme = {
-  background: '#FFF',
-  color: '#17212D',
+  background: '#ffffff',
+  color: '#17212d',
   isDark: false,
 };
 
 const DARK_THEME: ITheme = {
-  background: '#17212D',
-  color: '#FFF',
+  background: '#17212d',
+  color: '#ffffff',
   isDark: false,
 };
 
@@ -24,7 +24,7 @@ describe('AppHeader: Functionality', () => {
     const {getByTestId} = render(
       <AppHeader
         navigation={navigation}
-        primary="#009CFF"
+        primary="#009cff"
         theme={LIGHT_THEME}
       />,
     );
@@ -37,7 +37,7 @@ describe('AppHeader: Functionality', () => {
 
   test('Press home icon: No navigation props', () => {
     const {getByTestId} = render(
-      <AppHeader navigation={{} as any} primary="#009CFF" theme={DARK_THEME} />,
+      <AppHeader navigation={{} as any} primary="#009cff" theme={DARK_THEME} />,
     );
 
     const homeIcon = getByTestId('home');

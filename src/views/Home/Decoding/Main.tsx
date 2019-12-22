@@ -29,7 +29,7 @@ export default class Main extends React.Component<IProps, {}> {
       <View style={[styles.container, {backgroundColor: theme.background}]}>
         <MainHeader
           navigation={this.props.navigation}
-          primary="#E88C0C"
+          primary="#e88c0c"
           theme={theme}
         />
         <View style={styles.buttonsRow}>

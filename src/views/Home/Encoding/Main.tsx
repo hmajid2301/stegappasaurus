@@ -52,7 +52,7 @@ export default class Main extends React.Component<IProps, IState> {
         testID={'hello'}>
         <MainHeader
           navigation={this.props.navigation}
-          primary="#009CFF"
+          primary="#009cff"
           theme={theme}
         />
         <Loader loading={this.state.loading} overlay="#333" />

@@ -6,14 +6,14 @@ import {ITheme} from '~/constants/types';
 import Message from '~/views/Home/Encoding/Message';
 
 const LIGHT_THEME: ITheme = {
-  background: '#FFF',
-  color: '#17212D',
+  background: '#ffffff',
+  color: '#17212d',
   isDark: false,
 };
 
 const DARK_THEME: ITheme = {
-  background: '#17212D',
-  color: '#FFF',
+  background: '#17212d',
+  color: '#ffffff',
   isDark: false,
 };
 

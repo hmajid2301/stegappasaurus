@@ -8,8 +8,8 @@ describe('MarkdownModal: Functionality', () => {
   test('Open Modal', () => {
     const {getByText} = render(
       <MarkdownModal
-        background="#17212D"
-        color="#FFF"
+        background="#17212d"
+        color="#ffffff"
         children={privatePolicy}
         name="Private Policy"
       />,
@@ -25,8 +25,8 @@ describe('MarkdownModal: Functionality', () => {
   test('Close Modal', () => {
     const {getByText, getByTestId} = render(
       <MarkdownModal
-        background="#17212D"
-        color="#FFF"
+        background="#17212d"
+        color="#ffffff"
         children={privatePolicy}
         name="Private Policy"
       />,
