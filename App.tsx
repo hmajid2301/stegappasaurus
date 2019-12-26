@@ -7,32 +7,23 @@ import SplashScreen from 'react-native-splash-screen';
 
 import IntroSlider from '~/components/IntroSlider';
 import Loader from '~/components/Loader';
-import {ITheme} from '~/constants/types';
 import {slides} from '~/data';
-import MainApp from '~/MainApp';
 import {ThemeContext} from '~/providers/ThemeContext';
-
-interface IProps {
-  changeTheme: (_: boolean) => void;
-  theme: ITheme;
-}
+import Main from '~/views/Home';
 
 interface IState {
   loading: boolean;
   introShown: boolean | null;
 }
 
-export default class App extends React.Component<IProps, IState> {
+export default class App extends React.Component<{}, IState> {
   public static contextType = ThemeContext;
   public context!: React.ContextType<typeof ThemeContext>;
 
-  constructor(props: IProps) {
-    super(props);
-    this.state = {
-      introShown: false,
-      loading: true,
-    };
-  }
+  public state = {
+    introShown: false,
+    loading: true,
+  };
 
   public render() {
     if (this.state.loading) {
@@ -44,13 +35,7 @@ export default class App extends React.Component<IProps, IState> {
     } else if (!this.state.introShown) {
       return <IntroSlider slides={slides} onDone={this.introShownToUser} />;
     }
-    return (
-      <MainApp
-        screenProps={{
-          theme: this.context.theme,
-        }}
-      />
-    );
+    return <Main />;
   }
 
   public async componentDidMount() {
@@ -84,7 +69,7 @@ export default class App extends React.Component<IProps, IState> {
     // @ts-ignore
     changeNavigationBarColor(
       this.context.theme.isDark ? '#17212d' : '#ffffff',
-      this.context.theme.isDark,
+      !this.context.theme.isDark,
       false,
     );
     this.setState({

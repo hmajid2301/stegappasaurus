@@ -7,13 +7,11 @@ import Steganography from '~/actions/Steganography';
 import {AppHeader} from '~/components/Header';
 import ImageProgress from '~/components/ImageProgress';
 import {secondary} from '~/constants/colors';
-import {ITheme, TabColors} from '~/constants/types';
+import {TabColors} from '~/constants/types';
+import {ThemeContext} from '~/providers/ThemeContext';
 
 interface IProps {
   navigation: NavigationScreenProp<any, any>;
-  screenProps: {
-    theme: ITheme;
-  };
 }
 
 interface IState {
@@ -22,28 +20,20 @@ interface IState {
 }
 
 export default class Progress extends React.Component<IProps, IState> {
-  constructor(props: IProps) {
-    super(props);
-    const uri = this.props.navigation.getParam('uri', 'NO-ID');
+  public static contextType = ThemeContext;
+  public context!: React.ContextType<typeof ThemeContext>;
 
-    this.state = {
-      photo: uri,
-      progress: 0,
-    };
-  }
+  public state = {
+    photo: this.props.navigation.getParam('uri', 'NO-ID'),
+    progress: 0,
+  };
 
   public render() {
-    const {theme} = this.props.screenProps;
-
     return (
       <View style={{flex: 1}}>
-        <AppHeader
-          navigation={this.props.navigation}
-          primary="#e88c0c"
-          theme={theme}
-        />
+        <AppHeader navigation={this.props.navigation} primary="#e88c0c" />
         <ImageProgress
-          background={theme.background}
+          background={this.context.theme.background}
           photo={this.state.photo}
           primaryColor={secondary as TabColors}
           progress={this.state.progress}

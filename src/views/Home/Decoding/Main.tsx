@@ -1,5 +1,4 @@
 import React from 'react';
-import {TouchableOpacity, View} from 'react-native';
 import {Icon} from 'react-native-elements';
 import ImagePicker from 'react-native-image-picker';
 import {NavigationScreenProp} from 'react-navigation';
@@ -7,44 +6,41 @@ import {NavigationScreenProp} from 'react-navigation';
 import Snackbar from '~/actions/Snackbar';
 import {MainHeader} from '~/components/Header';
 import PhotoAlbumList from '~/components/PhotoAlbumList';
-import {ITheme} from '~/constants/types';
-import styles from './Main/styles';
+import {secondary} from '~/constants/colors';
+import {ThemeContext} from '~/providers/ThemeContext';
+import {
+  ButtonsContainer,
+  iconStyle,
+  MainContainer,
+  PhotoAlbumContainer,
+  TouchableButton,
+} from '../common';
 
 interface IProps {
   navigation: NavigationScreenProp<any, any>;
-  screenProps: {
-    theme: ITheme;
-  };
 }
 
 export default class Main extends React.Component<IProps, {}> {
-  constructor(props: IProps) {
-    super(props);
-  }
+  public static contextType = ThemeContext;
+  public context!: React.ContextType<typeof ThemeContext>;
 
   public render() {
-    const {theme} = this.props.screenProps;
-
     return (
-      <View style={[styles.container, {backgroundColor: theme.background}]}>
-        <MainHeader
-          navigation={this.props.navigation}
-          primary="#e88c0c"
-          theme={theme}
-        />
-        <View style={styles.buttonsRow}>
-          <TouchableOpacity
+      <MainContainer background={this.context.theme.background}>
+        <MainHeader navigation={this.props.navigation} primary="#e88c0c" />
+        <ButtonsContainer>
+          <TouchableButton
+            button={secondary}
             onPress={this.getPhotoFromCameraRoll}
-            style={styles.button}
             testID="cameraroll">
-            <Icon name="photo" iconStyle={styles.icon} type="font-awesome" />
-          </TouchableOpacity>
-        </View>
+            <Icon name="photo" iconStyle={iconStyle} type="font-awesome" />
+          </TouchableButton>
+        </ButtonsContainer>
 
-        <View style={styles.photoListContainer}>
+        <PhotoAlbumContainer>
           <PhotoAlbumList onPhotoPress={this.selectPhotoToDecode} />
-        </View>
-      </View>
+        </PhotoAlbumContainer>
+      </MainContainer>
     );
   }
 

@@ -1,20 +1,18 @@
 import React from 'react';
-import {Linking, Text, TouchableOpacity, View} from 'react-native';
+import {Linking, TouchableOpacity, View} from 'react-native';
 import {IconType, ListItem} from 'react-native-elements';
 import Rate, {AndroidMarket} from 'react-native-rate';
+import styled from 'styled-components/native';
 
-import {ThemeColors} from '~/constants/types';
-import styles from './styles';
+import {bodyLight} from '~/constants/fonts';
+import {ThemeContext} from '~/providers/ThemeContext';
 
 interface IProps {
-  backgroundColor: ThemeColors;
-  color: ThemeColors;
   items: IAboutItem[];
 }
 
 export interface IAboutItem {
   title: string;
-  function_to_call?: 'browser' | 'store';
   icon: {
     color: string;
     name: string;
@@ -23,38 +21,28 @@ export interface IAboutItem {
   url?: string;
 }
 
-export default class Progress extends React.Component<IProps, {}> {
+export default class AboutList extends React.Component<IProps, {}> {
+  public static contextType = ThemeContext;
+  public context!: React.ContextType<typeof ThemeContext>;
+
   public render() {
     return (
-      <View>
-        {this.props.items.map(item =>
-          this.renderListItem(
-            this.props.backgroundColor,
-            this.props.color,
-            item,
-          ),
-        )}
-      </View>
+      <View>{this.props.items.map(item => this.renderListItem(item))}</View>
     );
   }
 
-  private renderListItem = (
-    backgroundColor: ThemeColors,
-    color: ThemeColors,
-    item: IAboutItem,
-  ) => (
+  private renderListItem = (item: IAboutItem) => (
     <ListItem
-      containerStyle={{backgroundColor}}
+      containerStyle={{backgroundColor: this.context.theme.background}}
       key={item.title}
       leftIcon={{
         ...item.icon,
         onPress: this.chooseFunction.bind(this, item),
       }}
-      topDivider={true}
       bottomDivider={true}
       title={
         <TouchableOpacity onPress={this.chooseFunction.bind(this, item)}>
-          <Text style={[styles.text, {color}]}>{item.title}</Text>
+          <ListText color={this.context.theme.color}>{item.title}</ListText>
         </TouchableOpacity>
       }
     />
@@ -73,3 +61,8 @@ export default class Progress extends React.Component<IProps, {}> {
     }
   }
 }
+
+const ListText = styled.Text<{color: string}>`
+  color: ${props => props.color};
+  font-family: ${bodyLight};
+`;

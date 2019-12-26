@@ -1,48 +1,48 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React from 'react';
-import {Text, View} from 'react-native';
+import {View} from 'react-native';
 import {ListItem} from 'react-native-elements';
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
 
 import {primary} from '~/constants/colors';
-import {ITheme} from '~/constants/types';
+import {bodyLight} from '~/constants/fonts';
 import {ThemeContext} from '~/providers/ThemeContext';
-import styles from './styles';
 
-interface IProps {
-  theme: ITheme;
-}
+import {ItemHeaderText} from './common';
 
-export default class Themes extends React.Component<IProps, {}> {
+export default class Themes extends React.Component<{}, {}> {
   public static contextType = ThemeContext;
   public context!: React.ContextType<typeof ThemeContext>;
 
   public render() {
-    const {theme} = this.props;
+    const {background, color, isDark} = this.context.theme;
 
     return (
       <View>
         <ListItem
           containerStyle={{
-            backgroundColor: theme.background,
+            backgroundColor: background,
           }}
-          titleStyle={styles.itemHeader}
-          title={<Text style={styles.itemHeaderText}>Themes</Text>}
+          titleStyle={{
+            paddingBottom: 5,
+            paddingTop: 20,
+          }}
+          title={<ItemHeaderText>Themes</ItemHeaderText>}
         />
         <ListItem
           containerStyle={{
-            backgroundColor: theme.background,
+            backgroundColor: background,
           }}
           topDivider={true}
           bottomDivider={true}
-          titleStyle={[styles.itemText, {color: theme.color}]}
+          titleStyle={{color, fontFamily: bodyLight}}
           title="Dark Mode"
           switch={{
-            onValueChange: this.setTheme.bind(this, !theme.isDark),
+            onValueChange: this.setTheme.bind(this, !isDark),
             testID: 'switch',
             thumbColor: 'white',
             trackColor: {false: 'gray', true: primary},
-            value: theme.isDark,
+            value: isDark,
           }}
         />
       </View>
@@ -55,7 +55,7 @@ export default class Themes extends React.Component<IProps, {}> {
     // @ts-ignore
     changeNavigationBarColor(
       this.context.theme.isDark ? '#17212d' : '#ffffff',
-      this.context.theme.isDark,
+      !this.context.theme.isDark,
       false,
     );
   }

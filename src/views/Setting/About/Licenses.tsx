@@ -2,15 +2,17 @@ import React from 'react';
 import {FlatList, Linking, TouchableOpacity} from 'react-native';
 import {ListItem} from 'react-native-elements';
 
-import {ThemeColors} from '~/constants/types';
 import license from '~/data/licenses.json';
 
-interface IProps {
-  background: ThemeColors;
-  color: ThemeColors;
+interface ILicense {
+  licenses: string;
+  repository: string;
+  licenseUrl: string;
+  parents: string;
+  name: string;
 }
 
-export default class Licenses extends React.Component<IProps, {}> {
+export default class Licenses extends React.Component<{}, {}> {
   public render() {
     return (
       <FlatList
@@ -30,15 +32,15 @@ export default class Licenses extends React.Component<IProps, {}> {
     return data;
   };
 
-  private setKey = (item: any, _: number) => {
+  private setKey = (item: ILicense, _: number) => {
     return item.repository;
   };
 
   private renderItem = (item: any) => (
-    <TouchableOpacity onPress={this.openLink.bind(this, item.item.repository)}>
+    <TouchableOpacity onPress={this.openLink.bind(this, item.repository)}>
       <ListItem
-        title={item.item.name}
-        subtitle={item.item.licenses}
+        title={item.name}
+        subtitle={item.licenses}
         topDivider={true}
         bottomDivider={true}
         testID="license"

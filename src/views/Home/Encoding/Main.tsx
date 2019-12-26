@@ -1,5 +1,5 @@
 import React from 'react';
-import {Image, TouchableOpacity, View} from 'react-native';
+import {Image} from 'react-native';
 import Config from 'react-native-config';
 import {Icon} from 'react-native-elements';
 import ImagePicker from 'react-native-image-picker';
@@ -11,14 +11,18 @@ import Snackbar from '~/actions/Snackbar';
 import {MainHeader} from '~/components/Header';
 import Loader from '~/components/Loader';
 import PhotoAlbumList from '~/components/PhotoAlbumList';
-import {ITheme} from '~/constants/types';
-import styles from './Main/styles';
+import {primary} from '~/constants/colors';
+import {ThemeContext} from '~/providers/ThemeContext';
+import {
+  ButtonsContainer,
+  iconStyle,
+  MainContainer,
+  PhotoAlbumContainer,
+  TouchableButton,
+} from '../common';
 
 interface IProps {
   navigation: NavigationScreenProp<any, any>;
-  screenProps: {
-    theme: ITheme;
-  };
 }
 
 interface IState {
@@ -35,58 +39,48 @@ interface ICatAPI {
 }
 
 export default class Main extends React.Component<IProps, IState> {
-  constructor(props: IProps) {
-    super(props);
-    this.state = {
-      loading: false,
-      permissionsChecked: false,
-    };
-  }
+  public static contextType = ThemeContext;
+  public context!: React.ContextType<typeof ThemeContext>;
+
+  public state = {
+    loading: false,
+    permissionsChecked: false,
+  };
 
   public render() {
-    const {theme} = this.props.screenProps;
-
     return (
-      <View
-        style={[styles.container, {backgroundColor: theme.background}]}
+      <MainContainer
+        background={this.context.theme.background}
         testID={'hello'}>
-        <MainHeader
-          navigation={this.props.navigation}
-          primary="#009cff"
-          theme={theme}
-        />
+        <MainHeader navigation={this.props.navigation} primary="#009cff" />
         <Loader loading={this.state.loading} overlay="#333" />
-        <View style={styles.buttonsRow}>
-          <TouchableOpacity
+        <ButtonsContainer>
+          <TouchableButton
+            button={primary}
             onPress={this.getPhotoFromCamera}
-            style={styles.button}
             testID="camera">
-            <Icon name="camera" iconStyle={styles.icon} type="font-awesome" />
-          </TouchableOpacity>
-          <TouchableOpacity
+            <Icon name="camera" iconStyle={iconStyle} type="font-awesome" />
+          </TouchableButton>
+          <TouchableButton
+            button={primary}
             onPress={this.getPhotoFromCameraRoll}
-            style={styles.button}
             testID="cameraroll">
-            <Icon name="photo" iconStyle={styles.icon} type="font-awesome" />
-          </TouchableOpacity>
-          <TouchableOpacity
+            <Icon name="photo" iconStyle={iconStyle} type="font-awesome" />
+          </TouchableButton>
+          <TouchableButton
+            button={primary}
             onPress={this.getPhotoFromCatAPI}
-            style={styles.button}
             testID="catapi">
-            <Icon
-              name="cat"
-              iconStyle={styles.icon}
-              type="material-community"
-            />
-          </TouchableOpacity>
-        </View>
+            <Icon name="cat" iconStyle={iconStyle} type="material-community" />
+          </TouchableButton>
+        </ButtonsContainer>
 
         {this.state.permissionsChecked && (
-          <View style={styles.photoListContainer}>
+          <PhotoAlbumContainer>
             <PhotoAlbumList onPhotoPress={this.selectPhotoToEncode} />
-          </View>
+          </PhotoAlbumContainer>
         )}
-      </View>
+      </MainContainer>
     );
   }
 

@@ -2,20 +2,7 @@ import {render, fireEvent} from '@testing-library/react-native';
 import React from 'react';
 
 import Snackbar from '~/actions/Snackbar';
-import {ITheme} from '~/constants/types';
 import Message from '~/views/Home/Encoding/Message';
-
-const LIGHT_THEME: ITheme = {
-  background: '#ffffff',
-  color: '#17212d',
-  isDark: false,
-};
-
-const DARK_THEME: ITheme = {
-  background: '#17212d',
-  color: '#ffffff',
-  isDark: false,
-};
 
 const navigation: any = {
   addListener: jest.fn(),
@@ -30,9 +17,7 @@ const navigation: any = {
 
 describe('Encoding Message: Functionality', () => {
   test('Message: Hello', () => {
-    const {getByTestId} = render(
-      <Message navigation={navigation} screenProps={{theme: LIGHT_THEME}} />,
-    );
+    const {getByTestId} = render(<Message navigation={navigation} />);
 
     const spy = jest.spyOn(navigation, 'navigate');
 
@@ -46,9 +31,7 @@ describe('Encoding Message: Functionality', () => {
   });
 
   test('Message: Empty', () => {
-    const {getByTestId} = render(
-      <Message navigation={navigation} screenProps={{theme: DARK_THEME}} />,
-    );
+    const {getByTestId} = render(<Message navigation={navigation} />);
 
     const spy = jest.spyOn(Snackbar, 'show');
 
