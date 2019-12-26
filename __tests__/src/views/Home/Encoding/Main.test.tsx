@@ -3,20 +3,7 @@ import React from 'react';
 import ImagePicker from 'react-native-image-picker';
 
 import Snackbar from '~/actions/Snackbar';
-import {ITheme} from '~/constants/types';
 import Main from '~/views/Home/Encoding/Main';
-
-const LIGHT_THEME: ITheme = {
-  background: '#ffffff',
-  color: '#17212d',
-  isDark: false,
-};
-
-const DARK_THEME: ITheme = {
-  background: '#17212d',
-  color: '#ffffff',
-  isDark: false,
-};
 
 const navigation: any = {
   addListener: jest.fn(),
@@ -29,9 +16,7 @@ const navigation: any = {
 
 describe('Encoding Main: Functionality', () => {
   test('Open Camera Pass', async () => {
-    const {getByTestId} = render(
-      <Main navigation={navigation} screenProps={{theme: DARK_THEME}} />,
-    );
+    const {getByTestId} = render(<Main navigation={navigation} />);
 
     ImagePicker.launchCamera = jest.fn().mockImplementation((_, callback) =>
       callback({
@@ -51,9 +36,7 @@ describe('Encoding Main: Functionality', () => {
   });
 
   test('Open Camera Fail', async () => {
-    const {getByTestId} = render(
-      <Main navigation={navigation} screenProps={{theme: LIGHT_THEME}} />,
-    );
+    const {getByTestId} = render(<Main navigation={navigation} />);
 
     ImagePicker.launchCamera = jest.fn().mockImplementation(() => {
       throw new Error();
@@ -71,9 +54,7 @@ describe('Encoding Main: Functionality', () => {
   });
 
   test('Open Camera Roll Pass', async () => {
-    const {getByTestId} = render(
-      <Main navigation={navigation} screenProps={{theme: DARK_THEME}} />,
-    );
+    const {getByTestId} = render(<Main navigation={navigation} />);
 
     ImagePicker.launchImageLibrary = jest
       .fn()
@@ -95,9 +76,7 @@ describe('Encoding Main: Functionality', () => {
   });
 
   test('Open Camera Roll Fail', async () => {
-    const {getByTestId} = render(
-      <Main navigation={navigation} screenProps={{theme: DARK_THEME}} />,
-    );
+    const {getByTestId} = render(<Main navigation={navigation} />);
 
     ImagePicker.launchImageLibrary = jest.fn().mockImplementation(() => {
       throw new Error();
@@ -115,9 +94,7 @@ describe('Encoding Main: Functionality', () => {
   });
 
   test('Open thecatapi Pass', async () => {
-    const {getByTestId} = render(
-      <Main navigation={navigation} screenProps={{theme: DARK_THEME}} />,
-    );
+    const {getByTestId} = render(<Main navigation={navigation} />);
 
     (fetch as jest.Mock).mockReturnValue({
       json: jest.fn().mockReturnValue({
@@ -146,9 +123,7 @@ describe('Encoding Main: Functionality', () => {
   });
 
   test('Open thecatapi Fail', async () => {
-    const {getByTestId} = render(
-      <Main navigation={navigation} screenProps={{theme: DARK_THEME}} />,
-    );
+    const {getByTestId} = render(<Main navigation={navigation} />);
 
     (fetch as jest.Mock).mockReturnValue({
       json: jest.fn().mockReturnValue({

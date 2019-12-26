@@ -2,19 +2,6 @@ import {render, fireEvent} from '@testing-library/react-native';
 import React from 'react';
 
 import {MainHeader} from '~/components/Header';
-import {ITheme} from '~/constants/types';
-
-const LIGHT_THEME: ITheme = {
-  background: '#ffffff',
-  color: '#17212d',
-  isDark: false,
-};
-
-const DARK_THEME: ITheme = {
-  background: '#17212d',
-  color: '#ffffff',
-  isDark: false,
-};
 
 let navigation: any = {
   navigate: jest.fn(),
@@ -33,11 +20,7 @@ describe('MainHeader: Functionality', () => {
     };
 
     const {getByTestId} = render(
-      <MainHeader
-        navigation={navigation}
-        primary="#009cff"
-        theme={LIGHT_THEME}
-      />,
+      <MainHeader navigation={navigation} primary="#009cff" />,
     );
 
     const spy = jest.spyOn(navigation, 'navigate');
@@ -55,11 +38,7 @@ describe('MainHeader: Functionality', () => {
     };
 
     const {getByTestId} = render(
-      <MainHeader
-        navigation={navigation}
-        primary="#009cff"
-        theme={DARK_THEME}
-      />,
+      <MainHeader navigation={navigation} primary="#009cff" />,
     );
 
     const spy = jest.spyOn(navigation, 'navigate');
@@ -71,11 +50,7 @@ describe('MainHeader: Functionality', () => {
   test('Press home icon: No navigation props', () => {
     try {
       const {getByTestId} = render(
-        <MainHeader
-          navigation={{} as any}
-          primary="#009cff"
-          theme={LIGHT_THEME}
-        />,
+        <MainHeader navigation={{} as any} primary="#009cff" />,
       );
 
       const homeIcon = getByTestId('home');

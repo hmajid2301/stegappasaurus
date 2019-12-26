@@ -3,20 +3,7 @@ import React from 'react';
 import ImagePicker from 'react-native-image-picker';
 
 import Snackbar from '~/actions/Snackbar';
-import {ITheme} from '~/constants/types';
 import Main from '~/views/Home/Decoding/Main';
-
-const LIGHT_THEME: ITheme = {
-  background: '#ffffff',
-  color: '#17212d',
-  isDark: false,
-};
-
-const DARK_THEME: ITheme = {
-  background: '#17212d',
-  color: '#ffffff',
-  isDark: false,
-};
 
 const navigation: any = {
   addListener: jest.fn(),
@@ -29,9 +16,7 @@ const navigation: any = {
 
 describe('Decoding Main: Functionality', () => {
   test('Open Camera Roll Pass', async () => {
-    const {getByTestId} = render(
-      <Main navigation={navigation} screenProps={{theme: DARK_THEME}} />,
-    );
+    const {getByTestId} = render(<Main navigation={navigation} />);
 
     ImagePicker.launchImageLibrary = jest
       .fn()
@@ -51,9 +36,7 @@ describe('Decoding Main: Functionality', () => {
   });
 
   test('Open Camera Roll Fail', async () => {
-    const {getByTestId} = render(
-      <Main navigation={navigation} screenProps={{theme: LIGHT_THEME}} />,
-    );
+    const {getByTestId} = render(<Main navigation={navigation} />);
 
     ImagePicker.launchImageLibrary = jest.fn().mockImplementation(() => {
       throw new Error();

@@ -1,37 +1,65 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {ScrollView, View} from 'react-native';
 import Markdown from 'react-native-markdown-renderer';
+import styled from 'styled-components/native';
 
 import Modal from '~/components/Modal';
-import {ThemeColors} from '~/constants/types';
-import styles, {markdown} from './styles';
+import {bodyLight} from '~/constants/fonts';
+import {ThemeContext} from '~/providers/ThemeContext';
 
 interface IProps {
-  background: ThemeColors;
-  color: ThemeColors;
   children: React.ReactNode;
   name: string;
 }
 
-export default class MarkdownModal extends React.Component<IProps, {}> {
-  public render() {
-    const {background, color, children, name} = this.props;
-    return (
-      <View>
-        <Modal background={background} color={color} name={name}>
-          <ScrollView>
-            <View style={styles.container}>
-              <Markdown
-                style={{
-                  ...markdown,
-                  ...{text: {color}},
-                }}>
-                {children}
-              </Markdown>
-            </View>
-          </ScrollView>
-        </Modal>
-      </View>
-    );
-  }
-}
+const MarkdownModal = (props: IProps) => {
+  const {color} = useContext(ThemeContext).theme;
+  return (
+    <View>
+      <Modal name={props.name}>
+        <ScrollView>
+          <MarkdownContainer>
+            <Markdown
+              style={{
+                ...markdown,
+                ...{text: {color}},
+              }}>
+              {props.children}
+            </Markdown>
+          </MarkdownContainer>
+        </ScrollView>
+      </Modal>
+    </View>
+  );
+};
+
+const MarkdownContainer = styled.View`
+  padding: 20px;
+`;
+const markdown = {
+  heading1: {
+    fontFamily: bodyLight,
+    fontSize: 24,
+    paddingBottom: 15,
+  },
+
+  heading2: {
+    fontFamily: bodyLight,
+    fontSize: 18,
+    paddingBottom: 10,
+  },
+
+  text: {
+    fontFamily: bodyLight,
+  },
+
+  list: {
+    paddingBottom: 10,
+  },
+
+  paragraph: {
+    paddingBottom: 10,
+  },
+};
+
+export default MarkdownModal;

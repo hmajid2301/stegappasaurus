@@ -4,22 +4,9 @@ import Share from 'react-native-share';
 
 import Steganography from '~/actions/Steganography';
 import Snackbar from '~/actions/Snackbar';
-import {ITheme} from '~/constants/types';
 import Progress from '~/views/Home/Encoding/Progress';
 
 jest.mock('~/actions/Steganography');
-
-const LIGHT_THEME: ITheme = {
-  background: '#ffffff',
-  color: '#17212d',
-  isDark: false,
-};
-
-const DARK_THEME: ITheme = {
-  background: '#17212d',
-  color: '#ffffff',
-  isDark: false,
-};
 
 const navigation: any = {
   addListener: jest.fn(),
@@ -42,9 +29,7 @@ describe('Encoding Progress: Functionality', () => {
 
     const spy = jest.spyOn(Snackbar, 'show');
 
-    render(
-      <Progress navigation={navigation} screenProps={{theme: DARK_THEME}} />,
-    );
+    render(<Progress navigation={navigation} />);
 
     await wait(() => {
       expect(spy).toHaveBeenCalled();
@@ -61,9 +46,7 @@ describe('Encoding Progress: Functionality', () => {
     Share.open = jest.fn();
     const spy = jest.spyOn(Share, 'open');
 
-    const {getByTestId} = render(
-      <Progress navigation={navigation} screenProps={{theme: LIGHT_THEME}} />,
-    );
+    const {getByTestId} = render(<Progress navigation={navigation} />);
     const touchable = getByTestId('action');
     fireEvent.press(touchable);
 
@@ -79,9 +62,7 @@ describe('Encoding Progress: Functionality', () => {
 
     const spy = jest.spyOn(navigation, 'navigate');
 
-    render(
-      <Progress navigation={navigation} screenProps={{theme: LIGHT_THEME}} />,
-    );
+    render(<Progress navigation={navigation} />);
 
     await wait(() => {
       expect(spy).toHaveBeenCalledWith('Main');

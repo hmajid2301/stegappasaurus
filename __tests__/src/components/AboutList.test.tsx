@@ -3,16 +3,14 @@ import React from 'react';
 import {Linking} from 'react-native';
 import Rate from 'react-native-rate';
 
-import AboutList from '~/components/AboutList';
+import AboutList from '~/components/AboutList/AboutList';
 import {about} from '~/data';
 
 jest.mock('react-native-rate');
 
 describe('AboutList: Functionality', () => {
   test('Open URL', () => {
-    const {getByText} = render(
-      <AboutList items={about} color="#17212d" backgroundColor="#ffffff" />,
-    );
+    const {getByText} = render(<AboutList items={about} />);
 
     const spy = jest
       .spyOn(Linking, 'openURL')
@@ -25,9 +23,7 @@ describe('AboutList: Functionality', () => {
   });
 
   test('Open app store review', () => {
-    const {getByText} = render(
-      <AboutList items={about} color="#17212d" backgroundColor="#ffffff" />,
-    );
+    const {getByText} = render(<AboutList items={about} />);
 
     const spy = jest
       .spyOn(Rate, 'rate')

@@ -4,13 +4,9 @@ import {NavigationScreenProp} from 'react-navigation';
 
 import {AppHeader} from '~/components/Header';
 import ImageMessage from '~/components/ImageMessage';
-import {ITheme} from '~/constants/types';
 
 interface IProps {
   navigation: NavigationScreenProp<any, any>;
-  screenProps: {
-    theme: ITheme;
-  };
 }
 
 interface IState {
@@ -34,15 +30,9 @@ export default class Message extends React.Component<IProps, IState> {
   }
 
   public render() {
-    const {theme} = this.props.screenProps;
-
     return (
       <View>
-        <AppHeader
-          navigation={this.props.navigation}
-          primary="#e88c0c"
-          theme={theme}
-        />
+        <AppHeader navigation={this.props.navigation} primary="#e88c0c" />
         <ImageMessage
           editable={false}
           navigation={this.props.navigation}

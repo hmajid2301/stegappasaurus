@@ -5,13 +5,9 @@ import {NavigationScreenProp} from 'react-navigation';
 import Snackbar from '~/actions/Snackbar';
 import {AppHeader} from '~/components/Header';
 import ImageMessage from '~/components/ImageMessage';
-import {ITheme} from '~/constants/types';
 
 interface IProps {
   navigation: NavigationScreenProp<any, any>;
-  screenProps: {
-    theme: ITheme;
-  };
 }
 
 interface IState {
@@ -30,15 +26,9 @@ export default class Message extends React.Component<IProps, IState> {
   }
 
   public render() {
-    const {theme} = this.props.screenProps;
-
     return (
       <View>
-        <AppHeader
-          navigation={this.props.navigation}
-          primary="#009cff"
-          theme={theme}
-        />
+        <AppHeader navigation={this.props.navigation} primary="#009cff" />
         <ImageMessage
           action={this.onSubmit}
           navigation={this.props.navigation}

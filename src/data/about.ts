@@ -1,5 +1,5 @@
 import meta from '~/../app.json';
-import {IAboutItem} from '~/components/AboutList';
+import {IAboutItem} from '~/components/AboutList/AboutList';
 import {primary} from '~/constants/colors';
 
 const about: IAboutItem[] = [

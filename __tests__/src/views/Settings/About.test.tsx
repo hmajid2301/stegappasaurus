@@ -2,12 +2,12 @@ import {render, fireEvent} from '@testing-library/react-native';
 import React from 'react';
 import {Linking} from 'react-native';
 
-import About from '~/views/Settings/Sections/About';
+import About from '~/views/Setting/About';
 import Snackbar from '~/actions/Snackbar';
 
 describe('About: Functionality', () => {
   test('Open Modal: About Us', () => {
-    const {getByText} = render(<About color="#17212d" background="#ffffff" />);
+    const {getByText} = render(<About />);
 
     const text = getByText('About Us');
     const openModalTouchable = text.parentNode;
@@ -33,7 +33,7 @@ describe('About: Functionality', () => {
   // });
 
   test('Open Email: Success', () => {
-    const {getByText} = render(<About color="#17212d" background="#ffffff" />);
+    const {getByText} = render(<About />);
 
     const spy = jest
       .spyOn(Linking, 'openURL')
@@ -48,7 +48,7 @@ describe('About: Functionality', () => {
   });
 
   test('Open Email: Error', () => {
-    const {getByText} = render(<About color="#17212d" background="#ffffff" />);
+    const {getByText} = render(<About />);
 
     jest.spyOn(Linking, 'openURL').mockImplementation(() => {
       throw new Error();

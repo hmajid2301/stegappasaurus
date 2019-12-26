@@ -1,8 +1,7 @@
 import CameraRoll, {PhotoIdentifier} from '@react-native-community/cameraroll';
 import React from 'react';
-import {FlatList, Image, TouchableOpacity, View} from 'react-native';
-
-import styles from './styles';
+import {Dimensions, FlatList, View} from 'react-native';
+import styled from 'styled-components/native';
 
 interface IProps {
   onPhotoPress: (uri: string) => any;
@@ -123,12 +122,23 @@ export default class PhotoAlbumList extends React.Component<IProps, IState> {
     }
 
     return (
-      <TouchableOpacity
+      <TouchablePhoto
         onPress={this.props.onPhotoPress.bind(this, item.node.image.uri)}
-        style={styles.photoButton}
         accessibilityLabel="photo">
-        <Image source={{uri: item.node.image.uri}} style={styles.photos} />
-      </TouchableOpacity>
+        <AlbumImage source={{uri: item.node.image.uri}} />
+      </TouchablePhoto>
     );
   };
 }
+
+const pageWidth = Dimensions.get('window').width;
+
+const TouchablePhoto = styled.TouchableOpacity`
+  flex: 1;
+`;
+
+const AlbumImage = styled.Image`
+  height: ${pageWidth / 3};
+  margin-left: 2;
+  margin-top: 2;
+`;

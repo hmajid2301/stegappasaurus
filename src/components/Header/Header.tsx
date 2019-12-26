@@ -1,48 +1,45 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {StatusBar, StyleProp, View, ViewStyle} from 'react-native';
 import {
   Header as ElementsHeader,
   HeaderSubComponent,
 } from 'react-native-elements';
-import {NavigationScreenProp} from 'react-navigation';
+import {ThemeContext} from '~/providers/ThemeContext';
 
-import {ITheme, TabColors} from '~/constants/types';
-import styles from './styles';
+import {TabColors} from '~/constants/types';
 
 interface IProps {
   center?: HeaderSubComponent;
-  navigation: NavigationScreenProp<any, any>;
   left?: HeaderSubComponent;
   primary: TabColors;
   right?: HeaderSubComponent;
   styles?: StyleProp<ViewStyle>;
-  theme: ITheme;
 }
 
-export default class Header extends React.Component<IProps, {}> {
-  public render() {
-    const {primary, theme} = this.props;
-    return (
-      <View>
-        <StatusBar
-          backgroundColor={theme.background}
-          hidden={false}
-          barStyle={theme.isDark ? 'light-content' : 'dark-content'}
-        />
-        <ElementsHeader
-          centerComponent={this.props.center}
-          containerStyle={[
-            styles.container,
-            {
-              backgroundColor: theme.background as string,
-              borderBottomColor: primary,
-            },
-            this.props.styles,
-          ]}
-          leftComponent={this.props.left}
-          rightComponent={this.props.right}
-        />
-      </View>
-    );
-  }
-}
+const Header = (props: IProps) => {
+  const {background, isDark} = useContext(ThemeContext).theme;
+  return (
+    <View>
+      <StatusBar
+        backgroundColor={background}
+        hidden={false}
+        barStyle={isDark ? 'light-content' : 'dark-content'}
+      />
+      <ElementsHeader
+        centerComponent={props.center}
+        containerStyle={[
+          {
+            backgroundColor: background,
+            borderBottomColor: props.primary,
+            borderBottomWidth: 2,
+          },
+          props.styles,
+        ]}
+        leftComponent={props.left}
+        rightComponent={props.right}
+      />
+    </View>
+  );
+};
+
+export default Header;

@@ -1,16 +1,11 @@
 import React from 'react';
-import {
-  Dimensions,
-  ImageBackground,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {Dimensions, TouchableOpacity} from 'react-native';
 import {AnimatedCircularProgress} from 'react-native-circular-progress';
 import {Icon, IconType} from 'react-native-elements';
+import styled from 'styled-components/native';
 
+import {body} from '~/constants/fonts';
 import {TabColors, ThemeColors} from '~/constants/types';
-import styles from './styles';
 
 interface IProps {
   background: ThemeColors;
@@ -29,7 +24,7 @@ interface IProps {
 const pageWidth = Dimensions.get('window').width;
 
 const ImageProgress: React.FunctionComponent<IProps> = (props: IProps) => (
-  <View style={[styles.progressContainer, {backgroundColor: props.background}]}>
+  <ProgressContainer background={props.background}>
     <TouchableOpacity
       activeOpacity={0.8}
       onPress={props.onPress}
@@ -40,19 +35,47 @@ const ImageProgress: React.FunctionComponent<IProps> = (props: IProps) => (
         fill={props.progress}
         tintColor={props.primaryColor}>
         {fill => (
-          <ImageBackground
-            imageStyle={styles.circularImage}
-            source={{uri: props.photo}}
-            style={styles.image}>
-            <View style={styles.iconContainer}>
+          <BackgroundImage
+            imageStyle={{
+              borderRadius: pageWidth * 0.75,
+              borderWidth: 5,
+              overflow: 'hidden',
+            }}
+            source={{uri: props.photo}}>
+            <IconContainer>
               {props.icon && <Icon {...props.icon} />}
-              <Text style={styles.textPercentage}>{Math.ceil(fill)}%</Text>
-            </View>
-          </ImageBackground>
+              <PercentageText>{Math.ceil(fill)}%</PercentageText>
+            </IconContainer>
+          </BackgroundImage>
         )}
       </AnimatedCircularProgress>
     </TouchableOpacity>
-  </View>
+  </ProgressContainer>
 );
+
+const ProgressContainer = styled.View<{background: ThemeColors}>`
+  align-items: center;
+  flex: 1;
+  justify-content: center;
+  background-color: ${props => props.background};
+`;
+
+const BackgroundImage = styled.ImageBackground`
+  height: ${pageWidth * 0.75};
+  opacity: 0.65;
+  width: ${pageWidth * 0.75};
+`;
+
+const IconContainer = styled.View`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+`;
+
+const PercentageText = styled.Text`
+  color: black;
+  font-family: ${body};
+  font-size: 50;
+`;
 
 export default ImageProgress;

@@ -1,17 +1,13 @@
-import * as React from 'react';
-import {
-  ImageBackground,
-  KeyboardAvoidingView,
-  TextInput,
-  View,
-} from 'react-native';
+import React from 'react';
+import {KeyboardAvoidingView, TextInput} from 'react-native';
 import {
   NavigationEventSubscription,
   NavigationScreenProp,
 } from 'react-navigation';
+import styled from 'styled-components/native';
 
 import {pureWhite} from '~/constants/colors';
-import styles from './styles';
+import {bodyLight} from '~/constants/fonts';
 
 interface IProps {
   navigation: NavigationScreenProp<any, any>;
@@ -32,25 +28,23 @@ export default class ImageMessage extends React.Component<IProps, IState> {
   };
 
   private focusListener: NavigationEventSubscription | null;
-  private textInput: TextInput | null;
+  private textInput: React.RefObject<TextInput>;
 
   constructor(props: IProps) {
     super(props);
     this.state = {
       message: '',
     };
-    this.textInput = null;
+    this.textInput = React.createRef();
     this.focusListener = null;
   }
 
   public render() {
     return (
       <KeyboardAvoidingView behavior="height">
-        <ImageBackground
-          source={{uri: this.props.photo}}
-          style={styles.backgroundImage}>
-          <View style={styles.textInputContainer}>
-            <TextInput
+        <BackgroundImage source={{uri: this.props.photo}}>
+          <InputContainer>
+            <Input
               autoFocus={true}
               blurOnSubmit={true}
               editable={this.props.editable}
@@ -64,23 +58,20 @@ export default class ImageMessage extends React.Component<IProps, IState> {
               }
               placeholder={this.props.message}
               placeholderTextColor={pureWhite}
-              ref={ref => {
-                this.textInput = ref;
-              }}
-              style={styles.message}
+              ref={this.textInput}
               testID="message"
               underlineColorAndroid="transparent"
             />
-          </View>
-        </ImageBackground>
+          </InputContainer>
+        </BackgroundImage>
       </KeyboardAvoidingView>
     );
   }
 
   public componentDidMount() {
     this.focusListener = this.props.navigation.addListener('didFocus', () => {
-      if (this.textInput !== null) {
-        this.textInput.focus();
+      if (this.textInput.current !== null) {
+        this.textInput.current.focus();
       }
     });
   }
@@ -95,3 +86,24 @@ export default class ImageMessage extends React.Component<IProps, IState> {
     this.setState({message});
   };
 }
+
+const BackgroundImage = styled.ImageBackground`
+  height: 100%;
+  width: 100%;
+`;
+
+const InputContainer = styled.View`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+`;
+
+const Input = styled.TextInput`
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  font-family: ${bodyLight};
+  font-size: 22;
+  padding-left: 20;
+  height: 100%;
+  width: 100%;
+`;

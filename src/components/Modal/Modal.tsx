@@ -1,13 +1,13 @@
-import * as React from 'react';
-import {Modal, Text, TouchableOpacity, View} from 'react-native';
+import React from 'react';
+import {Modal, TouchableOpacity, View} from 'react-native';
 import {Icon} from 'react-native-elements';
+import styled from 'styled-components/native';
 
+import {bodyLight} from '~/constants/fonts';
 import {ThemeColors} from '~/constants/types';
-import styles from './styles';
+import {ThemeContext} from '~/providers/ThemeContext';
 
 interface IProps {
-  background: ThemeColors;
-  color: ThemeColors;
   children: JSX.Element;
   name: string;
 }
@@ -17,14 +17,15 @@ interface IState {
 }
 
 export default class MyModal extends React.Component<IProps, IState> {
-  constructor(props: IProps) {
-    super(props);
-    this.state = {
-      isVisible: false,
-    };
-  }
+  public static contextType = ThemeContext;
+  public context!: React.ContextType<typeof ThemeContext>;
+
+  public state: IState = {
+    isVisible: false,
+  };
 
   public render() {
+    const {background, color} = this.context.theme;
     return (
       <View>
         <Modal
@@ -32,32 +33,21 @@ export default class MyModal extends React.Component<IProps, IState> {
           onRequestClose={this.setModalVisibility.bind(this, false)}
           transparent={false}
           visible={this.state.isVisible}>
-          <View
-            style={[
-              styles.container,
-              {backgroundColor: this.props.background},
-            ]}>
-            <TouchableOpacity
+          <ModalContainer background={background}>
+            <TouchableIcon
               onPress={this.setModalVisibility.bind(
                 this,
                 !this.state.isVisible,
               )}
-              style={styles.iconContainer}
               testID="close">
-              <Icon
-                iconStyle={{color: this.props.color}}
-                name="close"
-                type="evil-icons"
-              />
-            </TouchableOpacity>
+              <Icon iconStyle={{color}} name="close" type="evil-icons" />
+            </TouchableIcon>
             {this.props.children}
-          </View>
+          </ModalContainer>
         </Modal>
 
         <TouchableOpacity onPress={this.setModalVisibility.bind(this, true)}>
-          <Text style={[styles.buttonText, {color: this.props.color}]}>
-            {this.props.name}
-          </Text>
+          <TouchableText color={color}>{this.props.name}</TouchableText>
         </TouchableOpacity>
       </View>
     );
@@ -67,3 +57,18 @@ export default class MyModal extends React.Component<IProps, IState> {
     this.setState({isVisible: visible});
   }
 }
+
+const TouchableText = styled.Text<{color: ThemeColors}>`
+  color: ${props => props.color};
+  font-family: ${bodyLight};
+`;
+
+const ModalContainer = styled.View<{background: ThemeColors}>`
+  flex: 1;
+  background-color: ${props => props.background};
+`;
+
+const TouchableIcon = styled.TouchableOpacity`
+  align-self: flex-end;
+  padding: 10px;
+`;

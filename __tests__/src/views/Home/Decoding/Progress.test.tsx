@@ -3,22 +3,9 @@ import React from 'react';
 
 import Steganography from '~/actions/Steganography';
 import Snackbar from '~/actions/Snackbar';
-import {ITheme} from '~/constants/types';
 import Progress from '~/views/Home/Decoding/Progress';
 
 jest.mock('~/actions/Steganography');
-
-const LIGHT_THEME: ITheme = {
-  background: '#ffffff',
-  color: '#17212d',
-  isDark: false,
-};
-
-const DARK_THEME: ITheme = {
-  background: '#17212d',
-  color: '#ffffff',
-  isDark: false,
-};
 
 const navigation: any = {
   addListener: jest.fn(),
@@ -37,9 +24,7 @@ describe('Decoding Progress: Functionality', () => {
 
     const spy = jest.spyOn(navigation, 'navigate');
 
-    render(
-      <Progress navigation={navigation} screenProps={{theme: LIGHT_THEME}} />,
-    );
+    render(<Progress navigation={navigation} />);
 
     await wait(() => {
       expect(spy).toHaveBeenCalledWith('Message', {
@@ -59,9 +44,7 @@ describe('Decoding Progress: Functionality', () => {
     const snackSpy = jest.spyOn(Snackbar, 'show');
     const navSpy = jest.spyOn(navigation, 'navigate');
 
-    render(
-      <Progress navigation={navigation} screenProps={{theme: DARK_THEME}} />,
-    );
+    render(<Progress navigation={navigation} />);
 
     await wait(() => {
       expect(snackSpy).toHaveBeenCalledWith({

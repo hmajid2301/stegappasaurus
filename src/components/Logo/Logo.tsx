@@ -1,22 +1,36 @@
-import React from 'react';
-import {Image, Text, View} from 'react-native';
+import React, {useContext} from 'react';
+import styled from 'styled-components/native';
 
 import logoDark from '~/assets/images/logo-dark.png';
 import logoLight from '~/assets/images/logo-light.png';
-import {ThemeColors} from '~/constants/types';
-import styles from './styles';
+import {header} from '~/constants/fonts';
+import {ThemeContext} from '~/providers/ThemeContext';
 
-interface IProps {
-  isDark: boolean;
-  color: ThemeColors;
-}
+const Logo = () => {
+  const {color, isDark} = useContext(ThemeContext).theme;
 
-const Logo = ({color, isDark}: IProps) => (
-  <View style={styles.logoContainer}>
-    <Text style={[styles.text, {color}]}>Steg</Text>
-    <Image source={isDark ? logoLight : logoDark} style={styles.logo} />
-    <Text style={[styles.text, {color}]}>ppasaurus</Text>
-  </View>
-);
+  return (
+    <LogoContainer>
+      <LogoText color={color}>Steg</LogoText>
+      <ImageLogo source={isDark ? logoLight : logoDark} />
+      <LogoText color={color}>ppasaurus</LogoText>
+    </LogoContainer>
+  );
+};
+
+const LogoContainer = styled.View`
+  flex-direction: row;
+  flex-wrap: wrap;
+`;
+
+const LogoText = styled.Text<{color: string}>`
+  font-family: ${header};
+  font-size: 20;
+`;
+
+const ImageLogo = styled.Image`
+  height: 25;
+  width: 25;
+`;
 
 export default Logo;

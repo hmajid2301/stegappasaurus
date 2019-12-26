@@ -2,17 +2,12 @@ import {render, fireEvent} from '@testing-library/react-native';
 import React from 'react';
 
 import Modal from '~/components/Modal';
-import Licenses from '~/views/Settings/Sections/About/Licenses';
+import Licenses from '~/views/Setting/About/Licenses';
 
 describe('Modal: Functionality', () => {
   test('Open Modal', () => {
     const {getByText, getByTestId} = render(
-      <Modal
-        background="#17212d"
-        color="#ffffff"
-        children={<Licenses background="#17212d" color="#ffffff" />}
-        name="Licenses"
-      />,
+      <Modal children={<Licenses />} name="Licenses" />,
     );
 
     const text = getByText('Licenses');
@@ -24,12 +19,7 @@ describe('Modal: Functionality', () => {
 
   test('Close Modal', () => {
     const {getByText, getByTestId} = render(
-      <Modal
-        background="#17212d"
-        color="#ffffff"
-        children={<Licenses background="#17212d" color="#ffffff" />}
-        name="Licenses"
-      />,
+      <Modal children={<Licenses />} name="Licenses" />,
     );
 
     let text = getByText('Licenses');
