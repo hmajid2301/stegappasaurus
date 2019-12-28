@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-community/async-storage';
+import analytics from '@react-native-firebase/analytics';
 import React from 'react';
-import {StatusBar} from 'react-native';
+import {Alert, StatusBar} from 'react-native';
 import {Appearance} from 'react-native-appearance';
 import changeNavigationBarColor from 'react-native-navigation-bar-color';
 import SplashScreen from 'react-native-splash-screen';
@@ -40,14 +41,44 @@ export default class App extends React.Component<{}, IState> {
 
   public async componentDidMount() {
     SplashScreen.hide();
-    const [storedIntroShown, storedTheme] = await Promise.all([
+    const [storedIntroShown, storedTheme, storedUsage] = await Promise.all([
       AsyncStorage.getItem('@IntroShown'),
       AsyncStorage.getItem('@Theme'),
+      AsyncStorage.getItem('@UsageStatistics'),
     ]);
 
     let introShown = false;
     if (storedIntroShown) {
       introShown = storedIntroShown === 'true' ? true : false;
+
+      if (storedUsage === null) {
+        let allow = false;
+        Alert.alert(
+          'Usage Statistics',
+          'To help us improve the app you send us usage statistics and analytics about the app.',
+          [
+            {
+              onPress: () => {
+                allow = true;
+              },
+              text: 'Allow',
+            },
+            {
+              onPress: () => {
+                allow = false;
+              },
+              style: 'cancel',
+              text: 'Do not allow',
+            },
+          ],
+          {cancelable: false},
+        );
+
+        await AsyncStorage.setItem('@UsageStatistics', JSON.stringify(allow));
+        if (!allow) {
+          await analytics().setAnalyticsCollectionEnabled(false);
+        }
+      }
     }
 
     let darkTheme = false;
@@ -59,6 +90,7 @@ export default class App extends React.Component<{}, IState> {
     if (colorScheme === 'dark') {
       darkTheme = true;
     }
+
     this.context.changeTheme(darkTheme);
 
     Appearance.addChangeListener(({colorScheme: osColorScheme}) => {
@@ -72,6 +104,7 @@ export default class App extends React.Component<{}, IState> {
       !this.context.theme.isDark,
       false,
     );
+
     this.setState({
       introShown,
       loading: false,

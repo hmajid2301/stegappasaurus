@@ -51,6 +51,14 @@ CAT_API_KEY=xxx
 
 You can find the changelog for this project [here](https://gitlab.com/hmajid2301/stegappasaurus/blob/master/CHANGELOG.md).
 
+# Technologies Used
+
+- React Native
+- Bugsnag
+- Kotlin
+- TheCatAPI
+- Firebase
+
 # Other
 
 ## Credit

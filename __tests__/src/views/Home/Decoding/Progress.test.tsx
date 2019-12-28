@@ -21,7 +21,6 @@ const navigation: any = {
 describe('Decoding Progress: Functionality', () => {
   test('Success', async () => {
     Steganography.prototype.decode = jest.fn().mockResolvedValue('Hello!');
-
     const spy = jest.spyOn(navigation, 'navigate');
 
     render(<Progress navigation={navigation} />);

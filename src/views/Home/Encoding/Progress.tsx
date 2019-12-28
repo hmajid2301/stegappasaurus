@@ -1,3 +1,4 @@
+import analytics from '@react-native-firebase/analytics';
 import React from 'react';
 import {Linking, View} from 'react-native';
 import {check, PERMISSIONS, request} from 'react-native-permissions';
@@ -69,12 +70,16 @@ export default class Progress extends React.Component<IProps, IState> {
       this.setState({progress: steganography.getProgress()});
     }, 50);
     try {
+      const start = new Date().getTime();
       const encodedImage = await steganography.encode(message, {
         algorithm: 'LSBv1',
       });
+      const end = new Date().getTime();
       await this.success(encodedImage);
+      await analytics().logEvent('encoding_success', {time: end - start});
     } catch (error) {
       this.failed(error);
+      await analytics().logEvent('encoding_failed');
     } finally {
       this.setState({progress: 100});
       clearInterval(timer);
@@ -97,10 +102,14 @@ export default class Progress extends React.Component<IProps, IState> {
   }
 
   private shareImage = async () => {
-    await Share.open({
+    const response = await Share.open({
       failOnCancel: false,
       message: 'Encoded image shared from stegappasaurus app.',
       url: this.state.encodedUri,
+    });
+    await analytics().logShare({
+      content_type: response.app as string,
+      item_id: 'encoding',
     });
   };
 

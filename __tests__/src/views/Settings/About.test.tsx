@@ -18,20 +18,6 @@ describe('About: Functionality', () => {
     expect(aboutUs).toBeTruthy();
   });
 
-  // test('Close Modal: About Us', () => {
-  //   const {getByText, getByTestId} = render(
-  //     <About color="#17212d" background="#ffffff" />,
-  //   );
-
-  //   const text = getByText('About Us');
-  //   const openModalTouchable = text.parentNode;
-  //   fireEvent.press(openModalTouchable);
-  //   const closeIcon = getByTestId('close');
-  //   fireEvent.press(closeIcon);
-  //   const aboutText = getByText('About Us');
-  //   expect(aboutText).toBeTruthy;
-  // });
-
   test('Open Email: Success', () => {
     const {getByText} = render(<About />);
 
