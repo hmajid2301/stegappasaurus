@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-community/async-storage';
 import {render, fireEvent} from '@testing-library/react-native';
 import React from 'react';
 
@@ -32,5 +33,14 @@ describe('Support: Functionality', () => {
     fireEvent.press(openModalTouchable);
     const termsText = getByText('1. Definitions', {exact: false});
     expect(termsText).toBeTruthy();
+  });
+
+  test('Checkbox on usage', async () => {
+    const {getByTestId} = render(<Support />);
+
+    const checkBox = getByTestId('checkbox');
+    fireEvent.press(checkBox);
+    let usage = await AsyncStorage.getItem('@UsageStatistics');
+    expect(usage).toBe('true');
   });
 });

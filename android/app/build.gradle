@@ -240,3 +240,5 @@ play {
         versionNameOverride = "$versionNameOverride.$versionCode"
     }
 }
+
+apply plugin: 'com.google.gms.google-services'

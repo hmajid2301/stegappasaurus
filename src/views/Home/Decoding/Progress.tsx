@@ -1,3 +1,4 @@
+import analytics from '@react-native-firebase/analytics';
 import React from 'react';
 import {View} from 'react-native';
 import {NavigationScreenProp} from 'react-navigation';
@@ -52,18 +53,22 @@ export default class Progress extends React.Component<IProps, IState> {
       this.setState({progress: steganography.getProgress()});
     }, 50);
     try {
+      const start = new Date().getTime();
       const decodedMessage = await steganography.decode();
+      const end = new Date().getTime();
       clearInterval(timer);
-      this.success(decodedMessage);
+      await this.success(decodedMessage);
+      await analytics().logEvent('decoding_success', {time: end - start});
     } catch (error) {
       this.failed(error);
+      await analytics().logEvent('decoding_failed');
     } finally {
       this.setState({progress: 100});
       clearInterval(timer);
     }
   }
 
-  private success(message: string) {
+  private async success(message: string) {
     this.props.navigation.navigate('Message', {
       message,
       uri: this.state.photo,

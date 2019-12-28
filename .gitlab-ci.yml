@@ -77,14 +77,6 @@ test:coverage:
     - yarn coverage --silent
   coverage: /All\sfiles.*?\s+(\d+.\d+)/
 
-test:integration:
-  stage: test
-  only:
-    - master
-  script:
-    - yarn build -c android.emu.debug
-    - yarn test -c android.emu.debug
-
 publish:android:package:
   stage: publish
   image: reactnativecommunity/react-native-android

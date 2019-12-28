@@ -1,5 +1,10 @@
+import analytics from '@react-native-firebase/analytics';
 import React from 'react';
-import {createAppContainer} from 'react-navigation';
+import {
+  createAppContainer,
+  NavigationAction,
+  NavigationState,
+} from 'react-navigation';
 import {
   createMaterialTopTabNavigator,
   MaterialTopTabBar,
@@ -54,5 +59,36 @@ const TabNavigator = createMaterialTopTabNavigator(
   },
 );
 
-const App = createAppContainer(TabNavigator);
+const AppContainer = createAppContainer(TabNavigator);
+const App = ({screenProps}: any) => (
+  <AppContainer screenProps={screenProps} onNavigationStateChange={navChange} />
+);
+
+const navChange = (
+  prevState: NavigationState,
+  currentState: NavigationState,
+  _: NavigationAction,
+) => {
+  const previousRouteName = getActiveRouteName(prevState);
+  const currentRouteName = getActiveRouteName(currentState);
+
+  if (previousRouteName !== currentRouteName) {
+    analytics()
+      .setCurrentScreen(currentRouteName, currentRouteName)
+      .then()
+      .catch();
+  }
+};
+
+function getActiveRouteName(navigationState: NavigationState): string {
+  if (!navigationState) {
+    return '';
+  }
+  const route = navigationState.routes[navigationState.index];
+  if (route.routes) {
+    return getActiveRouteName(route);
+  }
+  return route.routeName;
+}
+
 export default App;

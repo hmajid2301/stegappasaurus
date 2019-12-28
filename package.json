@@ -23,6 +23,8 @@
   "dependencies": {
     "@react-native-community/async-storage": "1.6.2",
     "@react-native-community/cameraroll": "1.2.1",
+    "@react-native-firebase/analytics": "6.2.0",
+    "@react-native-firebase/app": "6.2.0",
     "@testing-library/react-native": "5.0.3",
     "bugsnag-react-native": "2.23.1",
     "lzutf8": "0.5.5",
