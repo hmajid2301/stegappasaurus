@@ -3,6 +3,7 @@ import React from 'react';
 import {View} from 'react-native';
 import {NavigationScreenProp} from 'react-navigation';
 
+import bugsnag from '~/actions/Bugsnag/Bugsnag';
 import Snackbar from '~/actions/Snackbar';
 import Steganography from '~/actions/Steganography';
 import {AppHeader} from '~/components/Header';
@@ -61,6 +62,7 @@ export default class Progress extends React.Component<IProps, IState> {
       await analytics().logEvent('decoding_success', {time: end - start});
     } catch (error) {
       this.failed(error);
+      bugsnag.notify(error);
       await analytics().logEvent('decoding_failed');
     } finally {
       this.setState({progress: 100});
