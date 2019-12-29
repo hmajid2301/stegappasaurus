@@ -5,6 +5,7 @@ import {check, PERMISSIONS, request} from 'react-native-permissions';
 import Share from 'react-native-share';
 import {NavigationScreenProp} from 'react-navigation';
 
+import bugsnag from '~/actions/Bugsnag/Bugsnag';
 import Snackbar from '~/actions/Snackbar';
 import Steganography from '~/actions/Steganography';
 import {AppHeader} from '~/components/Header';
@@ -79,6 +80,7 @@ export default class Progress extends React.Component<IProps, IState> {
       await analytics().logEvent('encoding_success', {time: end - start});
     } catch (error) {
       this.failed(error);
+      bugsnag.notify(error);
       await analytics().logEvent('encoding_failed');
     } finally {
       this.setState({progress: 100});
