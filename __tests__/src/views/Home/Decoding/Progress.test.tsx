@@ -6,6 +6,7 @@ import Snackbar from '~/actions/Snackbar';
 import Progress from '~/views/Home/Decoding/Progress';
 
 jest.mock('~/actions/Steganography');
+jest.mock('react-native-share-extension');
 
 const navigation: any = {
   addListener: jest.fn(),

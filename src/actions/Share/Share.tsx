@@ -1,19 +1,14 @@
-import {NavigationRoute, NavigationScreenProp} from 'react-navigation';
+import {
+  createAppContainer,
+  NavigationRoute,
+  NavigationScreenProp,
+} from 'react-navigation';
 import {createStackNavigator} from 'react-navigation-stack';
 
-import Settings from '~/views/Settings';
-import Main from './Decoding/Main';
-import Message from './Decoding/Message';
-import Progress from './Decoding/Progress';
+import Message from '~/views/Home/Decoding/Message';
+import Progress from '~/views/Home/Decoding/Progress';
 
 const DecodeNavigator = createStackNavigator({
-  Main: {
-    navigationOptions: {
-      header: null,
-    },
-    screen: Main,
-  },
-
   Progress: {
     navigationOptions: {
       header: null,
@@ -27,13 +22,6 @@ const DecodeNavigator = createStackNavigator({
     },
     screen: Message,
   },
-
-  Settings: {
-    navigationOptions: {
-      header: null,
-    },
-    screen: Settings,
-  },
 });
 
 DecodeNavigator.navigationOptions = ({
@@ -45,4 +33,5 @@ DecodeNavigator.navigationOptions = ({
   tabBarVisible: navigation.state.index === 0,
 });
 
-export default DecodeNavigator;
+const AppContainer = createAppContainer(DecodeNavigator);
+export default AppContainer;

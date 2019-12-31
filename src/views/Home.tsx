@@ -60,9 +60,7 @@ const TabNavigator = createMaterialTopTabNavigator(
 );
 
 const AppContainer = createAppContainer(TabNavigator);
-const App = ({screenProps}: any) => (
-  <AppContainer screenProps={screenProps} onNavigationStateChange={navChange} />
-);
+const App = () => <AppContainer onNavigationStateChange={navChange} />;
 
 const navChange = (
   prevState: NavigationState,

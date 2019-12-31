@@ -1,10 +1,11 @@
 import {AppRegistry} from 'react-native';
-import { AppearanceProvider } from 'react-native-appearance';
+import {AppearanceProvider} from 'react-native-appearance';
 import React from 'react';
 
+import Share from '~/actions/Share/Share';
+import {ThemeProvider} from '~/providers/ThemeContext';
 import App from './App';
 import {name as appName} from './app.json';
-import {ThemeProvider} from '~/providers/ThemeContext';
 
 const MainApp = () => (
   <AppearanceProvider>
@@ -12,7 +13,7 @@ const MainApp = () => (
       <App />
     </ThemeProvider>
   </AppearanceProvider>
-
 );
 
 AppRegistry.registerComponent(appName, () => MainApp);
+AppRegistry.registerComponent('Share', () => Share);
