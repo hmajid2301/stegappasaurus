@@ -38,7 +38,6 @@ export default class App extends React.Component<{}, IState> {
     }
     return <Main />;
   }
-
   public async componentDidMount() {
     SplashScreen.hide();
     const [storedIntroShown, storedTheme, storedUsage] = await Promise.all([

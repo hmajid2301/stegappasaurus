@@ -1,6 +1,8 @@
 import analytics from '@react-native-firebase/analytics';
 import React from 'react';
 import {View} from 'react-native';
+// @ts-ignore
+import ShareExtension from 'react-native-share-extension';
 import {NavigationScreenProp} from 'react-navigation';
 
 import bugsnag from '~/actions/Bugsnag/Bugsnag';
@@ -26,7 +28,9 @@ export default class Progress extends React.Component<IProps, IState> {
   public context!: React.ContextType<typeof ThemeContext>;
 
   public state = {
-    photo: this.props.navigation.getParam('uri', 'NO-ID'),
+    photo: this.props.navigation
+      ? this.props.navigation.getParam('uri', 'NO-ID')
+      : '',
     progress: 0,
   };
 
@@ -45,6 +49,10 @@ export default class Progress extends React.Component<IProps, IState> {
   }
 
   public async componentDidMount() {
+    const {value} = await ShareExtension.data();
+    if (value) {
+      this.setState({photo: value});
+    }
     await this.decodeImage();
   }
 
