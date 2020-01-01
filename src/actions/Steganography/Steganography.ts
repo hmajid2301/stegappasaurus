@@ -6,7 +6,7 @@ import {DecodeLSB, EncodeLSB} from './LSB';
 
 type AlgorithmNames = 'LSBv1';
 
-interface IMetaData {
+interface MetaData {
   algorithm: AlgorithmNames;
 }
 
@@ -34,7 +34,7 @@ export default class Steganography {
     };
   }
 
-  public async encode(message: string, metadata: IMetaData) {
+  public async encode(message: string, metadata: MetaData) {
     const compressedMessage = LZUTF8.compress(message);
     const compressedBinaryMessage = this.convertMessageToBits(
       compressedMessage,
@@ -78,7 +78,7 @@ export default class Steganography {
     return this.progress.value;
   }
 
-  private convertMetadataToBits(metadata: IMetaData) {
+  private convertMetadataToBits(metadata: MetaData) {
     const dataToEncode: number[] = [];
 
     for (const key in metadata) {
@@ -143,7 +143,7 @@ export default class Steganography {
     const algorithmDecimal = this.convertBytesToDecimal(algorithmBinary);
     const algorithm = this.algorithmNums[algorithmDecimal];
 
-    const metadata: IMetaData = {algorithm};
+    const metadata: MetaData = {algorithm};
     return metadata;
   }
 
@@ -186,7 +186,7 @@ export default class Steganography {
   private async decodeData(
     decodeLSB: DecodeLSB,
     messageLength: number,
-    metadata: IMetaData,
+    metadata: MetaData,
   ) {
     const start = Math.floor(decodeLSB.getCurrentIndex() / 3);
     const startDecodingAt = decodeLSB.getCurrentIndex() % 3;

@@ -4,7 +4,7 @@ import {ListItem} from 'react-native-elements';
 
 import license from '~/data/licenses.json';
 
-interface ILicense {
+interface License {
   licenses: string;
   repository: string;
   licenseUrl: string;
@@ -32,9 +32,7 @@ export default class Licenses extends React.Component<{}, {}> {
     return data;
   };
 
-  private setKey = (item: ILicense, _: number) => {
-    return item.repository;
-  };
+  private setKey = (item: License) => item.repository;
 
   private renderItem = (item: any) => (
     <TouchableOpacity onPress={this.openLink.bind(this, item.repository)}>

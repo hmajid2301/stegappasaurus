@@ -5,18 +5,18 @@ import {NavigationScreenProp} from 'react-navigation';
 import {AppHeader} from '~/components/Header';
 import ImageMessage from '~/components/ImageMessage';
 
-interface IProps {
+interface Props {
   navigation: NavigationScreenProp<any, any>;
 }
 
-interface IState {
+interface State {
   isDecoded: boolean;
   message: string;
   photo: string;
 }
 
-export default class Message extends React.Component<IProps, IState> {
-  constructor(props: IProps) {
+export default class Message extends React.Component<Props, State> {
+  constructor(props: Props) {
     super(props);
     const {navigation} = props;
     const uri = navigation.getParam('uri', 'NO-ID');

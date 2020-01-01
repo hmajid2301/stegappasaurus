@@ -9,7 +9,7 @@ import styled from 'styled-components/native';
 import {pureWhite} from '~/constants/colors';
 import {bodyLight} from '~/constants/fonts';
 
-interface IProps {
+interface Props {
   navigation: NavigationScreenProp<any, any>;
   action?: (message: string) => void;
   editable: boolean;
@@ -17,11 +17,11 @@ interface IProps {
   photo: string;
 }
 
-interface IState {
+interface State {
   message: string;
 }
 
-export default class ImageMessage extends React.Component<IProps, IState> {
+export default class ImageMessage extends React.Component<Props, State> {
   public static defaultProps = {
     action: () => null,
     message: 'Enter your message here',
@@ -30,7 +30,7 @@ export default class ImageMessage extends React.Component<IProps, IState> {
   private focusListener: NavigationEventSubscription | null;
   private textInput: React.RefObject<TextInput>;
 
-  constructor(props: IProps) {
+  constructor(props: Props) {
     super(props);
     this.state = {
       message: '',

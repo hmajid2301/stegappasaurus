@@ -7,9 +7,7 @@ export default class EncodeLSB {
     if (action !== undefined) {
       this.action = action;
     } else {
-      this.action = () => {
-        return;
-      };
+      this.action = () => null;
     }
   }
 

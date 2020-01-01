@@ -8,11 +8,11 @@ import {ThemeColors} from '~/constants/types';
 import {ThemeContext} from '~/providers/ThemeContext';
 import {About, Support, Themes} from './Setting';
 
-interface IProps {
+interface Props {
   navigation: NavigationScreenProp<any, any>;
 }
 
-const Settings = (props: IProps) => {
+const Settings = (props: Props) => {
   const {background} = useContext(ThemeContext).theme;
 
   return (

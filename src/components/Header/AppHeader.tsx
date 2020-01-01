@@ -7,12 +7,12 @@ import {TabColors} from '~/constants/types';
 import {ThemeContext} from '~/providers/ThemeContext';
 import Header from './Header';
 
-interface IProps {
+interface Props {
   navigation: NavigationScreenProp<any, any>;
   primary: TabColors;
 }
 
-export default class AppHeader extends React.Component<IProps, {}> {
+export default class AppHeader extends React.Component<Props, {}> {
   public static contextType = ThemeContext;
   public context!: React.ContextType<typeof ThemeContext>;
 

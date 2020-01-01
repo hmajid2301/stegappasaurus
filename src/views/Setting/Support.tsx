@@ -11,11 +11,11 @@ import termsOfUse from '~/data/termsOfUse';
 import {ThemeContext} from '~/providers/ThemeContext';
 import {ItemHeaderText, ItemText} from './common';
 
-interface IState {
+interface State {
   usage: boolean;
 }
 
-export default class Support extends React.Component<{}, IState> {
+export default class Support extends React.Component<{}, State> {
   public static contextType = ThemeContext;
   public context!: React.ContextType<typeof ThemeContext>;
 

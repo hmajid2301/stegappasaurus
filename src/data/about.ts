@@ -1,8 +1,8 @@
 import meta from '~/../app.json';
-import {IAboutItem} from '~/components/AboutList/AboutList';
+import {AboutItem} from '~/components/AboutList/AboutList';
 import {primary} from '~/constants/colors';
 
-const about: IAboutItem[] = [
+const about: AboutItem[] = [
   {
     icon: {
       color: primary,

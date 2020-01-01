@@ -14,16 +14,16 @@ import {secondary} from '~/constants/colors';
 import {TabColors} from '~/constants/types';
 import {ThemeContext} from '~/providers/ThemeContext';
 
-interface IProps {
+interface Props {
   navigation: NavigationScreenProp<any, any>;
 }
 
-interface IState {
+interface State {
   photo: string;
   progress: number;
 }
 
-export default class Progress extends React.Component<IProps, IState> {
+export default class Progress extends React.Component<Props, State> {
   public static contextType = ThemeContext;
   public context!: React.ContextType<typeof ThemeContext>;
 
@@ -66,10 +66,10 @@ export default class Progress extends React.Component<IProps, IState> {
       const decodedMessage = await steganography.decode();
       const end = new Date().getTime();
       clearInterval(timer);
-      await this.success(decodedMessage);
+      this.success(decodedMessage);
       await analytics().logEvent('decoding_success', {time: end - start});
     } catch (error) {
-      this.failed(error);
+      this.failed();
       bugsnag.notify(error);
       await analytics().logEvent('decoding_failed');
     } finally {
@@ -78,14 +78,14 @@ export default class Progress extends React.Component<IProps, IState> {
     }
   }
 
-  private async success(message: string) {
+  private success(message: string) {
     this.props.navigation.navigate('Message', {
       message,
       uri: this.state.photo,
     });
   }
 
-  private failed(_: any) {
+  private failed() {
     Snackbar.show({
       text: 'Failed to decode image, please try again.',
     });

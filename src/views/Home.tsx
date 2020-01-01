@@ -1,10 +1,6 @@
 import analytics from '@react-native-firebase/analytics';
 import React from 'react';
-import {
-  createAppContainer,
-  NavigationAction,
-  NavigationState,
-} from 'react-navigation';
+import {createAppContainer, NavigationState} from 'react-navigation';
 import {
   createMaterialTopTabNavigator,
   MaterialTopTabBar,
@@ -65,7 +61,6 @@ const App = () => <AppContainer onNavigationStateChange={navChange} />;
 const navChange = (
   prevState: NavigationState,
   currentState: NavigationState,
-  _: NavigationAction,
 ) => {
   const previousRouteName = getActiveRouteName(prevState);
   const currentRouteName = getActiveRouteName(currentState);

@@ -21,16 +21,16 @@ import {
   TouchableButton,
 } from '../common';
 
-interface IProps {
+interface Props {
   navigation: NavigationScreenProp<any, any>;
 }
 
-interface IState {
+interface State {
   loading: boolean;
   permissionsChecked: boolean;
 }
 
-interface ICatAPI {
+interface CatAPIResponse {
   breeds: string[];
   id: string;
   url: string;
@@ -38,7 +38,7 @@ interface ICatAPI {
   height: number;
 }
 
-export default class Main extends React.Component<IProps, IState> {
+export default class Main extends React.Component<Props, State> {
   public static contextType = ThemeContext;
   public context!: React.ContextType<typeof ThemeContext>;
 
@@ -98,7 +98,7 @@ export default class Main extends React.Component<IProps, IState> {
     this.setState({permissionsChecked: true});
   }
 
-  private getPhotoFromCamera = async () => {
+  private getPhotoFromCamera = () => {
     try {
       ImagePicker.launchCamera({}, response => {
         if (!response.didCancel) {
@@ -112,7 +112,7 @@ export default class Main extends React.Component<IProps, IState> {
     }
   };
 
-  private getPhotoFromCameraRoll = async () => {
+  private getPhotoFromCameraRoll = () => {
     try {
       ImagePicker.launchImageLibrary({}, response => {
         if (!response.didCancel) {
@@ -139,7 +139,7 @@ export default class Main extends React.Component<IProps, IState> {
     const data = await response.json();
     const status = response.status;
     if (status === 200) {
-      const urls = data as ICatAPI[];
+      const urls = data as CatAPIResponse[];
       const url = urls[0].url;
       await Image.prefetch(url);
       await RNFetchBlob.config({

@@ -3,11 +3,11 @@ import React from 'react';
 import {Dimensions, FlatList, View} from 'react-native';
 import styled from 'styled-components/native';
 
-interface IProps {
+interface Props {
   onPhotoPress: (uri: string) => any;
 }
 
-interface IState {
+interface State {
   finished: boolean;
   lastPhoto: string | null;
   photos: PhotoIdentifier[];
@@ -15,8 +15,8 @@ interface IState {
   seen: Set<string>;
 }
 
-export default class PhotoAlbumList extends React.Component<IProps, IState> {
-  constructor(props: IProps) {
+export default class PhotoAlbumList extends React.Component<Props, State> {
+  constructor(props: Props) {
     super(props);
     this.state = {
       finished: false,
@@ -47,9 +47,7 @@ export default class PhotoAlbumList extends React.Component<IProps, IState> {
     await this.getMorePhotos();
   }
 
-  private setKey = (item: PhotoIdentifier, _: number) => {
-    return item.node.image.uri;
-  };
+  private setKey = (item: PhotoIdentifier) => item.node.image.uri;
 
   private padData(data: PhotoIdentifier[], itemsPerColumn = 3) {
     const itemsLeftOver = data.length % itemsPerColumn;
@@ -75,12 +73,15 @@ export default class PhotoAlbumList extends React.Component<IProps, IState> {
         after: this.state.lastPhoto ? this.state.lastPhoto : undefined,
         first: 15,
       });
-      const {end_cursor, has_next_page} = photosData.page_info;
+      const {
+        end_cursor: endCursor,
+        has_next_page: hasNextPage,
+      } = photosData.page_info;
       const {seen, newPhotos} = this.uniqueAssets(photosData.edges);
 
       this.setState({
-        finished: !has_next_page,
-        lastPhoto: end_cursor as string,
+        finished: !hasNextPage,
+        lastPhoto: endCursor as string,
         photos: [...this.state.photos, ...newPhotos],
         seen,
       });
@@ -103,16 +104,14 @@ export default class PhotoAlbumList extends React.Component<IProps, IState> {
   }
 
   private handleRefresh = async () => {
-    this.setState(
-      {
-        finished: false,
-        lastPhoto: null,
-        photos: [],
-        refreshing: true,
-        seen: new Set(),
-      },
-      async () => this.getMorePhotos(),
-    );
+    this.setState({
+      finished: false,
+      lastPhoto: null,
+      photos: [],
+      refreshing: true,
+      seen: new Set(),
+    });
+    await this.getMorePhotos();
     this.setState({refreshing: false});
   };
 

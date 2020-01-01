@@ -7,7 +7,7 @@ import styled from 'styled-components/native';
 import {body} from '~/constants/fonts';
 import {TabColors, ThemeColors} from '~/constants/types';
 
-interface IProps {
+interface Props {
   background: ThemeColors;
   onPress?: (...args: any) => void;
   icon?: {
@@ -23,7 +23,7 @@ interface IProps {
 
 const pageWidth = Dimensions.get('window').width;
 
-const ImageProgress: React.FunctionComponent<IProps> = (props: IProps) => (
+const ImageProgress: React.FunctionComponent<Props> = (props: Props) => (
   <ProgressContainer background={props.background}>
     <TouchableOpacity
       activeOpacity={0.8}
