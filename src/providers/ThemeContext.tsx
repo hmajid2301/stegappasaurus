@@ -1,15 +1,18 @@
 import React, {Context, createContext, useState} from 'react';
 
 import {DARK_THEME, LIGHT_THEME} from '~/constants/themes';
-import {ITheme} from '~/constants/types';
+import {Theme} from '~/constants/types';
 
-interface IThemeContext {
-  theme: ITheme;
+interface ThemeContext {
+  theme: Theme;
   changeTheme: (isDark: boolean) => void;
 }
 
-const ThemeContext: Context<IThemeContext> = createContext({
-  changeTheme: (_: boolean) => {
+const ThemeContext: Context<ThemeContext> = createContext({
+  changeTheme: (isDark: boolean) => {
+    if (isDark) {
+      return;
+    }
     return;
   },
   theme: LIGHT_THEME,

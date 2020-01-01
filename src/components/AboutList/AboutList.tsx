@@ -7,11 +7,11 @@ import styled from 'styled-components/native';
 import {bodyLight} from '~/constants/fonts';
 import {ThemeContext} from '~/providers/ThemeContext';
 
-interface IProps {
-  items: IAboutItem[];
+interface Props {
+  items: AboutItem[];
 }
 
-export interface IAboutItem {
+export interface AboutItem {
   title: string;
   icon: {
     color: string;
@@ -21,7 +21,7 @@ export interface IAboutItem {
   url?: string;
 }
 
-export default class AboutList extends React.Component<IProps, {}> {
+export default class AboutList extends React.Component<Props, {}> {
   public static contextType = ThemeContext;
   public context!: React.ContextType<typeof ThemeContext>;
 
@@ -31,7 +31,7 @@ export default class AboutList extends React.Component<IProps, {}> {
     );
   }
 
-  private renderListItem = (item: IAboutItem) => (
+  private renderListItem = (item: AboutItem) => (
     <ListItem
       containerStyle={{backgroundColor: this.context.theme.background}}
       key={item.title}
@@ -48,7 +48,7 @@ export default class AboutList extends React.Component<IProps, {}> {
     />
   );
 
-  private async chooseFunction(item: IAboutItem) {
+  private async chooseFunction(item: AboutItem) {
     if (item.url === undefined) {
       const options = {
         GooglePackageName: 'com.stegappasaurus',

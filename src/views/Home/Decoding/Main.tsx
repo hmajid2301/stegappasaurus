@@ -16,11 +16,11 @@ import {
   TouchableButton,
 } from '../common';
 
-interface IProps {
+interface Props {
   navigation: NavigationScreenProp<any, any>;
 }
 
-export default class Main extends React.Component<IProps, {}> {
+export default class Main extends React.Component<Props, {}> {
   public static contextType = ThemeContext;
   public context!: React.ContextType<typeof ThemeContext>;
 
@@ -44,7 +44,7 @@ export default class Main extends React.Component<IProps, {}> {
     );
   }
 
-  private getPhotoFromCameraRoll = async () => {
+  private getPhotoFromCameraRoll = () => {
     try {
       ImagePicker.launchImageLibrary(
         {

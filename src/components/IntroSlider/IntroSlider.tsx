@@ -5,7 +5,7 @@ import styled from 'styled-components/native';
 
 import {body, header} from '~/constants/fonts';
 
-export interface ISlide {
+export interface Slide {
   color: string;
   height?: number;
   image: ImageSourcePropType;
@@ -15,20 +15,20 @@ export interface ISlide {
   width?: number;
 }
 
-interface IProps {
-  slides: ISlide[];
+interface Props {
+  slides: Slide[];
   onDone: () => void;
 }
 
-interface IRenderProps {
+interface RenderProps {
   dimensions: {
     height: number;
     width: number;
   };
-  item: ISlide;
+  item: Slide;
 }
 
-export default class IntroSlider extends React.Component<IProps, {}> {
+export default class IntroSlider extends React.Component<Props, {}> {
   public render() {
     return (
       <IntroContainer>
@@ -44,7 +44,7 @@ export default class IntroSlider extends React.Component<IProps, {}> {
     );
   }
 
-  public renderSlide = ({dimensions, item}: IRenderProps) => (
+  public renderSlide = ({dimensions, item}: RenderProps) => (
     <SlideContainer
       background={item.color}
       width={dimensions.width}

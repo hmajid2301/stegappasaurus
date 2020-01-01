@@ -12,12 +12,12 @@ import {slides} from '~/data';
 import {ThemeContext} from '~/providers/ThemeContext';
 import Main from '~/views/Home';
 
-interface IState {
+interface State {
   loading: boolean;
   introShown: boolean | null;
 }
 
-export default class App extends React.Component<{}, IState> {
+export default class App extends React.Component<{}, State> {
   public static contextType = ThemeContext;
   public context!: React.ContextType<typeof ThemeContext>;
 

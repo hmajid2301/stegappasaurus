@@ -1,6 +1,6 @@
-import {ISlide} from '~/components/IntroSlider';
+import {Slide} from '~/components/IntroSlider';
 
-const slides: ISlide[] = [
+const slides: Slide[] = [
   {
     color: '#06C49C',
     image: require('~/assets/images/slider/1.jpg'),

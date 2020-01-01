@@ -7,20 +7,20 @@ import {bodyLight} from '~/constants/fonts';
 import {ThemeColors} from '~/constants/types';
 import {ThemeContext} from '~/providers/ThemeContext';
 
-interface IProps {
+interface Props {
   children: JSX.Element;
   name: string;
 }
 
-interface IState {
+interface State {
   isVisible: boolean;
 }
 
-export default class MyModal extends React.Component<IProps, IState> {
+export default class MyModal extends React.Component<Props, State> {
   public static contextType = ThemeContext;
   public context!: React.ContextType<typeof ThemeContext>;
 
-  public state: IState = {
+  public state: State = {
     isVisible: false,
   };
 

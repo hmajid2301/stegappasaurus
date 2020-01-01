@@ -7,12 +7,12 @@ import Modal from '~/components/Modal';
 import {bodyLight} from '~/constants/fonts';
 import {ThemeContext} from '~/providers/ThemeContext';
 
-interface IProps {
+interface Props {
   children: React.ReactNode;
   name: string;
 }
 
-const MarkdownModal = (props: IProps) => {
+const MarkdownModal = (props: Props) => {
   const {color} = useContext(ThemeContext).theme;
   return (
     <View>

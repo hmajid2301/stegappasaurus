@@ -10,9 +10,7 @@ export default class DecodeLSB {
     if (action !== undefined) {
       this.action = action;
     } else {
-      this.action = () => {
-        return;
-      };
+      this.action = () => null;
     }
   }
 

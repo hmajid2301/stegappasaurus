@@ -14,17 +14,17 @@ import {primary, pureWhite} from '~/constants/colors';
 import {TabColors} from '~/constants/types';
 import {ThemeContext} from '~/providers/ThemeContext';
 
-interface IProps {
+interface Props {
   navigation: NavigationScreenProp<any, any>;
 }
 
-interface IState {
+interface State {
   encodedUri: string;
   photo: string;
   progress: number;
 }
 
-export default class Progress extends React.Component<IProps, IState> {
+export default class Progress extends React.Component<Props, State> {
   public static contextType = ThemeContext;
   public context!: React.ContextType<typeof ThemeContext>;
 
@@ -56,7 +56,7 @@ export default class Progress extends React.Component<IProps, IState> {
   }
 
   public async componentDidMount() {
-    status = await check(PERMISSIONS.ANDROID.WRITE_EXTERNAL_STORAGE);
+    const status = await check(PERMISSIONS.ANDROID.WRITE_EXTERNAL_STORAGE);
     if (status !== 'blocked') {
       await request(PERMISSIONS.ANDROID.WRITE_EXTERNAL_STORAGE);
     }
@@ -76,10 +76,10 @@ export default class Progress extends React.Component<IProps, IState> {
         algorithm: 'LSBv1',
       });
       const end = new Date().getTime();
-      await this.success(encodedImage);
+      this.success(encodedImage);
       await analytics().logEvent('encoding_success', {time: end - start});
     } catch (error) {
-      this.failed(error);
+      this.failed();
       bugsnag.notify(error);
       await analytics().logEvent('encoding_failed');
     } finally {
@@ -88,7 +88,7 @@ export default class Progress extends React.Component<IProps, IState> {
     }
   }
 
-  private async success(encodedImage: string) {
+  private success(encodedImage: string) {
     Snackbar.show({
       buttonText: 'Open Album',
       onButtonPress: async () => {
@@ -99,7 +99,7 @@ export default class Progress extends React.Component<IProps, IState> {
     this.setState({encodedUri: encodedImage});
   }
 
-  private failed(_: any) {
+  private failed() {
     this.sendUserBackToMain();
   }
 

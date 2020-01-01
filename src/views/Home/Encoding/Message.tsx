@@ -6,16 +6,16 @@ import Snackbar from '~/actions/Snackbar';
 import {AppHeader} from '~/components/Header';
 import ImageMessage from '~/components/ImageMessage';
 
-interface IProps {
+interface Props {
   navigation: NavigationScreenProp<any, any>;
 }
 
-interface IState {
+interface State {
   photo: string;
 }
 
-export default class Message extends React.Component<IProps, IState> {
-  constructor(props: IProps) {
+export default class Message extends React.Component<Props, State> {
+  constructor(props: Props) {
     super(props);
     const {navigation} = props;
     const uri = navigation.getParam('uri', 'NO-ID');

@@ -4,12 +4,12 @@ import styled from 'styled-components/native';
 
 import {primary} from '~/constants/colors';
 
-interface IProps {
+interface Props {
   loading: boolean;
   overlay?: string;
 }
 
-const Loader = ({loading, overlay}: IProps) => {
+const Loader = ({loading, overlay}: Props) => {
   if (loading) {
     return (
       <LoaderContainer overlay={overlay ? overlay : 'transparent'}>

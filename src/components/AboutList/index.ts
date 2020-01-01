@@ -1,4 +1,4 @@
-import AboutList, {IAboutItem as OtherAboutItem} from './AboutList';
+import AboutList, {AboutItem as OtherAboutItem} from './AboutList';
 
-export type IAboutItem = OtherAboutItem;
+export type AboutItem = OtherAboutItem;
 export default AboutList;

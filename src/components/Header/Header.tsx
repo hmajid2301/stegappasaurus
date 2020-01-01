@@ -8,7 +8,7 @@ import {ThemeContext} from '~/providers/ThemeContext';
 
 import {TabColors} from '~/constants/types';
 
-interface IProps {
+interface Props {
   center?: HeaderSubComponent;
   left?: HeaderSubComponent;
   primary: TabColors;
@@ -16,7 +16,7 @@ interface IProps {
   styles?: StyleProp<ViewStyle>;
 }
 
-const Header = (props: IProps) => {
+const Header = (props: Props) => {
   const {background, isDark} = useContext(ThemeContext).theme;
   return (
     <View>
