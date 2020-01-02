@@ -35,10 +35,10 @@ export default class Licenses extends React.Component<{}, {}> {
   private setKey = (item: License) => item.repository;
 
   private renderItem = (item: any) => (
-    <TouchableOpacity onPress={this.openLink.bind(this, item.repository)}>
+    <TouchableOpacity onPress={this.openLink.bind(this, item.item.repository)}>
       <ListItem
-        title={item.name}
-        subtitle={item.licenses}
+        title={item.item.name}
+        subtitle={item.item.licenses}
         topDivider={true}
         bottomDivider={true}
         testID="license"
