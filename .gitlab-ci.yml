@@ -81,13 +81,15 @@ publish:android:package:
   stage: publish
   image: reactnativecommunity/react-native-android
   only:
+    - /^dev/.*$/
+    - /^test/.*$/
     - /^release/.*$/
   script:
-    - yarn run generate-licenses
     - echo fs.inotify.max_user_watches=524288 | tee -a /etc/sysctl.conf && sysctl -p
     - cd android
     - base64 -d $ANDROID_KEYSTORE > app/stegappasaurus.keystore
     - mv $PLAY_STORE_JSON app/play-store.json
+    - yarn generate-licenses
     - yarn generate-gradle-propetties
     - yarn bundle
     - yarn publish-package --no-daemon

@@ -14,7 +14,7 @@
     "generate-licenses": "npm-license-crawler -onlyDirectDependencies --omitVersion -json src/data/licenses.json",
     "log": "react-native log-android",
     "lint": "eslint src/**/*.{ts,tx,tsx}",
-    "publish-package": "cd android && ./gradlew publishRelease",
+    "publish-package": "bash util/publish-package.sh",
     "start": "react-native start",
     "tests": "jest",
     "types-check": "tsc --project . --noEmit --pretty --skipLibCheck",
