@@ -3,7 +3,10 @@ import analytics from '@react-native-firebase/analytics';
 import React from 'react';
 import {Alert, StatusBar} from 'react-native';
 import {Appearance} from 'react-native-appearance';
-import changeNavigationBarColor from 'react-native-navigation-bar-color';
+import changeNavigationBarColor, {
+  HideNavigationBar,
+  ShowNavigationBar,
+} from 'react-native-navigation-bar-color';
 import SplashScreen from 'react-native-splash-screen';
 
 import IntroSlider from '~/components/IntroSlider';
@@ -78,6 +81,8 @@ export default class App extends React.Component<{}, State> {
           await analytics().setAnalyticsCollectionEnabled(false);
         }
       }
+    } else {
+      HideNavigationBar();
     }
 
     let darkTheme = false;
@@ -116,6 +121,7 @@ export default class App extends React.Component<{}, State> {
   }
 
   private introShownToUser = async () => {
+    ShowNavigationBar();
     await AsyncStorage.setItem('@IntroShown', 'true');
     this.setState({introShown: true});
   };
