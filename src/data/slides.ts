@@ -6,7 +6,7 @@ const slides: Slide[] = [
     image: require('~/assets/images/slider/1.jpg'),
     key: 'encoding',
     text: 'Hide your data within images.',
-    title: 'Hide data. ',
+    title: 'Hide data',
   },
   {
     color: '#129FDD',

@@ -41,6 +41,7 @@ export default class App extends React.Component<{}, State> {
     }
     return <Main />;
   }
+
   public async componentDidMount() {
     SplashScreen.hide();
     const [storedIntroShown, storedTheme] = await Promise.all([
@@ -48,29 +49,14 @@ export default class App extends React.Component<{}, State> {
       AsyncStorage.getItem('@Theme'),
     ]);
 
+    this.setTheme(storedTheme);
+
     let introShown = false;
     if (storedIntroShown) {
       introShown = storedIntroShown === 'true' ? true : false;
     } else {
       HideNavigationBar();
     }
-
-    let darkTheme = false;
-    if (storedTheme) {
-      darkTheme = storedTheme === 'true' ? true : false;
-    }
-
-    const colorScheme = Appearance.getColorScheme();
-    if (colorScheme === 'dark') {
-      darkTheme = true;
-    }
-
-    this.context.changeTheme(darkTheme);
-
-    Appearance.addChangeListener(({colorScheme: osColorScheme}) => {
-      const isDark = osColorScheme === 'dark' ? true : false;
-      this.context.changeTheme(isDark);
-    });
 
     // @ts-ignore
     changeNavigationBarColor(
@@ -90,6 +76,22 @@ export default class App extends React.Component<{}, State> {
     subscription.remove();
   }
 
+  private setTheme(storedTheme: string | null) {
+    let darkTheme = false;
+    if (storedTheme) {
+      darkTheme = storedTheme === 'true' ? true : false;
+    }
+    const colorScheme = Appearance.getColorScheme();
+    if (colorScheme === 'dark') {
+      darkTheme = true;
+    }
+    this.context.changeTheme(darkTheme);
+    Appearance.addChangeListener(({colorScheme: osColorScheme}) => {
+      const isDark = osColorScheme === 'dark' ? true : false;
+      this.context.changeTheme(isDark);
+    });
+  }
+
   private introShownToUser = async () => {
     ShowNavigationBar();
     await AsyncStorage.setItem('@IntroShown', 'true');
@@ -97,32 +99,31 @@ export default class App extends React.Component<{}, State> {
 
     const storedUsage = await AsyncStorage.getItem('@UsageStatistics');
     if (storedUsage === null) {
-      let allow = false;
-      Alert.alert(
-        'Usage Statistics',
-        'To help us improve the app, you can send us usage statistics and analytics about the app.',
-        [
-          {
-            onPress: () => {
-              allow = true;
-            },
-            text: 'Allow',
-          },
-          {
-            onPress: () => {
-              allow = false;
-            },
-            style: 'cancel',
-            text: 'Do not allow',
-          },
-        ],
-        {cancelable: false},
-      );
-
-      await AsyncStorage.setItem('@UsageStatistics', JSON.stringify(allow));
-      if (!allow) {
-        await analytics().setAnalyticsCollectionEnabled(false);
-      }
+      this.showUsageStatsAlert();
     }
   };
+
+  private showUsageStatsAlert() {
+    Alert.alert(
+      'Usage Statistics',
+      'To help us improve the app you send us usage statistics and analytics about the app.',
+      [
+        {
+          onPress: async () => {
+            await AsyncStorage.setItem('@UsageStatistics', 'true');
+          },
+          text: 'Allow',
+        },
+        {
+          onPress: async () => {
+            await AsyncStorage.setItem('@UsageStatistics', 'false');
+            await analytics().setAnalyticsCollectionEnabled(false);
+          },
+          style: 'cancel',
+          text: 'Do not allow',
+        },
+      ],
+      {cancelable: false},
+    );
+  }
 }
