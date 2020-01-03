@@ -20,27 +20,27 @@ export default class EncodeLSB {
       );
     }
 
-    const newPixelData = imageData;
+    const newImageData = imageData;
     for (const bit of binaryMessage) {
-      const pixelValue = imageData[encodeIndex];
-      const newPixelValue = this.getNewPixelValue(pixelValue, bit);
+      const imageDataByte = imageData[encodeIndex];
+      const newPixelValue = this.encodeImageDataByte(imageDataByte, bit);
 
-      newPixelData[encodeIndex] = newPixelValue;
+      newImageData[encodeIndex] = newPixelValue;
       encodeIndex += 1;
       this.action();
     }
-    return newPixelData;
+    return newImageData;
   }
 
-  public getNewPixelValue(pixelValue: number, bit: string) {
-    let newPixelValue = pixelValue;
+  public encodeImageDataByte(pixelValue: number, bit: string) {
+    let newImageDataValue = pixelValue;
     const bitToEncode = pixelValue % 2;
 
     if (bit === '0' && bitToEncode === 1) {
-      newPixelValue -= 1;
+      newImageDataValue -= 1;
     } else if (bit === '1' && bitToEncode === 0) {
-      newPixelValue += 1;
+      newImageDataValue += 1;
     }
-    return newPixelValue;
+    return newImageDataValue;
   }
 }

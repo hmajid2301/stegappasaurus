@@ -24,6 +24,7 @@ const LogoContainer = styled.View`
 `;
 
 const LogoText = styled.Text<{color: string}>`
+  color: ${props => props.color};
   font-family: ${header};
   font-size: 20;
 `;

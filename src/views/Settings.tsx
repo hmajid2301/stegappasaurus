@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import {View} from 'react-native';
+import {ScrollView} from 'react-native';
 import {NavigationScreenProp} from 'react-navigation';
 import styled from 'styled-components/native';
 
@@ -18,11 +18,11 @@ const Settings = (props: Props) => {
   return (
     <SettingsContainer background={background}>
       <MainHeader primary="#009cff" navigation={props.navigation} />
-      <View>
+      <ScrollView>
         <Themes />
         <Support />
         <About />
-      </View>
+      </ScrollView>
     </SettingsContainer>
   );
 };
