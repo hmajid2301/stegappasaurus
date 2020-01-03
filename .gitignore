@@ -349,3 +349,4 @@ node_modules_*
 gradle.properties
 play-store.json
 google-services.json
+.docz

@@ -84,6 +84,8 @@ publish:android:package:
     - /^dev/.*$/
     - /^test/.*$/
     - /^release/.*$/
+    - /^test/.*$/
+    - /^dev/.*$/
   script:
     - echo fs.inotify.max_user_watches=524288 | tee -a /etc/sysctl.conf && sysctl -p
     - cd android
@@ -108,6 +110,18 @@ publish:source-maps:
     - export VERSION=$(cat app.json | jq -r .version)
     - curl https://upload.bugsnag.com/react-native-source-map -F apiKey=${BUGSNAG_API_KEY} -F appVersion=${VERSION} -F dev=false -F platform=android -F sourceMap=@android/app/src/main/assets/index.map -F bundle=@android/app/src/main/assets/index.bundle -F projectRoot=`pwd`
     - yarn bugsnag-sourcemaps upload --api-key=${BUGSNAG_API_KEY} --app-version=${VERSION} --minifiedFile=android/app/build/generated/assets/react/release/index.android.bundle --source-map=android/app/build/generated/sourcemaps/react/release/index.android.bundle.map --minified-url=index.android.bundle --upload-sources
+
+pages:
+  only:
+    - master
+  before_script:
+    - yarn
+  script:
+    - yarn docs-build
+    - mv .docz/dist public
+  artifacts:
+    paths:
+      - public
 
 post:create:gitlab:release:
   image: registry.gitlab.com/gitlab-automation-toolkit/gitlab-auto-release

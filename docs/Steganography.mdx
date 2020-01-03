@@ -1,0 +1,201 @@
+---
+name: Steganography
+route: /steganography
+---
+
+# Steganography
+
+The steganography code is the core logic of this app, as this whole app revolves around encoding and decoding images. So it will not shock you to know that the most complicated
+part of the application is the code related to steganography.
+
+## FAQ
+
+### What is steganography?
+
+Steganography is the art/science of hiding data in plain sight. In the context of this app, it
+allows you to hide messages (text) within images. You do this by encoding the image with the
+text data. You can then share the image with other people and they can decode the image
+(retrieve the original message) using this app.
+
+### Is it the same as encryption?
+
+Not quite, encryption involves obscuring information whereas steganography is concerned with hiding
+it. If you have an encrypted message you cannot retrieve the original message.
+Whereas with steganography if you know where to look you can retrieve the original message, it is
+not obscured in any way. However, with encryption, it is obvious you are trying to hide something
+but with steganography you can hide your message inside of an "innocent" looking image, with a
+third party without anyone noticing. You can combine the two "techniques", encrypt your data
+before encoding it into an image, then simply decrypt the message after decoding it from the
+image for added security. This involves a shared secret "password" between you and the person
+you are sending the image to.
+
+### How do images work?
+
+Images are made of pixels, an image of say 1920 by 1080 pixels has `2073600` pixels.
+Each pixel in the image has three components red, green and blue (RGB). Each component
+takes up one byte of data i.e. it can range from `0 - 255` (decimal) or `10 - 11111111` (binary). When we get the image data we get each RGB component, so if an image was a white box
+say the image data would look like.
+
+_NOTE_: Images also have an alpha channel but we don't change this we leave it as `255`.
+
+```
+[255, 255, 255, 255, 255, 255]
+  R    G    B    R    G    B
+```
+
+## Kotlin - Bitmap
+
+The native Android code is written using Kotlin, it currently has two functions.
+The Android code related to the steganography resides within
+
+- `android/app/src/main/java/com/stegappasaurus/bitmap/`
+
+### BitmapModule.kt
+
+The module has two main functions it needs to do.
+
+#### Get Pixel Data
+
+The get pixels function opens an image and returns the pixels data of that image. For each pixel
+we get a red byte, a green byte and a blue byte. So for each pixel, we can encode 3 bits into it,
+and therefore also decode three bits from it. You don't get the all of the data from the image
+you specify which pixel to start at and which pixel to end at.
+
+#### Set Pixel Data
+
+The set pixels function edits the pixel data of the image and then saves this image locally on the
+device in a steganography folder. This function is only used when we are encoding an image.
+
+## Typescript - Steganography
+
+The Typescript (core) steganography code resides within
+
+- `src/actions/Steganography`
+
+### Steganography.ts
+
+This is the class that the React components will call to encode/decode an image.
+
+#### Encoding
+
+All encoding algorithms work as follows
+
+```typescript
+* // Input: image_path: String, message: String, metadata: Object
+* // Output: encoded_image_path: String
+
+* const compressed_message: String = compress_message(message)
+* const compressed_binary_message: String = convert_message_to_bits(compressed_message)
+* const binary_metadata: String = convert_metadata_to_bits(metadata)
+* const binary_message: String = binary_metadata + compressed_binary_message
+* const image_data: UInt8ClampedArray = get_image_data(image_path)
+* const new_image_data: UInt8ClampedArray = encode_data(image_data, binary_message)
+* const encoded_image_path: String = getEncodedImageURI(new_image_data)
+```
+
+Let's follow through a worked example (using LSB)
+
+```typescript
+* // Input: image_path = "example_white_sqaure.png", message = "A", metadata: {algorithm: "LSB"}
+
+* const compress_message = "A"
+* const compressed_binary_message = "0000000101100001"
+* const binary_metadata = "00000000"
+* const binary_message = "000000000000000101100001"
+* const image_data = [255, 255, 255, 255, 255, 255, 255, ..., 255] // 24 `255`'s'
+* const new_image_data: UInt8ClampedArray = [254, 254, ... x 13, 255, 254, 255, 255, 254, 254, 254, 254, 255]
+* const encoded_image_path = "file:///Stegappasaurus/15011111.png"
+```
+
+#### Decoding
+
+All decoding algorithms work as follows
+
+```typescript
+* // Input: image_path: String
+* // Output: decoded_message: String
+
+* const image_data_buffer = get_image_data() // first 10 pixels
+* const metadata: Object = decode_metadata()
+* const mesageLength: Number  = decoded_message_length() // will get more pixels from the image if required
+* const image_data = get_image_data() // will get the number of pixels we need to decode (start at the correct pixel, not at pixel 0 due to metadata and message length)
+* const decoded_decimal_data: Array = decode_data(messageLength, metadata)
+* const decoded_message: String = decompress_message(decoded_decimal_data)
+```
+
+Let's follow through a worked example (using LSB)
+
+```typescript
+* // Input: image_path = "file:///Stegappasaurus/15011111.png"
+
+* const image_data_buffer = [254, 254, ... x 13, 255, 254, 255, 255, 254, 254, 254, 254, 255]
+* const metadata = {algorithm: "LSB"}
+* const mesageLength = 1
+* const image_data = [255, 254, 255, 255, 254, 254, 254, 254, 255]
+* const decoded_decimal_data = [65]
+* const decoded_message = "A"
+```
+
+### Least Significant Bit (LSB)
+
+LSB involves changing the least significant bit, this is because it makes a smaller difference
+to the image so it's much harder to spot visually. For example say we want to encode the `011`
+into an image and the next pixel has RGB values of RGB(255, 255, 255).
+
+```text
+# Most Significant Bit
+
+- Encode `0` into `255`
+- Convert `255` into binary = `11111111`
+- Result `011111111` = 127
+- Pixel = RGB(127, 255, 255)
+
+# Least Significant Bit
+
+- Encode `0` into `255`
+- Convert `255` into binary = `11111111`
+- Result `111111110` = 254
+- Pixel =  RGB(254, 255, 255)
+
+# We don't have to change the other values as 255 is already encoded with a 1 at the beginning.
+```
+
+Now our encoded pixel has gone from white to a very light blue, which would be very noticeable.
+Now let's try the same example with LSB. However, with the LSB example, it's just a slightly dark white.
+
+Now, how about decoding, well it's relatively simple if the decimal number is even the LSB
+is `0` and if it's odd the LSB will always be `1`. Therefore from RGB(254, 255, 255) we decode
+`101`.
+
+```text
+# Least Significant Bit
+
+- Convert `254` into binary = `11111110`
+- Decoded Bit `0`
+- Convert `255` into binary = `11111111`
+- Decoded Bit `1`
+- Convert `255` into binary = `11111111`
+- Decoded Bit `1`
+
+- Decoded `101`
+```
+
+#### EncodeLSB
+
+The `EncodeLSB` class is very simple, it receives a message as a binary string and the image
+data to encode. It will then encode the message into the image data bit by bit. Each element
+in the image data will have encoded 1 bit from the message. Sometimes the LSB will not change
+for example if we want to encode `1` into `255` since it already ends in a `1` because `255`
+is `1111111` in binary we don't have to change the value.
+
+It also calls an action function, every time is encodes a bit, which can be passed to the object
+constructor such as incrementing a progress bar.
+
+#### DecodeLSB
+
+The `DecodeLSB` class is also very simple. It decodes one byte at a time because to decode the
+image from binary to a normal UTF8 string we need the. To retrieve the image we again go byte
+by byte but this time we use a remainder (modulus, %). Essentially if it's odd (must end in a `1`)
+the LSB will be `1` and if it's even the LSB must be `0`. We decode 8 bits (a byte) then
+push this on to an array. This array will then be decoded and decompressed by the Steganography
+class.

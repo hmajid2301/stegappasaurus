@@ -1,0 +1,325 @@
+---
+name: Contributing
+route: /contributing
+---
+
+# Contributing
+
+Three main ways to contribute to this project are;
+
+- **Adding a new feature:** Adding a new feature to the project, such as allow encoding of audio files alongside images
+- **Improving a feature:** Extend/improve an existing feature, such as a small UI change
+- **Fix an issue:** We have a list of [issues](https://gitlab.com/hmajid2301/stegappasaurus/issues), or you can fix your own issue.
+
+**Note**: Please do the following before raising an MR
+
+- Raise an issue before creating an MR
+- Name of the branch after the issue number you are fixing i.e. feature/#105
+- Merge from the feature branch to the master branch (never to the `production` branch)
+
+**Optional**: For better issue tracking if you log how long the issue took you too work on, [more information here](https://docs.gitlab.com/ee/user/project/time_tracking.html).
+This is so we can reconcile how long an issue took to complete vs what was expected.
+
+## Setup Dev Environment
+
+To set up this project on your own development machine, do the following.
+
+```bash
+git clone https://github.com/hmajid2301/stegappasaurus.git
+cd stegappasaurus
+touch .env
+yarn install
+adb connect <device_ip>
+yarn run start
+# Then in another terminal
+yarn run android
+```
+
+## Example `.env` file
+
+The `.env` file should have the following variables defined (you can look at `util/generateDotEnv.sh` for an example template file). Though if you're only trying to test
+this app locally the `.env` file is optional the app will still function without
+them.
+
+```bash
+# BUGSNAG API KEY, used for error tracking
+BUGSNAG_API_KEY=xxxxx
+# API Key for the `thecatapi`
+CAT_API_KEY=xxx
+```
+
+## Git Workflow
+
+We use the [squash and rebase](https://blog.carbonfive.com/2017/08/28/always-squash-and-rebase-your-git-commits/), with [Gitlab workflow](https://docs.gitlab.com/ee//topics/gitlab_flow.html#production-branch-with-gitlab-flow).
+
+Essentially how it works is we have a master branch where features are merged onto.
+When all the issues in the milestone have been completed, we then merge the `master`
+branch into `production`. The `production` branch is then tagged for release (i.e. `release/1.0.1`).
+
+We use [GitMoji](https://gitmoji.carloscuesta.me/), in our git titles.
+This makes it easier at a glance to see what commit is related to.
+
+## Release Management
+
+Before a new version of the app is released to production (after having merged `master` into `production`). We will first tag it as a `dev` release. This will release the app
+in the internal track (for my personal testing). Then once I am happy with this we can then
+tag it as a `test` release, which promotes the app from the internal track to the beta track.
+Finally once this round of testing is complete (roughly two weeks). It will be tagged with `release` and automatically published to the production track and everyone can use the app.
+
+## Project
+
+### Project Structure
+
+Most of the code resides within the `src` folder;
+
+- actions: Are things that the app can do, such as auto toggle the dark theme
+- assets: Include things like fonts and images
+- components: Are React components that can be shared between multiple views
+- constants: Constants use throughout the app, such as colours
+- data: Is content used within components such as the about us list
+- providers: The React contexts
+- views: All the different "pages" the user can see/navigate too in the application
+
+```
+├── __mocks__
+├── __tests__
+├── .gitlab
+├── @types
+├── android
+├── docs
+├── ios
+├── src
+│   ├── actions
+│   ├── assets
+│   ├── components
+│   ├── constants
+│   ├── data
+│   ├── providers
+│   ├── views
+│   └── MainApp.tsx
+├── util
+└── ...
+```
+
+### Views
+
+There are two main sets of views, the encoding/decoding pages and the settings pages.
+
+#### Settings
+
+The settings page has all the settings the user can set in the app, such as dark/light theme.
+It also includes other pieces of information such as the license, changelog, privacy policy and more.
+
+<div
+  style="
+    text-align: center;
+">
+  <iframe
+    width="650"
+    height="400"
+    src="https://www.youtube.com/embed/7gpZvp4ElrU"
+    frameborder="0"
+    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen
+  />
+</div>
+
+#### Encoding
+
+##### Main
+
+The main page (also acts as the home page for the app) is where the user chooses what image to encode.
+They can either;
+
+- Take a photo with their camera
+- Select a photo from their camera roll
+- Use a random cat photo from the internet
+- Select an image from their gallery shown as a flat list (3 per row)
+
+<div
+  style="
+    text-align: center;
+">
+  <iframe
+    width="650"
+    height="400"
+    src="https://www.youtube.com/embed/EfTwwnhVVZg"
+    frameborder="0"
+    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen
+  />
+</div>
+
+##### Message
+
+This is where the user enters the message they want to be encoded in their (selected image).
+
+<div
+  style="
+    text-align: center;
+">
+  <iframe
+    width="650"
+    height="400"
+    src="https://www.youtube.com/embed/8DB7tSx0-FA"
+    frameborder="0"
+    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen
+  />
+</div>
+
+##### Progress
+
+This is where the image is encoded using the steganography algorithm. The progress is updated through a progress
+circle, which increments with every bit encoded. The new encoded image is then saved to the user's gallery.
+The user can then share the image with others.
+
+<div
+  style="
+    text-align: center;
+">
+  <iframe
+    width="650"
+    height="400"
+    src="https://www.youtube.com/embed/ndYsJhvNSYo"
+    frameborder="0"
+    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen></iframe>
+</div>
+
+#### Decoding
+
+<div
+  style="
+    text-align: center;
+">
+  <iframe
+    width="650"
+    height="400"
+    src="https://www.youtube.com/embed/QUAyBA2folU"
+    frameborder="0"
+    allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+    allowfullscreen></iframe>
+</div>
+
+##### Main
+
+The main page is where the user chooses which image to decode.
+They can either;
+
+- Select a photo from their camera roll
+- Select an image from their gallery shown as a flat list (3 per row)
+
+##### Progress
+
+This is where the image is decoded using the steganography algorithm. The progress is updated through a progress
+circle, which increments with every bit decoded.
+
+##### Message
+
+This is where the user is shown the decoded message on a (non-editable) text input.
+
+## Style Guide
+
+We use a combination of prettier and tslint to do the code formatting and code linting for us.
+Make sure the `yarn run code-formatter-check` and `yarn run lint` both pass before submitting an MR.
+
+### imports
+
+Leave a single blank line between first/third party and our imports.
+
+```typescript
+import * as React from 'react';
+import {View} from 'react-native';
+import {NavigationScreenProp} from 'react-navigation';
+
+import ImageMessage from '~/components/ImageMessage';
+import Snackbar from '~/components/Snackbar';
+```
+
+### Module Resolver
+
+We are using the babel module resolver (typescript aliases and jest module mapper) so that the `~` (tilde) maps to src.
+So avoid long relative paths prefer to use `~` instead.
+
+```typescript
+// wrong
+import ImageMessage from '../../../../components/ImageMessage';
+
+// right
+import ImageMessage from '~/components/ImageMessage';
+```
+
+### Arrow Functions
+
+If you can use normal functions only define arrow functions if the function needs to be bound.
+
+```tsx
+public render() {
+  return (
+    <View>
+      <FlatList
+        data={this.padData(this.state.photos)}
+        keyExtractor={(item, index) => item.uri + index}
+        numColumns={3}
+        onEndReached={this.morePhotosFromCameraRoll}
+        onRefresh={this.handleRefresh}
+        renderItem={this.renderPhotosFromCameraRoll}
+        refreshing={this.state.refreshing}
+      />
+    </View>
+  );
+}
+
+public async componentDidMount() {
+  setTimeout(async () => {
+    await this.getPhotosFromCameraRoll();
+  }, 1000);
+}
+
+// ...
+
+private handleRefresh = async () => {
+  this.setState({ refreshing: true });
+  await this.getPhotosFromCameraRoll();
+};
+```
+
+### Function Ordering
+
+Prefer to keep the render function as the first function and everything after it.
+
+```tsx
+// wrong
+public async componentdidmount() {
+  settimeout(async () => {
+    await this.getphotosfromcameraroll();
+  }, 1000);
+}
+
+public render() {
+  return (
+  );
+}
+```
+
+```tsx
+// right
+public render() {
+  return (
+  );
+}
+
+public async componentdidmount() {
+  settimeout(async () => {
+    await this.getphotosfromcameraroll();
+  }, 1000);
+}
+```
+
+## Code Coverage
+
+If you do make a change make sure to update the unit tests they must always pass,
+you must also keep the code coverage higher or the same it cannot be lower as a result
+of your change. You can run `yarn run coverage` so see the coverage when the table is
+generated look at the `% Stmts` and `All files` number.

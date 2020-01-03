@@ -17,7 +17,7 @@ import com.facebook.react.bridge.WritableNativeArray
 import java.io.File
 import java.io.FileOutputStream
 import java.lang.Math
-import 	android.media.MediaScannerConnection
+import android.media.MediaScannerConnection
 
 class BitmapModule(reactContext: ReactApplicationContext) : ReactContextBaseJavaModule(reactContext) {
     override fun getName(): String {

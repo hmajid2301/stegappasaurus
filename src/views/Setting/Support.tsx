@@ -42,16 +42,29 @@ export default class Support extends React.Component<{}, State> {
           topDivider={true}
           bottomDivider={true}
           title={<ItemText color={color}>Usage Statistics</ItemText>}
-          subtitle="To help us improve the app you send us usage statistics and analytics about the app."
+          subtitle={
+            <ItemText color={color}>
+              To help us improve the app you send us usage statistics and
+              analytics about the app.
+            </ItemText>
+          }
           checkBox={{
             checked: this.state.usage,
             checkedIcon: (
-              <Icon type="material-community" name="checkbox-marked-outline" />
+              <Icon
+                type="material-community"
+                name="checkbox-marked-outline"
+                color={color}
+              />
             ),
             onPress: this.setUsage,
             size: 35,
             uncheckedIcon: (
-              <Icon type="material-community" name="checkbox-blank-outline" />
+              <Icon
+                type="material-community"
+                name="checkbox-blank-outline"
+                color={color}
+              />
             ),
           }}
         />
