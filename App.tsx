@@ -43,44 +43,14 @@ export default class App extends React.Component<{}, State> {
   }
   public async componentDidMount() {
     SplashScreen.hide();
-    const [storedIntroShown, storedTheme, storedUsage] = await Promise.all([
+    const [storedIntroShown, storedTheme] = await Promise.all([
       AsyncStorage.getItem('@IntroShown'),
       AsyncStorage.getItem('@Theme'),
-      AsyncStorage.getItem('@UsageStatistics'),
     ]);
 
     let introShown = false;
     if (storedIntroShown) {
       introShown = storedIntroShown === 'true' ? true : false;
-
-      if (storedUsage === null) {
-        let allow = false;
-        Alert.alert(
-          'Usage Statistics',
-          'To help us improve the app you send us usage statistics and analytics about the app.',
-          [
-            {
-              onPress: () => {
-                allow = true;
-              },
-              text: 'Allow',
-            },
-            {
-              onPress: () => {
-                allow = false;
-              },
-              style: 'cancel',
-              text: 'Do not allow',
-            },
-          ],
-          {cancelable: false},
-        );
-
-        await AsyncStorage.setItem('@UsageStatistics', JSON.stringify(allow));
-        if (!allow) {
-          await analytics().setAnalyticsCollectionEnabled(false);
-        }
-      }
     } else {
       HideNavigationBar();
     }
@@ -124,5 +94,35 @@ export default class App extends React.Component<{}, State> {
     ShowNavigationBar();
     await AsyncStorage.setItem('@IntroShown', 'true');
     this.setState({introShown: true});
+
+    const storedUsage = await AsyncStorage.getItem('@UsageStatistics');
+    if (storedUsage === null) {
+      let allow = false;
+      Alert.alert(
+        'Usage Statistics',
+        'To help us improve the app, you can send us usage statistics and analytics about the app.',
+        [
+          {
+            onPress: () => {
+              allow = true;
+            },
+            text: 'Allow',
+          },
+          {
+            onPress: () => {
+              allow = false;
+            },
+            style: 'cancel',
+            text: 'Do not allow',
+          },
+        ],
+        {cancelable: false},
+      );
+
+      await AsyncStorage.setItem('@UsageStatistics', JSON.stringify(allow));
+      if (!allow) {
+        await analytics().setAnalyticsCollectionEnabled(false);
+      }
+    }
   };
 }
