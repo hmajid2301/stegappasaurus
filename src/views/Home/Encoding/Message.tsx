@@ -1,5 +1,5 @@
 import React from 'react';
-import {Keyboard, View} from 'react-native';
+import {View} from 'react-native';
 import {NavigationScreenProp} from 'react-navigation';
 
 import Snackbar from '~/actions/Snackbar';
@@ -15,15 +15,11 @@ interface State {
 }
 
 export default class Message extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    const {navigation} = props;
-    const uri = navigation.getParam('uri', 'NO-ID');
+  public state = {
+    photo: this.props.navigation.getParam('uri', 'NO-ID'),
+  };
 
-    this.state = {
-      photo: uri,
-    };
-  }
+  private child: ImageMessage | null = null;
 
   public render() {
     return (
@@ -34,6 +30,7 @@ export default class Message extends React.Component<Props, State> {
           navigation={this.props.navigation}
           editable={true}
           photo={this.state.photo}
+          ref={ch => (this.child = ch)}
         />
       </View>
     );
@@ -44,8 +41,12 @@ export default class Message extends React.Component<Props, State> {
       Snackbar.show({
         text: 'Message cannot be empty',
       });
+      setTimeout(() => {
+        if (this.child && this.child.textInput.current !== null) {
+          this.child.textInput.current.focus();
+        }
+      }, 50);
     } else {
-      Keyboard.dismiss();
       this.props.navigation.navigate('Progress', {
         message,
         uri: this.state.photo,

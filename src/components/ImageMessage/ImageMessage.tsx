@@ -26,16 +26,15 @@ export default class ImageMessage extends React.Component<Props, State> {
     action: () => null,
     message: 'Enter your message here',
   };
+  public textInput = React.createRef<TextInput>();
 
   private focusListener: NavigationEventSubscription | null;
-  private textInput: React.RefObject<TextInput>;
 
   constructor(props: Props) {
     super(props);
     this.state = {
       message: '',
     };
-    this.textInput = React.createRef();
     this.focusListener = null;
   }
 
