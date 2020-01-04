@@ -25,7 +25,7 @@ const AboutUs = () => {
         </TextContainer>
 
         <View>
-          <AboutList items={about} />
+          <AboutList items={about(color)} />
         </View>
       </ScrollView>
     </AboutContainer>

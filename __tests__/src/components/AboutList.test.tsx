@@ -10,7 +10,7 @@ jest.mock('react-native-rate');
 
 describe('AboutList: Functionality', () => {
   test('Open URL', () => {
-    const {getByText} = render(<AboutList items={about} />);
+    const {getByText} = render(<AboutList items={about('#fff')} />);
 
     const spy = jest
       .spyOn(Linking, 'openURL')
@@ -23,7 +23,7 @@ describe('AboutList: Functionality', () => {
   });
 
   test('Open app store review', () => {
-    const {getByText} = render(<AboutList items={about} />);
+    const {getByText} = render(<AboutList items={about('#000')} />);
 
     const spy = jest
       .spyOn(Rate, 'rate')
