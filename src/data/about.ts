@@ -1,11 +1,10 @@
 import meta from '~/../app.json';
 import {AboutItem} from '~/components/AboutList/AboutList';
-import {primary} from '~/constants/colors';
 
-const about: AboutItem[] = [
+const about = (color: any): AboutItem[] => [
   {
     icon: {
-      color: primary,
+      color,
       name: 'versions',
       type: 'octicon',
     },
@@ -14,7 +13,7 @@ const about: AboutItem[] = [
   },
   {
     icon: {
-      color: primary,
+      color,
       name: 'code-fork',
       type: 'font-awesome',
     },
@@ -23,7 +22,7 @@ const about: AboutItem[] = [
   },
   {
     icon: {
-      color: primary,
+      color,
       name: 'gitlab',
       type: 'font-awesome',
     },
@@ -32,7 +31,7 @@ const about: AboutItem[] = [
   },
   {
     icon: {
-      color: primary,
+      color,
       name: 'web',
       type: 'material-community',
     },
@@ -41,7 +40,7 @@ const about: AboutItem[] = [
   },
   {
     icon: {
-      color: primary,
+      color,
       name: 'rate-review',
       type: 'material',
     },
@@ -49,7 +48,7 @@ const about: AboutItem[] = [
   },
   {
     icon: {
-      color: primary,
+      color,
       name: 'paypal',
       type: 'font-awesome',
     },
