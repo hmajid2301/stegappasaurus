@@ -17,13 +17,7 @@ export default class AppHeader extends React.Component<Props, {}> {
   public context!: React.ContextType<typeof ThemeContext>;
 
   public render() {
-    return (
-      <Header
-        {...this.props}
-        left={this.leftComponent()}
-        styles={{height: 50}}
-      />
-    );
+    return <Header {...this.props} left={this.leftComponent()} />;
   }
 
   private leftComponent = () => (
