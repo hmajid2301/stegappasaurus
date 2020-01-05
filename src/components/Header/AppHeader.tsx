@@ -26,6 +26,7 @@ export default class AppHeader extends React.Component<Props, {}> {
         color={this.context.theme.color}
         name="arrow-back"
         type="material-icons"
+        size={30}
       />
     </TouchableOpacity>
   );

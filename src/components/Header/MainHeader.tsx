@@ -38,6 +38,7 @@ export default class MainHeader extends React.Component<Props, {}> {
             color={this.context.theme.color}
             name="settings"
             type="feather"
+            size={30}
           />
         </TouchableOpacity>
       );
@@ -48,6 +49,7 @@ export default class MainHeader extends React.Component<Props, {}> {
           color={this.context.theme.color}
           name="home"
           type="font-awesome"
+          size={30}
         />
       </TouchableOpacity>
     );
