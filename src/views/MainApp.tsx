@@ -1,15 +1,18 @@
 import analytics from '@react-native-firebase/analytics';
-import React from 'react';
+import React, {useContext} from 'react';
 import {createAppContainer, NavigationState} from 'react-navigation';
 import {
   createMaterialTopTabNavigator,
   MaterialTopTabBar,
 } from 'react-navigation-tabs';
+import styled from 'styled-components/native';
 
 import {primary, pureWhite, secondary} from '~/constants/colors';
+import Loader from '~/components/Loader';
 import {body} from '~/constants/fonts';
 import Decoding from '~/views/Home/Decoding';
 import Encoding from '~/views/Home/Encoding';
+import {LoadingContext} from '~/providers/LoadingContext';
 
 const TabNavigator = createMaterialTopTabNavigator(
   {
@@ -56,7 +59,19 @@ const TabNavigator = createMaterialTopTabNavigator(
 );
 
 const AppContainer = createAppContainer(TabNavigator);
-const App = () => <AppContainer onNavigationStateChange={navChange} />;
+const MainApp = () => {
+  const {loading, changeLoading} = useContext(LoadingContext);
+
+  return (
+    <MainAppContainer>
+      <AppContainer
+        onNavigationStateChange={navChange}
+        screenProps={{changeLoading}}
+      />
+      <Loader loading={loading === 'true' ? true : false} overlay="#222" />
+    </MainAppContainer>
+  );
+};
 
 const navChange = (
   prevState: NavigationState,
@@ -84,4 +99,8 @@ function getActiveRouteName(navigationState: NavigationState): string {
   return route.routeName;
 }
 
-export default App;
+const MainAppContainer = styled.View`
+  flex: 1;
+`;
+
+export default MainApp;

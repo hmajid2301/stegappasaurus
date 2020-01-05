@@ -1,13 +1,11 @@
 module.exports = {
   env: {
     es6: true,
-    jest: true,
   },
   extends: [
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
     'plugin:@typescript-eslint/recommended-requiring-type-checking',
-    'plugin:jest/all',
     'plugin:prettier/recommended',
     'plugin:react/recommended',
     'prettier',
@@ -22,7 +20,6 @@ module.exports = {
   },
   plugins: [
     '@typescript-eslint',
-    'jest',
     'prettier',
     'react',
     'react-hooks',
@@ -87,11 +84,6 @@ module.exports = {
     eqeqeq: ['error', 'smart'],
     'guard-for-in': 'error',
     'id-match': 'error',
-    'jest/no-disabled-tests': 'warn',
-    'jest/no-focused-tests': 'error',
-    'jest/no-identical-title': 'error',
-    'jest/prefer-to-have-length': 'warn',
-    'jest/valid-expect': 'error',
     'linebreak-style': 'off',
     'max-classes-per-file': ['error', 1],
     'max-len': 'off',

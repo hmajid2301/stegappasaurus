@@ -16,7 +16,9 @@ const navigation: any = {
 
 describe('Encoding Main: Functionality', () => {
   test('Open Camera Pass', async () => {
-    const {getByTestId} = render(<Main navigation={navigation} />);
+    const {getByTestId} = render(
+      <Main navigation={navigation} screenProps={{changeLoading: _ => null}} />,
+    );
 
     ImagePicker.launchCamera = jest.fn().mockImplementation((_, callback) =>
       callback({
@@ -36,7 +38,9 @@ describe('Encoding Main: Functionality', () => {
   });
 
   test('Open Camera Fail', async () => {
-    const {getByTestId} = render(<Main navigation={navigation} />);
+    const {getByTestId} = render(
+      <Main navigation={navigation} screenProps={{changeLoading: _ => null}} />,
+    );
 
     ImagePicker.launchCamera = jest.fn().mockImplementation(() => {
       throw new Error();
@@ -54,7 +58,9 @@ describe('Encoding Main: Functionality', () => {
   });
 
   test('Open Camera Roll Pass', async () => {
-    const {getByTestId} = render(<Main navigation={navigation} />);
+    const {getByTestId} = render(
+      <Main navigation={navigation} screenProps={{changeLoading: _ => null}} />,
+    );
 
     ImagePicker.launchImageLibrary = jest
       .fn()
@@ -76,7 +82,9 @@ describe('Encoding Main: Functionality', () => {
   });
 
   test('Open Camera Roll Fail', async () => {
-    const {getByTestId} = render(<Main navigation={navigation} />);
+    const {getByTestId} = render(
+      <Main navigation={navigation} screenProps={{changeLoading: _ => null}} />,
+    );
 
     ImagePicker.launchImageLibrary = jest.fn().mockImplementation(() => {
       throw new Error();
@@ -94,7 +102,9 @@ describe('Encoding Main: Functionality', () => {
   });
 
   test('Open thecatapi Pass', async () => {
-    const {getByTestId} = render(<Main navigation={navigation} />);
+    const {getByTestId} = render(
+      <Main navigation={navigation} screenProps={{changeLoading: _ => null}} />,
+    );
 
     (fetch as jest.Mock).mockReturnValue({
       json: jest.fn().mockReturnValue({
@@ -123,7 +133,9 @@ describe('Encoding Main: Functionality', () => {
   });
 
   test('Open thecatapi Fail', async () => {
-    const {getByTestId} = render(<Main navigation={navigation} />);
+    const {getByTestId} = render(
+      <Main navigation={navigation} screenProps={{changeLoading: _ => null}} />,
+    );
 
     (fetch as jest.Mock).mockReturnValue({
       json: jest.fn().mockReturnValue({
