@@ -1770,6 +1770,11 @@
     "@types/react" "*"
     "@types/react-native" "*"
 
+"@types/react-native-share-extension@2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@types/react-native-share-extension/-/react-native-share-extension-2.0.0.tgz#dd03bd47d2d0332082a7af57f0c98af9ec10833b"
+  integrity sha512-a83djdmVAOCeocbHdarEwu9aEZiFX/TLMQa0khOINHIvjcnR6qvlWro6e0CAos94FVreA+FUWG62vbtPgdd9HQ==
+
 "@types/react-native-share@1.1.2":
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@types/react-native-share/-/react-native-share-1.1.2.tgz#8ba7b9a17da2c4ecba0cd38d7c752ca503726908"
@@ -12987,10 +12992,9 @@ react-native-navbar-color@1.0.3:
   resolved "https://registry.yarnpkg.com/react-native-navbar-color/-/react-native-navbar-color-1.0.3.tgz#b796e728226804d405335df53a64a9ed4091d5a6"
   integrity sha512-VAouso41MWDFC+mLPJmgIaH/B2352MnEgCrqzwDCKf43+nfk7O5FuqtLN9pWKEvX06laSTQPdqy5Arln/GH0Pg==
 
-react-native-navigation-bar-color@1.0.0:
+"react-native-navigation-bar-color@git+https://git@github.com/hmajid2301/react-native-navigation-bar-color":
   version "1.0.0"
-  resolved "https://registry.yarnpkg.com/react-native-navigation-bar-color/-/react-native-navigation-bar-color-1.0.0.tgz#04ff752a58049af93ceea9ccf266b8d3fbc6514a"
-  integrity sha512-djBE0zSp+JT65VeUm4UpIpr9DA9SpE9YTLwDAcqkWfB9JI8l3djSx+SmrIYfc7dUs216Y6qo2dr0qR3+M5qbOQ==
+  resolved "git+https://git@github.com/hmajid2301/react-native-navigation-bar-color#e7d9e7bfea9db34851b523860e97986ade4c1a9c"
 
 react-native-permissions@2.0.2:
   version "2.0.2"

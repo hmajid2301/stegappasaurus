@@ -9,37 +9,32 @@ interface Props {
 
 interface State {
   finished: boolean;
-  lastPhoto: string | null;
+  lastPhoto: string;
   photos: PhotoIdentifier[];
   refreshing: boolean;
   seen: Set<string>;
 }
 
 export default class PhotoAlbumList extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.state = {
-      finished: false,
-      lastPhoto: null,
-      photos: [],
-      refreshing: false,
-      seen: new Set(),
-    };
-  }
+  public state = {
+    finished: false,
+    lastPhoto: '',
+    photos: [],
+    refreshing: false,
+    seen: new Set<string>(),
+  };
 
   public render() {
     return (
-      <View>
-        <FlatList
-          data={this.padData(this.state.photos)}
-          keyExtractor={this.setKey}
-          numColumns={3}
-          onEndReached={this.getMorePhotos}
-          onRefresh={this.handleRefresh}
-          renderItem={this.renderPhotos}
-          refreshing={this.state.refreshing}
-        />
-      </View>
+      <FlatList
+        data={this.padData(this.state.photos)}
+        keyExtractor={this.setKey}
+        numColumns={3}
+        onEndReached={this.getMorePhotos}
+        onRefresh={this.handleRefresh}
+        renderItem={this.renderPhotos}
+        refreshing={this.state.refreshing}
+      />
     );
   }
 
@@ -103,15 +98,21 @@ export default class PhotoAlbumList extends React.Component<Props, State> {
     return {seen, newPhotos};
   }
 
-  private handleRefresh = async () => {
-    this.setState({
-      finished: false,
-      lastPhoto: null,
-      photos: [],
-      refreshing: true,
-      seen: new Set(),
-    });
-    await this.getMorePhotos();
+  private handleRefresh = () => {
+    this.setState(
+      {
+        finished: false,
+        lastPhoto: '',
+        photos: [],
+        refreshing: true,
+        seen: new Set<string>(),
+      },
+      () => {
+        this.getMorePhotos()
+          .then()
+          .catch();
+      },
+    );
     this.setState({refreshing: false});
   };
 
