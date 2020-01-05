@@ -9,7 +9,6 @@ import RNFetchBlob from 'rn-fetch-blob';
 
 import Snackbar from '~/actions/Snackbar';
 import {MainHeader} from '~/components/Header';
-import Loader from '~/components/Loader';
 import PhotoAlbumList from '~/components/PhotoAlbumList';
 import {primary} from '~/constants/colors';
 import {ThemeContext} from '~/providers/ThemeContext';
@@ -23,10 +22,12 @@ import {
 
 interface Props {
   navigation: NavigationScreenProp<any, any>;
+  screenProps: {
+    changeLoading: (isLoading: boolean) => any;
+  };
 }
 
 interface State {
-  loading: boolean;
   permissionsChecked: boolean;
 }
 
@@ -43,7 +44,6 @@ export default class Main extends React.Component<Props, State> {
   public context!: React.ContextType<typeof ThemeContext>;
 
   public state = {
-    loading: false,
     permissionsChecked: false,
   };
 
@@ -53,7 +53,6 @@ export default class Main extends React.Component<Props, State> {
         background={this.context.theme.background}
         testID={'hello'}>
         <MainHeader navigation={this.props.navigation} primary="#009cff" />
-        <Loader loading={this.state.loading} overlay="#333" />
         <ButtonsContainer>
           <TouchableButton
             button={primary}
@@ -127,7 +126,7 @@ export default class Main extends React.Component<Props, State> {
   };
 
   private getPhotoFromCatAPI = async () => {
-    this.setState({loading: true});
+    this.props.screenProps.changeLoading(true);
     const response = await fetch(
       'https://api.thecatapi.com/v1/images/search?mime_types=jpg,png',
       {
@@ -155,8 +154,7 @@ export default class Main extends React.Component<Props, State> {
           "Failed to get a cat photo, check you're connected to the internet.",
       });
     }
-
-    this.setState({loading: false});
+    this.props.screenProps.changeLoading(false);
   };
 
   private selectPhotoToEncode = (uri: string) => {

@@ -105,6 +105,19 @@ Most of the code resides within the `src` folder;
 
 There are two main sets of views, the encoding/decoding pages and the settings pages.
 
+#### View Structure
+
+Home
+The views are structured as follows (using React Navigation):
+
+`App.tsx`: Contains all the introduction logic such as the intro slides, showing the user
+the statistics usage alert etc.
+
+`MainApp.tsx`: Creates the tab navigator for encoding/decoding to show to the user.
+
+`Encoding.tsx`: (Or `Decoding.tsx`) are stack navigators which include all the pages for
+encoding such as `Main`, `Message` and `Progress` stack navigators.
+
 #### Settings
 
 The settings page has all the settings the user can set in the app, such as dark/light theme.

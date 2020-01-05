@@ -2,8 +2,6 @@ import React from 'react';
 import {ActivityIndicator, View} from 'react-native';
 import styled from 'styled-components/native';
 
-import {primary} from '~/constants/colors';
-
 interface Props {
   loading: boolean;
   overlay?: string;
@@ -13,7 +11,11 @@ const Loader = ({loading, overlay}: Props) => {
   if (loading) {
     return (
       <LoaderContainer overlay={overlay ? overlay : 'transparent'}>
-        <ActivityIndicator color={primary} size={'large'} />
+        <ActivityIndicator
+          color={'white'}
+          size={'large'}
+          style={{opacity: 1}}
+        />
       </LoaderContainer>
     );
   }
@@ -28,7 +30,7 @@ const LoaderContainer = styled.View<{overlay: string}>`
   flex: 1;
   justify-content: center;
   left: 0;
-  opacity: 0.75;
+  opacity: 0.85;
   position: absolute;
   right: 0;
   top: 0;

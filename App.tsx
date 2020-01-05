@@ -13,7 +13,8 @@ import IntroSlider from '~/components/IntroSlider';
 import Loader from '~/components/Loader';
 import {slides} from '~/data';
 import {ThemeContext} from '~/providers/ThemeContext';
-import Main from '~/views/Home';
+import {LoadingProvider} from '~/providers/LoadingContext';
+import MainApp from '~/views/MainApp';
 
 interface State {
   loading: boolean;
@@ -39,7 +40,11 @@ export default class App extends React.Component<{}, State> {
     } else if (!this.state.introShown) {
       return <IntroSlider slides={slides} onDone={this.introShownToUser} />;
     }
-    return <Main />;
+    return (
+      <LoadingProvider>
+        <MainApp />
+      </LoadingProvider>
+    );
   }
 
   public async componentDidMount() {
