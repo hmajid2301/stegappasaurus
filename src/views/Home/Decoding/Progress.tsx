@@ -1,7 +1,6 @@
 import analytics from '@react-native-firebase/analytics';
 import React from 'react';
 import {View} from 'react-native';
-// @ts-ignore
 import ShareExtension from 'react-native-share-extension';
 import {NavigationScreenProp} from 'react-navigation';
 

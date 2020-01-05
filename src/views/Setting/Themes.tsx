@@ -52,7 +52,6 @@ export default class Themes extends React.Component<{}, {}> {
   private async setTheme(isDark: boolean) {
     this.context.changeTheme(isDark);
     await AsyncStorage.setItem('@Theme', JSON.stringify(isDark));
-    // @ts-ignore
     changeNavigationBarColor(
       this.context.theme.isDark ? '#17212d' : '#ffffff',
       !this.context.theme.isDark,

@@ -58,7 +58,6 @@ export default class App extends React.Component<{}, State> {
       HideNavigationBar();
     }
 
-    // @ts-ignore
     changeNavigationBarColor(
       this.context.theme.isDark ? '#17212d' : '#ffffff',
       !this.context.theme.isDark,
