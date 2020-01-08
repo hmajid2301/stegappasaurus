@@ -10,9 +10,10 @@ import Snackbar from '~/actions/Snackbar';
 import Steganography from '~/actions/Steganography';
 import {AppHeader} from '~/components/Header';
 import ImageProgress from '~/components/ImageProgress';
-import {primary, pureWhite} from '~/constants/colors';
+import {primary} from '~/constants/colors';
 import {TabColors} from '~/constants/types';
 import {ThemeContext} from '~/providers/ThemeContext';
+import {getInnerProgressComponent} from '../Common';
 
 interface Props {
   navigation: NavigationScreenProp<any, any>;
@@ -20,6 +21,7 @@ interface Props {
 
 interface State {
   encodedUri: string;
+  innerProgressComponent: JSX.Element;
   photo: string;
   progress: number;
 }
@@ -30,6 +32,7 @@ export default class Progress extends React.Component<Props, State> {
 
   public state = {
     encodedUri: '',
+    innerProgressComponent: <View />,
     photo: this.props.navigation.getParam('uri', 'NO-ID'),
     progress: 0,
   };
@@ -40,12 +43,7 @@ export default class Progress extends React.Component<Props, State> {
         <AppHeader navigation={this.props.navigation} primary="#009cff" />
         <ImageProgress
           background={this.context.theme.background}
-          icon={{
-            color: pureWhite,
-            name: 'share',
-            size: 130,
-            type: 'font-awesome',
-          }}
+          innerComponent={this.state.innerProgressComponent}
           onPress={this.shareImage}
           photo={this.state.photo}
           progress={this.state.progress}
@@ -67,9 +65,13 @@ export default class Progress extends React.Component<Props, State> {
   private async encodeImage() {
     const message = this.props.navigation.getParam('message', 'NO-ID');
     const steganography = new Steganography(this.state.photo);
-    const timer = setInterval(() => {
-      this.setState({progress: steganography.getProgress()});
+    const updater = setInterval(() => {
+      const action = steganography.getCurrentAction();
+      const progress = steganography.getProgress();
+      const progressComponent = getInnerProgressComponent(action, progress);
+      this.setState({progress, innerProgressComponent: progressComponent});
     }, 50);
+
     try {
       const start = new Date().getTime();
       const encodedImage = await steganography.encode(message, {
@@ -84,7 +86,7 @@ export default class Progress extends React.Component<Props, State> {
       await analytics().logEvent('encoding_failed');
     } finally {
       this.setState({progress: 100});
-      clearInterval(timer);
+      clearInterval(updater);
     }
   }
 

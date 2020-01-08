@@ -12,6 +12,7 @@ import ImageProgress from '~/components/ImageProgress';
 import {secondary} from '~/constants/colors';
 import {TabColors} from '~/constants/types';
 import {ThemeContext} from '~/providers/ThemeContext';
+import {getInnerProgressComponent} from '../Common';
 
 interface Props {
   navigation: NavigationScreenProp<any, any>;
@@ -19,6 +20,7 @@ interface Props {
 
 interface State {
   photo: string;
+  innerProgressComponent: JSX.Element;
   progress: number;
 }
 
@@ -27,6 +29,7 @@ export default class Progress extends React.Component<Props, State> {
   public context!: React.ContextType<typeof ThemeContext>;
 
   public state = {
+    innerProgressComponent: <View />,
     photo: this.props.navigation
       ? this.props.navigation.getParam('uri', 'NO-ID')
       : '',
@@ -39,6 +42,7 @@ export default class Progress extends React.Component<Props, State> {
         <AppHeader navigation={this.props.navigation} primary="#e88c0c" />
         <ImageProgress
           background={this.context.theme.background}
+          innerComponent={this.state.innerProgressComponent}
           photo={this.state.photo}
           primaryColor={secondary as TabColors}
           progress={this.state.progress}
@@ -57,14 +61,16 @@ export default class Progress extends React.Component<Props, State> {
 
   private async decodeImage() {
     const steganography = new Steganography(this.state.photo);
-    const timer = setInterval(() => {
-      this.setState({progress: steganography.getProgress()});
+    const updater = setInterval(() => {
+      const action = steganography.getCurrentAction();
+      const progress = steganography.getProgress();
+      const progressComponent = getInnerProgressComponent(action, progress);
+      this.setState({progress, innerProgressComponent: progressComponent});
     }, 50);
     try {
       const start = new Date().getTime();
       const decodedMessage = await steganography.decode();
       const end = new Date().getTime();
-      clearInterval(timer);
       this.success(decodedMessage);
       await analytics().logEvent('decoding_success', {time: end - start});
     } catch (error) {
@@ -73,7 +79,7 @@ export default class Progress extends React.Component<Props, State> {
       await analytics().logEvent('decoding_failed');
     } finally {
       this.setState({progress: 100});
-      clearInterval(timer);
+      clearInterval(updater);
     }
   }
 

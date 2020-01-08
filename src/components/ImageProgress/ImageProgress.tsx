@@ -1,21 +1,14 @@
 import React from 'react';
 import {Dimensions, TouchableOpacity} from 'react-native';
 import {AnimatedCircularProgress} from 'react-native-circular-progress';
-import {Icon, IconType} from 'react-native-elements';
 import styled from 'styled-components/native';
 
-import {body} from '~/constants/fonts';
 import {TabColors, ThemeColors} from '~/constants/types';
 
 interface Props {
   background: ThemeColors;
+  innerComponent: JSX.Element;
   onPress?: (...args: any) => void;
-  icon?: {
-    color: string;
-    name: string;
-    size: number;
-    type: IconType;
-  };
   progress: number;
   photo: string;
   primaryColor: TabColors;
@@ -34,7 +27,7 @@ const ImageProgress: React.FunctionComponent<Props> = (props: Props) => (
         width={3}
         fill={props.progress}
         tintColor={props.primaryColor}>
-        {fill => (
+        {_ => (
           <BackgroundImage
             imageStyle={{
               borderRadius: pageWidth * 0.75,
@@ -42,10 +35,7 @@ const ImageProgress: React.FunctionComponent<Props> = (props: Props) => (
               overflow: 'hidden',
             }}
             source={{uri: props.photo}}>
-            <IconContainer>
-              {props.icon && <Icon {...props.icon} />}
-              <PercentageText>{Math.ceil(fill)}%</PercentageText>
-            </IconContainer>
+            <TextContainer>{props.innerComponent}</TextContainer>
           </BackgroundImage>
         )}
       </AnimatedCircularProgress>
@@ -66,16 +56,10 @@ const BackgroundImage = styled.ImageBackground`
   width: ${pageWidth * 0.75};
 `;
 
-const IconContainer = styled.View`
+const TextContainer = styled.View`
   flex: 1;
   justify-content: center;
   align-items: center;
-`;
-
-const PercentageText = styled.Text`
-  color: black;
-  font-family: ${body};
-  font-size: 50;
 `;
 
 export default ImageProgress;

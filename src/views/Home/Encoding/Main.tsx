@@ -18,7 +18,7 @@ import {
   MainContainer,
   PhotoAlbumContainer,
   TouchableButton,
-} from '../common';
+} from '../Common';
 
 interface Props {
   navigation: NavigationScreenProp<any, any>;

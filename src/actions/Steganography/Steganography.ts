@@ -6,6 +6,14 @@ import {DecodeLSB, EncodeLSB} from './LSB';
 
 type AlgorithmNames = 'LSBv1';
 
+export type Actions =
+  | 'starting'
+  | 'getting_image_data'
+  | 'encoding'
+  | 'decoding'
+  | 'setting_image_data'
+  | 'done';
+
 interface MetaData {
   algorithm: AlgorithmNames;
 }
@@ -26,12 +34,15 @@ export default class Steganography {
     value: number;
   };
 
+  private currentAction: Actions;
+
   constructor(imageURI: string) {
     this.imageURI = imageURI;
     this.progress = {
       increment: 0,
       value: 0,
     };
+    this.currentAction = 'starting';
   }
 
   public async encode(message: string, metadata: MetaData) {
@@ -50,6 +61,7 @@ export default class Steganography {
       metadata.algorithm,
     );
     const uri = await this.getEncodedImageURI(newImageData);
+    this.currentAction = 'done';
     return uri;
   }
 
@@ -63,6 +75,7 @@ export default class Steganography {
       metadata,
     );
     const message = LZUTF8.decompress(decodedDecimalData);
+    this.currentAction = 'done';
     return message;
   }
 
@@ -76,6 +89,18 @@ export default class Steganography {
 
   public getProgress() {
     return this.progress.value;
+  }
+
+  public updateProgressTo(increment: number) {
+    if (this.progress.value + increment >= 100) {
+      this.progress.value = 100;
+    } else {
+      this.progress.value += increment;
+    }
+  }
+
+  public getCurrentAction() {
+    return this.currentAction;
   }
 
   private convertMetadataToBits(metadata: MetaData) {
@@ -109,6 +134,7 @@ export default class Steganography {
   }
 
   private async getImageData(imageURI: string, start: number, end: number) {
+    this.currentAction = 'getting_image_data';
     const pixels = await NativeModules.Bitmap.getPixels(imageURI, start, end);
     return pixels;
   }
@@ -119,6 +145,7 @@ export default class Steganography {
     algorithm: AlgorithmNames,
   ) {
     this.progress.increment = Math.ceil(100 / data.length);
+    this.currentAction = 'encoding';
     let encodedData;
     switch (algorithm) {
       default: {
@@ -133,6 +160,7 @@ export default class Steganography {
   }
 
   private async getEncodedImageURI(data: number[]) {
+    this.currentAction = 'setting_image_data';
     const uri = await NativeModules.Bitmap.setPixels(this.imageURI, data);
     return uri;
   }
@@ -192,6 +220,8 @@ export default class Steganography {
     const startDecodingAt = decodeLSB.getCurrentIndex() % 3;
     const end = start + Math.ceil((messageLength * 8) / 3) + 1;
     const imageData = await this.getImageData(this.imageURI, start, end);
+    this.progress.increment = Math.ceil(100 / messageLength);
+    this.currentAction = 'decoding';
 
     let decodedMessage;
     switch (metadata.algorithm) {
