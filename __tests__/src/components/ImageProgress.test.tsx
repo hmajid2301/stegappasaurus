@@ -1,5 +1,6 @@
 import {render, fireEvent} from '@testing-library/react-native';
 import React from 'react';
+import {View} from 'react-native';
 
 import ImageProgress from '~/components/ImageProgress';
 
@@ -12,12 +13,7 @@ describe('ImageProgress: Functionality', () => {
     const {getByTestId} = render(
       <ImageProgress
         background="#17212d"
-        icon={{
-          color: '#ffffff',
-          name: 'share',
-          size: 130,
-          type: 'font-awesome',
-        }}
+        innerComponent={<View />}
         onPress={action.func}
         photo="file://example-uri.png"
         progress={20}

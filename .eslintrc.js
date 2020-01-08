@@ -62,6 +62,10 @@ module.exports = {
     '@typescript-eslint/no-unnecessary-type-assertion': 'error',
     '@typescript-eslint/no-use-before-define': 'off',
     '@typescript-eslint/no-var-requires': 'error',
+    '@typescript-eslint/no-unused-vars': [
+      'error',
+      {varsIgnorePattern: '_', argsIgnorePattern: '_'},
+    ],
     '@typescript-eslint/prefer-for-of': 'error',
     '@typescript-eslint/prefer-function-type': 'error',
     '@typescript-eslint/prefer-namespace-keyword': 'error',
