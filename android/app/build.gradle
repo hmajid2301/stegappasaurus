@@ -238,7 +238,7 @@ play {
     resolutionStrategy = "auto"
     outputProcessor {
         version = System.getenv('VERSION')
-        versionNameOverride = "$version"
+        versionNameOverride = "$version.$versionCode"
     }
 }
 
