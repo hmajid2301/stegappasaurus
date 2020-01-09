@@ -131,7 +131,7 @@ pages:
     - yarn
   script:
     - yarn docs-build
-    - mv .docz/dist public
+    - mv .docz/dist/* public/
   artifacts:
     paths:
       - public
