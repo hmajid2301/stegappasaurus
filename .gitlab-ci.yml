@@ -27,7 +27,7 @@ pre:close:issue:
     - master
   script:
     - apk add --no-cache --upgrade grep
-    - ISSUE=$(echo $CI_COMMIT_MESSAGE | grep -oP "(?<=Fixes \#)[0-9]+")
+    - ISSUE=$(echo $CI_COMMIT_MESSAGE | grep -oP "(?<=Fixes \#)[0-9]+") || '1'
     - gitlab_auto_close_issue --issue $ISSUE --remove-label "Doing" --remove-label "To Do"
 
 pre:create:merge-request:
@@ -105,7 +105,6 @@ post:create:gitlab:release:
   image: registry.gitlab.com/gitlab-automation-toolkit/gitlab-auto-release
   stage: post
   only:
-    - /^dev/.*$/
     - /^release/.*$/
   before_script: []
   script:
