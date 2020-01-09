@@ -26,7 +26,5 @@
       </intent-filter>
     </activity>
 
-    <meta-data android:name="com.bugsnag.android.API_KEY" android:value="@string/BUGSNAG_API_KEY" />
-    <meta-data android:name="com.bugsnag.android.DETECT_NDK_CRASHES" android:value="true" />
   </application>
 </manifest>
