@@ -127,19 +127,25 @@ export default class Main extends React.Component<Props, State> {
 
   private getPhotoFromCatAPI = async () => {
     this.props.screenProps.changeLoading(true);
-    const response = await fetch(
-      'https://api.thecatapi.com/v1/images/search?mime_types=jpg,png',
-      {
-        headers: {
-          'x-api-key': Config.CAT_API_KEY,
+    try {
+      const response = await fetch(
+        'https://api.thecatapi.com/v1/images/search?mime_types=jpg,png',
+        {
+          headers: {
+            'x-api-key': Config.CAT_API_KEY,
+          },
         },
-      },
-    );
-    const data = await response.json();
-    const status = response.status;
-    if (status === 200) {
+      );
+
+      const data = await response.json();
+      const status = response.status;
+      if (status !== 200) {
+        throw new Error('cat_api_network');
+      }
+
       const urls = data as CatAPIResponse[];
       const url = urls[0].url;
+
       await Image.prefetch(url);
       await RNFetchBlob.config({
         fileCache: true,
@@ -148,7 +154,7 @@ export default class Main extends React.Component<Props, State> {
         .then(res => {
           this.selectPhotoToEncode(`file://${res.path()}`);
         });
-    } else {
+    } catch {
       Snackbar.show({
         text:
           "Failed to get a cat photo, check you're connected to the internet.",
