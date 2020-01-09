@@ -45,6 +45,8 @@ lint:
   stage: test
   only:
     - merge_requests
+  except:
+    - master
   script:
     - yarn lint
 
@@ -52,6 +54,8 @@ lint:code-formatter:
   stage: test
   only:
     - merge_requests
+  except:
+    - master
   script:
     - yarn code-formatter-check
 
@@ -59,6 +63,8 @@ lint:types:
   stage: test
   only:
     - merge_requests
+  except:
+    - master
   script:
     - yarn types-check
 
@@ -66,6 +72,8 @@ tests:unit:
   stage: test
   only:
     - merge_requests
+  except:
+    - master
   script:
     - yarn tests --silent
 
