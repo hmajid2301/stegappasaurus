@@ -46,7 +46,8 @@ lint:
   only:
     - merge_requests
   except:
-    - master
+    variables:
+      - $CI_COMMIT_REF_NAME =~ /^master/
   script:
     - yarn lint
 
@@ -55,7 +56,8 @@ lint:code-formatter:
   only:
     - merge_requests
   except:
-    - master
+    variables:
+      - $CI_COMMIT_REF_NAME =~ /^master/
   script:
     - yarn code-formatter-check
 
@@ -64,7 +66,8 @@ lint:types:
   only:
     - merge_requests
   except:
-    - master
+    variables:
+      - $CI_COMMIT_REF_NAME =~ /^master/
   script:
     - yarn types-check
 
@@ -73,7 +76,8 @@ tests:unit:
   only:
     - merge_requests
   except:
-    - master
+    variables:
+      - $CI_COMMIT_REF_NAME =~ /^master/
   script:
     - yarn tests --silent
 
