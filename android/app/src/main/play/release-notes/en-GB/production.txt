@@ -1,0 +1,3 @@
+- Initial Release of application
+- Allows you to encode/decode images using steganography
+- Share encoded images with others

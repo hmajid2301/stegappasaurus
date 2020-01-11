@@ -80,7 +80,7 @@ import com.android.build.OutputFile
 
 project.ext.react = [
     entryFile: "index.js",
-    enableHermes: true
+    enableHermes: false
 ]
 
 apply from: "../../node_modules/react-native/react.gradle"
@@ -218,7 +218,6 @@ dependencies {
     } else {
         implementation jscFlavor
     }
-    androidTestImplementation('com.wix:detox:+') { transitive = true } 
     androidTestImplementation 'junit:junit:4.12'
 }
 
@@ -233,7 +232,7 @@ apply from: file("../../node_modules/@react-native-community/cli-platform-androi
 
 play {
     defaultToAppBundles = true
-    track = "internal"
+    track = "alpha"
     serviceAccountCredentials = file("./play-store.json")
     resolutionStrategy = "auto"
     outputProcessor {

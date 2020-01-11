@@ -105,12 +105,10 @@ publish:android:package:
     - cat $FIREBASE_GOOGLE_SERVICES_JSON > app/google-services.json
     - yarn generate-licenses
     - yarn generate-gradle-properties
-    - yarn bundle
     - yarn publish-package --no-daemon
   artifacts:
     paths:
-      - ./android/app/build/outputs/
-      - ./android/app/build/generated/
+      - ./android/app/build/
       - ./android/app/src/main/assets/
 
 create:gitlab:release:
