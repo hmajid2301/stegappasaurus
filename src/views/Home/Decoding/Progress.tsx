@@ -64,7 +64,11 @@ export default class Progress extends React.Component<Props, State> {
     const updater = setInterval(() => {
       const action = steganography.getCurrentAction();
       const progress = steganography.getProgress();
-      const progressComponent = getInnerProgressComponent(action, progress);
+      const progressComponent = getInnerProgressComponent(
+        action,
+        progress,
+        false,
+      );
       this.setState({progress, innerProgressComponent: progressComponent});
     }, 50);
     try {

@@ -3,13 +3,18 @@ import {Dimensions, TextStyle, View} from 'react-native';
 import {Icon} from 'react-native-elements';
 import styled from 'styled-components/native';
 
+import {Actions} from '~/actions/Steganography';
 import {pureWhite} from '~/constants/colors';
 import {body} from '~/constants/fonts';
 import {TabColors, ThemeColors} from '~/constants/types';
 
 const pageWidth = Dimensions.get('window').width;
 
-export const getInnerProgressComponent = (action: any, progress: number) => {
+export const getInnerProgressComponent = (
+  action: Actions,
+  progress: number,
+  isEncoding = true,
+) => {
   let component = <View />;
 
   if (action === 'encoding' || action === 'decoding') {
@@ -17,7 +22,9 @@ export const getInnerProgressComponent = (action: any, progress: number) => {
   } else if (action === 'done') {
     component = (
       <View>
-        <Icon color={pureWhite} name="share" size={130} type="font-awesome" />
+        {isEncoding || (
+          <Icon color={pureWhite} name="share" size={130} type="font-awesome" />
+        )}
         <ProgressText>{Math.ceil(progress)}%</ProgressText>
       </View>
     );
@@ -27,7 +34,6 @@ export const getInnerProgressComponent = (action: any, progress: number) => {
     component = (
       <View>
         <ProgressText>Saving New Image</ProgressText>
-        <SubtitleText>{Math.ceil(progress)}%</SubtitleText>
       </View>
     );
   } else {
@@ -45,12 +51,6 @@ const ProgressText = styled.Text`
   color: black;
   font-family: ${body};
   font-size: 30;
-`;
-
-const SubtitleText = styled.Text`
-  color: black;
-  font-family: ${body};
-  font-size: 18;
 `;
 
 export const MainContainer = styled.View<{background: ThemeColors}>`
