@@ -25,6 +25,7 @@
     "@react-native-community/cameraroll": "1.2.1",
     "@react-native-firebase/analytics": "6.2.0",
     "@react-native-firebase/app": "6.2.0",
+    "@react-native-firebase/crashlytics": "^6.2.0",
     "bugsnag-react-native": "2.23.1",
     "lzutf8": "0.5.5",
     "react": "16.9.0",
