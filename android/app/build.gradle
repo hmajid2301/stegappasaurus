@@ -2,6 +2,7 @@ apply plugin: "com.android.application"
 apply plugin: "com.github.triplet.play"
 apply plugin: "kotlin-android"
 apply plugin: "kotlin-android-extensions"
+apply plugin: "io.fabric"
 
 import com.android.build.OutputFile
 
@@ -241,4 +242,8 @@ play {
     }
 }
 
-apply plugin: 'com.google.gms.google-services'
+crashlytics {
+    enableNdk true
+}
+
+apply plugin: "com.google.gms.google-services"
