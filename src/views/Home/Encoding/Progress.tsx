@@ -85,7 +85,8 @@ export default class Progress extends React.Component<Props, State> {
       bugsnag.notify(error);
       await analytics().logEvent('encoding_failed');
     } finally {
-      this.setState({progress: 100});
+      const innerProgressComponent = getInnerProgressComponent('done', 100);
+      this.setState({progress: 100, innerProgressComponent});
       clearInterval(updater);
     }
   }

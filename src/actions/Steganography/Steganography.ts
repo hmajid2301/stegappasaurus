@@ -8,6 +8,7 @@ type AlgorithmNames = 'LSBv1';
 
 export type Actions =
   | 'starting'
+  | 'getting_message_length'
   | 'getting_image_data'
   | 'encoding'
   | 'decoding'
@@ -54,12 +55,15 @@ export default class Steganography {
     const binaryMessage = binaryMetadata + compressedBinaryMessage;
 
     const end = Math.ceil(binaryMessage.length / 3);
+    this.currentAction = 'getting_image_data';
     const imageData = await this.getImageData(this.imageURI, 0, end);
+    this.currentAction = 'encoding';
     const newImageData = this.encodeData(
       imageData,
       binaryMessage,
       metadata.algorithm,
     );
+    this.currentAction = 'setting_image_data';
     const uri = await this.getEncodedImageURI(newImageData);
     this.currentAction = 'done';
     return uri;
@@ -68,7 +72,9 @@ export default class Steganography {
   public async decode() {
     const decodeLSB = new DecodeLSB();
     const metadata = await this.decodeMetadata(decodeLSB);
+    this.currentAction = 'getting_image_data';
     const messageLength = await this.decodeMessageLength(decodeLSB);
+    this.currentAction = 'decoding';
     const decodedDecimalData = await this.decodeData(
       decodeLSB,
       messageLength,
@@ -134,7 +140,6 @@ export default class Steganography {
   }
 
   private async getImageData(imageURI: string, start: number, end: number) {
-    this.currentAction = 'getting_image_data';
     const pixels = await NativeModules.Bitmap.getPixels(imageURI, start, end);
     return pixels;
   }
@@ -145,7 +150,6 @@ export default class Steganography {
     algorithm: AlgorithmNames,
   ) {
     this.progress.increment = Math.ceil(100 / data.length);
-    this.currentAction = 'encoding';
     let encodedData;
     switch (algorithm) {
       default: {
@@ -160,7 +164,6 @@ export default class Steganography {
   }
 
   private async getEncodedImageURI(data: number[]) {
-    this.currentAction = 'setting_image_data';
     const uri = await NativeModules.Bitmap.setPixels(this.imageURI, data);
     return uri;
   }
@@ -221,7 +224,6 @@ export default class Steganography {
     const end = start + Math.ceil((messageLength * 8) / 3) + 1;
     const imageData = await this.getImageData(this.imageURI, start, end);
     this.progress.increment = Math.ceil(100 / messageLength);
-    this.currentAction = 'decoding';
 
     let decodedMessage;
     switch (metadata.algorithm) {
