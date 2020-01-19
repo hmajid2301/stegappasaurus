@@ -1,4 +1,4 @@
-import {AppRegistry, View} from 'react-native';
+import {AppRegistry} from 'react-native';
 import {AppearanceProvider} from 'react-native-appearance';
 import React from 'react';
 
