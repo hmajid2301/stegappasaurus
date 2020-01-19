@@ -1,3 +1,4 @@
+import {create} from 'apisauce';
 import React from 'react';
 import {Image} from 'react-native';
 import Config from 'react-native-config';
@@ -128,22 +129,18 @@ export default class Main extends React.Component<Props, State> {
   private getPhotoFromCatAPI = async () => {
     this.props.screenProps.changeLoading(true);
     try {
-      const response = await fetch(
-        'https://api.thecatapi.com/v1/images/search?mime_types=jpg,png',
-        {
-          headers: {
-            'x-api-key': Config.CAT_API_KEY,
-          },
-        },
-      );
+      const api = create({
+        baseURL: 'https://api.thecatapi.com',
+        headers: {'x-api-key': Config.CAT_API_KEY},
+        timeout: 10000,
+      });
 
-      const data = await response.json();
-      const status = response.status;
-      if (status !== 200) {
+      const response = await api.get('/v1/images/search?mime_types=jpg,png');
+      if (!response.ok) {
         throw new Error('cat_api_network');
       }
 
-      const urls = data as CatAPIResponse[];
+      const urls = response.data as CatAPIResponse[];
       const url = urls[0].url;
 
       await Image.prefetch(url);
