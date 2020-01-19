@@ -52,7 +52,7 @@ const ProgressContainer = styled.View<{background: ThemeColors}>`
 
 const BackgroundImage = styled.ImageBackground`
   height: ${pageWidth * 0.75};
-  opacity: 0.65;
+  opacity: 0.5;
   width: ${pageWidth * 0.75};
 `;
 

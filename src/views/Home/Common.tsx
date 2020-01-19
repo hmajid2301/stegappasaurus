@@ -22,7 +22,7 @@ export const getInnerProgressComponent = (
   } else if (action === 'done') {
     component = (
       <View>
-        {isEncoding || (
+        {isEncoding && (
           <Icon color={pureWhite} name="share" size={130} type="font-awesome" />
         )}
         <ProgressText>{Math.ceil(progress)}%</ProgressText>
@@ -30,6 +30,8 @@ export const getInnerProgressComponent = (
     );
   } else if (action === 'getting_image_data') {
     component = <ProgressText>Getting Image Data</ProgressText>;
+  } else if (action === 'getting_message_length') {
+    component = <ProgressText>Getting Message Length</ProgressText>;
   } else if (action === 'setting_image_data') {
     component = (
       <View>
