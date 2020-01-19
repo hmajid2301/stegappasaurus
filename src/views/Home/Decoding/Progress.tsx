@@ -1,7 +1,6 @@
 import analytics from '@react-native-firebase/analytics';
 import React from 'react';
 import {View} from 'react-native';
-import ShareExtension from 'react-native-share-extension';
 import {NavigationScreenProp} from 'react-navigation';
 
 import bugsnag from '~/actions/Bugsnag/Bugsnag';
@@ -52,10 +51,6 @@ export default class Progress extends React.Component<Props, State> {
   }
 
   public async componentDidMount() {
-    const {value} = await ShareExtension.data();
-    if (value) {
-      this.setState({photo: value});
-    }
     await this.decodeImage();
   }
 
