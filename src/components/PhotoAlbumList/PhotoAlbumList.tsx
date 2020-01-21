@@ -66,6 +66,7 @@ export default class PhotoAlbumList extends React.Component<Props, State> {
     if (!this.state.finished) {
       const photosData = await CameraRoll.getPhotos({
         after: this.state.lastPhoto ? this.state.lastPhoto : undefined,
+        assetType: 'Photos',
         first: 15,
       });
       const {
