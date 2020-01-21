@@ -7,6 +7,7 @@ import {
 } from 'react-navigation-tabs';
 import styled from 'styled-components/native';
 
+import bugsnag from '~/actions/Bugsnag/Bugsnag';
 import {primary, pureWhite, secondary} from '~/constants/colors';
 import Loader from '~/components/Loader';
 import {body} from '~/constants/fonts';
@@ -65,7 +66,7 @@ const MainApp = () => {
   return (
     <MainAppContainer>
       <AppContainer
-        onNavigationStateChange={navChange}
+        onNavigationStateChange={onNavigationChange}
         screenProps={{changeLoading}}
       />
       <Loader loading={loading === 'true' ? true : false} overlay="#222" />
@@ -73,7 +74,7 @@ const MainApp = () => {
   );
 };
 
-const navChange = (
+const onNavigationChange = (
   prevState: NavigationState,
   currentState: NavigationState,
 ) => {
@@ -85,6 +86,7 @@ const navChange = (
       .setCurrentScreen(currentRouteName, currentRouteName)
       .then()
       .catch();
+    bugsnag.leaveBreadcrumb(currentRouteName, {type: 'navigation'});
   }
 };
 
