@@ -2,6 +2,7 @@ import React from 'react';
 import {Icon} from 'react-native-elements';
 import ImagePicker from 'react-native-image-picker';
 import {NavigationScreenProp} from 'react-navigation';
+import ShareExtension from 'react-native-share-extension';
 
 import Snackbar from '~/actions/Snackbar';
 import {MainHeader} from '~/components/Header';
@@ -42,6 +43,13 @@ export default class Main extends React.Component<Props, {}> {
         </PhotoAlbumContainer>
       </MainContainer>
     );
+  }
+
+  public async componentDidMount() {
+    const {value} = await ShareExtension.data();
+    if (value) {
+      this.selectPhotoToDecode(value);
+    }
   }
 
   private getPhotoFromCameraRoll = () => {

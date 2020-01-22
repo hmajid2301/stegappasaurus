@@ -4,6 +4,7 @@ import {Linking, View} from 'react-native';
 import {check, PERMISSIONS, request} from 'react-native-permissions';
 import Share from 'react-native-share';
 import {NavigationScreenProp} from 'react-navigation';
+import RNFetchBlob from 'rn-fetch-blob';
 
 import bugsnag from '~/actions/Bugsnag/Bugsnag';
 import Snackbar from '~/actions/Snackbar';
@@ -85,7 +86,8 @@ export default class Progress extends React.Component<Props, State> {
       bugsnag.notify(error);
       await analytics().logEvent('encoding_failed');
     } finally {
-      this.setState({progress: 100});
+      const innerProgressComponent = getInnerProgressComponent('done', 100);
+      this.setState({progress: 100, innerProgressComponent});
       clearInterval(updater);
     }
   }
@@ -106,15 +108,23 @@ export default class Progress extends React.Component<Props, State> {
   }
 
   private shareImage = async () => {
+    const base64Image = await RNFetchBlob.fs.readFile(
+      this.state.encodedUri,
+      'base64',
+    );
+
     const response = await Share.open({
       failOnCancel: false,
       message: 'Encoded image shared from stegappasaurus app.',
-      url: this.state.encodedUri,
+      url: `data:image/png;base64,${base64Image}`,
     });
-    await analytics().logShare({
-      content_type: response.app as string,
-      item_id: 'encoding',
-    });
+
+    if (response) {
+      await analytics().logShare({
+        content_type: response.app as string,
+        item_id: 'encoding',
+      });
+    }
   };
 
   private sendUserBackToMain() {
