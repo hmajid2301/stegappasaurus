@@ -93,8 +93,6 @@ publish:android:package:
   stage: publish
   image: reactnativecommunity/react-native-android
   only:
-    - /^dev/.*$/
-    - /^test/.*$/
     - /^release/.*$/
   script:
     - echo fs.inotify.max_user_watches=524288 | tee -a /etc/sysctl.conf && sysctl -p
@@ -146,7 +144,7 @@ create:gitlab:release:
 publish:bugsnag:soucemaps:
   stage: post
   only:
-    - /^dev/.*$/
+    - /^release/.*$/
   script:
     - apt update && apt install -y jq
     - export VERSION=$(cat app.json | jq -r .version)

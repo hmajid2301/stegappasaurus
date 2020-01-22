@@ -59,17 +59,6 @@ branch into `production`. The `production` branch is then tagged for release (i.
 We use [GitMoji](https://gitmoji.carloscuesta.me/), in our git titles.
 This makes it easier at a glance to see what commit is related to.
 
-## Release Management
-
-Before a new version of the app is released to production (after having merged `master` into `production`). We will first tag it as a `dev` release. This will release the app
-in the internal track (for my personal testing). Then once I am happy with this we can then
-tag it as a `test` release, which promotes the app from the internal track to the beta track.
-Finally once this round of testing is complete (roughly two weeks). It will be tagged with `release` and automatically published to the production track and everyone can use the app.
-
-- dev = alpha
-- test = beta
-- release = production
-
 ### Pre Release Checklist
 
 - [ ] app.json
