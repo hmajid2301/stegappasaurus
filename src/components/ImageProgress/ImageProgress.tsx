@@ -33,6 +33,7 @@ const ImageProgress: React.FunctionComponent<Props> = (props: Props) => (
               borderRadius: pageWidth * 0.75,
               borderWidth: 5,
               overflow: 'hidden',
+              opacity: 0.12,
             }}
             source={{uri: props.photo}}>
             <TextContainer>{props.innerComponent}</TextContainer>
@@ -52,7 +53,6 @@ const ProgressContainer = styled.View<{background: ThemeColors}>`
 
 const BackgroundImage = styled.ImageBackground`
   height: ${pageWidth * 0.75};
-  opacity: 0.5;
   width: ${pageWidth * 0.75};
 `;
 

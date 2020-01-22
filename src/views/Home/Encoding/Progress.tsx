@@ -119,10 +119,12 @@ export default class Progress extends React.Component<Props, State> {
       url: `data:image/png;base64,${base64Image}`,
     });
 
-    await analytics().logShare({
-      content_type: response.app as string,
-      item_id: 'encoding',
-    });
+    if (response) {
+      await analytics().logShare({
+        content_type: response.app as string,
+        item_id: 'encoding',
+      });
+    }
   };
 
   private sendUserBackToMain() {

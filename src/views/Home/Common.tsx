@@ -4,7 +4,7 @@ import {Icon} from 'react-native-elements';
 import styled from 'styled-components/native';
 
 import {Actions} from '~/actions/Steganography';
-import {pureWhite} from '~/constants/colors';
+import {primary, pureWhite} from '~/constants/colors';
 import {body} from '~/constants/fonts';
 import {TabColors, ThemeColors} from '~/constants/types';
 
@@ -23,7 +23,7 @@ export const getInnerProgressComponent = (
     component = (
       <View>
         {isEncoding && (
-          <Icon color={pureWhite} name="share" size={130} type="font-awesome" />
+          <Icon color={primary} name="share" size={130} type="font-awesome" />
         )}
         <ProgressText>{Math.ceil(progress)}%</ProgressText>
       </View>
