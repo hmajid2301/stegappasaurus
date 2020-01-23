@@ -2,20 +2,16 @@
 
 echo $CI_COMMIT_TAG
 
-if [[ $CI_COMMIT_TAG =~ release\/.* ]]; then
-    echo "Release Tag: Promoting Package: Production" 
-    cd android && ./gradlew promoteArtifact \
-    --from-track beta --promote-track production \
-    --release-status completed
-elif [[ $CI_COMMIT_TAG =~ test\/.* ]]; then
-    echo "Test Tag: Promoting Package: Beta" 
-    cd android && ./gradlew promoteArtifact \
-    --from-track internal --promote-track beta \
-    --release-status completed
-elif [[ $CI_COMMIT_TAG =~ dev\/.* ]]; then
-    echo "Dev Tag: Publishing Package: Alpha" 
-    cd android && ./gradlew publish
+if [[ $CI_COMMIT_TAG == *"alpha"* ]]; then
+    echo "Publishing Package: Alpha" 
+    cd android && ./gradlew publish --track alpha
+elif [[ $CI_COMMIT_TAG == *"beta"* ]]; then
+    echo "Publishing Package: Beta" 
+    cd android && ./gradlew publish --track beta
+elif [[ $CI_COMMIT_TAG == *"release"* ]]; then
+    echo "Publishing Package: Production" 
+    cd android && ./gradlew publish --track production
 else
-    echo "No Tags: Publishing Package: Internal"
+    echo "Publishing Package: Internal"
     cd android && ./gradlew publish --track internal
 fi

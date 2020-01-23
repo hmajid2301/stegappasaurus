@@ -93,8 +93,6 @@ publish:android:package:
   stage: publish
   image: reactnativecommunity/react-native-android
   only:
-    - /^dev/.*$/
-    - /^test/.*$/
     - /^release/.*$/
   script:
     - echo fs.inotify.max_user_watches=524288 | tee -a /etc/sysctl.conf && sysctl -p
@@ -113,27 +111,6 @@ publish:android:package:
       - ./android/app/build/
       - ./android/app/src/main/assets/
 
-publish:android:apk:
-  stage: publish
-  image: reactnativecommunity/react-native-android
-  only:
-    - /^release/.*$/
-  script:
-    - echo fs.inotify.max_user_watches=524288 | tee -a /etc/sysctl.conf && sysctl -p
-    - export CHANGELOG=$(cat CHANGELOG.md)
-    - echo -e "const changelog = \`${CHANGELOG}\`;\n\nexport default changelog;" > src/data/changelog.ts
-    - cd android
-    - base64 -d $ANDROID_KEYSTORE > app/stegappasaurus.keystore
-    - export VERSION=$(cat app.json | jq -r .version)
-    - cat $PLAY_STORE_JSON > app/play-store.json
-    - cat $FIREBASE_GOOGLE_SERVICES_JSON > app/google-services.json
-    - yarn generate-licenses
-    - yarn generate-gradle-properties
-    - yarn build-apk
-  artifacts:
-    paths:
-      - ./android/app/build/
-
 create:gitlab:release:
   image: registry.gitlab.com/gitlab-automation-toolkit/gitlab-auto-release
   stage: post
@@ -146,7 +123,7 @@ create:gitlab:release:
 publish:bugsnag:soucemaps:
   stage: post
   only:
-    - /^dev/.*$/
+    - /^release/.*$/
   script:
     - apt update && apt install -y jq
     - export VERSION=$(cat app.json | jq -r .version)
