@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+cat  << EOF
+android.useAndroidX=true
+android.enableJetifier=true
+org.gradle.jvmargs=-Xms1g
+MYAPP_RELEASE_STORE_FILE=stegappasaurus.keystore
+MYAPP_RELEASE_STORE_PASSWORD=${ANDROID_KEYSTORE_PASSWORD}
+MYAPP_RELEASE_KEY_ALIAS=${ANDROID_KEYSTORE_ALIAS}
+MYAPP_RELEASE_KEY_PASSWORD=${ANDROID_KEYSTORE_KEY_PASSWORD}
+EOF

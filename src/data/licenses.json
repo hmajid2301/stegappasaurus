@@ -1,0 +1,182 @@
+{
+    "@react-native-community/async-storage": {
+        "licenses": "MIT",
+        "repository": "https://github.com/react-native-community/react-native-async-storage",
+        "licenseUrl": "https://github.com/react-native-community/react-native-async-storage/raw/master/LICENSE",
+        "parents": "stegappasaurus"
+    },
+    "@react-native-community/cameraroll": {
+        "licenses": "MIT",
+        "repository": "https://github.com/react-native-community/react-native-cameraroll",
+        "licenseUrl": "https://github.com/react-native-community/react-native-cameraroll/raw/master/LICENCE",
+        "parents": "stegappasaurus"
+    },
+    "bugsnag-react-native": {
+        "licenses": "MIT",
+        "repository": "https://github.com/bugsnag/bugsnag-react-native",
+        "licenseUrl": "https://github.com/bugsnag/bugsnag-react-native/raw/master/LICENSE.txt",
+        "parents": "stegappasaurus"
+    },
+    "lzutf8": {
+        "licenses": "MIT",
+        "repository": "https://github.com/rotemdan/lzutf8.js",
+        "licenseUrl": "https://github.com/rotemdan/lzutf8.js/raw/master/LICENSE",
+        "parents": "stegappasaurus"
+    },
+    "react-native-app-intro-slider": {
+        "licenses": "MIT",
+        "repository": "https://github.com/jacse/react-native-app-intro-slider",
+        "licenseUrl": "https://github.com/jacse/react-native-app-intro-slider/raw/master/LICENSE",
+        "parents": "stegappasaurus"
+    },
+    "react-native-circular-progress": {
+        "licenses": "MIT",
+        "repository": "https://github.com/bgryszko/react-native-circular-progress",
+        "licenseUrl": "https://github.com/bgryszko/react-native-circular-progress/raw/master/LICENSE",
+        "parents": "stegappasaurus"
+    },
+    "react-native-collapsible": {
+        "licenses": "MIT",
+        "repository": "https://oblador@github.com/oblador/react-native-collapsible",
+        "licenseUrl": "https://oblador@github.com/oblador/react-native-collapsible/raw/master/LICENSE",
+        "parents": "stegappasaurus"
+    },
+    "react-native-config": {
+        "licenses": "MIT",
+        "repository": "https://github.com/luggit/react-native-config",
+        "licenseUrl": "https://github.com/luggit/react-native-config/raw/master/LICENSE",
+        "parents": "stegappasaurus"
+    },
+    "react-native-elements": {
+        "licenses": "MIT",
+        "repository": "https://github.com/react-native-training/react-native-elements",
+        "licenseUrl": "https://github.com/react-native-training/react-native-elements/raw/master/LICENSE",
+        "parents": "stegappasaurus"
+    },
+    "react-native-gesture-handler": {
+        "licenses": "MIT",
+        "repository": "https://github.com/kmagiera/react-native-gesture-handler",
+        "licenseUrl": "https://github.com/kmagiera/react-native-gesture-handler/raw/master/LICENSE",
+        "parents": "stegappasaurus"
+    },
+    "react-native-image-picker": {
+        "licenses": "MIT",
+        "repository": "https://github.com/react-native-community/react-native-image-picker",
+        "licenseUrl": "https://github.com/react-native-community/react-native-image-picker/raw/master/LICENSE.md",
+        "parents": "stegappasaurus"
+    },
+    "react-native-markdown-renderer": {
+        "licenses": "MIT",
+        "repository": "https://github.com/mientjan/react-native-markdown-renderer",
+        "licenseUrl": "https://github.com/mientjan/react-native-markdown-renderer/raw/master/LICENSE",
+        "parents": "stegappasaurus"
+    },
+    "react-native-permissions": {
+        "licenses": "MIT",
+        "repository": "https://github.com/react-native-community/react-native-permissions",
+        "licenseUrl": "https://github.com/react-native-community/react-native-permissions/raw/master/LICENSE",
+        "parents": "stegappasaurus"
+    },
+    "react-native-rate": {
+        "licenses": "MIT",
+        "repository": "https://github.com/KjellConnelly/react-native-rate",
+        "licenseUrl": "https://github.com/KjellConnelly/react-native-rate",
+        "parents": "stegappasaurus"
+    },
+    "react-native-reanimated": {
+        "licenses": "MIT",
+        "repository": "https://github.com/kmagiera/react-native-reanimated",
+        "licenseUrl": "https://github.com/kmagiera/react-native-reanimated/raw/master/LICENSE",
+        "parents": "stegappasaurus"
+    },
+    "react-native-screens": {
+        "licenses": "MIT",
+        "repository": "https://github.com/kmagiera/react-native-screens",
+        "licenseUrl": "https://github.com/kmagiera/react-native-screens/raw/master/LICENSE",
+        "parents": "stegappasaurus"
+    },
+    "react-native-share": {
+        "licenses": "MIT",
+        "repository": "https://github.com/react-native-community/react-native-share",
+        "licenseUrl": "https://github.com/react-native-community/react-native-share/raw/master/LICENSE",
+        "parents": "stegappasaurus"
+    },
+    "react-native-snackbar": {
+        "licenses": "MIT",
+        "repository": "https://github.com/cooperka/react-native-snackbar",
+        "licenseUrl": "https://github.com/cooperka/react-native-snackbar/raw/master/LICENSE",
+        "parents": "stegappasaurus"
+    },
+    "react-native-splash-screen": {
+        "licenses": "MIT",
+        "repository": "https://github.com/crazycodeboy/react-native-splash-screen",
+        "licenseUrl": "https://github.com/crazycodeboy/react-native-splash-screen/raw/master/LICENSE",
+        "parents": "stegappasaurus"
+    },
+    "react-native-svg": {
+        "licenses": "MIT",
+        "repository": "https://github.com/react-native-community/react-native-svg",
+        "licenseUrl": "https://github.com/react-native-community/react-native-svg/raw/master/LICENSE",
+        "parents": "stegappasaurus"
+    },
+    "react-native-vector-icons": {
+        "licenses": "MIT",
+        "repository": "https://github.com/oblador/react-native-vector-icons",
+        "licenseUrl": "https://github.com/oblador/react-native-vector-icons/raw/master/LICENSE",
+        "parents": "stegappasaurus"
+    },
+    "react-native": {
+        "licenses": "MIT",
+        "repository": "https://github.com/facebook/react-native",
+        "licenseUrl": "https://github.com/facebook/react-native/raw/master/LICENSE",
+        "parents": "stegappasaurus"
+    },
+    "react-navigation-stack": {
+        "licenses": "MIT",
+        "repository": "https://github.com/react-navigation/react-navigation-stack",
+        "licenseUrl": "https://github.com/react-navigation/react-navigation-stack/raw/master/LICENSE.md",
+        "parents": "stegappasaurus"
+    },
+    "react-navigation-tabs": {
+        "licenses": "MIT",
+        "repository": "https://github.com/react-navigation/tabs",
+        "licenseUrl": "https://github.com/react-navigation/tabs/raw/master/LICENSE.md",
+        "parents": "stegappasaurus"
+    },
+    "react-navigation": {
+        "licenses": "MIT",
+        "repository": "https://github.com/react-navigation/react-navigation",
+        "licenseUrl": "https://github.com/react-navigation/react-navigation/raw/master/LICENSE",
+        "parents": "stegappasaurus"
+    },
+    "react": {
+        "licenses": "MIT",
+        "repository": "https://github.com/facebook/react",
+        "licenseUrl": "https://github.com/facebook/react/raw/master/LICENSE",
+        "parents": "stegappasaurus"
+    },
+    "rn-fetch-blob": {
+        "licenses": "MIT",
+        "repository": "https://github.com/joltup/rn-fetch-blob",
+        "licenseUrl": "https://github.com/joltup/rn-fetch-blob/raw/master/LICENSE",
+        "parents": "stegappasaurus"
+    },
+    "stream": {
+        "licenses": "MIT",
+        "repository": "https://github.com/juliangruber/stream",
+        "licenseUrl": "https://github.com/juliangruber/stream",
+        "parents": "stegappasaurus"
+    },
+    "utf8-to-bytes": {
+        "licenses": "Apache-2.0",
+        "repository": "git://gitlab.com/hmajid2301/utf8-to-bytes",
+        "licenseUrl": "https://gitlab.com/hmajid2301/utf8-to-bytes",
+        "parents": "stegappasaurus"
+    },
+    "varint": {
+        "licenses": "MIT",
+        "repository": "https://github.com/chrisdickinson/varint",
+        "licenseUrl": "https://github.com/chrisdickinson/varint",
+        "parents": "stegappasaurus"
+    }
+}
