@@ -96,8 +96,6 @@ publish:android:package:
     - /^release/.*$/
   script:
     - echo fs.inotify.max_user_watches=524288 | tee -a /etc/sysctl.conf && sysctl -p
-    - export CHANGELOG=$(cat CHANGELOG.md)
-    - echo -e "const changelog = \`${CHANGELOG}\`;\n\nexport default changelog;" > src/data/changelog.ts
     - cd android
     - base64 -d $ANDROID_KEYSTORE > app/stegappasaurus.keystore
     - export VERSION=$(cat app.json | jq -r .version)

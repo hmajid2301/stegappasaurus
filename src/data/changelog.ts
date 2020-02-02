@@ -1,17 +1,12 @@
-const changelog = `# Changelog
+const changelog = `
+# Changelog
 
-All notable changes to this project will be documented in this file.
-
-The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/)
-and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
-
-## [Unreleased]
+## [1.0.1] - 2020-02-01
+Better error monitoring so that issues effecting user's of the app can be better tracked
+and therefore resolved. It seems issues with encoding/decoding aren't currently being tracked correctly.
+Can see issues in the app analytics but cannot see what is causing the errors.
 
 ## [1.0.0] - 2020-01-31
-### Added
-- Encode and decode using LSB.
-- Share save encoded images (as png files).
-- Share encoded images with app to decode them.
-- Initial Release.`;
+Initial Release.`;
 
 export default changelog;
