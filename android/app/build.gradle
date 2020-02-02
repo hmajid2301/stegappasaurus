@@ -212,6 +212,7 @@ dependencies {
     implementation 'androidx.swiperefreshlayout:swiperefreshlayout:1.1.0-alpha02'
     implementation 'com.facebook.react:react-native:+'  // From node_modules
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.50"
+    implementation 'com.bugsnag:bugsnag-android:4.+'
     if (enableHermes) {
         def hermesPath = "../../node_modules/hermes-engine/android/";
         debugImplementation files(hermesPath + "hermes-debug.aar")
@@ -240,10 +241,6 @@ play {
         version = System.getenv('VERSION')
         versionNameOverride = "$version.$versionCode"
     }
-}
-
-crashlytics {
-    enableNdk true
 }
 
 apply plugin: "com.google.gms.google-services"

@@ -73,9 +73,11 @@ export default class Progress extends React.Component<Props, State> {
       this.success(decodedMessage);
       await analytics().logEvent('decoding_success', {time: end - start});
     } catch (error) {
-      this.failed();
-      bugsnag.notify(error);
+      bugsnag.notify(error, function(report) {
+        report.severity = 'error';
+      });
       await analytics().logEvent('decoding_failed');
+      this.failed();
     } finally {
       const innerProgressComponent = getInnerProgressComponent(
         'done',
