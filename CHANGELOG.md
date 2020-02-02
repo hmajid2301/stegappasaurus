@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ## [Unreleased]
 
+## [1.0.1] - 2020-02-01
+### Added
+- Bugsnag will track errors caused by `BitmapModule.kt`.
+
+### Fixed
+- Bugsnag not reporting errors.
+
+### Removed
+- Crashlytics only need one tool for error monitoring.
+
 ## [1.0.0] - 2020-01-31
 ### Added
 - Encode and decode using LSB.

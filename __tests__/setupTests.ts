@@ -7,3 +7,12 @@ jest.mock(
   '@react-native-community/async-storage',
   () => new MockAsyncStorage(),
 );
+
+jest.mock('@react-native-firebase/analytics', () => {
+  return () => ({
+    logEvent: jest.fn(),
+    setUserProperties: jest.fn(),
+    setUserId: jest.fn(),
+    setCurrentScreen: jest.fn(),
+  });
+});
