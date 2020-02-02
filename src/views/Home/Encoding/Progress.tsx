@@ -82,9 +82,11 @@ export default class Progress extends React.Component<Props, State> {
       this.success(encodedImage);
       await analytics().logEvent('encoding_success', {time: end - start});
     } catch (error) {
-      this.failed();
-      bugsnag.notify(error);
+      bugsnag.notify(error, function(report) {
+        report.severity = 'error';
+      });
       await analytics().logEvent('encoding_failed');
+      this.failed();
     } finally {
       const innerProgressComponent = getInnerProgressComponent('done', 100);
       this.setState({progress: 100, innerProgressComponent});

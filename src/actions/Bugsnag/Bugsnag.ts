@@ -3,8 +3,9 @@ import Config from 'react-native-config';
 
 import meta from '~/../app.json';
 
-const config = new Configuration(Config.BUGSNAG_API_KEY);
+const config = new Configuration();
+config.apiKey = Config.BUGSNAG_API_KEY;
 config.appVersion = meta.version;
-const bugsnag = new Client(config);
 
+const bugsnag = new Client(config);
 export default bugsnag;

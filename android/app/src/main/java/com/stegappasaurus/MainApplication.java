@@ -2,7 +2,9 @@ package com.stegappasaurus;
 
 import android.app.Application;
 import android.util.Log;
+import java.util.List;
 
+import com.bugsnag.BugsnagReactNative;
 import com.facebook.react.PackageList;
 import com.facebook.hermes.reactexecutor.HermesExecutorFactory;
 import com.facebook.react.bridge.JavaScriptExecutorFactory;
@@ -10,8 +12,6 @@ import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
-
-import java.util.List;
 
 import com.stegappasaurus.bitmap.BitmapReactPackage;
 
@@ -47,6 +47,7 @@ public class MainApplication extends Application implements ReactApplication {
   @Override
   public void onCreate() {
     super.onCreate();
+    BugsnagReactNative.start(this);
     SoLoader.init(this, /* native exopackage */ false);
   }
 }
