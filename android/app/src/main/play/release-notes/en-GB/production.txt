@@ -1,3 +1,3 @@
-Better error monitoring so that issues effecting user's of the app can be better tracked
-and therefore resolved. It seems issues with encoding/decoding aren't currently being tracked correctly.
-Can see issues in the app analytics but cannot see what is causing the errors.
+Updated play store listing with new screenshots and featured graphic.
+Also fixed small bugs when trying to share app and the action not being
+logged correctly.
