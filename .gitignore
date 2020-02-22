@@ -337,12 +337,12 @@ DerivedData/
 
 # End of https://www.gitignore.io/api/android,reactnative,visualstudiocode
 
-
 .vscode
 *.bundle
 *.hprof
 *.map
 *.keystore
+.settings/
 src_assets_*
 raw/
 node_modules_*
