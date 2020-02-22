@@ -39,7 +39,7 @@ create:merge-request:
     - master
     - tags
   script:
-    - gitlab_auto_mr -t master -c WIP -d .gitlab/merge_request/merge_request.md -r -s --use-issue-name
+    - gitlab_auto_mr -t master -c WIP -d .gitlab/merge_request_templates/merge_request.md -r -s --use-issue-name
 
 lint:
   stage: test
